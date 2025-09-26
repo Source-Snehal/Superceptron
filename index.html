@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Superceptron - AI Products & Consultancy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="brand-text">Superceptron</span>
+                <div class="brand-pulse"></div>
+            </div>
+            <div class="nav-links">
+                <a href="#home" class="nav-link active" data-section="home">Home</a>
+                <a href="products.html" class="nav-link">Products</a>
+                <a href="careers.html" class="nav-link">Careers</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="#contact" class="nav-link" data-section="contact">Contact</a>
+            </div>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section id="home" class="section hero-section active">
+            <div class="hero-container">
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        <span class="title-line">Building the</span>
+                        <span class="title-line gradient-text">Future of Intelligence</span>
+                    </h1>
+                    <p class="hero-description">
+                        We architect cutting-edge AI products and provide strategic consultancy
+                        to transform businesses with intelligent automation and data-driven insights.
+                    </p>
+                    <div class="hero-actions">
+                        <button class="btn-primary" onclick="window.location.href='products.html'">
+                            <span>Explore Solutions</span>
+                            <div class="btn-glow"></div>
+                        </button>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="neural-network">
+                        <div class="node" style="--delay: 0s;"></div>
+                        <div class="node" style="--delay: 0.2s;"></div>
+                        <div class="node" style="--delay: 0.4s;"></div>
+                        <div class="node" style="--delay: 0.6s;"></div>
+                        <div class="node" style="--delay: 0.8s;"></div>
+                        <div class="connection"></div>
+                        <div class="connection"></div>
+                        <div class="connection"></div>
+                        <div class="connection"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="contact" class="section contact-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <span class="section-badge">Get in Touch</span>
+                    <h2 class="section-title">Let's Build Something Amazing</h2>
+                    <p class="section-description">
+                        Ready to transform your business with AI? Let's discuss your vision
+                    </p>
+                </div>
+                <div class="contact-content">
+                    <div class="contact-form">
+                        <form id="contactForm">
+                            <div class="form-group">
+                                <input type="text" id="name" required>
+                                <label for="name">Full Name</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" id="email" required>
+                                <label for="email">Email Address</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="company" required>
+                                <label for="company">Company</label>
+                            </div>
+                            <div class="form-group">
+                                <textarea id="message" rows="4" required></textarea>
+                                <label for="message">Tell us about your project</label>
+                            </div>
+                            <button type="submit" class="btn-primary">
+                                <span>Send Message</span>
+                                <div class="btn-glow"></div>
+                            </button>
+                        </form>
+                    </div>
+                    <div class="contact-info">
+                        <div class="info-item">
+                            <h4>Email</h4>
+                            <p>hello@superceptron.com</p>
+                        </div>
+                        <div class="info-item">
+                            <h4>Schedule a Call</h4>
+                            <p>Book a 30-minute strategy session</p>
+                        </div>
+                        <div class="info-item">
+                            <h4>Response Time</h4>
+                            <p>We typically respond within 24 hours</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <span class="brand-text">Superceptron</span>
+                <p>Founded in 2022, building the future of intelligence through innovative AI solutions that empower businesses to achieve more.</p>
+            </div>
+            <div class="footer-links">
+                <div class="link-group">
+                    <h4>Product</h4>
+                    <a href="sine.html">Sine</a>
+                    <a href="cos.html">Cos</a>
+                    <a href="tan.html">Tan</a>
+                    <a href="sec.html">Sec</a>
+                </div>
+                <div class="link-group">
+                    <h4>Company</h4>
+                    <a href="about.html">About</a>
+                    <a href="careers.html">Careers</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <div class="link-group">
+                    <h4>Connect</h4>
+                    <a href="#">LinkedIn</a>
+                    <a href="#">Twitter</a>
+                    <a href="#">GitHub</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Superceptron. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

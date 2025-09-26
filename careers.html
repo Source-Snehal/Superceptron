@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Careers - Join Superceptron</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="index.html" style="text-decoration: none;">
+                    <span class="brand-text">Superceptron</span>
+                </a>
+                <div class="brand-pulse"></div>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="products.html" class="nav-link">Products</a>
+                <a href="careers.html" class="nav-link active">Careers</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="index.html#contact" class="nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section class="careers-hero">
+            <div class="section-container">
+                <div class="section-header">
+                    <span class="section-badge">Join Our Team</span>
+                    <h1 class="section-title">Shape the AI Future</h1>
+                    <p class="section-description">
+                        Be part of a team that's defining the next generation of artificial intelligence. We're looking for passionate individuals who want to build the future.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="company-culture">
+            <div class="section-container">
+                <div class="culture-content">
+                    <div class="culture-text">
+                        <h2>Why Superceptron?</h2>
+                        <p>We're not just building AI products; we're crafting the future of intelligent business solutions. Our team of 12+ engineers across 3 countries work together to solve complex problems and push the boundaries of what's possible with artificial intelligence.</p>
+
+                        <div class="perks-grid">
+                            <div class="perk-item">
+                                <div class="perk-icon">🚀</div>
+                                <h4>Cutting-edge Projects</h4>
+                                <p>Work on breakthrough AI technologies that impact real businesses</p>
+                            </div>
+                            <div class="perk-item">
+                                <div class="perk-icon">🌍</div>
+                                <h4>Remote-First Culture</h4>
+                                <p>100% remote with flexible hours across global time zones</p>
+                            </div>
+                            <div class="perk-item">
+                                <div class="perk-icon">💰</div>
+                                <h4>Competitive Equity</h4>
+                                <p>Significant equity stake in a fast-growing AI startup</p>
+                            </div>
+                            <div class="perk-item">
+                                <div class="perk-icon">📚</div>
+                                <h4>Learning Budget</h4>
+                                <p>$3,000 annual budget for conferences, courses, and books</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="culture-stats">
+                        <div class="stat-card">
+                            <span class="stat-number">12+</span>
+                            <span class="stat-label">AI Engineers</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">3</span>
+                            <span class="stat-label">Countries</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">100%</span>
+                            <span class="stat-label">Remote First</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">$3K</span>
+                            <span class="stat-label">Learning Budget</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="open-positions">
+            <div class="section-container">
+                <div class="section-header">
+                    <span class="section-badge">Open Positions</span>
+                    <h2 class="section-title">Current Openings</h2>
+                    <p class="section-description">Join our growing team of AI innovators</p>
+                </div>
+
+                <div class="jobs-grid">
+                    <div class="job-card" onclick="openJobModal('senior-ai-engineer')">
+                        <div class="job-header">
+                            <h3 class="job-title">Senior AI Engineer</h3>
+                        </div>
+                        <p class="job-summary">Lead AI model development and optimization. Build next-generation machine learning systems for our products.</p>
+                        <div class="job-tags">
+                            <span class="tag">Machine Learning</span>
+                            <span class="tag">PyTorch</span>
+                            <span class="tag">Python</span>
+                        </div>
+                        <div class="job-salary">$120k - $150k</div>
+                    </div>
+
+                    <div class="job-card" onclick="openJobModal('frontend-engineer')">
+                        <div class="job-header">
+                            <h3 class="job-title">Frontend Engineer</h3>
+                        </div>
+                        <p class="job-summary">Create intuitive interfaces for AI products. Work with React and modern web technologies.</p>
+                        <div class="job-tags">
+                            <span class="tag">React</span>
+                            <span class="tag">TypeScript</span>
+                            <span class="tag">UI/UX</span>
+                        </div>
+                        <div class="job-salary">$95k - $125k</div>
+                    </div>
+
+                    <div class="job-card" onclick="openJobModal('ml-engineer')">
+                        <div class="job-header">
+                            <h3 class="job-title">ML Engineer</h3>
+                        </div>
+                        <p class="job-summary">Build and deploy machine learning infrastructure. Implement MLOps and ensure model reliability.</p>
+                        <div class="job-tags">
+                            <span class="tag">MLOps</span>
+                            <span class="tag">Kubernetes</span>
+                            <span class="tag">Cloud</span>
+                        </div>
+                        <div class="job-salary">$100k - $130k</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Job Modal -->
+    <div id="jobModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalJobTitle">Job Title</h2>
+                <span class="close" onclick="closeJobModal()">&times;</span>
+            </div>
+            <div class="modal-body" id="modalJobContent">
+                <!-- Dynamic job content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <span class="brand-text">Superceptron</span>
+                <p>Founded in 2022, building the future of intelligence through innovative AI solutions that empower businesses to achieve more.</p>
+            </div>
+            <div class="footer-links">
+                <div class="link-group">
+                    <h4>Product</h4>
+                    <a href="sine.html">Sine</a>
+                    <a href="cos.html">Cos</a>
+                    <a href="tan.html">Tan</a>
+                    <a href="sec.html">Sec</a>
+                </div>
+                <div class="link-group">
+                    <h4>Company</h4>
+                    <a href="about.html">About</a>
+                    <a href="careers.html">Careers</a>
+                    <a href="index.html#contact">Contact</a>
+                </div>
+                <div class="link-group">
+                    <h4>Connect</h4>
+                    <a href="#">LinkedIn</a>
+                    <a href="#">Twitter</a>
+                    <a href="#">GitHub</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Superceptron. All rights reserved. Founded in 2022.</p>
+        </div>
+    </footer>
+
+    <style>
+        .main-content {
+            padding-top: 70px;
+        }
+
+        .careers-hero {
+            min-height: 60vh;
+            background: linear-gradient(135deg, var(--gray-50) 0%, var(--white) 100%);
+            display: flex;
+            align-items: center;
+        }
+
+        .company-culture {
+            padding: var(--space-2xl) 0;
+            background: var(--white);
+        }
+
+        .culture-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: var(--space-2xl);
+            align-items: start;
+        }
+
+        .culture-text h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: var(--space-lg);
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .culture-text p {
+            color: var(--gray-600);
+            font-size: 1.125rem;
+            line-height: 1.7;
+            margin-bottom: var(--space-xl);
+        }
+
+        .perks-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-lg);
+        }
+
+        .perk-item {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .perk-icon {
+            font-size: 2rem;
+            margin-bottom: var(--space-sm);
+        }
+
+        .perk-item h4 {
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: var(--space-xs);
+        }
+
+        .perk-item p {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .culture-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+        }
+
+        .stat-card {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            text-align: center;
+        }
+
+        .stat-card .stat-number {
+            display: block;
+            font-size: 1.75rem;
+            font-weight: 800;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: var(--font-mono);
+        }
+
+        .stat-card .stat-label {
+            color: var(--gray-600);
+            font-weight: 500;
+            font-size: 0.875rem;
+            margin-top: var(--space-xs);
+        }
+
+        .open-positions {
+            padding: var(--space-2xl) 0;
+            background: var(--gray-50);
+        }
+
+        .jobs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--space-lg);
+            margin-top: var(--space-2xl);
+        }
+
+        .job-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl);
+            transition: var(--transition-base);
+            cursor: pointer;
+        }
+
+        .job-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--space-md);
+        }
+
+        .job-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin: 0;
+        }
+
+        .job-meta {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs);
+            align-items: flex-end;
+        }
+
+        .job-type, .job-location {
+            font-size: 0.875rem;
+            color: var(--gray-500);
+        }
+
+        .job-summary {
+            color: var(--gray-600);
+            line-height: 1.6;
+            margin-bottom: var(--space-md);
+        }
+
+        .job-tags {
+            display: flex;
+            gap: var(--space-xs);
+            flex-wrap: wrap;
+            margin-bottom: var(--space-md);
+        }
+
+        .tag {
+            padding: var(--space-xs) var(--space-sm);
+            background: var(--gray-100);
+            color: var(--gray-700);
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--gray-200);
+        }
+
+        .job-salary {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.125rem;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            margin: 5% auto;
+            padding: 0;
+            border-radius: var(--radius-xl);
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-xl);
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-800);
+        }
+
+        .close {
+            color: var(--gray-400);
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition-base);
+        }
+
+        .close:hover {
+            color: var(--gray-600);
+        }
+
+        .modal-body {
+            padding: var(--space-xl);
+        }
+
+        @media (max-width: 768px) {
+            .culture-content {
+                grid-template-columns: 1fr;
+            }
+
+            .perks-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .culture-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .jobs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .job-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-sm);
+            }
+
+            .job-meta {
+                align-items: flex-start;
+            }
+
+            .modal-content {
+                margin: 10% auto;
+                width: 95%;
+            }
+        }
+    </style>
+
+    <script>
+        const jobData = {
+            'senior-ai-engineer': {
+                title: 'Senior AI Engineer',
+                salary: '$120k - $150k',
+                location: 'Remote',
+                type: '',
+                description: `
+                    <h3>About the Role</h3>
+                    <p>We're looking for a Senior AI Engineer to lead AI model development and optimization. You'll build next-generation machine learning systems for our products and work closely with our small but talented team.</p>
+
+                    <h3>What You'll Do</h3>
+                    <ul>
+                        <li>Design and implement machine learning models</li>
+                        <li>Optimize model performance for production</li>
+                        <li>Collaborate with product teams on AI features</li>
+                        <li>Mentor junior developers</li>
+                        <li>Contribute to technical architecture decisions</li>
+                    </ul>
+
+                    <h3>Requirements</h3>
+                    <ul>
+                        <li>MS/PhD in Computer Science or related field</li>
+                        <li>4+ years of experience in machine learning</li>
+                        <li>Strong Python and PyTorch skills</li>
+                        <li>Experience with production ML systems</li>
+                        <li>Knowledge of modern deep learning techniques</li>
+                    </ul>
+
+                    <div class="apply-section">
+                        <button class="btn-primary apply-btn" onclick="applyForJob('Senior AI Engineer')">
+                            <span>Apply Now</span>
+                            <div class="btn-glow"></div>
+                        </button>
+                    </div>
+                `
+            },
+            'frontend-engineer': {
+                title: 'Frontend Engineer',
+                salary: '$95k - $125k',
+                location: 'Remote',
+                type: '',
+                description: `
+                    <h3>About the Role</h3>
+                    <p>We're seeking a Frontend Engineer to create intuitive interfaces for our AI products. You'll work with React and modern web technologies to bring complex AI insights to life.</p>
+
+                    <h3>What You'll Do</h3>
+                    <ul>
+                        <li>Build responsive web applications with React</li>
+                        <li>Create data visualizations for AI insights</li>
+                        <li>Collaborate with designers on user experiences</li>
+                        <li>Optimize performance for data-heavy interfaces</li>
+                        <li>Implement real-time features and dashboards</li>
+                    </ul>
+
+                    <h3>Requirements</h3>
+                    <ul>
+                        <li>3+ years of frontend development experience</li>
+                        <li>Strong knowledge of React and TypeScript</li>
+                        <li>Experience with data visualization libraries</li>
+                        <li>Understanding of modern web technologies</li>
+                        <li>Experience with state management (Redux, Zustand)</li>
+                    </ul>
+
+                    <div class="apply-section">
+                        <button class="btn-primary apply-btn" onclick="applyForJob('Frontend Engineer')">
+                            <span>Apply Now</span>
+                            <div class="btn-glow"></div>
+                        </button>
+                    </div>
+                `
+            },
+            'ml-engineer': {
+                title: 'ML Engineer',
+                salary: '$100k - $130k',
+                location: 'Remote',
+                type: '',
+                description: `
+                    <h3>About the Role</h3>
+                    <p>Join our team to build and deploy machine learning infrastructure. You'll implement MLOps best practices and ensure our AI models run reliably at scale.</p>
+
+                    <h3>What You'll Do</h3>
+                    <ul>
+                        <li>Build and maintain ML pipelines</li>
+                        <li>Deploy models in production environments</li>
+                        <li>Implement automated deployment workflows</li>
+                        <li>Optimize model performance and resources</li>
+                        <li>Ensure data quality and pipeline reliability</li>
+                    </ul>
+
+                    <h3>Requirements</h3>
+                    <ul>
+                        <li>3+ years of ML engineering experience</li>
+                        <li>Python and TensorFlow/PyTorch skills</li>
+                        <li>Experience with Kubernetes and Docker</li>
+                        <li>Knowledge of cloud platforms (AWS, GCP)</li>
+                        <li>Familiarity with MLOps tools</li>
+                    </ul>
+
+                    <div class="apply-section">
+                        <button class="btn-primary apply-btn" onclick="applyForJob('ML Engineer')">
+                            <span>Apply Now</span>
+                            <div class="btn-glow"></div>
+                        </button>
+                    </div>
+                `
+            }
+        };
+
+        function openJobModal(jobId) {
+            const job = jobData[jobId];
+            if (job) {
+                document.getElementById('modalJobTitle').textContent = job.title;
+                document.getElementById('modalJobContent').innerHTML = job.description;
+                document.getElementById('jobModal').style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeJobModal() {
+            document.getElementById('jobModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function applyForJob(jobTitle) {
+            // Simulate application process
+            alert(`Thank you for your interest in the ${jobTitle} position! Your application has been submitted. Our team will review your application and get back to you within 1-2 weeks.`);
+            closeJobModal();
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('jobModal');
+            if (event.target === modal) {
+                closeJobModal();
+            }
+        }
+
+        // Add styles for apply section
+        const applyStyles = document.createElement('style');
+        applyStyles.textContent = `
+            .apply-section {
+                margin-top: var(--space-xl);
+                padding-top: var(--space-lg);
+                border-top: 1px solid var(--gray-200);
+                text-align: center;
+            }
+
+            .apply-btn {
+                position: relative;
+                padding: var(--space-md) var(--space-xl);
+                border: none;
+                border-radius: var(--radius-md);
+                font-weight: 600;
+                font-size: 1rem;
+                cursor: pointer;
+                transition: var(--transition-base);
+                overflow: hidden;
+                background: var(--gradient);
+                color: white;
+                box-shadow: var(--shadow-lg);
+            }
+
+            .apply-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-glow), var(--shadow-lg);
+            }
+
+            .modal-body h3 {
+                font-size: 1.25rem;
+                font-weight: 700;
+                color: var(--gray-800);
+                margin: var(--space-lg) 0 var(--space-md);
+            }
+
+            .modal-body h3:first-child {
+                margin-top: 0;
+            }
+
+            .modal-body p {
+                color: var(--gray-600);
+                line-height: 1.7;
+                margin-bottom: var(--space-md);
+            }
+
+            .modal-body ul {
+                margin-bottom: var(--space-md);
+                padding-left: var(--space-lg);
+            }
+
+            .modal-body li {
+                color: var(--gray-600);
+                line-height: 1.6;
+                margin-bottom: var(--space-xs);
+            }
+        `;
+        document.head.appendChild(applyStyles);
+    </script>
+</body>
+</html>
