@@ -696,6 +696,19 @@ body {
     border: 1px solid var(--gray-200);
 }
 
+.contact-address {
+    margin-top: var(--space-lg);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--gray-200);
+    text-align: center;
+}
+
+.contact-address p {
+    color: var(--gray-600);
+    font-weight: 500;
+    margin: 0;
+}
+
 .form-group {
     position: relative;
     margin-bottom: var(--space-lg);
