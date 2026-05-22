@@ -119,19 +119,43 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
         e.preventDefault();
         if (!validate()) return;
 
         btn.disabled = true;
         btn.querySelector('.btn-text').textContent = 'Sending…';
 
-        // Replace with your real endpoint (e.g. Formspree, Resend, etc.)
-        setTimeout(() => {
+        // Remove any previous submission error
+        const prev = form.querySelector('.submit-error');
+        if (prev) prev.remove();
+
+        try {
+            const res = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name:    document.getElementById('fname').value.trim(),
+                    email:   document.getElementById('femail').value.trim(),
+                    company: document.getElementById('fcompany').value.trim(),
+                    message: document.getElementById('fmessage').value.trim(),
+                }),
+            });
+
+            if (!res.ok) throw new Error('Request failed');
+
             form.style.display = 'none';
             success.classList.add('visible');
             success.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }, 900);
+        } catch {
+            btn.disabled = false;
+            btn.querySelector('.btn-text').textContent = 'Register My Interest';
+            const err = document.createElement('p');
+            err.className = 'submit-error';
+            err.style.cssText = 'color:#ff7070;font-size:0.875rem;margin-top:0.75rem;';
+            err.textContent = 'Something went wrong — please email us directly at info@superceptron.com.';
+            form.appendChild(err);
+        }
     });
 
 });
