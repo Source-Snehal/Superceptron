@@ -38,6 +38,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // ── Mobile nav toggle ─────────────────────────
+    const navToggle = document.getElementById('navToggle');
+    const navMobile = document.getElementById('navMobile');
+    if (navToggle && navMobile) {
+        navToggle.addEventListener('click', () => {
+            const open = navMobile.classList.toggle('is-open');
+            navToggle.classList.toggle('is-open', open);
+            navToggle.setAttribute('aria-expanded', open);
+            navMobile.setAttribute('aria-hidden', !open);
+        });
+        navMobile.querySelectorAll('.nav-mobile-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navMobile.classList.remove('is-open');
+                navToggle.classList.remove('is-open');
+                navToggle.setAttribute('aria-expanded', 'false');
+                navMobile.setAttribute('aria-hidden', 'true');
+            });
+        });
+    }
+
     // ── Scroll reveal ──────────────────────────────
     const io = new IntersectionObserver(
         (entries) => {
