@@ -3,27 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Superceptron - AI Products & Consultancy | Transform Your Business with AI</title>
-    <meta name="description" content="Superceptron offers cutting-edge AI products including Sine, Cos, Tan, and Sec solutions. Transform your business with our advanced artificial intelligence consultancy services.">
-    <meta name="keywords" content="AI, artificial intelligence, machine learning, AI consultancy, Superceptron, Sine AI, Cos AI, Tan AI, Sec AI, business transformation">
+    <title>Superceptron — AI Workflow Automation</title>
+    <meta name="description" content="Superceptron is an AI automation studio based in London. We build intelligent systems that eliminate repetitive work and help businesses move faster.">
+    <meta name="keywords" content="AI workflow automation, AI automation studio, business automation, Superceptron, London">
     <meta name="author" content="Superceptron">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://www.superceptron.com/">
 
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.superceptron.com/">
-    <meta property="og:title" content="Superceptron - AI Products & Consultancy">
-    <meta property="og:description" content="Transform your business with cutting-edge AI products and consultancy services. Explore Sine, Cos, Tan, and Sec AI solutions.">
+    <meta property="og:title" content="Superceptron — AI Workflow Automation">
+    <meta property="og:description" content="We build intelligent automation systems that eliminate repetitive work. Based in London.">
     <meta property="og:site_name" content="Superceptron">
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://www.superceptron.com/">
-    <meta property="twitter:title" content="Superceptron - AI Products & Consultancy">
-    <meta property="twitter:description" content="Transform your business with cutting-edge AI products and consultancy services. Explore Sine, Cos, Tan, and Sec AI solutions.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Superceptron — AI Workflow Automation">
+    <meta name="twitter:description" content="We build intelligent automation systems that eliminate repetitive work. Based in London.">
 
-    <!-- Structured Data -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -32,170 +28,251 @@
         "url": "https://www.superceptron.com",
         "address": {
             "@type": "PostalAddress",
-            "streetAddress": "156 Avenue",
-            "addressLocality": "Bellevue",
-            "addressRegion": "WA",
-            "postalCode": "98007",
-            "addressCountry": "US"
+            "addressLocality": "London",
+            "addressCountry": "GB"
         },
+        "description": "AI automation studio specialising in intelligent workflow automation for businesses.",
         "contactPoint": {
             "@type": "ContactPoint",
-            "contactType": "customer service",
-            "url": "https://www.superceptron.com/#contact"
-        },
-        "sameAs": [
-            "https://www.superceptron.com"
-        ],
-        "description": "Superceptron offers cutting-edge AI products and consultancy services to transform businesses with artificial intelligence solutions."
+            "email": "info@superceptron.com",
+            "contactType": "customer service"
+        }
     }
     </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-brand">
-                <span class="brand-text">Superceptron</span>
-                <div class="brand-pulse"></div>
-            </div>
-            <div class="nav-links">
-                <a href="#home" class="nav-link active" data-section="home">Home</a>
-                <a href="products.html" class="nav-link">Products</a>
-                <a href="careers.html" class="nav-link">Careers</a>
-                <a href="about.html" class="nav-link">About</a>
-                <a href="#contact" class="nav-link" data-section="contact">Contact</a>
-            </div>
-            <div class="nav-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="logo" aria-label="Superceptron home">
+                <span class="logo-mark">S</span><span class="logo-rest">uperceptron</span>
+            </a>
+            <div class="nav-right">
+                <a href="about.html" class="nav-contact">About</a>
+                <a href="#contact" class="nav-contact">Contact</a>
+                <a href="#register" class="nav-cta">Register Interest</a>
             </div>
         </div>
     </nav>
 
-    <main>
-        <section id="home" class="section hero-section active">
-            <div class="hero-container">
-                <div class="hero-content">
-                    <h1 class="hero-title">
-                        <span class="title-line">Building the</span>
-                        <span class="title-line gradient-text">Future of Intelligence</span>
-                    </h1>
-                    <p class="hero-description">
-                        We architect cutting-edge AI products and provide strategic consultancy
-                        to transform businesses with intelligent automation and data-driven insights.
-                    </p>
-                    <div class="hero-actions">
-                        <button class="btn-primary" onclick="window.location.href='products.html'">
-                            <span>Explore Solutions</span>
-                            <div class="btn-glow"></div>
-                        </button>
+    <!-- Hero -->
+    <section class="hero" id="home">
+        <div class="hero-bg" aria-hidden="true">
+            <div class="grid-overlay"></div>
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-eyebrow" aria-label="Superceptron — AI Automation Studio, London">
+                    <div class="brand-cycler" aria-hidden="true">
+                        <span class="brand-cycler-word" id="brandWord">Automate.</span>
                     </div>
+                    <span class="eyebrow-sub">AI Automation Studio &nbsp;&middot;&nbsp; London</span>
                 </div>
-                <div class="hero-visual">
-                    <div class="neural-network">
-                        <div class="node" style="--delay: 0s;"></div>
-                        <div class="node" style="--delay: 0.2s;"></div>
-                        <div class="node" style="--delay: 0.4s;"></div>
-                        <div class="node" style="--delay: 0.6s;"></div>
-                        <div class="node" style="--delay: 0.8s;"></div>
-                        <div class="connection"></div>
-                        <div class="connection"></div>
-                        <div class="connection"></div>
-                        <div class="connection"></div>
-                    </div>
+                <h1 class="hero-title">
+                    Built by people<br>
+                    who understand<br>
+                    <span class="accent-text">your problems.</span>
+                </h1>
+                <p class="hero-sub">
+                    We've seen the spreadsheets, the manual processes, and the hours lost to work that should already be automated. Superceptron builds AI systems that solve these problems — intelligently, and built around how your business actually works.
+                </p>
+                <div class="hero-actions">
+                    <a href="#register" class="btn-primary">Register Your Interest</a>
+                    <a href="#what-we-do" class="btn-ghost">See how it works <span aria-hidden="true">↓</span></a>
                 </div>
             </div>
-        </section>
+        </div>
+        <div class="scroll-hint" aria-hidden="true">
+            <div class="scroll-line"></div>
+        </div>
+    </section>
 
+    <!-- What We Do -->
+    <section id="what-we-do" class="section intro-section">
+        <div class="container">
+            <div class="section-label">What we do</div>
+            <h2 class="section-title reveal">
+                Turn manual processes<br>into intelligent systems.
+            </h2>
+            <p class="section-body reveal">
+                Most businesses lose dozens of hours every week to work that doesn't need to be manual. We map your processes, identify the friction points, and build AI-powered automation that handles them end-to-end — so your team can focus on the work that actually requires a human.
+            </p>
+        </div>
+    </section>
 
-        <section id="contact" class="section contact-section">
-            <div class="section-container">
-                <div class="section-header">
-                    <span class="section-badge">Get in Touch</span>
-                    <h2 class="section-title">Let's Build Something Amazing</h2>
-                    <p class="section-description">
-                        Ready to transform your business with AI? Let's discuss your vision
-                    </p>
-                </div>
-                <div class="contact-content">
-                    <div class="contact-form">
-                        <form id="contactForm">
-                            <div class="form-group">
-                                <input type="text" id="name" required>
-                                <label for="name">Full Name</label>
-                            </div>
-                            <div class="form-group">
-                                <input type="email" id="email" required>
-                                <label for="email">Email Address</label>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" id="company" required>
-                                <label for="company">Company</label>
-                            </div>
-                            <div class="form-group">
-                                <textarea id="message" rows="4" required></textarea>
-                                <label for="message">Tell us about your project</label>
-                            </div>
-                            <button type="submit" class="btn-primary">
-                                <span>Send Message</span>
-                                <div class="btn-glow"></div>
-                            </button>
-                        </form>
+    <!-- Services -->
+    <section class="section services-section">
+        <div class="container">
+            <div class="section-label reveal">How we help</div>
+            <div class="services-grid">
+                <div class="service-card reveal">
+                    <div class="service-icon" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5"/>
+                            <path d="M2 12l10 5 10-5"/>
+                        </svg>
                     </div>
-                    <div class="contact-info">
-                        <div class="address-box">
-                            <div class="address-icon">
-                                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                </svg>
-                            </div>
-                            <div class="address-content">
-                                <h4>Bellevue HQ</h4>
-                                <p>156 Avenue<br>Bellevue, WA 98007</p>
-                            </div>
+                    <h3>Workflow Automation</h3>
+                    <p>End-to-end automation of the tasks your team repeats every day — data entry, report generation, approvals, routing, and more.</p>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-icon" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+                        </svg>
+                    </div>
+                    <h3>AI Integration</h3>
+                    <p>Embed large language models and AI tools directly into your existing platforms and CRMs — no rip-and-replace, no disruption.</p>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-icon" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2"/>
+                            <path d="M8 21h8M12 17v4"/>
+                        </svg>
+                    </div>
+                    <h3>Custom AI Agents</h3>
+                    <p>Intelligent agents that act on your behalf — researching, scheduling, drafting, deciding, and executing tasks around the clock.</p>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-icon" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                        </svg>
+                    </div>
+                    <h3>Process Optimisation</h3>
+                    <p>We sit with your team, map your workflows, and identify exactly where AI will make the biggest difference — before writing a line of code.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Us -->
+    <section class="section why-section">
+        <div class="container">
+            <div class="section-label reveal">Why Superceptron</div>
+            <div class="why-grid">
+                <div class="why-headline">
+                    <h2 class="reveal">We don't sell AI.<br>We solve problems.</h2>
+                    <p class="reveal">A lot of AI companies will hand you a platform and wish you luck. We take the opposite approach — we learn your business first, then build automation that fits it.</p>
+                    <a href="about.html" class="btn-ghost reveal" style="padding-left:0">Meet the team <span aria-hidden="true">→</span></a>
+                </div>
+                <div class="why-points">
+                    <div class="why-point reveal">
+                        <div class="why-num">01</div>
+                        <div>
+                            <h4>We listen before we build</h4>
+                            <p>Every engagement starts with understanding your operations, not pitching a product.</p>
+                        </div>
+                    </div>
+                    <div class="why-point reveal">
+                        <div class="why-num">02</div>
+                        <div>
+                            <h4>Practical over theoretical</h4>
+                            <p>We build automation that works in the real world, not just in a demo environment.</p>
+                        </div>
+                    </div>
+                    <div class="why-point reveal">
+                        <div class="why-num">03</div>
+                        <div>
+                            <h4>Results you can measure</h4>
+                            <p>Every project is scoped around clear outcomes — time saved, costs reduced, capacity freed.</p>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
 
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-brand">
-                <span class="brand-text">Superceptron</span>
-                <p>Founded in 2022, building the future of intelligence through innovative AI solutions that empower businesses to achieve more.</p>
+    <!-- Register Interest -->
+    <section id="register" class="section register-section">
+        <div class="container">
+            <div class="register-header">
+                <div class="section-label reveal">Register Interest</div>
+                <h2 class="reveal">Ready to automate?</h2>
+                <p class="reveal">Tell us about your business and what you'd like to automate. We'll be in touch within 24 hours.</p>
             </div>
-            <div class="footer-links">
-                <div class="link-group">
-                    <h4>Product</h4>
-                    <a href="sine.html">Sine</a>
-                    <a href="cos.html">Cos</a>
-                    <a href="tan.html">Tan</a>
-                    <a href="sec.html">Sec</a>
+            <form class="interest-form reveal" id="interestForm" novalidate>
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="fname">Full Name *</label>
+                        <input type="text" id="fname" name="name" placeholder="Your name" required autocomplete="name">
+                        <span class="field-error" id="fname-error">Please enter your name.</span>
+                    </div>
+                    <div class="form-field">
+                        <label for="femail">Email Address *</label>
+                        <input type="email" id="femail" name="email" placeholder="your@email.com" required autocomplete="email">
+                        <span class="field-error" id="femail-error">Please enter a valid email.</span>
+                    </div>
                 </div>
-                <div class="link-group">
-                    <h4>Company</h4>
-                    <a href="about.html">About</a>
-                    <a href="careers.html">Careers</a>
-                    <a href="#contact">Contact</a>
+                <div class="form-field">
+                    <label for="fcompany">Company / Business</label>
+                    <input type="text" id="fcompany" name="company" placeholder="Where do you work?" autocomplete="organization">
                 </div>
-                <div class="link-group">
-                    <h4>Connect</h4>
-                    <a href="#">LinkedIn</a>
-                    <a href="#">Twitter</a>
-                    <a href="#">GitHub</a>
+                <div class="form-field">
+                    <label for="fmessage">What would you like to automate? *</label>
+                    <textarea id="fmessage" name="message" rows="5" placeholder="Describe the processes, tasks, or workflows you want to improve with AI..." required></textarea>
+                    <span class="field-error" id="fmessage-error">Please describe what you'd like to automate.</span>
+                </div>
+                <div class="form-bottom">
+                    <button type="submit" class="btn-submit" id="submitBtn">
+                        <span class="btn-text">Register My Interest</span>
+                        <span class="btn-arrow" aria-hidden="true">→</span>
+                    </button>
+                </div>
+            </form>
+            <div class="form-success" id="formSuccess" role="alert" aria-live="polite">
+                <div class="success-icon" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                </div>
+                <div>
+                    <h3>You're registered!</h3>
+                    <p>Thanks for your interest. We'll be in touch within 24 hours.</p>
                 </div>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 Superceptron. All rights reserved.</p>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="section contact-section">
+        <div class="container contact-wrap">
+            <div class="contact-text">
+                <div class="section-label reveal">Contact</div>
+                <h2 class="reveal">Have a question?</h2>
+                <p class="reveal">We'd love to hear from you. Drop us a line and we'll get back to you within 24 hours.</p>
+            </div>
+            <a href="mailto:info@superceptron.com" class="email-link reveal" aria-label="Email Superceptron at info@superceptron.com">
+                <span class="email-address">info@superceptron.com</span>
+                <span class="email-arrow" aria-hidden="true">→</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div class="footer-brand">
+                <span class="footer-logo">Superceptron</span>
+                <p>AI automation studio.<br>London-based, working globally.</p>
+            </div>
+            <div class="footer-nav">
+                <a href="about.html" class="footer-link">About</a>
+                <a href="#contact" class="footer-link">Contact</a>
+                <a href="mailto:info@superceptron.com" class="footer-link">info@superceptron.com</a>
+            </div>
+            <p class="footer-copy">&copy; 2025 Superceptron</p>
         </div>
     </footer>
 
