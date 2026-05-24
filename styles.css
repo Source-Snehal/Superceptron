@@ -67,8 +67,34 @@ body {
     font-weight: 500;
     color: var(--white);
     letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
-.logo-mark { color: var(--accent); }
+
+.logo-img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    border-radius: 6px;
+    mix-blend-mode: screen;
+    flex-shrink: 0;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.footer-logo-img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    border-radius: 5px;
+    mix-blend-mode: screen;
+    flex-shrink: 0;
+}
 
 .nav-right {
     display: flex;
