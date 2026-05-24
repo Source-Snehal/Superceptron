@@ -175,10 +175,9 @@ body {
     .nav-right     { display: none; }
     .nav-hamburger { display: flex; }
 
-    /* Orbs are 560px/400px wide — on mobile they fill the whole hero.
-       Scale them down so they're subtle ambient glows, not a green wash. */
-    .orb-1 { width: 280px; height: 280px; opacity: 0.07; top: -80px; right: -40px; }
-    .orb-2 { width: 200px; height: 200px; opacity: 0.08; }
+    /* Orbs are 560/400px with blur:100px — on a 375px screen they flood
+       the entire hero with green. Hide them; the dot grid still gives texture. */
+    .orb { display: none; }
 }
 
 /* ── Container ──────────────────────────────────── */
