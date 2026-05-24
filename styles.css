@@ -713,14 +713,15 @@ body {
 
 .brand-cycler-logo {
     position: absolute;
-    top: 0;
+    top: 50%;
     left: 50%;
-    height: 100%;
+    height: 90%;
     width: auto;
     object-fit: contain;
     mix-blend-mode: screen;
     border-radius: 8px;
-    transform: translateX(-50%) translateY(115%);
+    transform: translateX(-50%) translateY(-50%) scale(0);
+    opacity: 0;
     transform-origin: 50% 50%;
     will-change: transform, opacity;
     pointer-events: none;

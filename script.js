@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const brandLogo = document.getElementById('brandLogo');
     if (brandWord) {
         const words  = ['Screen faster.', 'Source smarter.', 'Place more.', 'Cut admin.', 'Scale up.', 'Superceptron'];
-        const pauses = [480, 400, 340, 280, 230];
+        const pauses = [480, 400, 340, 280, 800]; // last pause longer — lets "Scale up." breathe before reveal
         const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
         if (reduced) {
@@ -28,56 +28,61 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             async function showSuperceptron() {
-                // 1. Slide current word out
-                brandWord.style.transition = 'transform 0.2s cubic-bezier(0.4,0,1,1)';
-                brandWord.style.transform  = 'translateY(-115%)';
-                await new Promise(r => setTimeout(r, 200));
+                // Phase 1 — word sequence ends: gentle fade+lift (not a flip)
+                // This signals a phase change from the word cycle
+                brandWord.style.transition = 'transform 0.5s cubic-bezier(0.3,0,0.7,1), opacity 0.4s ease-in';
+                brandWord.style.transform  = 'translateY(-24px)';
+                brandWord.style.opacity    = '0';
+                await new Promise(r => setTimeout(r, 480));
 
-                // 2. Park word off-screen
                 brandWord.style.transition = 'none';
-                brandWord.style.transform  = 'translateY(115%)';
+                brandWord.style.opacity    = '0';
+                brandWord.style.transform  = 'translateY(0)';
 
-                // 3. Slide logo up from below
+                // Phase 2 — logo materialises from centre (scale+fade, nothing like the word flips)
                 if (brandLogo) {
                     brandLogo.style.transition = 'none';
-                    brandLogo.style.transform  = 'translateX(-50%) translateY(115%)';
+                    brandLogo.style.transform  = 'translateX(-50%) translateY(-50%) scale(0.15)';
+                    brandLogo.style.opacity    = '0';
                     brandLogo.getBoundingClientRect();
-                    brandLogo.style.transition = 'transform 0.25s cubic-bezier(0,0,0.2,1)';
-                    brandLogo.style.transform  = 'translateX(-50%) translateY(0)';
-                    await new Promise(r => setTimeout(r, 280));
+                    brandLogo.style.transition = 'transform 0.55s cubic-bezier(0,0,0.2,1), opacity 0.45s ease-out';
+                    brandLogo.style.transform  = 'translateX(-50%) translateY(-50%) scale(1)';
+                    brandLogo.style.opacity    = '1';
+                    await new Promise(r => setTimeout(r, 620));
 
-                    // 4. Spin really fast — 4 full rotations in 650ms
-                    brandLogo.style.transition = 'transform 0.65s cubic-bezier(0.1,0,0.85,1)';
-                    brandLogo.style.transform  = 'translateX(-50%) translateY(0) rotate(1440deg)';
-                    await new Promise(r => setTimeout(r, 580));
+                    // Brief pause — logo sits fully visible before spinning
+                    await new Promise(r => setTimeout(r, 180));
 
-                    // 5. Explode outward and fade
-                    brandLogo.style.transition = 'transform 0.3s cubic-bezier(0.2,0,1,1), opacity 0.25s ease-in';
-                    brandLogo.style.transform  = 'translateX(-50%) translateY(0) rotate(1440deg) scale(18)';
+                    // Phase 3 — spin (ease-in-out so it builds speed then slows, feels physical)
+                    brandLogo.style.transition = 'transform 0.85s cubic-bezier(0.4,0,0.6,1)';
+                    brandLogo.style.transform  = 'translateX(-50%) translateY(-50%) scale(1) rotate(1080deg)';
+                    await new Promise(r => setTimeout(r, 780));
+
+                    // Phase 4 — expand outward and dissolve
+                    brandLogo.style.transition = 'transform 0.45s cubic-bezier(0.2,0,0.6,1), opacity 0.38s ease-in';
+                    brandLogo.style.transform  = 'translateX(-50%) translateY(-50%) scale(16) rotate(1080deg)';
                     brandLogo.style.opacity    = '0';
                 }
 
-                // 6. Prepare text — scale up from small, wide letter-spacing
-                await new Promise(r => setTimeout(r, 80));
+                // Phase 5 — "Superceptron" expands in from centre
+                await new Promise(r => setTimeout(r, 100));
                 brandWord.style.transition    = 'none';
                 brandWord.textContent         = 'Superceptron';
-                brandWord.style.transform     = 'translateY(0) scale(0.45)';
-                brandWord.style.opacity       = '0';
-                brandWord.style.letterSpacing = '0.1em';
+                brandWord.style.transform     = 'translateY(0) scale(0.5)';
+                brandWord.style.letterSpacing = '0.06em';
                 brandWord.getBoundingClientRect();
 
-                // 7. Expand into place
-                brandWord.style.transition    = 'transform 0.5s cubic-bezier(0,0,0.2,1), opacity 0.35s, letter-spacing 0.5s';
+                brandWord.style.transition    = 'transform 0.6s cubic-bezier(0,0,0.2,1), opacity 0.45s ease-out, letter-spacing 0.6s ease-out';
                 brandWord.style.transform     = 'translateY(0) scale(1)';
                 brandWord.style.opacity       = '1';
                 brandWord.style.letterSpacing = '-0.035em';
-                await new Promise(r => setTimeout(r, 500));
+                await new Promise(r => setTimeout(r, 600));
 
-                // 8. Reset logo for cleanliness
+                // Cleanup
                 if (brandLogo) {
                     brandLogo.style.transition = 'none';
-                    brandLogo.style.transform  = 'translateX(-50%) translateY(115%)';
-                    brandLogo.style.opacity    = '1';
+                    brandLogo.style.transform  = 'translateX(-50%) translateY(-50%) scale(0)';
+                    brandLogo.style.opacity    = '0';
                 }
             }
 
