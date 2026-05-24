@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ── Brand word cycler ─────────────────────────
     const brandWord = document.getElementById('brandWord');
     if (brandWord) {
-        const words  = ['Automate.', 'Optimise.', 'Scale.', 'Save time.', 'Cut costs.', 'Superceptron'];
+        const words  = ['Screen faster.', 'Source smarter.', 'Place more.', 'Cut admin.', 'Scale up.', 'Superceptron'];
         const pauses = [480, 400, 340, 280, 230]; // ms to show each word before flipping
         const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
