@@ -220,7 +220,6 @@ body {
     position: absolute;
     border-radius: 50%;
     filter: blur(100px);
-    will-change: transform;
     animation: drift 14s ease-in-out infinite;
 }
 .orb-1 {
@@ -702,6 +701,8 @@ body {
     height: 1.12em;
     overflow: hidden;
     margin-bottom: 0.5rem;
+    background: var(--black);
+    isolation: isolate;
 }
 
 .brand-cycler-word {
@@ -711,7 +712,6 @@ body {
     letter-spacing: -0.035em;
     line-height: 1.08;
     color: var(--accent);
-    will-change: transform;
 }
 
 .brand-cycler-logo {
