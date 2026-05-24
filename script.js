@@ -2,9 +2,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ── Brand word cycler ─────────────────────────
     const brandWord = document.getElementById('brandWord');
+    const brandLogo = document.getElementById('brandLogo');
     if (brandWord) {
         const words  = ['Screen faster.', 'Source smarter.', 'Place more.', 'Cut admin.', 'Scale up.', 'Superceptron'];
-        const pauses = [480, 400, 340, 280, 230]; // ms to show each word before flipping
+        const pauses = [480, 400, 340, 280, 230];
         const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
         if (reduced) {
@@ -12,16 +13,13 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             function flipTo(text) {
                 return new Promise(resolve => {
-                    // Slide current word up and out
                     brandWord.style.transition = 'transform 0.2s cubic-bezier(0.4,0,1,1)';
                     brandWord.style.transform  = 'translateY(-115%)';
                     setTimeout(() => {
-                        // Instantly reposition below, swap text
                         brandWord.style.transition = 'none';
                         brandWord.style.transform  = 'translateY(115%)';
                         brandWord.textContent = text;
-                        brandWord.getBoundingClientRect(); // force reflow
-                        // Slide new word up into place
+                        brandWord.getBoundingClientRect();
                         brandWord.style.transition = 'transform 0.2s cubic-bezier(0,0,0.2,1)';
                         brandWord.style.transform  = 'translateY(0)';
                         setTimeout(resolve, 200);
@@ -29,11 +27,67 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
 
+            async function showSuperceptron() {
+                // 1. Slide current word out
+                brandWord.style.transition = 'transform 0.2s cubic-bezier(0.4,0,1,1)';
+                brandWord.style.transform  = 'translateY(-115%)';
+                await new Promise(r => setTimeout(r, 200));
+
+                // 2. Park word off-screen
+                brandWord.style.transition = 'none';
+                brandWord.style.transform  = 'translateY(115%)';
+
+                // 3. Slide logo up from below
+                if (brandLogo) {
+                    brandLogo.style.transition = 'none';
+                    brandLogo.style.transform  = 'translateX(-50%) translateY(115%)';
+                    brandLogo.getBoundingClientRect();
+                    brandLogo.style.transition = 'transform 0.25s cubic-bezier(0,0,0.2,1)';
+                    brandLogo.style.transform  = 'translateX(-50%) translateY(0)';
+                    await new Promise(r => setTimeout(r, 280));
+
+                    // 4. Spin really fast — 4 full rotations in 650ms
+                    brandLogo.style.transition = 'transform 0.65s cubic-bezier(0.1,0,0.85,1)';
+                    brandLogo.style.transform  = 'translateX(-50%) translateY(0) rotate(1440deg)';
+                    await new Promise(r => setTimeout(r, 580));
+
+                    // 5. Explode outward and fade
+                    brandLogo.style.transition = 'transform 0.3s cubic-bezier(0.2,0,1,1), opacity 0.25s ease-in';
+                    brandLogo.style.transform  = 'translateX(-50%) translateY(0) rotate(1440deg) scale(18)';
+                    brandLogo.style.opacity    = '0';
+                }
+
+                // 6. Prepare text — scale up from small, wide letter-spacing
+                await new Promise(r => setTimeout(r, 80));
+                brandWord.style.transition    = 'none';
+                brandWord.textContent         = 'Superceptron';
+                brandWord.style.transform     = 'translateY(0) scale(0.45)';
+                brandWord.style.opacity       = '0';
+                brandWord.style.letterSpacing = '0.1em';
+                brandWord.getBoundingClientRect();
+
+                // 7. Expand into place
+                brandWord.style.transition    = 'transform 0.5s cubic-bezier(0,0,0.2,1), opacity 0.35s, letter-spacing 0.5s';
+                brandWord.style.transform     = 'translateY(0) scale(1)';
+                brandWord.style.opacity       = '1';
+                brandWord.style.letterSpacing = '-0.035em';
+                await new Promise(r => setTimeout(r, 500));
+
+                // 8. Reset logo for cleanliness
+                if (brandLogo) {
+                    brandLogo.style.transition = 'none';
+                    brandLogo.style.transform  = 'translateX(-50%) translateY(115%)';
+                    brandLogo.style.opacity    = '1';
+                }
+            }
+
             (async () => {
-                for (let i = 1; i < words.length; i++) {
+                for (let i = 1; i < words.length - 1; i++) {
                     await new Promise(r => setTimeout(r, pauses[i - 1]));
                     await flipTo(words[i]);
                 }
+                await new Promise(r => setTimeout(r, pauses[pauses.length - 1]));
+                await showSuperceptron();
             })();
         }
     }

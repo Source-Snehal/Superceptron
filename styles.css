@@ -693,6 +693,7 @@ body {
 
 /* ── Brand word cycler ───────────────────────────── */
 .brand-cycler {
+    position: relative;
     font-size: clamp(2.75rem, 6.5vw, 5.25rem);
     line-height: 1.08;
     height: 1.12em;
@@ -708,6 +709,21 @@ body {
     line-height: 1.08;
     color: var(--accent);
     will-change: transform;
+}
+
+.brand-cycler-logo {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+    mix-blend-mode: screen;
+    border-radius: 8px;
+    transform: translateX(-50%) translateY(115%);
+    transform-origin: 50% 50%;
+    will-change: transform, opacity;
+    pointer-events: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
