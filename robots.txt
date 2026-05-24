@@ -1,13 +1,14 @@
 User-agent: *
 Allow: /
-
-# Sitemap
-Sitemap: https://www.superceptron.com/sitemap.xml
-
-# Allow all search engines to crawl all pages
-Crawl-delay: 1
-
-# Block access to any admin or private directories (if any exist in future)
+Disallow: /api/
+Disallow: /sine.html
+Disallow: /cos.html
+Disallow: /tan.html
+Disallow: /sec.html
+Disallow: /products.html
+Disallow: /careers.html
 Disallow: /admin/
 Disallow: /private/
 Disallow: /.git/
+
+Sitemap: https://www.superceptron.com/sitemap.xml

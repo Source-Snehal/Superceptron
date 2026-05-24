@@ -27,8 +27,8 @@ module.exports = async function handler(req, res) {
 
     try {
         await resend.emails.send({
-            from: 'Superceptron <noreply@superceptron.com>',
-            to: 'info@superceptron.com',
+            from: 'Superceptron <onboarding@resend.dev>',
+            to: 'snehalsavio123@gmail.com',
             replyTo: email.trim(),
             subject: `New interest registration — ${name.trim()}`,
             html: `
