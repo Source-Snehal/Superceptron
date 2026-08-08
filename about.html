@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Superceptron — AI Automation Studio Founded by Snehal Roymedhi</title>
-    <meta name="description" content="Superceptron is an AI automation studio founded by Snehal Roymedhi. We build intelligent workflow automation and custom AI agents for ambitious businesses worldwide.">
+    <title>About Superceptron — Founder-led AI CV Screening for Boutique Tech Recruiters</title>
+    <meta name="description" content="Superceptron is a founder-led AI CV screening service for boutique tech recruitment agencies. Built by Snehal Roymedhi — you talk to the person doing the work, not an account manager.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://www.superceptron.com/about.html">
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.superceptron.com/about.html">
-    <meta property="og:title" content="About Superceptron — AI Automation Studio">
-    <meta property="og:description" content="We're a small, focused team of AI engineers who've worked inside businesses and understand the operational challenges that hold them back.">
+    <meta property="og:title" content="About Superceptron — Founder-led AI CV Screening">
+    <meta property="og:description" content="We're a small, founder-led team focused on one thing: AI CV screening for boutique tech recruitment agencies. You talk to the person doing the work.">
     <meta property="og:site_name" content="Superceptron">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="About Superceptron — AI Automation Studio">
-    <meta name="twitter:description" content="We're a small, focused team of AI engineers who've worked inside businesses and understand the operational challenges that hold them back.">
+    <meta name="twitter:title" content="About Superceptron — Founder-led AI CV Screening">
+    <meta name="twitter:description" content="Founder-led AI CV screening for boutique tech recruitment agencies. You talk to the person doing the work, not an account manager.">
 
     <script type="application/ld+json">
     [
@@ -139,50 +139,49 @@
             border-bottom: 1px solid var(--w08);
         }
 
-        .values-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1px;
-            background: var(--w08);
-            border: 1px solid var(--w08);
-            border-radius: var(--r-lg);
-            overflow: hidden;
-            margin-top: 1rem;
+        .values-list {
+            margin-top: 2.5rem;
+            display: flex;
+            flex-direction: column;
         }
 
-        .value-card {
-            background: var(--black-2);
-            padding: 2.25rem;
-            transition: background 0.25s var(--ease);
+        .value-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.75rem;
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--w08);
         }
 
-        .value-card:hover { background: var(--black-3); }
+        .value-item:first-child { padding-top: 0; }
+        .value-item:last-child  { border-bottom: none; padding-bottom: 0; }
 
         .value-icon {
             width: 40px; height: 40px;
+            flex-shrink: 0;
             border-radius: var(--r);
             background: var(--a-dim);
             border: 1px solid rgba(77,255,180,0.12);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 1.25rem;
             color: var(--accent);
+            margin-top: 0.1rem;
         }
 
         .value-icon svg { width: 20px; height: 20px; }
 
-        .value-card h3 {
+        .value-item-text h3 {
             font-size: 1rem;
             font-weight: 700;
-            margin-bottom: 0.625rem;
             letter-spacing: -0.01em;
+            margin-bottom: 0.5rem;
         }
 
-        .value-card p {
-            font-size: 0.9rem;
+        .value-item-text p {
+            font-size: 0.9375rem;
             color: var(--w60);
-            line-height: 1.7;
+            line-height: 1.72;
         }
 
         /* Founder */
@@ -323,7 +322,7 @@
                 <a href="about.html" class="nav-contact" style="color: var(--accent);">About</a>
                 <a href="blog.html" class="nav-contact">Blog</a>
                 <a href="index.html#contact" class="nav-contact">Contact</a>
-                <a href="index.html#register" class="nav-cta">Register Interest</a>
+                <a href="index.html#register" class="nav-cta">Try it free</a>
             </div>
             <button class="nav-hamburger" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
                 <span></span><span></span><span></span>
@@ -333,7 +332,7 @@
             <a href="about.html" class="nav-mobile-link" style="color: var(--accent);">About</a>
             <a href="blog.html" class="nav-mobile-link">Blog</a>
             <a href="index.html#contact" class="nav-mobile-link">Contact</a>
-            <a href="index.html#register" class="nav-mobile-link nav-mobile-cta">Register Interest</a>
+            <a href="index.html#register" class="nav-mobile-link nav-mobile-cta">Try it free</a>
         </div>
     </nav>
 
@@ -346,8 +345,8 @@
                     <span class="eyebrow-brand-text">About us</span>
                 </div>
             </div>
-            <h1>We're the team that <span class="accent-text">makes AI work</span> for your business.</h1>
-            <p>We're not a faceless platform or a generic consultancy. We're a small, focused team of AI engineers who've worked inside businesses and understand the operational challenges that hold them back.</p>
+            <h1>We're the team that <span class="accent-text">makes AI work</span> for your agency.</h1>
+            <p>We're not a platform. We're a small, founder-led team focused on one thing: AI CV screening for boutique tech recruitment agencies. The person you email is the person who does the work.</p>
         </div>
     </header>
 
@@ -357,14 +356,14 @@
             <div class="story-text">
                 <div class="section-label reveal">Our story</div>
                 <h2 class="reveal">Born from frustration with manual work that didn't need to exist.</h2>
-                <p class="reveal">Superceptron was founded with a simple belief: most of the repetitive, time-consuming work that businesses do every day doesn't need to be done by humans. It just hasn't been automated yet — either because the tools weren't good enough, or because no one took the time to properly understand the workflow.</p>
-                <p class="reveal">We started by solving these problems for ourselves and for businesses we worked with directly. We learned that the most successful automation isn't about the technology — it's about deeply understanding how a business actually operates, and then building something that fits around it.</p>
-                <p class="reveal">That approach is what Superceptron is built on. We come in, learn your world, and build AI systems that your team will actually use — because they work the way you do.</p>
+                <p class="reveal">Superceptron was founded with a specific focus: CV screening for boutique tech recruitment agencies. Not because it was the easiest problem to solve, but because it's the one that wastes the most consultant time and is most directly automatable.</p>
+                <p class="reveal">The firms we work with already have an ATS and a CRM they know well. They don't want to rip them out. They don't want a platform with a six-month implementation. They want someone to take the CV pile off their desk and give them back a ranked shortlist — and they want to talk to the person doing it.</p>
+                <p class="reveal">That's what we do. One focused service, done well, with a direct line to the founder.</p>
             </div>
             <div class="story-aside reveal">
                 <div class="aside-stat">
-                    <span class="aside-stat-num">Worldwide</span>
-                    <span class="aside-stat-label">Working with ambitious businesses across borders and industries</span>
+                    <span class="aside-stat-num">Boutique</span>
+                    <span class="aside-stat-label">Focused exclusively on small, founder-led tech recruitment agencies</span>
                 </div>
                 <div class="aside-stat">
                     <span class="aside-stat-num">AI-first</span>
@@ -382,8 +381,8 @@
     <section class="values-section">
         <div class="container">
             <div class="section-label reveal">What we stand for</div>
-            <div class="values-grid">
-                <div class="value-card reveal">
+            <div class="values-list">
+                <div class="value-item reveal">
                     <div class="value-icon" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
@@ -392,26 +391,32 @@
                             <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
                         </svg>
                     </div>
-                    <h3>People first</h3>
-                    <p>Automation should free people to do better work, not replace them. Every system we build is designed to make your team more capable, not redundant.</p>
+                    <div class="value-item-text">
+                        <h3>People first</h3>
+                        <p>Automation should free people to do better work, not replace them. Every system we build is designed to make your team more capable, not redundant.</p>
+                    </div>
                 </div>
-                <div class="value-card reveal">
+                <div class="value-item reveal">
                     <div class="value-icon" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
                         </svg>
                     </div>
-                    <h3>Results over promises</h3>
-                    <p>We scope every project around measurable outcomes — hours saved, costs reduced, processes improved. No vague ROI claims, no moving goalposts.</p>
+                    <div class="value-item-text">
+                        <h3>Results over promises</h3>
+                        <p>We scope every project around measurable outcomes — hours saved, costs reduced, processes improved. No vague ROI claims, no moving goalposts.</p>
+                    </div>
                 </div>
-                <div class="value-card reveal">
+                <div class="value-item reveal">
                     <div class="value-icon" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                         </svg>
                     </div>
-                    <h3>Practical by default</h3>
-                    <p>We build AI that works in the real world, under real conditions. Reliable, maintainable, and built to last — not just impressive in a demo.</p>
+                    <div class="value-item-text">
+                        <h3>Practical by default</h3>
+                        <p>We build AI that works in the real world, under real conditions. Reliable, maintainable, and built to last — not just impressive in a demo.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -430,8 +435,8 @@
                     </div>
                 </div>
                 <div class="founder-bio">
-                    <p class="reveal">Snehal is an AI engineer with hands-on experience building automation systems for businesses across sectors. Before founding Superceptron, he spent years working on the inside — understanding firsthand how operational inefficiency slows businesses down and where AI can change that.</p>
-                    <p class="reveal">His approach is rooted in practicality: understand the problem deeply before touching any technology, then build something that people will actually use. Superceptron is the product of that philosophy.</p>
+                    <p class="reveal">Snehal is an AI engineer who chose to focus on tech recruitment agencies specifically — because the admin overhead is concrete, the impact is measurable, and the people running boutique desks are sharp enough to know what's wrong but too busy fixing it manually.</p>
+                    <p class="reveal">His approach is direct: one focused service, no accounts team in between, and a genuine preference for small agencies over enterprise contracts. If you email Superceptron, you're emailing him.</p>
                 </div>
             </div>
             <div class="founder-quote reveal">
@@ -447,11 +452,11 @@
     <section class="about-cta-section">
         <div class="container about-cta-inner">
             <div>
-                <h2>Ready to work<br>with us?</h2>
-                <p>Register your interest and we'll be in touch within 24 hours to talk through what we can do for your business.</p>
+                <h2>Ready to send<br>a batch?</h2>
+                <p>Email us your CVs and job spec. You'll have a ranked shortlist back within the hour — no commitment, no sales pitch.</p>
             </div>
             <div style="display:flex; gap:1rem; flex-wrap:wrap; align-items:center;">
-                <a href="index.html#register" class="btn-primary">Register Interest</a>
+                <a href="mailto:info@superceptron.com?subject=CV%20Batch%20%E2%80%93%20Free%20Pilot" class="btn-primary">Send a CV batch →</a>
                 <a href="mailto:info@superceptron.com" class="btn-ghost" style="padding-left:0">info@superceptron.com →</a>
             </div>
         </div>
@@ -462,7 +467,7 @@
         <div class="container footer-inner">
             <div class="footer-brand">
                 <span class="footer-logo"><img src="logo.jpeg" alt="" class="footer-logo-img" aria-hidden="true">Superceptron</span>
-                <p>AI automation studio.<br>Built for the bold.</p>
+                <p>AI CV screening for boutique<br>tech recruitment agencies.</p>
             </div>
             <div class="footer-nav">
                 <a href="about.html" class="footer-link">About</a>
