@@ -172,6 +172,108 @@
             .for-list { grid-template-columns: 1fr; }
             .onboarding-notice { padding: 2rem 1.5rem; }
         }
+        /* Competitive comparison */
+        .comp-section { border-top: 1px solid var(--w08); }
+        .comp-intro {
+            max-width: 560px;
+            font-size: 1.0625rem;
+            color: var(--w60);
+            line-height: 1.78;
+            margin: 0 0 3rem;
+        }
+        .comp-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--w08);
+            border: 1px solid var(--w08);
+            border-radius: var(--r-lg);
+            overflow: hidden;
+        }
+        .comp-col {
+            background: var(--black-2);
+            display: flex;
+            flex-direction: column;
+            transition: background 0.25s var(--ease);
+        }
+        .comp-col:hover { background: var(--black-3); }
+        .comp-col:nth-child(1).reveal { transition-delay: 0s; }
+        .comp-col:nth-child(2).reveal { transition-delay: 0.07s; }
+        .comp-col:nth-child(3).reveal { transition-delay: 0.14s; }
+        .comp-col-header {
+            padding: 1.75rem 2rem;
+            background: var(--black-3);
+            border-bottom: 1px solid var(--w08);
+        }
+        .comp-versus {
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--w30);
+            display: block;
+            margin-bottom: 0.625rem;
+        }
+        .comp-label {
+            font-size: 0.9375rem;
+            font-weight: 700;
+            color: var(--white);
+            line-height: 1.35;
+            letter-spacing: -0.01em;
+        }
+        .comp-label-sub {
+            display: block;
+            font-size: 0.75rem;
+            font-family: var(--mono);
+            font-weight: 400;
+            color: var(--w30);
+            letter-spacing: 0.02em;
+            margin-top: 0.375rem;
+        }
+        .comp-gap {
+            padding: 1.75rem 2rem;
+            display: flex;
+            gap: 0.875rem;
+            align-items: flex-start;
+            flex: 1;
+        }
+        .comp-gap-marker {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            color: var(--w30);
+            flex-shrink: 0;
+            margin-top: 0.15em;
+            line-height: 1;
+        }
+        .comp-gap p {
+            font-size: 0.9rem;
+            color: var(--w60);
+            line-height: 1.75;
+        }
+        .comp-answer {
+            padding: 1.75rem 2rem;
+            display: flex;
+            gap: 0.875rem;
+            align-items: flex-start;
+            background: rgba(77,255,180,0.03);
+            border-top: 1px solid rgba(77,255,180,0.12);
+        }
+        .comp-answer-marker {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            color: var(--accent);
+            flex-shrink: 0;
+            margin-top: 0.15em;
+            line-height: 1;
+        }
+        .comp-answer p {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.88);
+            line-height: 1.75;
+        }
+        @media (max-width: 900px) {
+            .comp-grid { grid-template-columns: 1fr; }
+        }
         /* Steps flow — replaces service cards */
         .steps-flow {
             display: grid;
@@ -365,6 +467,63 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Competitive comparison -->
+    <section class="section comp-section">
+        <div class="container">
+            <div class="section-label reveal">vs. the alternatives</div>
+            <h2 class="section-title reveal">The honest comparison.</h2>
+            <p class="comp-intro reveal">Most recruiters at small firms land on the same three options before deciding. Here's where each one falls short.</p>
+            <div class="comp-grid">
+
+                <div class="comp-col reveal">
+                    <div class="comp-col-header">
+                        <span class="comp-versus">Alternative 01</span>
+                        <span class="comp-label">ChatGPT &amp; off-the-shelf AI tools</span>
+                    </div>
+                    <div class="comp-gap">
+                        <span class="comp-gap-marker" aria-hidden="true">✕</span>
+                        <p>You do all the work — writing prompts, handling file uploads, deciding what to evaluate. No integration into your actual workflow. No accountability if the shortlist misses someone good.</p>
+                    </div>
+                    <div class="comp-answer">
+                        <span class="comp-answer-marker" aria-hidden="true">✓</span>
+                        <p>Screening plugs directly into your existing process. Send an email, get a shortlist back. A real person reviews and stands behind every output — not a black box you have to babysit.</p>
+                    </div>
+                </div>
+
+                <div class="comp-col reveal">
+                    <div class="comp-col-header">
+                        <span class="comp-versus">Alternative 02</span>
+                        <span class="comp-label">ATS-native screening add-ons<span class="comp-label-sub">Bullhorn, JobDiva, Crelate, Loxo</span></span>
+                    </div>
+                    <div class="comp-gap">
+                        <span class="comp-gap-marker" aria-hidden="true">✕</span>
+                        <p>Usually shallow keyword matching bundled into an expensive platform tier upgrade. Slow to configure without dedicated IT support. Tied to your ATS vendor's release schedule.</p>
+                    </div>
+                    <div class="comp-answer">
+                        <span class="comp-answer-marker" aria-hidden="true">✓</span>
+                        <p>Live in days, not months. No platform switch, no new pricing tier to negotiate, no IT involvement. Works alongside whichever ATS you already use — Bullhorn, Crelate, anything.</p>
+                    </div>
+                </div>
+
+                <div class="comp-col reveal">
+                    <div class="comp-col-header">
+                        <span class="comp-versus">Alternative 03</span>
+                        <span class="comp-label">Hiring an internal ops or admin person</span>
+                    </div>
+                    <div class="comp-gap">
+                        <span class="comp-gap-marker" aria-hidden="true">✕</span>
+                        <p>Fixed salary cost whether you have 80 resumes to screen or eight. Months of ramp-up and training. Ongoing management overhead that compounds as your team grows.</p>
+                    </div>
+                    <div class="comp-answer">
+                        <span class="comp-answer-marker" aria-hidden="true">✓</span>
+                        <p>Pay only for the volume that exists right now. No recruiting, no onboarding, no performance reviews. Scale up when a big mandate lands — step back when it's quiet.</p>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
