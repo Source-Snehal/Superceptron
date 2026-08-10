@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing — Superceptron</title>
+    <meta name="description" content="Simple, transparent pricing for Superceptron's AI + human resume screening. $89 per role or $199/month for up to 5 roles. No contracts, no sales calls. Free pilot for the first firms.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.superceptron.com/pricing.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.superceptron.com/pricing.html">
+    <meta property="og:title" content="Pricing — Superceptron AI Resume Screening">
+    <meta property="og:description" content="$89 per role or $199/month. No contracts, no sales calls. Free pilot for boutique tech recruiting firms.">
+    <meta property="og:site_name" content="Superceptron">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Pricing — Superceptron AI Resume Screening">
+    <meta name="twitter:description" content="$89 per role or $199/month. No contracts. Free pilot for boutique tech recruiting firms.">
+
+    <link rel="icon" href="logo.jpeg" type="image/jpeg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Pricing page */
+        .dual-engine { color: var(--accent); font-weight: 700; }
+
+        .pricing-hero {
+            padding: 10rem 0 6rem;
+            border-bottom: 1px solid var(--w08);
+        }
+        .pricing-hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.75rem);
+            font-weight: 800;
+            letter-spacing: -0.035em;
+            line-height: 1.08;
+            max-width: 640px;
+            margin-bottom: 1.5rem;
+        }
+        .pricing-hero p {
+            font-size: 1.125rem;
+            color: var(--w60);
+            max-width: 500px;
+            line-height: 1.75;
+        }
+
+        /* Free pilot callout */
+        .pilot-callout-section { padding: 5rem 0 0; }
+        .pilot-callout {
+            background: rgba(77,255,180,0.04);
+            border: 1px solid rgba(77,255,180,0.2);
+            border-radius: var(--r-lg);
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1.25rem;
+        }
+        .pilot-callout-badge {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: var(--a-dim);
+            border: 1px solid rgba(77,255,180,0.2);
+            border-radius: 100px;
+            padding: 0.3rem 0.875rem;
+        }
+        .pilot-callout h2 {
+            font-size: clamp(1.5rem, 3vw, 2.25rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.18;
+            margin: 0;
+        }
+        .pilot-callout p {
+            font-size: 1rem;
+            color: var(--w60);
+            line-height: 1.72;
+            margin: 0;
+            max-width: 560px;
+        }
+
+        /* Pricing cards */
+        .pricing-cards-section { padding: 5rem 0; }
+        .pricing-section-label {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--w30);
+            display: block;
+            margin-bottom: 1rem;
+        }
+        .pricing-section-heading {
+            font-size: clamp(1.75rem, 3vw, 2.5rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+            margin-bottom: 2.5rem;
+        }
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .pricing-card {
+            background: var(--black-2);
+            border: 1px solid var(--w08);
+            border-radius: var(--r-lg);
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            transition: border-color 0.25s var(--ease);
+        }
+        .pricing-card:hover { border-color: var(--w12); }
+        .pricing-card-featured {
+            border-color: rgba(77,255,180,0.25);
+            background: rgba(77,255,180,0.025);
+        }
+        .pricing-card-featured:hover { border-color: rgba(77,255,180,0.4); }
+        .pricing-plan-name {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            display: block;
+            margin-bottom: 1rem;
+        }
+        .pricing-amount {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 1;
+            color: var(--white);
+        }
+        .pricing-per {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--w60);
+            letter-spacing: 0;
+        }
+        .pricing-desc {
+            font-size: 0.9375rem;
+            color: var(--w60);
+            line-height: 1.65;
+            margin-top: 0.75rem;
+        }
+        .pricing-features {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            flex: 1;
+        }
+        .pricing-features li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            font-size: 0.9375rem;
+            color: var(--w60);
+            line-height: 1.5;
+        }
+        .pricing-features li::before {
+            content: "✓";
+            color: var(--accent);
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            flex-shrink: 0;
+            margin-top: 0.15em;
+        }
+        .pricing-card-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.5rem;
+            border: 1px solid var(--w12);
+            border-radius: 100px;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: var(--white);
+            text-decoration: none;
+            transition: border-color 0.2s, color 0.2s, background 0.2s;
+            width: fit-content;
+        }
+        .pricing-card-cta:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--a-dim);
+        }
+        .pricing-reassurance {
+            font-family: var(--mono);
+            font-size: 0.8125rem;
+            color: var(--w30);
+            text-align: center;
+            letter-spacing: 0.02em;
+        }
+
+        /* FAQ */
+        .pricing-faq-section {
+            padding: 0 0 5rem;
+            border-bottom: 1px solid var(--w08);
+        }
+        .faq-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            border: 1px solid var(--w08);
+            border-radius: var(--r-lg);
+            overflow: hidden;
+            margin-top: 2rem;
+        }
+        .faq-item {
+            padding: 2rem;
+            border-bottom: 1px solid var(--w08);
+            border-right: 1px solid var(--w08);
+        }
+        .faq-item:nth-child(2n) { border-right: none; }
+        .faq-item:nth-last-child(-n+2) { border-bottom: none; }
+        .faq-item h3 {
+            font-size: 0.9375rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            line-height: 1.35;
+            margin-bottom: 0.625rem;
+        }
+        .faq-item p {
+            font-size: 0.9rem;
+            color: var(--w60);
+            line-height: 1.72;
+        }
+
+        @media (max-width: 700px) {
+            .pricing-grid { grid-template-columns: 1fr; }
+            .faq-list { grid-template-columns: 1fr; }
+            .faq-item { border-right: none; }
+            .faq-item:nth-last-child(-n+2) { border-bottom: 1px solid var(--w08); }
+            .faq-item:last-child { border-bottom: none; }
+            .pilot-callout { padding: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="logo" aria-label="Superceptron home">
+                <img src="logo.jpeg" alt="" class="logo-img" aria-hidden="true">
+                <span class="logo-rest">Superceptron</span>
+            </a>
+            <div class="nav-right">
+                <a href="about.html" class="nav-contact">About</a>
+                <a href="blog.html" class="nav-contact">Blog</a>
+                <a href="pricing.html" class="nav-contact" style="color: var(--accent);">Pricing</a>
+                <a href="index.html#contact" class="nav-contact">Contact</a>
+                <a href="register.html" class="nav-cta">Try it free</a>
+            </div>
+            <button class="nav-hamburger" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <div class="nav-mobile" id="navMobile" aria-hidden="true">
+            <a href="about.html" class="nav-mobile-link">About</a>
+            <a href="blog.html" class="nav-mobile-link">Blog</a>
+            <a href="pricing.html" class="nav-mobile-link" style="color: var(--accent);">Pricing</a>
+            <a href="index.html#contact" class="nav-mobile-link">Contact</a>
+            <a href="register.html" class="nav-mobile-link nav-mobile-cta">Try it free</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="pricing-hero">
+        <div class="container">
+            <div class="hero-eyebrow">
+                <div class="eyebrow-pill">
+                    <span class="eyebrow-indicator" aria-hidden="true"></span>
+                    <span class="eyebrow-brand-text">Pricing</span>
+                </div>
+                <span class="eyebrow-sub">No contracts. No sales calls.</span>
+            </div>
+            <h1>Simple pricing.<br>No surprises.</h1>
+            <p>Currently offering free pilots for our first boutique tech recruiting firms — try it before committing to anything.</p>
+        </div>
+    </header>
+
+    <!-- Free pilot callout -->
+    <section class="pilot-callout-section">
+        <div class="container">
+            <div class="pilot-callout reveal">
+                <span class="pilot-callout-badge">Free pilot</span>
+                <h2>Try it before you pay anything.</h2>
+                <p>Send us your resumes and a job spec — you'll have a ranked shortlist back within the hour. No commitment, no sales call, no strings attached. We're running free pilots for a small group of boutique tech recruiting firms right now.</p>
+                <a href="register.html" class="btn-primary">Send your first batch free →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing cards -->
+    <section class="pricing-cards-section">
+        <div class="container">
+            <span class="pricing-section-label">After the pilot</span>
+            <h2 class="pricing-section-heading">Two options. No tier ladder.</h2>
+            <div class="pricing-grid">
+
+                <div class="pricing-card reveal">
+                    <div>
+                        <span class="pricing-plan-name">Pay-per-role</span>
+                        <div class="pricing-amount">$89<span class="pricing-per"> / role</span></div>
+                        <p class="pricing-desc">Best for firms with occasional searches or who want to try it before committing to a monthly plan.</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>Up to ~50 resumes screened per role</li>
+                        <li>Ranked shortlist with written rationale for every candidate</li>
+                        <li>Human review of every shortlist before it reaches you</li>
+                        <li>No subscription required</li>
+                    </ul>
+                    <a href="register.html" class="pricing-card-cta">Get started →</a>
+                </div>
+
+                <div class="pricing-card pricing-card-featured reveal">
+                    <div>
+                        <span class="pricing-plan-name">Monthly</span>
+                        <div class="pricing-amount">$199<span class="pricing-per"> / month</span></div>
+                        <p class="pricing-desc">Best for firms running multiple active searches. Cancel anytime — no contract, no minimum commitment.</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>Up to 5 active roles per month</li>
+                        <li>Up to ~250 resumes screened</li>
+                        <li>Everything in Pay-per-role</li>
+                        <li>Calibration compounds — results improve each batch</li>
+                        <li>No contract — cancel anytime</li>
+                    </ul>
+                    <a href="register.html" class="btn-primary">Start with a free pilot →</a>
+                </div>
+
+            </div>
+            <p class="pricing-reassurance">No contracts. No sales calls. Cancel anytime.</p>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="pricing-faq-section">
+        <div class="container">
+            <div class="section-label reveal">Common questions</div>
+            <div class="faq-list">
+                <div class="faq-item reveal">
+                    <h3>What counts as one role?</h3>
+                    <p>One job description screened against one batch of resumes. If you're running a DevOps search and a product manager search simultaneously, that's two roles.</p>
+                </div>
+                <div class="faq-item reveal">
+                    <h3>What if I have more than 50 resumes for a role?</h3>
+                    <p>Get in touch — we'll quote per batch. Larger volumes don't change the process, just the number of resumes we're screening.</p>
+                </div>
+                <div class="faq-item reveal">
+                    <h3>Do I need to change my ATS or CRM?</h3>
+                    <p>No. You email us resumes and a job spec. The shortlist comes back by email. We work alongside Bullhorn, Crelate, JobDiva — whatever you already use.</p>
+                </div>
+                <div class="faq-item reveal">
+                    <h3>How does the two-stage screening work?</h3>
+                    <p>First, AI scores and ranks every resume against your job spec — reading for meaning, not keyword matches, with a written rationale for each candidate. Then a person reviews the shortlist before it reaches you, to catch edge cases and calibrate to what your clients actually want. You see the reasoning behind every ranking. You make the final call.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="article-cta-section">
+        <div class="article-cta-inner">
+            <div class="article-cta-text">
+                <h3>Start with a free pilot.</h3>
+                <p>Send us your next batch of resumes. No commitment, no sales pitch.</p>
+            </div>
+            <a href="register.html" class="btn-primary">Send your first batch free →</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div class="footer-brand">
+                <span class="footer-logo"><img src="logo.jpeg" alt="" class="footer-logo-img" aria-hidden="true">Superceptron</span>
+                <p>AI resume screening for boutique<br>tech recruiting firms.</p>
+            </div>
+            <div class="footer-nav">
+                <a href="about.html" class="footer-link">About</a>
+                <a href="blog.html" class="footer-link">Blog</a>
+                <a href="pricing.html" class="footer-link">Pricing</a>
+                <a href="index.html#contact" class="footer-link">Contact</a>
+                <a href="mailto:info@superceptron.com" class="footer-link">info@superceptron.com</a>
+            </div>
+            <p class="footer-copy">&copy; 2025 Superceptron</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
