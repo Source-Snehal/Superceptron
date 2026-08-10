@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy — Superceptron</title>
+    <meta name="description" content="Superceptron's privacy policy. How we collect, use, and protect your personal data under UK GDPR.">
+    <meta name="robots" content="noindex, follow">
+    <link rel="canonical" href="https://www.superceptron.com/privacy.html">
+    <link rel="icon" href="logo.jpeg" type="image/jpeg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .privacy-hero {
+            padding: 9rem 0 4rem;
+            border-bottom: 1px solid var(--w08);
+        }
+        .privacy-hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            letter-spacing: -0.035em;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+        .privacy-hero p {
+            font-size: 0.9375rem;
+            color: var(--w30);
+            font-family: var(--mono);
+        }
+
+        .privacy-body {
+            padding: 4rem 0 6rem;
+        }
+        .privacy-container {
+            max-width: 720px;
+        }
+
+        .privacy-body h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin: 3rem 0 0.875rem;
+            color: var(--white);
+        }
+        .privacy-body h2:first-of-type { margin-top: 0; }
+
+        .privacy-body p {
+            font-size: 0.9375rem;
+            color: var(--w60);
+            line-height: 1.82;
+            margin-bottom: 1rem;
+        }
+        .privacy-body p:last-child { margin-bottom: 0; }
+
+        .privacy-body ul {
+            padding-left: 0;
+            list-style: none;
+            margin-bottom: 1rem;
+        }
+        .privacy-body ul li {
+            font-size: 0.9375rem;
+            color: var(--w60);
+            line-height: 1.75;
+            padding: 0.35rem 0 0.35rem 1.5rem;
+            position: relative;
+        }
+        .privacy-body ul li::before {
+            content: "–";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-family: var(--mono);
+        }
+
+        .privacy-body a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        .privacy-body a:hover { text-decoration: underline; }
+
+        .privacy-callout {
+            margin: 2rem 0;
+            padding: 1.5rem 2rem;
+            background: var(--a-dim);
+            border: 1px solid rgba(77,255,180,0.15);
+            border-radius: var(--r);
+            font-size: 0.9375rem;
+            color: var(--w60);
+            line-height: 1.75;
+        }
+        .privacy-callout strong { color: var(--white); }
+
+        .privacy-rights-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .privacy-right-card {
+            padding: 1.25rem 1.5rem;
+            background: var(--black-2);
+            border: 1px solid var(--w08);
+            border-radius: var(--r);
+        }
+        .privacy-right-card strong {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 0.4rem;
+            letter-spacing: -0.01em;
+        }
+        .privacy-right-card span {
+            font-size: 0.8125rem;
+            color: var(--w30);
+            line-height: 1.6;
+        }
+
+        .privacy-divider {
+            border: none;
+            border-top: 1px solid var(--w08);
+            margin: 2.5rem 0;
+        }
+
+        @media (max-width: 600px) {
+            .privacy-rights-grid { grid-template-columns: 1fr; }
+            .privacy-hero { padding: 7rem 0 3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="logo" aria-label="Superceptron home">
+                <img src="logo.jpeg" alt="" class="logo-img" aria-hidden="true">
+                <span class="logo-rest">Superceptron</span>
+            </a>
+            <div class="nav-right">
+                <a href="about.html" class="nav-contact">About</a>
+                <a href="blog.html" class="nav-contact">Blog</a>
+                <a href="pricing.html" class="nav-contact">Pricing</a>
+                <a href="index.html#contact" class="nav-contact">Contact</a>
+                <a href="register.html" class="nav-cta">Try it free</a>
+            </div>
+            <button class="nav-hamburger" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <div class="nav-mobile" id="navMobile" aria-hidden="true">
+            <a href="about.html" class="nav-mobile-link">About</a>
+            <a href="blog.html" class="nav-mobile-link">Blog</a>
+            <a href="pricing.html" class="nav-mobile-link">Pricing</a>
+            <a href="index.html#contact" class="nav-mobile-link">Contact</a>
+            <a href="register.html" class="nav-mobile-link nav-mobile-cta">Try it free</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="privacy-hero">
+        <div class="container">
+            <h1>Privacy Policy</h1>
+            <p>Last updated: August 2025</p>
+        </div>
+    </header>
+
+    <!-- Body -->
+    <main class="privacy-body">
+        <div class="container privacy-container">
+
+            <div class="privacy-callout">
+                <strong>The short version:</strong> We only collect what you give us when you fill in our pilot request form. We use it to respond to you. We don't sell it, share it with marketers, or use it for anything else. You can ask us to delete it at any time.
+            </div>
+
+            <h2>1. Who we are</h2>
+            <p>Superceptron Limited is a company registered in England and Wales. Our registered address is:</p>
+            <p>Superceptron Limited<br>182–184 High Street North<br>East Ham, London E6 2JA</p>
+            <p>For the purposes of UK data protection law, Superceptron Limited is the <strong>data controller</strong> responsible for your personal data. If you have questions about this policy or want to exercise your rights, contact us at <a href="mailto:info@superceptron.com">info@superceptron.com</a>.</p>
+
+            <hr class="privacy-divider">
+
+            <h2>2. What data we collect and why</h2>
+            <p>We collect personal data only when you submit our pilot request form. The fields are:</p>
+            <ul>
+                <li><strong>Your name</strong> — so we know who we're speaking to</li>
+                <li><strong>Work email address</strong> — so we can reply to you</li>
+                <li><strong>Firm name</strong> — to understand your business context</li>
+                <li><strong>Typical resume volume</strong> (optional) — to prepare for your pilot</li>
+                <li><strong>Notes about the role</strong> (optional) — to hit the ground running</li>
+            </ul>
+            <p>We do not collect payment information, identification documents, or any special category data (as defined under Article 9 UK GDPR).</p>
+
+            <h2>3. Legal basis for processing</h2>
+            <p>We process your data under the following lawful bases set out in <strong>Article 6 of the UK GDPR</strong>:</p>
+            <ul>
+                <li><strong>Legitimate interests (Article 6(1)(f))</strong> — to respond to your enquiry and operate our business. Our interest in handling your request is proportionate and does not override your privacy rights.</li>
+                <li><strong>Performance of a contract (Article 6(1)(b))</strong> — if you proceed to use our service, processing is necessary to deliver it.</li>
+                <li><strong>Legal obligation (Article 6(1)(c))</strong> — where we are required to retain records for tax or regulatory purposes.</li>
+            </ul>
+
+            <h2>4. How we use your data</h2>
+            <ul>
+                <li>To respond to your pilot request and discuss your needs</li>
+                <li>To deliver the CV screening service if you proceed</li>
+                <li>To send service-related communications (e.g. confirming a submission, sharing a shortlist)</li>
+                <li>To keep internal business records</li>
+            </ul>
+            <p>We will not use your data for unsolicited marketing, and we will not share or sell it to third parties for their own marketing purposes.</p>
+
+            <h2>5. Who we share your data with</h2>
+            <p>We use a small number of third-party services to operate our website and process enquiries:</p>
+            <ul>
+                <li><strong>Web3Forms</strong> — our form submission processor. When you submit the pilot request form, your data is transmitted to Web3Forms' servers to deliver it to our inbox. Web3Forms acts as a data processor on our behalf. Their privacy policy is available at <a href="https://web3forms.com/privacy" target="_blank" rel="noopener">web3forms.com/privacy</a>.</li>
+                <li><strong>Google Fonts</strong> — our website loads fonts from Google's CDN. This means your browser makes a request to Google's servers, which may log your IP address. We have no control over that data. See <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's privacy policy</a>.</li>
+                <li><strong>GitHub Pages / hosting provider</strong> — our website is hosted via GitHub. Basic server logs (including IP addresses) may be retained by the hosting provider under their own terms.</li>
+            </ul>
+            <p>Beyond the above, we do not transfer your personal data to any other third parties.</p>
+
+            <h2>6. International transfers</h2>
+            <p>Web3Forms and Google may process data outside the UK or European Economic Area. Where this occurs, it is subject to appropriate safeguards (such as Standard Contractual Clauses or adequacy decisions) as required by <strong>Chapter V of the UK GDPR</strong>.</p>
+
+            <h2>7. How long we keep your data</h2>
+            <ul>
+                <li><strong>Pilot enquiries that do not proceed</strong> — we retain your details for up to 12 months in case you return, then delete them.</li>
+                <li><strong>Active or past clients</strong> — we retain records for up to 6 years from the end of our relationship, in line with standard UK business record-keeping requirements.</li>
+                <li><strong>Email correspondence</strong> — retained for the same periods as above.</li>
+            </ul>
+            <p>When data is no longer needed, it is securely deleted.</p>
+
+            <hr class="privacy-divider">
+
+            <h2>8. Your rights under UK GDPR</h2>
+            <p>Under <strong>Articles 15–22 of the UK GDPR</strong>, you have the following rights regarding your personal data:</p>
+
+            <div class="privacy-rights-grid">
+                <div class="privacy-right-card">
+                    <strong>Right of access (Art. 15)</strong>
+                    <span>Request a copy of the personal data we hold about you.</span>
+                </div>
+                <div class="privacy-right-card">
+                    <strong>Right to rectification (Art. 16)</strong>
+                    <span>Ask us to correct inaccurate or incomplete data.</span>
+                </div>
+                <div class="privacy-right-card">
+                    <strong>Right to erasure (Art. 17)</strong>
+                    <span>Ask us to delete your data where there is no compelling reason for us to keep it.</span>
+                </div>
+                <div class="privacy-right-card">
+                    <strong>Right to restriction (Art. 18)</strong>
+                    <span>Ask us to limit how we use your data in certain circumstances.</span>
+                </div>
+                <div class="privacy-right-card">
+                    <strong>Right to portability (Art. 20)</strong>
+                    <span>Receive your data in a structured, machine-readable format where applicable.</span>
+                </div>
+                <div class="privacy-right-card">
+                    <strong>Right to object (Art. 21)</strong>
+                    <span>Object to processing based on legitimate interests at any time.</span>
+                </div>
+            </div>
+
+            <p>To exercise any of these rights, email us at <a href="mailto:info@superceptron.com">info@superceptron.com</a>. We will respond within one calendar month, as required by <strong>Article 12 UK GDPR</strong>. There is no charge for exercising your rights.</p>
+
+            <h2>9. Right to complain</h2>
+            <p>If you believe we have handled your personal data unlawfully, you have the right to lodge a complaint with the UK's supervisory authority:</p>
+            <p><strong>Information Commissioner's Office (ICO)</strong><br>
+            Website: <a href="https://ico.org.uk" target="_blank" rel="noopener">ico.org.uk</a><br>
+            Helpline: 0303 123 1113</p>
+            <p>We would always prefer the opportunity to address your concern directly first — please contact us before escalating to the ICO.</p>
+
+            <hr class="privacy-divider">
+
+            <h2>10. Cookies</h2>
+            <p>Our website does not use tracking or analytics cookies. We do not use Google Analytics, Meta Pixel, or any third-party behavioural tracking.</p>
+            <p>Your browser may store session data as part of normal website operation, but we do not read or store any information from cookies ourselves.</p>
+
+            <h2>11. Security</h2>
+            <p>We take reasonable technical and organisational measures to protect your personal data against unauthorised access, loss, or disclosure. Form submissions are transmitted over HTTPS (TLS encryption). We limit access to personal data to those who need it to handle your enquiry.</p>
+
+            <h2>12. Changes to this policy</h2>
+            <p>We may update this policy from time to time. The "last updated" date at the top of this page will always reflect the most recent version. For material changes, we will notify existing contacts by email.</p>
+
+            <hr class="privacy-divider">
+
+            <p style="font-size:0.875rem;">Questions? Email us at <a href="mailto:info@superceptron.com">info@superceptron.com</a>. We're a small team — you'll hear back from a real person.</p>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div class="footer-brand">
+                <span class="footer-logo"><img src="logo.jpeg" alt="" class="footer-logo-img" aria-hidden="true">Superceptron</span>
+                <p>AI resume screening for boutique<br>tech recruiting firms.</p>
+                <address style="font-size:0.8rem;color:rgba(255,255,255,0.28);line-height:1.65;font-style:normal;margin-top:0.875rem;">Superceptron Limited<br>182–184 High Street North<br>East Ham, London E6 2JA</address>
+            </div>
+            <div class="footer-nav">
+                <a href="about.html" class="footer-link">About</a>
+                <a href="blog.html" class="footer-link">Blog</a>
+                <a href="pricing.html" class="footer-link">Pricing</a>
+                <a href="index.html#contact" class="footer-link">Contact</a>
+                <a href="mailto:info@superceptron.com" class="footer-link">info@superceptron.com</a>
+            </div>
+            <p class="footer-copy">&copy; 2025 Superceptron &nbsp;·&nbsp; <a href="privacy.html" class="footer-link" style="color:inherit;">Privacy</a></p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
