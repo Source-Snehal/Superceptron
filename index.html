@@ -326,7 +326,15 @@
             .step-item:first-child { padding-top: 0; border-top: none; }
         }
         /* Dual Engine brand term */
-        .dual-engine { color: var(--accent); font-weight: 700; }
+        @keyframes dual-pulse {
+            0%, 100% { opacity: 1; text-shadow: 0 0 0px rgba(77,255,180,0); }
+            50% { opacity: 0.75; text-shadow: 0 0 12px rgba(77,255,180,0.55); }
+        }
+        .dual-engine {
+            color: var(--accent);
+            font-weight: 700;
+            animation: dual-pulse 2.4s ease-in-out infinite;
+        }
         /* Dual Engine section layout */
         .dual-engine-grid {
             display: grid;
@@ -684,10 +692,10 @@
                     <span class="eyebrow-sub">Resume Screening for Boutique Tech Recruiting Firms</span>
                 </div>
                 <h1 class="hero-title">
-                    AI-powered resume screening<br>for <span class="accent-text">boutique tech</span><br>recruiting firms.
+                    AI screens.<br>We double-check.<br><span class="accent-text">You decide.</span>
                 </h1>
                 <p class="hero-sub">
-                    We use a dual-engine approach: AI scores and ranks every resume in minutes. A person then reviews every shortlist before it reaches you — catching edge cases, calibrating to your clients. You always see the reasoning behind every ranking. You always make the final call.
+                    We use a <span class="dual-engine">dual-engine</span> approach: AI scores and ranks every resume in minutes. A person then reviews every shortlist before it reaches you — catching edge cases, calibrating to your clients. You always see the reasoning behind every ranking. You always make the final call.
                 </p>
                 <div class="hero-actions">
                     <a href="register.html" class="btn-primary">Send your first batch free →</a>
