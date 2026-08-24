@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Start Your Free Pilot — Superceptron</title>
-    <meta name="description" content="Register for your free pilot with Superceptron. AI resume screening with human review for independent recruiting firms.">
+    <title>Start Your Free Trial — Superceptron</title>
+    <meta name="description" content="Register for your free trial with Superceptron. AI resume screening with human review for independent recruiting firms.">
     <meta name="robots" content="noindex, nofollow">
     <link rel="icon" href="logo.jpeg" type="image/jpeg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -203,7 +203,7 @@
                     <h1 class="register-heading">Start your<br><span class="accent-text">free trial.</span></h1>
                     <p class="register-sub">Tell us a little about your firm and the first role you'd like to screen. We'll be in touch very soon — usually within a few hours.</p>
 
-                    <form class="register-form" id="pilotForm" novalidate>
+                    <form class="register-form" id="trialForm" novalidate>
                         <div class="form-row">
                             <div class="form-group">
                                 <label class="form-label" for="fname">Your name <span class="req">*</span></label>
@@ -233,10 +233,10 @@
                             <textarea class="form-textarea" id="fnotes" name="notes" placeholder="e.g. Senior DevOps Engineer for a Series B SaaS client — usually 40–60 applicants…"></textarea>
                         </div>
                         <input type="hidden" name="access_key" value="8d60dc7b-2668-4945-9ae5-c522327c14da">
-                        <input type="hidden" name="subject" id="fsubject" value="Free Pilot Request">
+                        <input type="hidden" name="subject" id="fsubject" value="Free Trial Request">
                         <input type="hidden" name="from_name" value="Superceptron Website">
                         <input type="checkbox" name="botcheck" style="display:none" tabindex="-1">
-                        <button type="submit" class="form-submit-btn" id="submitBtn">Request your free pilot →</button>
+                        <button type="submit" class="form-submit-btn" id="submitBtn">Request your free trial →</button>
                         <p class="form-note">No commitment. No sales call. We respond within a few hours.</p>
                     </form>
                 </div>
@@ -245,7 +245,7 @@
                 <div class="register-success" id="registerSuccess" aria-live="polite">
                     <div class="success-icon" aria-hidden="true">✓</div>
                     <h1 class="success-heading">You're in.<br>We'll be in touch soon.</h1>
-                    <p class="success-sub">Thanks for registering. We'll follow up at your email address to confirm the pilot details — usually within a few hours.</p>
+                    <p class="success-sub">Thanks for registering. We'll follow up at your email address to confirm the trial details — usually within a few hours.</p>
                     <div class="success-detail">
                         Have a batch ready to go now? Email it straight to <a href="mailto:info@superceptron.com">info@superceptron.com</a> with your job spec attached — we'll get it turned around immediately.
                     </div>
@@ -277,12 +277,12 @@
 
     <script src="script.js"></script>
     <script>
-        const pilotForm = document.getElementById('pilotForm');
+        const trialForm = document.getElementById('trialForm');
         const formWrap  = document.getElementById('registerForm');
         const successPanel = document.getElementById('registerSuccess');
         const submitBtn = document.getElementById('submitBtn');
 
-        pilotForm.addEventListener('submit', async function(e) {
+        trialForm.addEventListener('submit', async function(e) {
             e.preventDefault();
 
             const name  = document.getElementById('fname').value.trim();
@@ -302,7 +302,7 @@
             if (!valid) return;
 
             // Set email subject to include firm name
-            document.getElementById('fsubject').value = 'Free Pilot Request – ' + firm;
+            document.getElementById('fsubject').value = 'Free Trial Request – ' + firm;
 
             // Loading state
             submitBtn.disabled = true;
@@ -311,7 +311,7 @@
             try {
                 const response = await fetch('https://api.web3forms.com/submit', {
                     method: 'POST',
-                    body: new FormData(pilotForm)
+                    body: new FormData(trialForm)
                 });
                 const result = await response.json();
 
@@ -324,7 +324,7 @@
                 }
             } catch (err) {
                 submitBtn.disabled = false;
-                submitBtn.textContent = 'Request your free pilot →';
+                submitBtn.textContent = 'Request your free trial →';
                 alert('Something went wrong — please email us directly at info@superceptron.com');
             }
         });
