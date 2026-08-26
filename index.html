@@ -484,8 +484,8 @@
                                placeholder="your@email.com" autocomplete="email" aria-required="true">
                         <button class="capture-btn" type="submit">Notify me</button>
                     </div>
-                    <p class="capture-msg" id="capture-msg" aria-live="polite"></p>
                 </form>
+                <p class="capture-msg" id="capture-msg" aria-live="polite"></p>
             </div>
 
         </div>
@@ -631,7 +631,7 @@
          * Leave empty to get the friendly thanks state + a console warning.
          * ─────────────────────────────────────────────────────────────────────── */
         (function () {
-            var CAPTURE_ENDPOINT = ''; /* <-- paste your endpoint here */
+            var CAPTURE_ENDPOINT = 'https://superceptron-chat.superceptron.workers.dev/lead';
 
             var form  = document.getElementById('capture-form');
             var input = document.getElementById('capture-email');

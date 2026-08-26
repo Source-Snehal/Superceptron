@@ -164,6 +164,9 @@ export default {
     // ── /stripe-webhook (payment confirmation) ──
     if (path === '/stripe-webhook') return handleStripeWebhook(request, env);
 
+    // ── /lead (homepage email capture) ──
+    if (path === '/lead') return handleLead(request, env);
+
     // ── Default: chat route ──
     let body;
     try {
@@ -433,6 +436,46 @@ async function verifyStripeSignature(payload, sigHeader, secret) {
   const computed = Array.from(new Uint8Array(mac))
     .map(b => b.toString(16).padStart(2, '0')).join('');
   return computed === parts.v1;
+}
+
+/* ── LEAD CAPTURE ─────────────────────────────────────────────── */
+async function handleLead(request, env) {
+  let body;
+  try { body = await request.json(); } catch { return respond('Invalid JSON', 400); }
+
+  const email = (body.email || '').trim().toLowerCase();
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return respond(JSON.stringify({ error: 'Invalid email.' }), 400, { 'Content-Type': 'application/json' });
+  }
+
+  // Save to D1 leads table
+  if (env.DB) {
+    try {
+      await env.DB.prepare(
+        'INSERT OR IGNORE INTO leads (email) VALUES (?)'
+      ).bind(email).run();
+    } catch (dbErr) {
+      console.error('D1 leads insert error:', dbErr);
+    }
+  }
+
+  // Notify info@superceptron.com via Web3Forms
+  const fd = new FormData();
+  fd.append('access_key', W3F_KEY);
+  fd.append('subject',   `New lead: ${email}`);
+  fd.append('from_name', 'Superceptron Website');
+  fd.append('name',      email);
+  fd.append('email',     email);
+  fd.append('message',
+    `New homepage lead.\n\nEmail: ${email}\n\nThey entered their email on superceptron.com asking to be kept posted.`
+  );
+  try {
+    await fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd });
+  } catch (e) {
+    console.error('Lead notify error:', e);
+  }
+
+  return respond(JSON.stringify({ ok: true }), 200, { 'Content-Type': 'application/json' });
 }
 
 async function notifyReview(customerEmail, purchaseId) {
