@@ -249,33 +249,6 @@
             margin-top: 0.25rem;
         }
 
-        /* Currency toggle */
-        .currency-toggle {
-            display: flex;
-            gap: 0;
-            background: var(--w04);
-            border-radius: 10px;
-            padding: 3px;
-            align-self: flex-start;
-        }
-        .curr-btn {
-            font-family: var(--mono);
-            font-size: 0.72rem;
-            font-weight: 500;
-            letter-spacing: 0.06em;
-            color: var(--w30);
-            background: none;
-            border: none;
-            border-radius: 8px;
-            padding: 0.4rem 0.875rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .curr-btn.active {
-            background: var(--black-3);
-            color: var(--white);
-        }
-
         /* Proceed button */
         .btn-checkout {
             font-family: var(--font);
@@ -352,7 +325,6 @@
 
         @media (max-width: 600px) {
             .profile-wrap { padding: 6rem 1.125rem 4rem; }
-            .checkout-box-top { flex-direction: column-reverse; }
             .service-banner { padding: 1.25rem; }
         }
     </style>
@@ -420,16 +392,10 @@
 
             <!-- Checkout -->
             <div class="checkout-box">
-                <div class="checkout-box-top">
-                    <div class="checkout-price-display">
-                        <span class="checkout-price-label">Price</span>
-                        <span class="checkout-price-value" id="price-display">—</span>
-                        <span class="checkout-price-delivery" id="price-delivery"></span>
-                    </div>
-                    <div class="currency-toggle">
-                        <button class="curr-btn active" id="curr-gbp">£ GBP</button>
-                        <button class="curr-btn" id="curr-usd">$ USD</button>
-                    </div>
+                <div class="checkout-price-display">
+                    <span class="checkout-price-label">Price</span>
+                    <span class="checkout-price-value" id="price-display">—</span>
+                    <span class="checkout-price-delivery" id="price-delivery"></span>
                 </div>
                 <button class="btn-checkout" id="btn-checkout">Proceed to payment →</button>
                 <p class="checkout-note">Secure card payment via Stripe &nbsp;·&nbsp; Nothing is charged until you complete checkout</p>
@@ -453,8 +419,7 @@
     (function () {
         'use strict';
 
-        /* ── CONFIG — same placeholders as cv-score.html ── */
-        var WORKER_URL       = 'https://superceptron-chat.superceptron.workers.dev';
+        /* ── CONFIG ── */
         var SUPABASE_URL      = 'https://nnvfflsenziqecjrdkks.supabase.co';
         var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5udmZmbHNlbnppcWVjanJka2tzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc2OTg4OTUsImV4cCI6MjEwMzI3NDg5NX0.6il0odidWgV-R7WdhIeH0AEbO2a6YNzeAqR90es-oBQ';
 
@@ -462,33 +427,36 @@
             ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
             : null;
 
+        /* ── STRIPE PAYMENT LINKS ── */
+        var STRIPE_LINKS = {
+            cv_pdf:         'https://buy.stripe.com/5kQ9AMchb1VI5WJe26gUM00',
+            human_review:   'https://buy.stripe.com/cNi9AM5SN0REfxj4rwgUM01',
+            career_session: 'https://buy.stripe.com/7sY8wI3KFeIubh3e26gUM02',
+        };
+
         /* ── SERVICE DEFINITIONS ── */
         var SERVICES = {
             cv_pdf: {
                 name:     'SuperRewrite',
                 desc:     'Your CV rewritten for this specific role — structure, language, and framing that makes your real experience come through.',
-                GBP:      { display: '£9.99',  amount: 999  },
-                USD:      { display: '$9.99',   amount: 999  },
+                price:    '£9.99',
                 delivery: 'Delivered to your inbox',
             },
             human_review: {
                 name:     'SuperReview',
                 desc:     'A senior recruiter reads your CV in context, rewrites the weak spots, and makes sure your real strengths aren\'t buried.',
-                GBP:      { display: '£29.99', amount: 2999 },
-                USD:      { display: '$29.99',  amount: 2999 },
+                price:    '£29.99',
                 delivery: 'Within 48 hours',
             },
             career_session: {
                 name:     'SuperCoach',
                 desc:     '45 minutes with a senior recruiter — your CV, your target role, and what\'s actually working in the market right now.',
-                GBP:      { display: '£89.99', amount: 8999 },
-                USD:      { display: '$89.99',  amount: 8999 },
+                price:    '£89.99',
                 delivery: 'Book immediately after payment',
             },
         };
 
         /* ── STATE ── */
-        var currentCurrency = 'GBP';
         var params   = new URLSearchParams(window.location.search);
         var service  = params.get('service') || '';
         var userId   = null;
@@ -520,24 +488,9 @@
         function renderPrice() {
             var svc = SERVICES[service];
             if (!svc) return;
-            var curr = svc[currentCurrency];
-            $('price-display').textContent  = curr.display;
+            $('price-display').textContent  = svc.price;
             $('price-delivery').textContent = svc.delivery;
         }
-
-        /* ── CURRENCY TOGGLE ── */
-        $('curr-gbp').addEventListener('click', function () {
-            currentCurrency = 'GBP';
-            $('curr-gbp').classList.add('active');
-            $('curr-usd').classList.remove('active');
-            renderPrice();
-        });
-        $('curr-usd').addEventListener('click', function () {
-            currentCurrency = 'USD';
-            $('curr-usd').classList.add('active');
-            $('curr-gbp').classList.remove('active');
-            renderPrice();
-        });
 
         /* ── AUTOSAVE to Supabase ── */
         function scheduleAutosave() {
@@ -595,13 +548,13 @@
 
         /* ── CHECKOUT ── */
         $('btn-checkout').addEventListener('click', function () {
-            var cv   = ($('prof-cv').value || '').trim();
-            var jd   = ($('prof-jd').value || '').trim();
+            var cv    = ($('prof-cv').value || '').trim();
+            var jd    = ($('prof-jd').value || '').trim();
             var errEl = $('checkout-err');
             errEl.textContent = '';
             errEl.classList.remove('visible');
 
-            if (!service || !SERVICES[service]) {
+            if (!service || !SERVICES[service] || !STRIPE_LINKS[service]) {
                 errEl.textContent = 'No service selected — go back and choose a service.';
                 errEl.classList.add('visible');
                 return;
@@ -616,37 +569,17 @@
             btn.disabled    = true;
             btn.textContent = 'Redirecting to Stripe…';
 
-            /* Save profile first, then go to checkout */
-            var doCheckout = function () {
-                fetch(WORKER_URL + '/create-checkout', {
-                    method:  'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        tier:     service,
-                        cv:       cv,
-                        jd:       jd,
-                        currency: currentCurrency.toLowerCase(),
-                    }),
-                })
-                .then(function (r) { return r.json(); })
-                .then(function (data) {
-                    if (data.error) throw new Error(data.error);
-                    window.location.href = data.url;
-                })
-                .catch(function (err) {
-                    btn.disabled    = false;
-                    btn.textContent = 'Proceed to payment →';
-                    errEl.textContent = err.message || 'Something went wrong — please try again.';
-                    errEl.classList.add('visible');
-                });
-            };
+            var stripeUrl = STRIPE_LINKS[service];
+
+            /* Save CV/JD to Supabase first so it's available for fulfilment */
+            var doRedirect = function () { window.location.href = stripeUrl; };
 
             if (sb && userId) {
                 sb.from('profiles')
                     .upsert({ id: userId, cv_text: cv, jd_text: jd, updated_at: new Date().toISOString() })
-                    .then(doCheckout);
+                    .then(doRedirect);
             } else {
-                doCheckout();
+                doRedirect();
             }
         });
 
