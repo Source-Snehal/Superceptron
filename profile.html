@@ -103,6 +103,7 @@
             border: 1px solid; flex-shrink: 0; margin-top: 0.15rem;
         }
         .tile-meta { font-size: 0.8125rem; color: var(--w30); line-height: 1.5; }
+        .tile-tagline { font-size: 0.875rem; font-weight: 700; color: var(--white); letter-spacing: -0.015em; line-height: 1.3; margin-bottom: -0.125rem; }
         .tile-features { display: flex; flex-direction: column; gap: 0.25rem; }
         .tile-feat { font-size: 0.8125rem; color: var(--w60); }
         .tile-feat.check::before { content: '✓ '; color: var(--accent); }
@@ -1038,12 +1039,14 @@
             var meter    = (isReview && usage && usage.eligible) ? usageMeterHTML(usage, true) : '';
             var feats    = isReview
                 ? ['Human expert review', 'Delivered within 48 hours', 'Personalised to your JD']
-                : ['Unlimited AI rewrites', 'ATS compatibility checks', 'Stronger structure and language'];
+                : ['Hyper-Targeted to your exact job description', 'High-Impact Framing — structure and language overhauled', 'Polished PDF delivered straight to your inbox'];
             var featsHTML = '<div class="tile-features">' +
                 feats.map(function (f) { return '<span class="tile-feat check">' + f + '</span>'; }).join('') +
                 '</div>';
+            var tagline = isReview ? '' : '<div class="tile-tagline">Transform Your CV. Secure the Role.</div>';
             return '<div class="tile tile-owned" tabindex="0" role="button" aria-label="Open ' + label + ' workspace">' +
                 '<div class="tile-head"><span class="tile-name">' + label + '</span><span class="tile-badge ' + badgeCls + '">' + badgeTxt + '</span></div>' +
+                tagline +
                 '<div class="tile-meta">' + price + ' · ' + renewStr + '</div>' +
                 featsHTML +
                 meter +
@@ -1071,10 +1074,12 @@
             var link     = STRIPE_LINKS[tier];
             var feats    = isReview
                 ? ['2 expert human reviews/month', 'Delivered within 48 hours', 'Includes SuperRewrite']
-                : ['Unlimited CV scores', 'Unlimited AI rewrites', 'ATS compatibility checks'];
-            var desc = isReview ? 'Add monthly human review passes' : 'Unlimited AI rewrites &amp; ATS checks';
+                : ['Hyper-Targeted to your exact job description', 'High-Impact Framing — structure and language overhauled', 'Polished PDF delivered straight to your inbox'];
+            var desc = isReview ? 'Add monthly human review passes' : 'Complete top-to-bottom CV rewrite';
+            var tagline = isReview ? '' : '<div class="tile-tagline">Transform Your CV. Secure the Role.</div>';
             return '<div class="tile tile-upgrade">' +
                 '<div class="tile-head"><span class="tile-name">' + label + '</span><span class="tile-badge">Upgrade</span></div>' +
+                tagline +
                 '<div class="tile-meta">' + price + ' — ' + desc + '</div>' +
                 '<div class="tile-features">' +
                 feats.map(function (f) { return '<span class="tile-feat plus">' + f + '</span>'; }).join('') +
