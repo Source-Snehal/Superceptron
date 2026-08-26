@@ -363,6 +363,11 @@
             .billing-card-head { flex-direction: column; align-items: flex-start; }
         }
 
+        /* ── CV Score iframe ── */
+        .cvscore-frame-wrap { margin: -0.5rem -2.5rem 0; }
+        .cvscore-frame-wrap iframe { width:100%; min-height:calc(100vh - 160px); border:none; display:block; }
+        @media (max-width: 768px) { .cvscore-frame-wrap { margin: 0 -1.25rem; } }
+
         /* ── Review Workspace ── */
         .ws-head { display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; margin-bottom:2rem; flex-wrap:wrap; }
         .ws-plan-name { font-size:1.375rem; font-weight:800; letter-spacing:-0.03em; color:var(--white); }
@@ -423,6 +428,7 @@
             </div>
             <nav class="sidebar-nav">
                 <button class="snav-item" data-view="home">Home</button>
+                <button class="snav-item" data-view="cv-score">CV Score</button>
                 <button class="snav-item" data-view="my-cvs">My CVs</button>
                 <button class="snav-item" data-view="billing">Billing</button>
                 <button class="snav-item" data-view="account">Account</button>
@@ -549,6 +555,17 @@
                             </div>
                         </div>
                         <iframe class="ai-preview-frame" id="ai-preview-frame" title="Rewritten CV preview"></iframe>
+                    </div>
+                </div>
+
+                <!-- CV Score -->
+                <div id="view-cv-score" class="view" style="display:none">
+                    <div class="view-header">
+                        <h1 class="view-title">CV Score</h1>
+                        <p class="view-sub">Upload your CV and a job description — SuperAI scores the match and pinpoints what's missing.</p>
+                    </div>
+                    <div class="cvscore-frame-wrap">
+                        <iframe id="cv-score-frame" title="CV Score" allowtransparency="true"></iframe>
                     </div>
                 </div>
 
@@ -750,8 +767,17 @@
             closeSidebar();
         }
 
+        var cvScoreFrameLoaded = false;
         document.querySelectorAll('.snav-item').forEach(function (btn) {
-            btn.addEventListener('click', function () { showView(this.dataset.view); });
+            btn.addEventListener('click', function () {
+                var view = this.dataset.view;
+                if (view === 'cv-score' && !cvScoreFrameLoaded) {
+                    var frame = $('cv-score-frame');
+                    if (frame) { frame.src = 'cv-score.html?mode=embed'; }
+                    cvScoreFrameLoaded = true;
+                }
+                showView(view);
+            });
         });
 
         /* ── Mobile sidebar ── */

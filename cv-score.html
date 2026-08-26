@@ -1805,6 +1805,19 @@
             reader.readAsArrayBuffer(file);
         }
 
+        /* ── EMBED MODE ── */
+        var embedMode = window.location.search.indexOf('mode=embed') !== -1;
+        if (embedMode) {
+            var s = document.createElement('style');
+            s.textContent = [
+                '.nav,.cand-hero,.how-section,.expert-teaser,.cand-footer,#pricing-overlay,#auth-overlay{display:none!important}',
+                'body{background:transparent!important}',
+                '.tool-section{padding:1.5rem 0 2rem!important}',
+                '.tool-inner{max-width:100%!important;padding:0!important}',
+            ].join('');
+            document.head.appendChild(s);
+        }
+
         /* ── CONFIG ── */
         var WORKER_URL = 'https://superceptron-chat.superceptron.workers.dev';
         var SCORE_URL  = WORKER_URL + '/score';
@@ -2162,6 +2175,11 @@
             if (!sb) return;
             sb.auth.getSession().then(function (r) {
                 var session = r.data && r.data.session;
+                /* Logged-in users always belong in the dashboard */
+                if (session && !embedMode) {
+                    window.location.replace('profile.html');
+                    return;
+                }
                 var signinEl  = $('nav-signin');
                 var profileEl = $('nav-profile');
                 if (signinEl)  signinEl.style.display  = session ? 'none' : '';
@@ -2198,7 +2216,8 @@
             sb.auth.getSession().then(function (r) {
                 var session = r.data && r.data.session;
                 if (session) {
-                    if (tier) { goToStripe(tier, session.user.id); } else { window.location.href = 'profile.html'; }
+                    /* Already logged in → send to dashboard (upgrade shown there) */
+                    window.location.href = 'profile.html';
                     return;
                 }
                 showAuthOverlay();
