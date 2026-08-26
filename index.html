@@ -121,22 +121,17 @@
 
         .roll-super { display: inline-block; }
 
-        /* Brand word formation */
-        .brand-form {
-            display: none;
-            text-align: center;
-        }
-        .brand-form.visible { display: block; }
+        .roll-dot { display: inline-block; }
 
-        .brand-word {
+        /* Starts clipped to zero-width; JS expands it to reveal "ceptron" */
+        .roll-ceptron {
             display: inline-block;
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            font-weight: 800;
-            letter-spacing: -0.04em;
-            line-height: 1.1;
-            color: var(--white);
+            overflow: hidden;
+            max-width: 0;
+            opacity: 0;
             white-space: nowrap;
-            will-change: transform, letter-spacing, opacity;
+            vertical-align: bottom;
+            will-change: max-width, opacity;
         }
 
         /* ── Path cards ── */
@@ -362,14 +357,9 @@
                 <!-- Rolling hero -->
                 <div class="roll-hero">
 
-                    <!-- Phase 1: prefix slot + static "Super." -->
+                    <!-- Single stage: prefix exits, slot collapses, ceptron expands -->
                     <div class="roll-stage" id="roll-stage" aria-live="polite">
-                        <div class="roll-slot" id="roll-slot"><span class="roll-prefix" id="roll-prefix">Hire</span></div><span class="roll-super">&thinsp;Super.</span>
-                    </div>
-
-                    <!-- Phase 2: full brand word (no logo) -->
-                    <div class="brand-form" id="brand-form" aria-label="Superceptron">
-                        <span class="brand-word" id="brand-word">Superceptron</span>
+                        <div class="roll-slot" id="roll-slot"><span class="roll-prefix" id="roll-prefix">Hire</span></div><span class="roll-super">&thinsp;Super</span><span class="roll-dot" id="roll-dot">.</span><span class="roll-ceptron" id="roll-ceptron">ceptron</span>
                     </div>
 
                 </div>
@@ -439,11 +429,10 @@
             var WORDS   = ['Hire', 'Land', 'Match', 'Work'];
             var HOLD_MS = 1200;
 
-            var slotEl   = document.getElementById('roll-slot');
-            var prefixEl = document.getElementById('roll-prefix');
-            var rollEl   = document.getElementById('roll-stage');
-            var brandEl  = document.getElementById('brand-form');
-            var wordEl   = document.getElementById('brand-word');
+            var slotEl    = document.getElementById('roll-slot');
+            var prefixEl  = document.getElementById('roll-prefix');
+            var dotEl     = document.getElementById('roll-dot');
+            var ceptronEl = document.getElementById('roll-ceptron');
 
             if (!prefixEl || !slotEl) return;
 
@@ -458,7 +447,7 @@
             document.body.removeChild(probe);
             slotEl.style.width = maxW + 'px';
 
-            /* Animate prefix in on load */
+            /* Animate first word in on load */
             prefixEl.textContent = WORDS[0];
             prefixEl.style.transform = 'translateY(115%)';
             prefixEl.getBoundingClientRect();
@@ -484,20 +473,30 @@
             }
 
             function revealBrand() {
-                rollEl.style.transition = 'opacity 0.35s ease';
-                rollEl.style.opacity = '0';
+                /* Step 1: exit the prefix word upward */
+                prefixEl.style.transition = 'transform 0.22s cubic-bezier(0.4,0,1,1)';
+                prefixEl.style.transform  = 'translateY(-115%)';
+
                 setTimeout(function () {
-                    rollEl.style.display = 'none';
-                    brandEl.classList.add('visible');
-                    wordEl.style.transform    = 'scale(0.72)';
-                    wordEl.style.opacity      = '0';
-                    wordEl.style.letterSpacing = '0.1em';
-                    wordEl.getBoundingClientRect();
-                    wordEl.style.transition   = 'transform 0.55s cubic-bezier(0,0,0.2,1), letter-spacing 0.55s cubic-bezier(0,0,0.2,1), opacity 0.4s ease';
-                    wordEl.style.transform    = 'scale(1)';
-                    wordEl.style.opacity      = '1';
-                    wordEl.style.letterSpacing = '-0.04em';
-                }, 380);
+                    /* Step 2: measure ceptron natural width (temporarily unlocked) */
+                    ceptronEl.style.maxWidth = 'none';
+                    var ceptronW = ceptronEl.scrollWidth + 2; /* +2px buffer */
+                    ceptronEl.style.maxWidth = '0';
+                    ceptronEl.getBoundingClientRect(); /* commit 0 before transition */
+
+                    /* Step 3: collapse slot → Super slides left */
+                    slotEl.style.transition = 'width 0.42s cubic-bezier(0.4,0,0.2,1)';
+                    slotEl.style.width = '0';
+
+                    /* Step 4: dot fades out */
+                    dotEl.style.transition = 'opacity 0.28s ease';
+                    dotEl.style.opacity    = '0';
+
+                    /* Step 5: ceptron wipes in */
+                    ceptronEl.style.transition = 'max-width 0.44s cubic-bezier(0,0,0.2,1), opacity 0.3s ease 0.06s';
+                    ceptronEl.style.maxWidth   = ceptronW + 'px';
+                    ceptronEl.style.opacity    = '1';
+                }, 210);
             }
 
             function run() {
