@@ -414,7 +414,7 @@
                         <div class="ai-rewrite-card" id="ai-rewrite-home-card">
                             <div class="ai-rewrite-left">
                                 <span class="ai-rewrite-name">SuperRewrite AI</span>
-                                <span class="ai-rewrite-desc">Upload your CV and job description — Claude rewrites your CV for the role in seconds. ATS-optimised and print-ready.</span>
+                                <span class="ai-rewrite-desc">Upload your CV and job description — SuperAI rewrites your CV for the role in seconds. ATS-optimised and print-ready.</span>
                             </div>
                             <button class="ai-rewrite-cta">Rewrite with SuperAI →</button>
                         </div>
@@ -430,7 +430,7 @@
                     <button class="back-btn" id="ai-back-btn">← Back to dashboard</button>
                     <div class="view-header">
                         <h1 class="view-title">SuperRewrite AI</h1>
-                        <p class="view-sub">Upload your CV and the job description — Claude tailors your CV to the role. You can run this as many times as you like with different files.</p>
+                        <p class="view-sub">Upload your CV and the job description — SuperAI tailors your CV to the role. You can run this as many times as you like with different files.</p>
                     </div>
 
                     <!-- CV upload -->
@@ -1542,7 +1542,7 @@
         $('ai-do-rewrite').addEventListener('click', function () {
             var btn = this;
             btn.disabled = true; btn.textContent = 'Rewriting…';
-            $('ai-do-hint').textContent = 'Claude is tailoring your CV — this takes 20–40 seconds…';
+            $('ai-do-hint').textContent = 'SuperAI is tailoring your CV — this takes 20–40 seconds…';
             $('ai-result-card').style.display = 'none';
 
             sb.auth.getSession().then(function (r) {
