@@ -454,191 +454,132 @@
         }
         .results-action-btn:hover { color: var(--white); border-color: var(--w30); }
 
-        /* Score header card */
-        .score-header-card {
+        /* ── Fit card results design ── */
+        .fit-card {
             background: var(--black-2);
             border: 1px solid var(--w08);
             border-radius: var(--r-lg);
-            padding: 2rem 2.5rem;
-            display: flex;
-            align-items: flex-start;
-            gap: 2.5rem;
+            overflow: hidden;
             margin-bottom: 1.25rem;
+            animation: riseIn 0.4s var(--ease) both;
         }
-
-        .score-circle {
-            flex-shrink: 0;
-            width: 96px;
-            height: 96px;
-            border-radius: 50%;
-            border: 3px solid var(--w08);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: var(--black-3);
+        .fit-card-top {
+            padding: 2rem 2rem 1.75rem;
+            border-bottom: 1px solid var(--w08);
         }
-        .score-number {
-            font-size: 2rem;
-            font-weight: 800;
-            letter-spacing: -0.04em;
-            line-height: 1;
-            color: var(--white);
-        }
-        .score-denom {
+        .fit-eyebrow {
             font-family: var(--mono);
-            font-size: 0.6rem;
+            font-size: 0.62rem;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
             color: var(--w30);
-            letter-spacing: 0.06em;
-            margin-top: 2px;
-        }
-
-        .score-text { flex: 1; }
-        .score-headline-text {
-            font-size: clamp(1rem, 2vw, 1.25rem);
-            font-weight: 600;
-            color: var(--white);
-            letter-spacing: -0.02em;
-            line-height: 1.45;
             margin-bottom: 0.875rem;
         }
-        .score-overall-bar-wrap {
+        .fit-score-row {
             display: flex;
             align-items: center;
-            gap: 0.875rem;
+            gap: 1rem;
+            margin-bottom: 1rem;
         }
-        .score-bar-track {
-            flex: 1;
-            height: 6px;
-            background: var(--w08);
-            border-radius: 3px;
-            overflow: hidden;
+        .fit-score-num {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            letter-spacing: -0.055em;
+            color: var(--white);
+            line-height: 1;
         }
-        .score-bar-fill {
-            height: 100%;
-            border-radius: 3px;
-            transition: width 0.8s var(--ease);
-        }
-        .score-bar-label {
+        .fit-badge {
             font-family: var(--mono);
-            font-size: 0.65rem;
-            color: var(--w30);
-            white-space: nowrap;
-            letter-spacing: 0.04em;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            border-radius: 6px;
+            padding: 0.3rem 0.75rem;
+            border: 1.5px solid;
         }
-
-        /* Section cards */
-        .sections-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1px;
-            background: var(--w08);
-            border-radius: var(--r-lg);
-            overflow: hidden;
-            margin-bottom: 1.25rem;
+        .fit-badge-strong   { color: var(--accent); border-color: rgba(77,255,180,0.4); }
+        .fit-badge-good     { color: #93C5FD; border-color: rgba(147,197,253,0.4); }
+        .fit-badge-moderate { color: #F59E0B; border-color: rgba(245,158,11,0.4); }
+        .fit-badge-weak     { color: #F87171; border-color: rgba(248,113,113,0.4); }
+        .fit-headline-text {
+            font-size: 0.9375rem;
+            color: var(--w60);
+            line-height: 1.78;
         }
-        .section-card {
-            background: var(--black-2);
-            padding: 1.5rem;
+        .fit-sections {
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
         }
-        .section-card-top {
+        .fit-section-row {
+            padding: 1.375rem 2rem;
+            border-bottom: 1px solid var(--w08);
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        .fit-section-row:last-child { border-bottom: none; }
+        .fit-section-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 0.75rem;
         }
-        .section-card-title {
-            font-size: 0.8125rem;
+        .fit-section-name {
+            font-size: 0.9375rem;
             font-weight: 700;
             color: var(--white);
-            letter-spacing: -0.01em;
+            letter-spacing: -0.015em;
         }
-        .section-score-badge {
+        .fit-section-score {
             font-family: var(--mono);
-            font-size: 0.72rem;
-            font-weight: 500;
+            font-size: 0.875rem;
+            font-weight: 600;
             color: var(--white);
-            background: var(--black-4);
-            border-radius: 6px;
-            padding: 0.2rem 0.5rem;
             letter-spacing: 0.02em;
             flex-shrink: 0;
         }
-        .section-bar-track {
+        .fit-bar-track {
             height: 4px;
             background: var(--w08);
             border-radius: 2px;
             overflow: hidden;
         }
-        .section-bar-fill {
+        .fit-bar-fill {
             height: 100%;
+            background: var(--accent);
             border-radius: 2px;
-            transition: width 0.7s var(--ease);
+            transition: width 0.8s var(--ease);
+            width: 0%;
         }
-        .section-finding {
-            font-size: 0.8125rem;
+        .fit-section-desc {
+            font-size: 0.875rem;
             color: var(--w60);
-            line-height: 1.7;
+            line-height: 1.75;
         }
-        .section-suggestion {
+        .fit-section-change {
             font-size: 0.8125rem;
             color: var(--white);
             line-height: 1.65;
             padding-left: 0.875rem;
             border-left: 2px solid var(--p-border);
+            margin-top: 0.125rem;
         }
-        .section-suggestion-label {
+        .fit-footer-credit {
+            padding: 0.875rem 2rem;
             font-family: var(--mono);
             font-size: 0.6rem;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--p);
-            display: block;
-            margin-bottom: 0.25rem;
+            color: var(--w30);
+            letter-spacing: 0.06em;
+            text-align: center;
+            border-top: 1px solid var(--w08);
         }
 
-        /* Quick wins */
-        .quick-wins-card {
-            background: var(--black-2);
-            border: 1px solid var(--w08);
-            border-radius: var(--r-lg);
-            padding: 1.5rem;
-            margin-bottom: 1.25rem;
-        }
-        .quick-wins-title {
-            font-family: var(--mono);
-            font-size: 0.64rem;
-            font-weight: 500;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            color: var(--accent);
-            margin-bottom: 1rem;
-        }
-        .quick-wins-list {
-            list-style: none;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 0.625rem;
-        }
-        .quick-wins-list li {
-            font-size: 0.9rem;
-            color: var(--w60);
-            line-height: 1.65;
-            padding-left: 1.125rem;
-            position: relative;
-        }
-        .quick-wins-list li::before {
-            content: "→";
-            position: absolute;
-            left: 0;
-            color: var(--accent);
-            font-size: 0.8rem;
-            line-height: 1.8;
-        }
+        /* Legacy — kept so print CSS etc. don't break */
+        .sections-grid { display: none; }
+        .quick-wins-card { display: none; }
+        .score-header-card { display: none; }
 
         /* AI flag notice */
         .ai-flag-card {
@@ -1702,12 +1643,6 @@
         /* ── HELPERS ── */
         function $(id) { return document.getElementById(id); }
 
-        function scoreColor(n) {
-            if (n >= 70) return '#4DFFB4';
-            if (n >= 50) return '#F59E0B';
-            return '#F87171';
-        }
-
         function showError(msg) {
             var el = $('tool-error');
             el.textContent = msg;
@@ -1844,60 +1779,50 @@
             var section = $('results-section');
             section.style.display = 'block';
 
-            /* Score header */
-            var col = scoreColor(data.overall_score);
-            $('score-header').innerHTML =
-                '<div class="score-circle" style="border-color:' + col + '33;">' +
-                  '<span class="score-number" style="color:' + col + '">' + data.overall_score + '</span>' +
-                  '<span class="score-denom">/ 100</span>' +
-                '</div>' +
-                '<div class="score-text">' +
-                  '<p class="score-headline-text">' + esc(data.headline) + '</p>' +
-                  '<div class="score-overall-bar-wrap">' +
-                    '<div class="score-bar-track">' +
-                      '<div class="score-bar-fill" style="width:' + data.overall_score + '%;background:' + col + ';"></div>' +
+            var score = data.overall_score || 0;
+            var score10 = Math.round(score / 10);
+
+            var fitLabel, fitClass;
+            if (score >= 80)      { fitLabel = 'STRONG FIT';   fitClass = 'fit-badge-strong'; }
+            else if (score >= 60) { fitLabel = 'GOOD FIT';     fitClass = 'fit-badge-good'; }
+            else if (score >= 40) { fitLabel = 'MODERATE FIT'; fitClass = 'fit-badge-moderate'; }
+            else                  { fitLabel = 'WEAK FIT';     fitClass = 'fit-badge-weak'; }
+
+            /* Build section rows */
+            var sectionsHtml = (data.sections || []).map(function (s) {
+                var s10 = Math.round((s.score || 0) / 10);
+                return '<div class="fit-section-row">' +
+                    '<div class="fit-section-header">' +
+                        '<span class="fit-section-name">' + esc(s.title) + '</span>' +
+                        '<span class="fit-section-score">' + s10 + '/10</span>' +
                     '</div>' +
-                    '<span class="score-bar-label">Overall match</span>' +
-                  '</div>' +
+                    '<div class="fit-bar-track"><div class="fit-bar-fill" style="width:' + (s.score || 0) + '%;"></div></div>' +
+                    '<p class="fit-section-desc">' + esc(s.finding) + '</p>' +
+                    (s.suggestion ? '<p class="fit-section-change">' + esc(s.suggestion) + '</p>' : '') +
                 '</div>';
+            }).join('');
+
+            /* Populate the fit card */
+            var header = $('score-header');
+            header.className = 'fit-card';
+            header.innerHTML =
+                '<div class="fit-card-top">' +
+                    '<p class="fit-eyebrow">Overall Fit</p>' +
+                    '<div class="fit-score-row">' +
+                        '<span class="fit-score-num">' + score10 + '/10</span>' +
+                        '<span class="fit-badge ' + fitClass + '">' + fitLabel + '</span>' +
+                    '</div>' +
+                    '<p class="fit-headline-text">' + esc(data.headline) + '</p>' +
+                '</div>' +
+                '<div class="fit-sections">' + sectionsHtml + '</div>' +
+                '<p class="fit-footer-credit">Powered by Superceptron · This runs on one prompt.</p>';
 
             /* AI flag */
             $('ai-flag').classList.toggle('visible', !!data.ai_flag);
 
-            /* Section cards */
-            var grid = $('sections-grid');
-            grid.innerHTML = '';
-            (data.sections || []).forEach(function (s) {
-                var c = scoreColor(s.score);
-                var card = document.createElement('div');
-                card.className = 'section-card';
-                card.innerHTML =
-                    '<div class="section-card-top">' +
-                      '<span class="section-card-title">' + esc(s.title) + '</span>' +
-                      '<span class="section-score-badge" style="color:' + c + '">' + s.score + '/100</span>' +
-                    '</div>' +
-                    '<div class="section-bar-track"><div class="section-bar-fill" style="width:' + s.score + '%;background:' + c + ';"></div></div>' +
-                    '<p class="section-finding">' + esc(s.finding) + '</p>' +
-                    '<div class="section-suggestion">' +
-                      '<span class="section-suggestion-label">Change</span>' +
-                      esc(s.suggestion) +
-                    '</div>';
-                grid.appendChild(card);
-            });
-
-            /* Quick wins */
-            var qwCard = $('quick-wins-card');
-            if (data.quick_wins && data.quick_wins.length) {
-                var items = data.quick_wins.map(function (w) {
-                    return '<li>' + esc(w) + '</li>';
-                }).join('');
-                qwCard.innerHTML =
-                    '<p class="quick-wins-title">Quick wins</p>' +
-                    '<ul class="quick-wins-list">' + items + '</ul>';
-                qwCard.style.display = '';
-            } else {
-                qwCard.style.display = 'none';
-            }
+            /* Clear legacy containers */
+            $('sections-grid').innerHTML = '';
+            $('quick-wins-card').innerHTML = '';
 
             section.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
