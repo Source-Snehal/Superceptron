@@ -247,7 +247,7 @@ async function handleScore(request, env) {
       },
       body: JSON.stringify({
         model: 'claude-sonnet-5',
-        max_tokens: 1800,
+        max_tokens: 2400,
         system: SCORE_SYSTEM,
         messages: [{ role: 'user', content: userMessage }],
       }),
@@ -260,7 +260,12 @@ async function handleScore(request, env) {
     }
 
     const data = await apiRes.json();
-    const raw = data.content?.[0]?.text ?? '{}';
+    const raw = data.content?.[0]?.text;
+
+    if (!raw || !raw.trim()) {
+      console.error('Empty Anthropic content:', JSON.stringify(data).slice(0, 300));
+      return respond(JSON.stringify({ error: 'Analysis returned no content — please try again.' }), 200, { 'Content-Type': 'application/json' });
+    }
 
     // Strip any accidental markdown fencing before parsing
     const cleaned = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
@@ -269,8 +274,14 @@ async function handleScore(request, env) {
     try {
       result = JSON.parse(cleaned);
     } catch {
-      console.error('JSON parse error, raw:', raw);
+      console.error('JSON parse error, raw:', raw.slice(0, 400));
       return respond(JSON.stringify({ error: 'Could not parse analysis — please try again.' }), 200, { 'Content-Type': 'application/json' });
+    }
+
+    // Guard against a structurally empty result (catches model returning {} or 0s)
+    if (!result.overall_score || !Array.isArray(result.sections) || result.sections.length === 0) {
+      console.error('Invalid result structure:', JSON.stringify(result).slice(0, 300));
+      return respond(JSON.stringify({ error: 'Analysis did not produce a valid result — please try again.' }), 200, { 'Content-Type': 'application/json' });
     }
 
     // Store CV + analysis in D1 (non-blocking — a DB error never fails the user's result)

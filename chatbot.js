@@ -74,7 +74,7 @@
     '#sc-send{width:36px;height:36px;border-radius:8px;background:#4DFFB4;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .2s,transform .15s;}',
     '#sc-send:hover{opacity:.85;transform:scale(1.06);}',
     '#sc-send:disabled{opacity:.35;cursor:not-allowed;transform:none;}',
-    '#sc-powered{text-align:center;font-family:"JetBrains Mono",monospace;font-size:.6rem;color:rgba(255,255,255,.13);letter-spacing:.04em;padding:.3rem 0 .55rem;background:#070707;flex-shrink:0;}',
+
 
     '@media(max-width:480px){#sc-panel{right:10px;left:10px;width:auto;bottom:80px;}#sc-btn{right:14px;bottom:14px;}}'
   ].join('');
@@ -142,7 +142,7 @@
         '<textarea id="sc-input" placeholder="Ask anything…" rows="1" aria-label="Chat message"></textarea>' +
         '<button id="sc-send" aria-label="Send">' + ICON_SEND + '</button>' +
       '</div>' +
-      '<div id="sc-powered">Powered by Claude AI &middot; Superceptron Ltd</div>';
+      '';
     document.body.appendChild(panel);
 
     var msgsEl  = panel.querySelector('#sc-msgs');
