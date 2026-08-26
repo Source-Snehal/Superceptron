@@ -192,6 +192,7 @@ export default {
     // ── Candidate authenticated routes ──
     if (path === '/candidate/completed-url') return handleCandidateCompletedUrl(request, env);
     if (path === '/delete-account')          return handleDeleteAccount(request, env);
+    if (path === '/ai-rewrite')              return handleAiRewrite(request, env);
 
     // ── Default: chat route ──
     let body;
@@ -735,6 +736,77 @@ async function notifyReview(customerEmail, purchaseId, env) {
       `wrangler d1 execute superceptron-cvs --remote --command ` +
       `"SELECT id, tier, customer_email, cv_text, jd_text FROM purchases WHERE id = ${purchaseId};"`,
   });
+}
+
+/* ── AI REWRITE ───────────────────────────────────────────────── */
+async function handleAiRewrite(request, env) {
+  let body;
+  try { body = await request.json(); } catch { return respond('Invalid JSON', 400); }
+
+  const { token, cv_text, jd_text } = body;
+  if (!token || !cv_text || !jd_text) {
+    return respond(JSON.stringify({ error: 'Missing fields' }), 400, { 'Content-Type': 'application/json' });
+  }
+
+  const user = await verifyUser(token, env);
+  if (!user) return respond(JSON.stringify({ error: 'Unauthorized' }), 403, { 'Content-Type': 'application/json' });
+
+  // Verify active super_rewrite or super_review subscription
+  const subRes = await fetch(
+    `${SUPABASE_URL}/rest/v1/purchases?user_id=eq.${encodeURIComponent(user.id)}&status=eq.paid&select=tier,subscription_status`,
+    { headers: { 'apikey': env.SUPABASE_SERVICE_KEY, 'Authorization': `Bearer ${env.SUPABASE_SERVICE_KEY}` } }
+  );
+  if (!subRes.ok) return respond(JSON.stringify({ error: 'Subscription check failed' }), 500, { 'Content-Type': 'application/json' });
+  const subs = await subRes.json();
+  const hasAccess = Array.isArray(subs) && subs.some(s =>
+    (s.tier === 'super_rewrite' || s.tier === 'super_review') &&
+    (s.subscription_status === 'active' || s.subscription_status === 'past_due')
+  );
+  if (!hasAccess) return respond(JSON.stringify({ error: 'No active SuperRewrite subscription' }), 403, { 'Content-Type': 'application/json' });
+
+  const prompt = `You are an elite CV writer with 20 years of experience placing candidates at top companies. Rewrite the candidate's CV for the specific job description below.
+
+Rules — follow every one:
+- Preserve ALL facts: employers, job titles, dates, education, certifications. Never fabricate or exaggerate.
+- Mirror the exact keywords, competencies, and terminology from the JD throughout the CV — ATS systems match on exact phrasing.
+- Open with a tight 3-sentence Professional Summary written directly for this role and sector.
+- Include a Core Skills section as a clean keyword grid (12–18 skills drawn from both the original CV and the JD).
+- Experience bullets: strong action verb → specific achievement → quantified result (use original figures; do not invent numbers).
+- ATS-safe structure only — no tables, no text boxes, no columns, no images, no headers/footers.
+- Section order: Contact Info · Professional Summary · Core Skills · Professional Experience (reverse-chronological) · Education · Certifications (if present).
+- Output a COMPLETE, SELF-CONTAINED HTML document with all CSS embedded in a <style> tag.
+- Design: A4-width (210mm), Inter or system-ui sans-serif, 11pt body, 1.5 line-height, accent colour #7b68ee on name and section headings, subtle top rule under each section heading, generous white space, print-ready (no background colours on sections).
+- The file must look polished when opened in a browser and printed to PDF.
+
+JOB DESCRIPTION:
+${jd_text}
+
+CANDIDATE'S CURRENT CV:
+${cv_text}
+
+Output the complete HTML document only — no commentary before or after, no markdown code fences.`;
+
+  const aiRes = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'x-api-key':         env.ANTHROPIC_API_KEY,
+      'anthropic-version': '2023-06-01',
+      'content-type':      'application/json',
+    },
+    body: JSON.stringify({
+      model:      'claude-sonnet-5',
+      max_tokens: 8000,
+      messages:   [{ role: 'user', content: prompt }],
+    }),
+  });
+
+  if (!aiRes.ok) return respond(JSON.stringify({ error: 'AI service error' }), 502, { 'Content-Type': 'application/json' });
+
+  const aiData = await aiRes.json();
+  const rewritten = aiData.content && aiData.content[0] && aiData.content[0].text;
+  if (!rewritten) return respond(JSON.stringify({ error: 'Empty AI response' }), 502, { 'Content-Type': 'application/json' });
+
+  return respond(JSON.stringify({ cv: rewritten }), 200, { 'Content-Type': 'application/json' });
 }
 
 /* ── AUTH VERIFICATION HELPERS ───────────────────────────────── */

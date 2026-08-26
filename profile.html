@@ -310,6 +310,40 @@
         .cv-replace-btn { font-family: var(--mono); font-size: 0.65rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--w30); background: none; border: 1px solid var(--w08); border-radius: 6px; padding: 0.35rem 0.75rem; cursor: pointer; white-space: nowrap; transition: color 0.15s, border-color 0.15s; flex-shrink: 0; }
         .cv-replace-btn:hover { color: var(--white); border-color: var(--w30); }
         .cv-extract-hint { font-family: var(--mono); font-size: 0.65rem; color: var(--w30); text-align: center; padding: 0 1.25rem 1rem; }
+        /* JD toggle tabs */
+        .jd-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--w08); }
+        .jd-tab { font-family: var(--font); font-size: 0.8125rem; font-weight: 600; color: var(--w30); background: none; border: none; border-bottom: 2px solid transparent; padding: 0.65rem 1.25rem; cursor: pointer; transition: color 0.15s, border-color 0.15s; margin-bottom: -1px; }
+        .jd-tab.active { color: var(--white); border-bottom-color: var(--p); }
+        .jd-tab:hover { color: var(--w60); }
+
+        /* ── AI Rewrite tile on home ── */
+        .ai-rewrite-card {
+            background: linear-gradient(135deg, rgba(123,104,238,0.07) 0%, rgba(123,104,238,0.03) 100%);
+            border: 1px solid rgba(123,104,238,0.22); border-radius: 16px;
+            padding: 1.5rem; display: flex; align-items: center; justify-content: space-between;
+            gap: 1.5rem; cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s;
+            margin-bottom: 2.5rem;
+        }
+        .ai-rewrite-card:hover { border-color: rgba(123,104,238,0.45); box-shadow: 0 0 0 1px rgba(123,104,238,0.1); }
+        .ai-rewrite-left { display: flex; flex-direction: column; gap: 0.375rem; }
+        .ai-rewrite-name { font-size: 1rem; font-weight: 800; letter-spacing: -0.025em; color: var(--p); }
+        .ai-rewrite-desc { font-size: 0.8125rem; color: var(--w60); line-height: 1.5; }
+        .ai-rewrite-cta { font-family: var(--font); font-size: 0.8125rem; font-weight: 700; color: var(--p); background: rgba(123,104,238,0.1); border: 1px solid rgba(123,104,238,0.25); border-radius: 100px; padding: 0.5rem 1.125rem; cursor: pointer; white-space: nowrap; transition: background 0.15s; flex-shrink: 0; }
+        .ai-rewrite-cta:hover { background: rgba(123,104,238,0.18); }
+
+        /* ── AI Rewrite view ── */
+        .ai-action-bar { display: flex; align-items: center; gap: 1rem; padding-top: 0.5rem; flex-wrap: wrap; }
+        .ai-rewrite-btn { font-family: var(--font); font-size: 0.9375rem; font-weight: 700; padding: 0.75rem 1.75rem; border-radius: 10px; border: none; background: var(--p); color: #fff; cursor: pointer; transition: opacity 0.15s; }
+        .ai-rewrite-btn:hover:not(:disabled) { opacity: 0.88; }
+        .ai-rewrite-btn:disabled { opacity: 0.38; cursor: not-allowed; }
+        .ai-hint { font-size: 0.8125rem; color: var(--w30); }
+        .ai-result-card { background: var(--black-2); border: 1px solid var(--w08); border-radius: 16px; overflow: hidden; margin-top: 2rem; }
+        .ai-result-head { display: flex; align-items: center; justify-content: space-between; padding: 0.875rem 1.25rem; border-bottom: 1px solid var(--w08); gap: 1rem; flex-wrap: wrap; }
+        .ai-result-title { font-size: 0.875rem; font-weight: 600; color: var(--white); }
+        .ai-result-actions { display: flex; gap: 0.5rem; }
+        .ai-dl-btn { font-family: var(--font); font-size: 0.8125rem; font-weight: 600; padding: 0.4rem 1rem; border-radius: 8px; border: 1px solid var(--w12); background: var(--w04); color: var(--white); cursor: pointer; text-decoration: none; transition: background 0.15s; }
+        .ai-dl-btn:hover { background: var(--w08); }
+        .ai-preview-frame { width: 100%; height: 70vh; border: none; background: #fff; display: block; }
 
         /* ── Responsive ── */
         @media (max-width: 768px) {
@@ -375,9 +409,101 @@
                         <p class="view-sub" id="home-sub"></p>
                     </div>
                     <div class="tiles-grid" id="tiles-grid"></div>
+                    <!-- AI Rewrite card — rendered by JS for subscribed users -->
+                    <div id="ai-rewrite-home" style="display:none">
+                        <div class="ai-rewrite-card" id="ai-rewrite-home-card">
+                            <div class="ai-rewrite-left">
+                                <span class="ai-rewrite-name">SuperRewrite AI</span>
+                                <span class="ai-rewrite-desc">Upload your CV and job description — Claude rewrites your CV for the role in seconds. ATS-optimised and print-ready.</span>
+                            </div>
+                            <button class="ai-rewrite-cta">Rewrite with AI →</button>
+                        </div>
+                    </div>
                     <div class="addon-section">
                         <span class="addon-section-lbl">Add-ons</span>
                         <div id="addon-coach"></div>
+                    </div>
+                </div>
+
+                <!-- AI Rewrite workspace -->
+                <div id="view-ai-rewrite" class="view" style="display:none">
+                    <button class="back-btn" id="ai-back-btn">← Back to dashboard</button>
+                    <div class="view-header">
+                        <h1 class="view-title">SuperRewrite AI</h1>
+                        <p class="view-sub">Upload your CV and the job description — Claude tailors your CV to the role. You can run this as many times as you like with different files.</p>
+                    </div>
+
+                    <!-- CV upload -->
+                    <div class="cv-card" style="margin-bottom:1rem">
+                        <div class="cv-card-head">
+                            <span class="cv-card-title">Your CV</span>
+                            <span class="cv-badge" id="ai-cv-badge">No file</span>
+                        </div>
+                        <div class="cv-drop-zone" id="ai-cv-drop">
+                            <div class="cv-drop-icon">📄</div>
+                            <div class="cv-drop-label">Upload your CV</div>
+                            <div class="cv-drop-sub">PDF or .txt — text is extracted automatically</div>
+                        </div>
+                        <div class="cv-file-chip" id="ai-cv-chip">
+                            <div class="cv-file-icon">📄</div>
+                            <div class="cv-file-info">
+                                <div class="cv-file-label" id="ai-cv-label">—</div>
+                                <div class="cv-file-meta" id="ai-cv-meta"></div>
+                            </div>
+                            <button class="cv-replace-btn" id="ai-cv-replace">Replace</button>
+                        </div>
+                        <input type="file" id="ai-cv-input" accept=".pdf,.txt" style="display:none">
+                    </div>
+
+                    <!-- JD upload / paste -->
+                    <div class="cv-card" style="margin-bottom:1.5rem">
+                        <div class="cv-card-head">
+                            <span class="cv-card-title">Job description</span>
+                            <span class="cv-badge" id="ai-jd-badge">No content</span>
+                        </div>
+                        <div class="jd-tabs">
+                            <button class="jd-tab active" id="ai-jd-tab-paste">Paste text</button>
+                            <button class="jd-tab" id="ai-jd-tab-file">Upload file</button>
+                        </div>
+                        <!-- Paste panel -->
+                        <div id="ai-jd-paste-panel">
+                            <textarea class="cv-textarea" id="ai-jd-text" placeholder="Paste the job description here." rows="7"></textarea>
+                        </div>
+                        <!-- File panel -->
+                        <div id="ai-jd-file-panel" style="display:none">
+                            <div class="cv-drop-zone" id="ai-jd-drop">
+                                <div class="cv-drop-icon">📋</div>
+                                <div class="cv-drop-label">Upload job description</div>
+                                <div class="cv-drop-sub">PDF or .txt</div>
+                            </div>
+                            <div class="cv-file-chip" id="ai-jd-chip">
+                                <div class="cv-file-icon">📋</div>
+                                <div class="cv-file-info">
+                                    <div class="cv-file-label" id="ai-jd-label">—</div>
+                                    <div class="cv-file-meta" id="ai-jd-meta"></div>
+                                </div>
+                                <button class="cv-replace-btn" id="ai-jd-replace">Replace</button>
+                            </div>
+                            <input type="file" id="ai-jd-input" accept=".pdf,.txt" style="display:none">
+                        </div>
+                    </div>
+
+                    <!-- Action -->
+                    <div class="ai-action-bar">
+                        <button class="ai-rewrite-btn" id="ai-do-rewrite" disabled>Rewrite with AI →</button>
+                        <span class="ai-hint" id="ai-do-hint">Upload your CV and add the job description to continue.</span>
+                    </div>
+
+                    <!-- Result -->
+                    <div class="ai-result-card" id="ai-result-card" style="display:none">
+                        <div class="ai-result-head">
+                            <span class="ai-result-title">Your rewritten CV is ready</span>
+                            <div class="ai-result-actions">
+                                <button class="ai-dl-btn" id="ai-download-btn">Download HTML</button>
+                                <button class="ai-dl-btn" id="ai-newtab-btn">Open in new tab →</button>
+                            </div>
+                        </div>
+                        <iframe class="ai-preview-frame" id="ai-preview-frame" title="Rewritten CV preview"></iframe>
                     </div>
                 </div>
 
@@ -420,7 +546,29 @@
                             <span class="cv-card-title">Job description</span>
                             <span class="cv-badge" id="jd-badge">Not saved</span>
                         </div>
-                        <textarea class="cv-textarea" id="prof-jd" placeholder="Paste the job description for the role you're targeting." rows="8"></textarea>
+                        <div class="jd-tabs">
+                            <button class="jd-tab active" id="jd-tab-paste">Paste text</button>
+                            <button class="jd-tab" id="jd-tab-file">Upload file</button>
+                        </div>
+                        <div id="jd-paste-panel">
+                            <textarea class="cv-textarea" id="prof-jd" placeholder="Paste the job description for the role you're targeting." rows="7"></textarea>
+                        </div>
+                        <div id="jd-file-panel" style="display:none">
+                            <div class="cv-drop-zone" id="jd-drop-zone">
+                                <div class="cv-drop-icon">📋</div>
+                                <div class="cv-drop-label">Upload job description</div>
+                                <div class="cv-drop-sub">PDF or .txt — text extracted automatically</div>
+                            </div>
+                            <div class="cv-file-chip" id="jd-file-chip">
+                                <div class="cv-file-icon">📋</div>
+                                <div class="cv-file-info">
+                                    <div class="cv-file-label" id="jd-file-label">—</div>
+                                    <div class="cv-file-meta" id="jd-file-meta"></div>
+                                </div>
+                                <button class="cv-replace-btn" id="jd-replace-btn">Replace</button>
+                            </div>
+                            <input type="file" id="jd-file-input" accept=".pdf,.txt" style="display:none">
+                        </div>
                     </div>
                     <div class="save-bar" style="padding-top:0.5rem">
                         <span class="save-status" id="cv-status"></span>
@@ -796,6 +944,10 @@
             });
 
             renderCoachAddon(purchases);
+
+            /* Show AI Rewrite card for subscribers */
+            var aiCard = $('ai-rewrite-home');
+            if (aiCard) aiCard.style.display = owned ? '' : 'none';
 
             var sub  = $('home-sub');
             if (sub) sub.textContent = owned ? 'Your active plan and available features.' : 'Choose a plan to get started.';
@@ -1242,6 +1394,199 @@
                     if (ok) { $('cv-badge').textContent = 'Saved'; $('jd-badge').textContent = 'Saved'; }
                     setTimeout(function () { $('cv-status').textContent = ''; $('cv-status').className = 'save-status'; }, 3000);
                 });
+        });
+
+        /* ── JD tab toggle (My CVs) ── */
+        var jdFileTextStore = '';
+        function switchJdTab(tab) {
+            var isPaste = tab === 'paste';
+            $('jd-tab-paste').classList.toggle('active', isPaste);
+            $('jd-tab-file').classList.toggle('active', !isPaste);
+            $('jd-paste-panel').style.display  = isPaste ? '' : 'none';
+            $('jd-file-panel').style.display   = isPaste ? 'none' : '';
+        }
+        $('jd-tab-paste').addEventListener('click', function () { switchJdTab('paste'); });
+        $('jd-tab-file').addEventListener('click',  function () { switchJdTab('file'); });
+
+        function handleJdFile(file, labelEl, metaEl, chipEl, dropEl, onText) {
+            if (!file) return;
+            var ext = file.name.split('.').pop().toLowerCase();
+            if (ext === 'txt') {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    onText(e.target.result);
+                    labelEl.textContent = file.name;
+                    metaEl.textContent  = 'Plain text · ' + Math.round(file.size / 1024) + ' KB';
+                    dropEl.style.display = 'none'; chipEl.classList.add('visible');
+                };
+                reader.readAsText(file);
+            } else if (ext === 'pdf') {
+                labelEl.textContent = 'Reading…'; chipEl.classList.add('visible'); dropEl.style.display = 'none';
+                extractPdfText(file, function (text) {
+                    if (text && text.trim()) {
+                        onText(text);
+                        labelEl.textContent = file.name;
+                        metaEl.textContent  = 'PDF · ' + Math.round(file.size / 1024) + ' KB';
+                    } else {
+                        chipEl.classList.remove('visible'); dropEl.style.display = '';
+                        alert('Couldn\'t extract text from this PDF — try a text-based PDF or .txt.');
+                    }
+                });
+            }
+        }
+
+        $('jd-drop-zone').addEventListener('click',    function () { $('jd-file-input').click(); });
+        $('jd-replace-btn').addEventListener('click',  function () { $('jd-file-input').click(); });
+        $('jd-drop-zone').addEventListener('dragover', function (e) { e.preventDefault(); this.classList.add('drag-over'); });
+        $('jd-drop-zone').addEventListener('dragleave',function () { this.classList.remove('drag-over'); });
+        $('jd-drop-zone').addEventListener('drop',     function (e) {
+            e.preventDefault(); this.classList.remove('drag-over');
+            handleJdFile(e.dataTransfer.files[0], $('jd-file-label'), $('jd-file-meta'), $('jd-file-chip'), $('jd-drop-zone'), function (t) { jdFileTextStore = t; saveCv(); $('jd-badge').textContent = 'Saved'; });
+        });
+        $('jd-file-input').addEventListener('change', function () {
+            handleJdFile(this.files[0], $('jd-file-label'), $('jd-file-meta'), $('jd-file-chip'), $('jd-drop-zone'), function (t) { jdFileTextStore = t; saveCv(); $('jd-badge').textContent = 'Saved'; });
+            this.value = '';
+        });
+
+        /* Override saveCv to also include jdFileTextStore when file tab is active */
+        var _saveCvOrig = saveCv;
+        saveCv = function () {
+            if (!sb || !userId) return;
+            var jdVal = ($('jd-file-panel') && $('jd-file-panel').style.display !== 'none') ? jdFileTextStore : ($('prof-jd') ? $('prof-jd').value : '');
+            sb.from('profiles').upsert({ id: userId, cv_text: cvTextStore, jd_text: jdVal })
+                .select('cv_text').then(function (r) {
+                    if (!r.error && r.data && r.data.length) {
+                        $('cv-badge').textContent = 'Saved';
+                        $('cv-badge').style.color = 'var(--accent)';
+                    }
+                });
+        };
+
+        /* ── AI Rewrite view ── */
+        var aiCvText = '';
+        var aiJdText = '';
+        var aiResultHtml = '';
+
+        function updateAiRewriteBtn() {
+            var ready = aiCvText.trim() && aiJdText.trim();
+            $('ai-do-rewrite').disabled = !ready;
+            $('ai-do-hint').textContent = ready ? 'Ready — click to rewrite.' : 'Upload your CV and add the job description to continue.';
+        }
+
+        /* Home card → open AI rewrite view */
+        $('ai-rewrite-home-card').addEventListener('click', function () { showView('ai-rewrite'); });
+        $('ai-back-btn').addEventListener('click', function () { showView('home'); });
+
+        /* CV upload in AI view */
+        function showAiCvChip(name, meta) {
+            $('ai-cv-drop').style.display = 'none';
+            $('ai-cv-chip').classList.add('visible');
+            $('ai-cv-label').textContent = name;
+            $('ai-cv-meta').textContent  = meta;
+            $('ai-cv-badge').textContent = 'Ready';
+        }
+        function handleAiCvFile(file) {
+            if (!file) return;
+            var ext = file.name.split('.').pop().toLowerCase();
+            if (ext === 'txt') {
+                var reader = new FileReader();
+                reader.onload = function (e) { aiCvText = e.target.result; showAiCvChip(file.name, 'Plain text · ' + Math.round(file.size / 1024) + ' KB'); updateAiRewriteBtn(); };
+                reader.readAsText(file);
+            } else if (ext === 'pdf') {
+                $('ai-cv-label').textContent = 'Reading…'; $('ai-cv-chip').classList.add('visible'); $('ai-cv-drop').style.display = 'none';
+                extractPdfText(file, function (text) {
+                    if (text && text.trim()) { aiCvText = text; showAiCvChip(file.name, 'PDF · ' + Math.round(file.size / 1024) + ' KB'); updateAiRewriteBtn(); }
+                    else { $('ai-cv-chip').classList.remove('visible'); $('ai-cv-drop').style.display = ''; alert('Couldn\'t extract text — try a text-based PDF or .txt.'); }
+                });
+            }
+        }
+        $('ai-cv-drop').addEventListener('click',    function () { $('ai-cv-input').click(); });
+        $('ai-cv-replace').addEventListener('click', function () { $('ai-cv-input').click(); });
+        $('ai-cv-drop').addEventListener('dragover', function (e) { e.preventDefault(); this.classList.add('drag-over'); });
+        $('ai-cv-drop').addEventListener('dragleave',function () { this.classList.remove('drag-over'); });
+        $('ai-cv-drop').addEventListener('drop',     function (e) { e.preventDefault(); this.classList.remove('drag-over'); handleAiCvFile(e.dataTransfer.files[0]); });
+        $('ai-cv-input').addEventListener('change',  function () { handleAiCvFile(this.files[0]); this.value = ''; });
+
+        /* JD in AI view — tabs */
+        function switchAiJdTab(tab) {
+            var isPaste = tab === 'paste';
+            $('ai-jd-tab-paste').classList.toggle('active', isPaste);
+            $('ai-jd-tab-file').classList.toggle('active', !isPaste);
+            $('ai-jd-paste-panel').style.display = isPaste ? '' : 'none';
+            $('ai-jd-file-panel').style.display  = isPaste ? 'none' : '';
+        }
+        $('ai-jd-tab-paste').addEventListener('click', function () { switchAiJdTab('paste'); });
+        $('ai-jd-tab-file').addEventListener('click',  function () { switchAiJdTab('file'); });
+
+        $('ai-jd-text').addEventListener('input', function () {
+            aiJdText = this.value;
+            $('ai-jd-badge').textContent = aiJdText.trim() ? 'Ready' : 'No content';
+            updateAiRewriteBtn();
+        });
+
+        function handleAiJdFile(file) {
+            handleJdFile(file, $('ai-jd-label'), $('ai-jd-meta'), $('ai-jd-chip'), $('ai-jd-drop'), function (text) {
+                aiJdText = text;
+                $('ai-jd-badge').textContent = 'Ready';
+                updateAiRewriteBtn();
+            });
+        }
+        $('ai-jd-drop').addEventListener('click',    function () { $('ai-jd-input').click(); });
+        $('ai-jd-replace').addEventListener('click', function () { $('ai-jd-input').click(); });
+        $('ai-jd-drop').addEventListener('dragover', function (e) { e.preventDefault(); this.classList.add('drag-over'); });
+        $('ai-jd-drop').addEventListener('dragleave',function () { this.classList.remove('drag-over'); });
+        $('ai-jd-drop').addEventListener('drop',     function (e) { e.preventDefault(); this.classList.remove('drag-over'); handleAiJdFile(e.dataTransfer.files[0]); });
+        $('ai-jd-input').addEventListener('change',  function () { handleAiJdFile(this.files[0]); this.value = ''; });
+
+        /* Do the rewrite */
+        $('ai-do-rewrite').addEventListener('click', function () {
+            var btn = this;
+            btn.disabled = true; btn.textContent = 'Rewriting…';
+            $('ai-do-hint').textContent = 'Claude is tailoring your CV — this takes 20–40 seconds…';
+            $('ai-result-card').style.display = 'none';
+
+            sb.auth.getSession().then(function (r) {
+                var tok = r.data && r.data.session && r.data.session.access_token;
+                if (!tok) { btn.disabled = false; btn.textContent = 'Rewrite with AI →'; $('ai-do-hint').textContent = 'Session expired — please refresh.'; return; }
+
+                fetch(WORKER_URL + '/ai-rewrite', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: tok, cv_text: aiCvText, jd_text: aiJdText }),
+                })
+                .then(function (res) { return res.json(); })
+                .then(function (data) {
+                    btn.disabled = false; btn.textContent = 'Rewrite with AI →';
+                    if (data.error) { $('ai-do-hint').textContent = 'Error: ' + data.error; return; }
+                    aiResultHtml = data.cv;
+                    var frame = $('ai-preview-frame');
+                    frame.srcdoc = aiResultHtml;
+                    $('ai-result-card').style.display = '';
+                    $('ai-do-hint').textContent = 'Done — see your rewritten CV below.';
+                    $('ai-result-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                })
+                .catch(function () {
+                    btn.disabled = false; btn.textContent = 'Rewrite with AI →';
+                    $('ai-do-hint').textContent = 'Network error — try again.';
+                });
+            });
+        });
+
+        /* Download / open in new tab */
+        $('ai-download-btn').addEventListener('click', function () {
+            if (!aiResultHtml) return;
+            var blob = new Blob([aiResultHtml], { type: 'text/html' });
+            var url  = URL.createObjectURL(blob);
+            var a    = document.createElement('a');
+            a.href = url; a.download = 'superrewrite-cv.html';
+            document.body.appendChild(a); a.click();
+            document.body.removeChild(a);
+            setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+        });
+        $('ai-newtab-btn').addEventListener('click', function () {
+            if (!aiResultHtml) return;
+            var blob = new Blob([aiResultHtml], { type: 'text/html' });
+            window.open(URL.createObjectURL(blob), '_blank');
         });
 
         /* ── Polling ── */
