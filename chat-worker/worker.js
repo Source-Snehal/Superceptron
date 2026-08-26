@@ -137,8 +137,6 @@ const PRICES = {
 // TODO: paste your Calendly / booking link here before launching tier 3
 const BOOKING_URL = '';
 
-const W3F_KEY = '8d60dc7b-2668-4945-9ae5-c522327c14da';
-
 const SITE_ORIGIN = 'https://www.superceptron.com';
 
 export default {
@@ -409,7 +407,7 @@ async function handleStripeWebhook(request, env) {
     }
 
     if (tier === 'human_review') {
-      await notifyReview(email, purchaseId);
+      await notifyReview(email, purchaseId, env);
     }
     // TODO (cv_pdf):         trigger PDF generation pipeline when ready
     // TODO (career_session): booking handled client-side via BOOKING_URL constant
@@ -438,6 +436,32 @@ async function verifyStripeSignature(payload, sigHeader, secret) {
   return computed === parts.v1;
 }
 
+/* ── EMAIL (Resend) ───────────────────────────────────────────── */
+async function sendEmail(env, { to, subject, text }) {
+  if (!env.RESEND_API_KEY) {
+    console.warn('RESEND_API_KEY not set — email not sent:', subject);
+    return;
+  }
+  try {
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization:  `Bearer ${env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from:    'Superceptron <notifications@superceptron.com>',
+        to:      Array.isArray(to) ? to : [to],
+        subject,
+        text,
+      }),
+    });
+    if (!res.ok) console.error('Resend error:', await res.text());
+  } catch (e) {
+    console.error('sendEmail error:', e);
+  }
+}
+
 /* ── LEAD CAPTURE ─────────────────────────────────────────────── */
 async function handleLead(request, env) {
   let body;
@@ -459,46 +483,27 @@ async function handleLead(request, env) {
     }
   }
 
-  // Notify info@superceptron.com via Web3Forms
-  const fd = new FormData();
-  fd.append('access_key', W3F_KEY);
-  fd.append('subject',   `New lead: ${email}`);
-  fd.append('from_name', 'Superceptron Website');
-  fd.append('name',      email);
-  fd.append('email',     email);
-  fd.append('message',
-    `New homepage lead.\n\nEmail: ${email}\n\nThey entered their email on superceptron.com asking to be kept posted.`
-  );
-  try {
-    await fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd });
-  } catch (e) {
-    console.error('Lead notify error:', e);
-  }
+  await sendEmail(env, {
+    to:      'info@superceptron.com',
+    subject: `New lead: ${email}`,
+    text:    `New homepage lead.\n\nEmail: ${email}\n\nThey left their email on superceptron.com asking to be kept posted.`,
+  });
 
   return respond(JSON.stringify({ ok: true }), 200, { 'Content-Type': 'application/json' });
 }
 
-async function notifyReview(customerEmail, purchaseId) {
-  const fd = new FormData();
-  fd.append('access_key', W3F_KEY);
-  fd.append('subject',   'New Expert Review Purchase — Action Required');
-  fd.append('from_name', 'Superceptron Payments');
-  fd.append('name',      customerEmail || 'Unknown');
-  fd.append('email',     customerEmail || 'info@superceptron.com');
-  fd.append('cc',        'neal.roym@gmail.com');
-  fd.append('message',
-    `A candidate has purchased an Expert Human Review.\n\n` +
-    `Customer email: ${customerEmail}\n` +
-    `D1 purchase ID: ${purchaseId}\n\n` +
-    `Retrieve their CV and JD:\n` +
-    `wrangler d1 execute superceptron-cvs --command ` +
-    `"SELECT id, tier, customer_email, cv_text, jd_text FROM purchases WHERE id = ${purchaseId};"`
-  );
-  try {
-    await fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd });
-  } catch (e) {
-    console.error('notifyReview web3forms error:', e);
-  }
+async function notifyReview(customerEmail, purchaseId, env) {
+  await sendEmail(env, {
+    to:      ['info@superceptron.com', 'neal.roym@gmail.com'],
+    subject: 'New Expert Review Purchase — Action Required',
+    text:
+      `A candidate has purchased an Expert Human Review.\n\n` +
+      `Customer email: ${customerEmail}\n` +
+      `D1 purchase ID: ${purchaseId}\n\n` +
+      `Retrieve their CV and JD:\n` +
+      `wrangler d1 execute superceptron-cvs --remote --command ` +
+      `"SELECT id, tier, customer_email, cv_text, jd_text FROM purchases WHERE id = ${purchaseId};"`,
+  });
 }
 
 function respond(body, status, extraHeaders = {}) {
