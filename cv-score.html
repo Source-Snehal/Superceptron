@@ -2144,6 +2144,11 @@
                 body: JSON.stringify({ cv: cv, jd: jd })
             })
             .then(function (r) {
+                if (r.status === 429) {
+                    return r.json().then(function (d) {
+                        throw { rateLimit: true, message: d.error };
+                    });
+                }
                 if (!r.ok) throw new Error('http ' + r.status);
                 return r.json();
             })
@@ -2154,11 +2159,15 @@
                 finishProgress(true);
                 renderResults(data);
             })
-            .catch(function () {
+            .catch(function (err) {
                 btn.disabled    = false;
                 btn.innerHTML = '<b>SuperAnalyse</b> my CV for free';
                 finishProgress(false);
-                showError('Something went wrong — please try again or email info@superceptron.com.');
+                if (err && err.rateLimit) {
+                    showError(err.message + ' <a href="pricing.html" style="color:inherit;text-decoration:underline;">See plans →</a>');
+                } else {
+                    showError('Something went wrong — please try again or email info@superceptron.com.');
+                }
             });
         });
 

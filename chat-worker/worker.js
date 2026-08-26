@@ -143,6 +143,11 @@ const BOOKING_URL = '';
 const OVERFLOW_PAYMENT_LINK = 'https://buy.stripe.com/9B628ka93fMyfxjf6agUM09'; // £15 extra review
 const TIER_REVIEW_ALLOWANCE = { super_review: 2 }; // tiers that include human reviews
 
+/* ── FREE SCORER RATE LIMIT ──────────────────────────────────────
+ * Tune this number without touching any other code.
+ * ─────────────────────────────────────────────────────────────── */
+const FREE_SCORER_DAILY_LIMIT = 5; // runs per IP per rolling 24 hours
+
 const SUPABASE_URL = 'https://nnvfflsenziqecjrdkks.supabase.co';
 const SITE_ORIGIN  = 'https://www.superceptron.com';
 
@@ -267,6 +272,36 @@ async function handleScore(request, env) {
 
   const userMessage = `CV:\n${cvText}\n\nJob Description:\n${jdText}`;
 
+  // ── Rate limit check (must run before any Claude API call) ──
+  try {
+    const ip = request.headers.get('CF-Connecting-IP') ?? 'unknown';
+    const ipHash = await sha256Hex(ip);
+    const rlRes = await fetch(`${SUPABASE_URL}/rest/v1/rpc/check_scorer_rate_limit`, {
+      method: 'POST',
+      headers: {
+        'apikey':        env.SUPABASE_SERVICE_KEY,
+        'Authorization': `Bearer ${env.SUPABASE_SERVICE_KEY}`,
+        'Content-Type':  'application/json',
+      },
+      body: JSON.stringify({ p_ip_hash: ipHash, p_limit: FREE_SCORER_DAILY_LIMIT }),
+    });
+    if (rlRes.ok) {
+      const rl = await rlRes.json();
+      if (!rl.allowed) {
+        return respond(
+          JSON.stringify({ error: "You've used your 5 free scores for today. Try again in 24 hours, or upgrade for unlimited scoring.", upgradeUrl: '/pricing.html' }),
+          429,
+          { 'Content-Type': 'application/json' }
+        );
+      }
+    } else {
+      // Rate limit check failed — log and allow rather than blocking the user
+      console.error('Rate limit check failed:', rlRes.status, await rlRes.text());
+    }
+  } catch (rlErr) {
+    console.error('Rate limit error (allowing request):', rlErr);
+  }
+
   try {
     const apiRes = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -276,7 +311,7 @@ async function handleScore(request, env) {
         'content-type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-5',
+        model: 'claude-haiku-4-5-20251001',
         max_tokens: 2400,
         system: SCORE_SYSTEM,
         messages: [{ role: 'user', content: userMessage }],
@@ -289,7 +324,20 @@ async function handleScore(request, env) {
       return respond(JSON.stringify({ error: 'Analysis failed — please try again.' }), 200, { 'Content-Type': 'application/json' });
     }
 
-    const data = await apiRes.json();
+    let data;
+    try {
+      data = await apiRes.json();
+    } catch (parseErr) {
+      console.error('Anthropic /score response parse error:', parseErr);
+      return respond(JSON.stringify({ error: 'Analysis failed — please try again.' }), 200, { 'Content-Type': 'application/json' });
+    }
+
+    // Handle Anthropic error objects returned with 200 status (e.g. overloaded)
+    if (data.type === 'error' || !data.content) {
+      console.error('Anthropic /score returned error object:', JSON.stringify(data).slice(0, 300));
+      return respond(JSON.stringify({ error: 'Analysis failed — please try again.' }), 200, { 'Content-Type': 'application/json' });
+    }
+
     const raw = data.content?.[0]?.text;
 
     if (!raw || !raw.trim()) {
@@ -1287,4 +1335,9 @@ function respond(body, status, extraHeaders = {}) {
       ...extraHeaders,
     },
   });
+}
+
+async function sha256Hex(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
 }
