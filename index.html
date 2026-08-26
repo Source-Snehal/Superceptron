@@ -135,7 +135,7 @@
             -webkit-text-fill-color: transparent;
         }
 
-        .roll-dot { display: inline-block; }
+        .roll-dot { display: inline-block; overflow: hidden; }
 
         /* Starts clipped to zero-width; JS expands it and it's always painted green */
         .roll-ceptron {
@@ -509,9 +509,10 @@
                     slotEl.style.width = '0';
                     slotEl.style.marginRight = '0';
 
-                    /* Step 4: dot fades out */
-                    dotEl.style.transition = 'opacity 0.22s ease';
+                    /* Step 4: dot collapses — opacity AND max-width so it leaves no gap */
+                    dotEl.style.transition = 'opacity 0.22s ease, max-width 0.3s cubic-bezier(0.4,0,0.2,1)';
                     dotEl.style.opacity    = '0';
+                    dotEl.style.maxWidth   = '0';
 
                     /* Step 5: ceptron wipes in (already green via CSS) */
                     ceptronEl.style.transition = 'max-width 0.44s cubic-bezier(0,0,0.2,1), opacity 0.28s ease 0.04s';
