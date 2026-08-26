@@ -85,101 +85,58 @@
 
         /* ── Rolling hero animation ── */
         .roll-hero {
-            min-height: 5.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             margin-bottom: 1.5rem;
+            text-align: center;
         }
 
         .roll-stage {
-            display: flex;
-            align-items: baseline;
-            font-size: clamp(2.75rem, 6vw, 4.5rem);
+            display: inline-flex;
+            align-items: flex-end;
+            font-size: clamp(2.5rem, 6vw, 4rem);
             font-weight: 800;
-            letter-spacing: -0.042em;
-            line-height: 1;
+            letter-spacing: -0.04em;
+            line-height: 1.1;
+            color: var(--white);
             white-space: nowrap;
+        }
+
+        /* Fixed-width clipping slot — prefix moves inside, Super stays put */
+        .roll-slot {
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            height: 1.25em;
+            vertical-align: bottom;
+            /* width set by JS once on load */
         }
 
         .roll-prefix {
-            display: inline-block;
-            color: var(--white);
+            display: block;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            white-space: nowrap;
+            will-change: transform;
         }
 
-        .roll-constant { color: var(--white); }
+        .roll-super { display: inline-block; }
 
-        .roll-dot { color: var(--accent); }
-
-        .roll-prefix.word-in  { animation: wordIn  0.35s var(--ease) both; }
-        .roll-prefix.word-out { animation: wordOut 0.30s var(--ease) both; }
-
-        @keyframes wordIn {
-            from { opacity: 0; transform: translateY(0.45em); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes wordOut {
-            from { opacity: 1; transform: translateY(0); }
-            to   { opacity: 0; transform: translateY(-0.45em); }
-        }
-
-        /* Brand formation */
+        /* Brand word formation */
         .brand-form {
             display: none;
-            align-items: center;
-            gap: 0.6rem;
+            text-align: center;
         }
-        .brand-form.visible { display: flex; }
+        .brand-form.visible { display: block; }
 
-        .brand-logo-img {
-            width: clamp(38px, 5vw, 52px);
-            height: clamp(38px, 5vw, 52px);
-            border-radius: 11px;
-            object-fit: cover;
-            flex-shrink: 0;
-            opacity: 0;
-        }
-        .brand-logo-img.b-in {
-            animation: bLogoIn 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) 0.04s both;
-        }
-
-        .brand-wordmark {
-            font-size: clamp(2.75rem, 6vw, 4.5rem);
+        .brand-word {
+            display: inline-block;
+            font-size: clamp(2.5rem, 6vw, 4rem);
             font-weight: 800;
-            letter-spacing: -0.042em;
-            line-height: 1;
+            letter-spacing: -0.04em;
+            line-height: 1.1;
+            color: var(--white);
             white-space: nowrap;
-        }
-
-        .brand-txt-super {
-            display: inline-block;
-            color: var(--white);
-            opacity: 0;
-        }
-        .brand-txt-super.b-in {
-            animation: bSuperIn 0.5s var(--ease) 0s both;
-        }
-
-        .brand-txt-ceptron {
-            display: inline-block;
-            color: var(--white);
-            opacity: 0;
-        }
-        .brand-txt-ceptron.b-in {
-            animation: bCeptronIn 0.45s var(--ease) 0.2s both;
-        }
-
-        @keyframes bLogoIn {
-            from { opacity: 0; transform: scale(0.45) rotate(-12deg); }
-            to   { opacity: 1; transform: scale(1) rotate(0deg); }
-        }
-        @keyframes bSuperIn {
-            from { opacity: 0; transform: translateX(1.1em); }
-            to   { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes bCeptronIn {
-            from { opacity: 0; transform: translateX(1.8em); }
-            to   { opacity: 1; transform: translateX(0); }
+            will-change: transform, letter-spacing, opacity;
         }
 
         /* ── Path cards ── */
@@ -405,17 +362,14 @@
                 <!-- Rolling hero -->
                 <div class="roll-hero">
 
-                    <!-- Phase 1: rolling words -->
+                    <!-- Phase 1: prefix slot + static "Super." -->
                     <div class="roll-stage" id="roll-stage" aria-live="polite">
-                        <span class="roll-prefix" id="roll-prefix">Hire</span><span class="roll-constant">&thinsp;Super</span><span class="roll-dot">.</span>
+                        <div class="roll-slot" id="roll-slot"><span class="roll-prefix" id="roll-prefix">Hire</span></div><span class="roll-super">&thinsp;Super.</span>
                     </div>
 
-                    <!-- Phase 2: brand formation (revealed by JS) -->
+                    <!-- Phase 2: full brand word (no logo) -->
                     <div class="brand-form" id="brand-form" aria-label="Superceptron">
-                        <img src="logo.jpeg" class="brand-logo-img" id="brand-logo" alt="">
-                        <div class="brand-wordmark">
-                            <span class="brand-txt-super" id="brand-super">Super</span><span class="brand-txt-ceptron" id="brand-ceptron">ceptron</span>
-                        </div>
+                        <span class="brand-word" id="brand-word">Superceptron</span>
                     </div>
 
                 </div>
@@ -483,62 +437,82 @@
         /* ── Rolling hero animation ── */
         (function () {
             var WORDS   = ['Hire', 'Land', 'Match', 'Work'];
-            var IN_MS   = 350;
-            var HOLD_MS = 1100;
-            var OUT_MS  = 300;
+            var HOLD_MS = 1200;
 
-            var prefixEl  = document.getElementById('roll-prefix');
-            var rollEl    = document.getElementById('roll-stage');
-            var brandEl   = document.getElementById('brand-form');
-            var logoEl    = document.getElementById('brand-logo');
-            var superEl   = document.getElementById('brand-super');
-            var ceptronEl = document.getElementById('brand-ceptron');
+            var slotEl   = document.getElementById('roll-slot');
+            var prefixEl = document.getElementById('roll-prefix');
+            var rollEl   = document.getElementById('roll-stage');
+            var brandEl  = document.getElementById('brand-form');
+            var wordEl   = document.getElementById('brand-word');
 
-            if (!prefixEl) return;
+            if (!prefixEl || !slotEl) return;
+
+            /* Measure widest word to lock slot width so Super never shifts */
+            var probe = document.createElement('span');
+            probe.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;' +
+                'font-size:clamp(2.5rem,6vw,4rem);font-weight:800;letter-spacing:-0.04em;' +
+                'line-height:1.1;font-family:inherit;';
+            document.body.appendChild(probe);
+            var maxW = 0;
+            WORDS.forEach(function (w) { probe.textContent = w; maxW = Math.max(maxW, probe.offsetWidth); });
+            document.body.removeChild(probe);
+            slotEl.style.width = maxW + 'px';
+
+            /* Animate prefix in on load */
+            prefixEl.textContent = WORDS[0];
+            prefixEl.style.transform = 'translateY(115%)';
+            prefixEl.getBoundingClientRect();
+            prefixEl.style.transition = 'transform 0.2s cubic-bezier(0,0,0.2,1)';
+            prefixEl.style.transform  = 'translateY(0)';
 
             var idx = 0;
 
-            function step() {
-                var word   = WORDS[idx];
-                var isLast = (idx === WORDS.length - 1);
-
-                prefixEl.textContent = word;
-                prefixEl.classList.remove('word-out');
-                void prefixEl.offsetWidth; /* force reflow */
-                prefixEl.classList.add('word-in');
-
-                setTimeout(function () {
-                    prefixEl.classList.remove('word-in');
-                    void prefixEl.offsetWidth;
-                    prefixEl.classList.add('word-out');
-
+            function flipTo(text) {
+                return new Promise(function (resolve) {
+                    prefixEl.style.transition = 'transform 0.2s cubic-bezier(0.4,0,1,1)';
+                    prefixEl.style.transform  = 'translateY(-115%)';
                     setTimeout(function () {
-                        prefixEl.classList.remove('word-out');
-                        if (isLast) {
-                            revealBrand();
-                        } else {
-                            idx++;
-                            step();
-                        }
-                    }, OUT_MS);
-                }, IN_MS + HOLD_MS);
+                        prefixEl.style.transition = 'none';
+                        prefixEl.style.transform  = 'translateY(115%)';
+                        prefixEl.textContent = text;
+                        prefixEl.getBoundingClientRect();
+                        prefixEl.style.transition = 'transform 0.2s cubic-bezier(0,0,0.2,1)';
+                        prefixEl.style.transform  = 'translateY(0)';
+                        setTimeout(resolve, 200);
+                    }, 200);
+                });
             }
 
             function revealBrand() {
-                rollEl.style.transition = 'opacity 0.3s ease';
+                rollEl.style.transition = 'opacity 0.35s ease';
                 rollEl.style.opacity = '0';
                 setTimeout(function () {
                     rollEl.style.display = 'none';
                     brandEl.classList.add('visible');
-                    requestAnimationFrame(function () {
-                        logoEl.classList.add('b-in');
-                        superEl.classList.add('b-in');
-                        ceptronEl.classList.add('b-in');
-                    });
-                }, 320);
+                    wordEl.style.transform    = 'scale(0.72)';
+                    wordEl.style.opacity      = '0';
+                    wordEl.style.letterSpacing = '0.1em';
+                    wordEl.getBoundingClientRect();
+                    wordEl.style.transition   = 'transform 0.55s cubic-bezier(0,0,0.2,1), letter-spacing 0.55s cubic-bezier(0,0,0.2,1), opacity 0.4s ease';
+                    wordEl.style.transform    = 'scale(1)';
+                    wordEl.style.opacity      = '1';
+                    wordEl.style.letterSpacing = '-0.04em';
+                }, 380);
             }
 
-            step();
+            function run() {
+                var isLast = (idx === WORDS.length - 1);
+                setTimeout(function () {
+                    if (isLast) {
+                        revealBrand();
+                    } else {
+                        idx++;
+                        flipTo(WORDS[idx]).then(run);
+                    }
+                }, HOLD_MS);
+            }
+
+            setTimeout(run, 200);
         })();
     </script>
 </body>
