@@ -416,7 +416,7 @@
                                 <span class="ai-rewrite-name">SuperRewrite AI</span>
                                 <span class="ai-rewrite-desc">Upload your CV and job description — Claude rewrites your CV for the role in seconds. ATS-optimised and print-ready.</span>
                             </div>
-                            <button class="ai-rewrite-cta">Rewrite with AI →</button>
+                            <button class="ai-rewrite-cta">Rewrite with SuperAI →</button>
                         </div>
                     </div>
                     <div class="addon-section">
@@ -490,7 +490,7 @@
 
                     <!-- Action -->
                     <div class="ai-action-bar">
-                        <button class="ai-rewrite-btn" id="ai-do-rewrite" disabled>Rewrite with AI →</button>
+                        <button class="ai-rewrite-btn" id="ai-do-rewrite" disabled>Rewrite with SuperAI →</button>
                         <span class="ai-hint" id="ai-do-hint">Upload your CV and add the job description to continue.</span>
                     </div>
 
@@ -1547,7 +1547,7 @@
 
             sb.auth.getSession().then(function (r) {
                 var tok = r.data && r.data.session && r.data.session.access_token;
-                if (!tok) { btn.disabled = false; btn.textContent = 'Rewrite with AI →'; $('ai-do-hint').textContent = 'Session expired — please refresh.'; return; }
+                if (!tok) { btn.disabled = false; btn.textContent = 'Rewrite with SuperAI →'; $('ai-do-hint').textContent = 'Session expired — please refresh.'; return; }
 
                 fetch(WORKER_URL + '/ai-rewrite', {
                     method: 'POST',
@@ -1556,7 +1556,7 @@
                 })
                 .then(function (res) { return res.json(); })
                 .then(function (data) {
-                    btn.disabled = false; btn.textContent = 'Rewrite with AI →';
+                    btn.disabled = false; btn.textContent = 'Rewrite with SuperAI →';
                     if (data.error) { $('ai-do-hint').textContent = 'Error: ' + data.error; return; }
                     aiResultHtml = data.cv;
                     var frame = $('ai-preview-frame');
@@ -1566,7 +1566,7 @@
                     $('ai-result-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
                 })
                 .catch(function () {
-                    btn.disabled = false; btn.textContent = 'Rewrite with AI →';
+                    btn.disabled = false; btn.textContent = 'Rewrite with SuperAI →';
                     $('ai-do-hint').textContent = 'Network error — try again.';
                 });
             });
