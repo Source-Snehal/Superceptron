@@ -1591,14 +1591,14 @@
                     <div class="service-card-top">
                         <span class="service-name">SuperRewrite</span>
                     </div>
-                    <span class="service-price">£9.99</span>
+                    <span class="service-price">$11.99</span>
                     <p class="service-desc">Your CV rewritten for this specific role. Structure, language, and framing that makes your real experience come through clearly.</p>
                     <ul class="service-features">
                         <li>Full rewrite against this JD</li>
                         <li>Stronger structure and language</li>
                         <li>PDF delivered to your inbox</li>
                     </ul>
-                    <button class="service-cta" data-tier="cv_pdf">Get started →</button>
+                    <button class="service-cta" data-stripe="https://buy.stripe.com/fZu00ca937g284RgaegUM08">Get started →</button>
                     <span class="service-delivery">Delivered to your inbox</span>
                 </div>
 
@@ -1607,14 +1607,14 @@
                         <span class="service-name">SuperReview</span>
                         <span class="service-tag">Most popular</span>
                     </div>
-                    <span class="service-price">£29.99</span>
+                    <span class="service-price">$29.99</span>
                     <p class="service-desc">A senior recruiter reads your CV in context, rewrites the weak spots, and makes sure your real strengths aren't buried.</p>
                     <ul class="service-features">
                         <li>Human expert review</li>
                         <li>Weak sections rewritten</li>
                         <li>Personalised to this exact JD</li>
                     </ul>
-                    <button class="service-cta" data-tier="human_review">Get started →</button>
+                    <button class="service-cta" data-stripe="https://buy.stripe.com/9B69AMdlfcAmdpb8HMgUM07">Get started →</button>
                     <span class="service-delivery">Within 48 hours</span>
                 </div>
 
@@ -1623,7 +1623,7 @@
                         <span class="service-name">SuperCoach</span>
                         <span class="service-tag service-tag-amber">Flagship</span>
                     </div>
-                    <span class="service-price">£89.99</span>
+                    <span class="service-price">$89.99</span>
                     <p class="service-desc">45 minutes with a senior recruiter on your CV, your target role, and what's actually working in the market right now.</p>
                     <ul class="service-features">
                         <li>45-min 1:1 video session</li>
@@ -1631,7 +1631,7 @@
                         <li>Real talk on what's hiring right now</li>
                         <li>Book immediately after payment</li>
                     </ul>
-                    <button class="service-cta" data-tier="career_session">Get started →</button>
+                    <button class="service-cta" data-stripe="https://buy.stripe.com/6oU6oAdlf6bYcl7cY2gUM05">Get started →</button>
                     <span class="service-delivery">Book immediately after payment</span>
                 </div>
 
@@ -1660,14 +1660,14 @@
                     <div class="service-card-top">
                         <span class="service-name">SuperRewrite</span>
                     </div>
-                    <span class="service-price">£9.99</span>
+                    <span class="service-price">$11.99</span>
                     <p class="service-desc">Your CV rewritten for this specific role. Structure, language, and framing that makes your real experience come through clearly.</p>
                     <ul class="service-features">
                         <li>Full rewrite against this JD</li>
                         <li>Stronger structure and language</li>
                         <li>PDF delivered to your inbox</li>
                     </ul>
-                    <button class="service-cta" data-tier="cv_pdf">Get started →</button>
+                    <button class="service-cta" data-stripe="https://buy.stripe.com/fZu00ca937g284RgaegUM08">Get started →</button>
                     <span class="service-delivery">Delivered to your inbox</span>
                 </div>
 
@@ -1676,14 +1676,14 @@
                         <span class="service-name">SuperReview</span>
                         <span class="service-tag">Most popular</span>
                     </div>
-                    <span class="service-price">£29.99</span>
+                    <span class="service-price">$29.99</span>
                     <p class="service-desc">A senior recruiter reads your CV in context, rewrites the weak spots, and makes sure your real strengths aren't buried.</p>
                     <ul class="service-features">
                         <li>Human expert review</li>
                         <li>Weak sections rewritten</li>
                         <li>Personalised to this exact JD</li>
                     </ul>
-                    <button class="service-cta" data-tier="human_review">Get started →</button>
+                    <button class="service-cta" data-stripe="https://buy.stripe.com/9B69AMdlfcAmdpb8HMgUM07">Get started →</button>
                     <span class="service-delivery">Within 48 hours</span>
                 </div>
 
@@ -1692,7 +1692,7 @@
                         <span class="service-name">SuperCoach</span>
                         <span class="service-tag service-tag-amber">Flagship</span>
                     </div>
-                    <span class="service-price">£89.99</span>
+                    <span class="service-price">$89.99</span>
                     <p class="service-desc">45 minutes with a senior recruiter on your CV, your target role, and what's actually working in the market right now.</p>
                     <ul class="service-features">
                         <li>45-min 1:1 video session</li>
@@ -1700,7 +1700,7 @@
                         <li>Real talk on what's hiring right now</li>
                         <li>Book immediately after payment</li>
                     </ul>
-                    <button class="service-cta" data-tier="career_session">Get started →</button>
+                    <button class="service-cta" data-stripe="https://buy.stripe.com/6oU6oAdlf6bYcl7cY2gUM05">Get started →</button>
                     <span class="service-delivery">Book immediately after payment</span>
                 </div>
 
@@ -2298,7 +2298,9 @@
 
         /* Service card buttons → open auth */
         document.querySelectorAll('.service-cta').forEach(function (btn) {
-            btn.addEventListener('click', function () { openAuth(this.dataset.tier); });
+            btn.addEventListener('click', function () {
+                window.open(this.dataset.stripe, '_blank', 'noopener');
+            });
         });
 
         /* Nav sign-in button */
