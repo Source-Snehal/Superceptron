@@ -386,28 +386,41 @@ async function handleStripeWebhook(request, env) {
   try { event = JSON.parse(rawBody); } catch { return respond('Invalid JSON.', 400); }
 
   if (event.type === 'checkout.session.completed') {
-    const session    = event.data.object;
-    const tier       = session.metadata?.tier ?? '';
-    const purchaseId = parseInt(session.metadata?.purchase_id ?? '0', 10) || null;
-    const email      = session.customer_details?.email ?? '';
+    const session = event.data.object;
+    const email   = session.customer_details?.email ?? '';
 
-    // Mark purchase paid and capture Stripe session ID + customer email
-    if (purchaseId && env.DB) {
+    // Parse client_reference_id written by cv-score.html: "{userId}___{tier}"
+    const crid    = session.client_reference_id ?? '';
+    const sepIdx  = crid.indexOf('___');
+    const userId  = sepIdx !== -1 ? crid.slice(0, sepIdx) : null;
+    const tier    = sepIdx !== -1 ? crid.slice(sepIdx + 3) : (session.metadata?.tier ?? '');
+
+    // Write purchase to Supabase (source of truth for dashboards)
+    if (userId && env.SUPABASE_URL && env.SUPABASE_SERVICE_KEY) {
       try {
-        await env.DB.prepare(
-          `UPDATE purchases
-           SET status = 'paid',
-               stripe_session_id = ?,
-               customer_email    = COALESCE(NULLIF(customer_email, ''), ?)
-           WHERE id = ?`
-        ).bind(session.id, email, purchaseId).run();
-      } catch (dbErr) {
-        console.error('D1 update (webhook):', dbErr);
+        const sbRes = await fetch(`${env.SUPABASE_URL}/rest/v1/purchases`, {
+          method: 'POST',
+          headers: {
+            'apikey':        env.SUPABASE_SERVICE_KEY,
+            'Authorization': `Bearer ${env.SUPABASE_SERVICE_KEY}`,
+            'Content-Type':  'application/json',
+            'Prefer':        'return=minimal',
+          },
+          body: JSON.stringify({
+            user_id:           userId,
+            tier:              tier,
+            status:            'paid',
+            stripe_session_id: session.id,
+          }),
+        });
+        if (!sbRes.ok) console.error('Supabase purchases insert error:', await sbRes.text());
+      } catch (sbErr) {
+        console.error('Supabase purchases fetch error:', sbErr);
       }
     }
 
-    if (tier === 'human_review') {
-      await notifyReview(email, purchaseId, env);
+    if (tier === 'super_review' || tier === 'human_review') {
+      await notifyReview(email, session.id, env);
     }
     // TODO (cv_pdf):         trigger PDF generation pipeline when ready
     // TODO (career_session): booking handled client-side via BOOKING_URL constant
