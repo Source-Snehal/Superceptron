@@ -171,13 +171,12 @@
         var bookLink  = document.getElementById('booking-link');
 
         if (tier === 'cv_pdf') {
-            eyebrowEl.textContent = 'Payment confirmed';
-            headingEl.textContent = 'Your polished CV is on its way.';
-            bodyEl.textContent    = 'We\'ve received your payment and your CV is being prepared. You\'ll receive your ATS-friendly PDF to your inbox shortly.';
-            // TODO: show estimated delivery time once PDF pipeline is live
+            eyebrowEl.textContent = 'SuperRewrite — payment confirmed';
+            headingEl.textContent = 'Your rewritten CV is on its way.';
+            bodyEl.textContent    = 'We\'ve received your payment and your CV rewrite is in progress. You\'ll receive your polished PDF to your inbox shortly.';
 
         } else if (tier === 'human_review') {
-            eyebrowEl.textContent = 'Payment confirmed';
+            eyebrowEl.textContent = 'SuperReview — payment confirmed';
             headingEl.textContent = 'We\'ve got it.';
             bodyEl.textContent    = 'A senior recruiter will review your CV against the job description and get back to you within 48 hours. Keep an eye on your inbox.';
             detailEl.innerHTML    =
@@ -188,7 +187,7 @@
             detailEl.style.display = '';
 
         } else if (tier === 'career_session') {
-            eyebrowEl.textContent = 'Payment confirmed';
+            eyebrowEl.textContent = 'SuperCoach — payment confirmed';
             headingEl.textContent = 'Time to book your session.';
 
             if (BOOKING_URL) {

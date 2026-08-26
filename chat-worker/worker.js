@@ -130,9 +130,9 @@ Language rules:
  * Change prices in ONE place here — nowhere else.
  * ─────────────────────────────────────────────────────────────── */
 const PRICES = {
-  cv_pdf:         { amount: 999,  label: 'CV Rewrite' },         // £9.99 / $9.99
-  human_review:   { amount: 2999, label: 'Expert Human Review' }, // £29.99 / $29.99
-  career_session: { amount: 8999, label: '1:1 Career Session' },  // £89.99 / $89.99
+  cv_pdf:         { amount: 999,  label: 'SuperRewrite' }, // £9.99 / $9.99
+  human_review:   { amount: 2999, label: 'SuperReview' },  // £29.99 / $29.99
+  career_session: { amount: 8999, label: 'SuperCoach' },   // £89.99 / $89.99
 };
 // TODO: paste your Calendly / booking link here before launching tier 3
 const BOOKING_URL = '';
