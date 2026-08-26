@@ -137,6 +137,13 @@ const PRICES = {
 // TODO: paste your Calendly / booking link here before launching tier 3
 const BOOKING_URL = '';
 
+/* ── USAGE / OVERFLOW CONFIG ─────────────────────────────────────
+ * One place for review allowances + £15 overflow price.
+ * ─────────────────────────────────────────────────────────────── */
+const OVERFLOW_REVIEW_PRICE_ID = ''; // TODO: paste Stripe one-time Price ID (£15)
+const OVERFLOW_REVIEW_AMOUNT   = 1500; // pence (£15.00)
+const TIER_REVIEW_ALLOWANCE    = { super_review: 2 }; // tiers that include human reviews
+
 const SUPABASE_URL = 'https://nnvfflsenziqecjrdkks.supabase.co';
 const SITE_ORIGIN  = 'https://www.superceptron.com';
 
@@ -171,6 +178,11 @@ export default {
 
     // ── /customer-portal (Stripe billing portal link) ──
     if (path === '/customer-portal') return handleCustomerPortal(request, env);
+
+    // ── Usage + overflow routes ──
+    if (path === '/submit-review')       return handleSubmitReview(request, env);
+    if (path === '/buy-overflow-review') return handleBuyOverflowReview(request, env);
+    if (path === '/usage')               return handleUsage(request, env);
 
     // ── Admin routes (JWT + admins-table check on every call) ──
     if (path === '/admin/submissions')   return handleAdminSubmissions(request, env);
@@ -472,6 +484,14 @@ async function handleStripeWebhook(request, env) {
     }
     // TODO (cv_pdf):         trigger PDF generation pipeline when ready
     // TODO (career_session): booking handled client-side via BOOKING_URL constant
+
+    // Overflow review purchase: idempotently increment reviews_allowance
+    if (session.metadata?.type === 'overflow_review') {
+      const ovUserId = session.metadata?.user_id;
+      if (ovUserId && env.SUPABASE_SERVICE_KEY) {
+        await handleOverflowPayment(env, session.id, ovUserId);
+      }
+    }
   }
 
   // ── Subscription updated (renewal, cancel, reactivate) ──
@@ -491,14 +511,19 @@ async function handleStripeWebhook(request, env) {
     }
   }
 
-  // ── Invoice paid → restore active + new period_end ──
+  // ── Invoice paid → restore active + new period_end + reset usage row ──
   if (event.type === 'invoice.paid') {
     const inv = event.data.object;
-    if (inv.subscription && inv.lines?.data?.[0]?.period?.end) {
+    if (inv.subscription && inv.lines?.data?.[0]?.period) {
+      const period      = inv.lines.data[0].period;
+      const periodStart = new Date(period.start * 1000).toISOString();
+      const periodEnd   = new Date(period.end   * 1000).toISOString();
       await supabaseUpdateBySub(env, inv.subscription, {
-        subscription_status: 'active',
-        current_period_end:  new Date(inv.lines.data[0].period.end * 1000).toISOString(),
+        subscription_status:  'active',
+        current_period_start: periodStart,
+        current_period_end:   periodEnd,
       });
+      await upsertUsagePeriod(env, inv.subscription, periodStart, periodEnd);
     }
   }
 
@@ -954,6 +979,237 @@ async function handleDeleteAccount(request, env) {
   }
 
   return respond(JSON.stringify({ ok: true }), 200, { 'Content-Type': 'application/json' });
+}
+
+/* ── USAGE HELPERS ────────────────────────────────────────────── */
+
+async function upsertUsagePeriod(env, subscriptionId, periodStart, periodEnd) {
+  if (!env.SUPABASE_SERVICE_KEY || !subscriptionId) return;
+  const svcKey = env.SUPABASE_SERVICE_KEY;
+  // Look up user_id + tier from the purchases row for this subscription
+  const pRes = await fetch(
+    `${SUPABASE_URL}/rest/v1/purchases?subscription_id=eq.${encodeURIComponent(subscriptionId)}&select=user_id,tier&limit=1`,
+    { headers: { 'apikey': svcKey, 'Authorization': `Bearer ${svcKey}` } }
+  );
+  if (!pRes.ok) { console.error('upsertUsagePeriod: purchases lookup failed'); return; }
+  const rows = await pRes.json();
+  if (!rows.length) return;
+  const { user_id, tier } = rows[0];
+  const allowance = TIER_REVIEW_ALLOWANCE[tier];
+  if (!allowance) return; // tier doesn't include capped human reviews
+  // Insert — on conflict (subscription_id, period_start) do nothing, preserving reviews_used mid-period
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/usage`, {
+    method: 'POST',
+    headers: {
+      'apikey': svcKey, 'Authorization': `Bearer ${svcKey}`,
+      'Content-Type': 'application/json',
+      'Prefer': 'resolution=ignore-duplicates,return=minimal',
+    },
+    body: JSON.stringify({
+      user_id, subscription_id: subscriptionId,
+      period_start: periodStart, period_end: periodEnd,
+      reviews_used: 0, reviews_allowance: allowance,
+    }),
+  });
+  if (!res.ok) console.error('upsertUsagePeriod error:', await res.text());
+}
+
+async function getCurrentUsage(env, userId) {
+  const svcKey = env.SUPABASE_SERVICE_KEY;
+  const now = new Date().toISOString();
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/usage?user_id=eq.${encodeURIComponent(userId)}&period_start=lte.${encodeURIComponent(now)}&period_end=gt.${encodeURIComponent(now)}&order=period_start.desc&limit=1`,
+    { headers: { 'apikey': svcKey, 'Authorization': `Bearer ${svcKey}` } }
+  );
+  if (!res.ok) return null;
+  const rows = await res.json();
+  return rows[0] || null;
+}
+
+async function handleOverflowPayment(env, sessionId, userId) {
+  const svcKey = env.SUPABASE_SERVICE_KEY;
+  // Idempotency: bail if already processed
+  const chkRes = await fetch(
+    `${SUPABASE_URL}/rest/v1/overflow_payments?stripe_session_id=eq.${encodeURIComponent(sessionId)}&select=stripe_session_id&limit=1`,
+    { headers: { 'apikey': svcKey, 'Authorization': `Bearer ${svcKey}` } }
+  );
+  if (chkRes.ok) {
+    const existing = await chkRes.json();
+    if (existing.length > 0) { console.log('overflow already processed:', sessionId); return; }
+  }
+  // Find the current usage row for this user
+  const usage = await getCurrentUsage(env, userId);
+  if (!usage) { console.error('handleOverflowPayment: no usage row for user', userId); return; }
+  // Increment reviews_allowance by 1
+  const patchRes = await fetch(
+    `${SUPABASE_URL}/rest/v1/usage?id=eq.${encodeURIComponent(usage.id)}`,
+    {
+      method: 'PATCH',
+      headers: { 'apikey': svcKey, 'Authorization': `Bearer ${svcKey}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ reviews_allowance: usage.reviews_allowance + 1 }),
+    }
+  );
+  if (!patchRes.ok) { console.error('handleOverflowPayment: allowance increment failed:', await patchRes.text()); return; }
+  // Log the payment for idempotency
+  await fetch(`${SUPABASE_URL}/rest/v1/overflow_payments`, {
+    method: 'POST',
+    headers: { 'apikey': svcKey, 'Authorization': `Bearer ${svcKey}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+    body: JSON.stringify({ stripe_session_id: sessionId, user_id: userId, usage_id: usage.id }),
+  });
+}
+
+/* ── USAGE + OVERFLOW ROUTE HANDLERS ─────────────────────────── */
+
+async function handleSubmitReview(request, env) {
+  let body;
+  try { body = await request.json(); } catch { return respond('Invalid JSON', 400); }
+  const { token, purchase_id, storage_path, request_note } = body;
+  if (!token || !purchase_id || !storage_path) {
+    return respond(JSON.stringify({ error: 'Missing required fields' }), 400, { 'Content-Type': 'application/json' });
+  }
+
+  const user = await verifyUser(token, env);
+  if (!user) return respond(JSON.stringify({ error: 'Unauthorized' }), 403, { 'Content-Type': 'application/json' });
+
+  const svcKey = env.SUPABASE_SERVICE_KEY;
+  const uid    = user.id;
+
+  // Confirm the purchase belongs to this user and get tier
+  const pRes = await fetch(
+    `${SUPABASE_URL}/rest/v1/purchases?id=eq.${encodeURIComponent(purchase_id)}&user_id=eq.${encodeURIComponent(uid)}&select=id,tier&limit=1`,
+    { headers: { 'apikey': svcKey, 'Authorization': `Bearer ${svcKey}` } }
+  );
+  const purchases = pRes.ok ? await pRes.json() : [];
+  if (!purchases.length) return respond(JSON.stringify({ error: 'Purchase not found' }), 404, { 'Content-Type': 'application/json' });
+
+  const { tier } = purchases[0];
+  if (!TIER_REVIEW_ALLOWANCE[tier]) {
+    return respond(JSON.stringify({ error: 'tier_not_eligible', message: 'Your plan does not include human reviews.' }), 403, { 'Content-Type': 'application/json' });
+  }
+
+  // Enforce cap
+  const usage = await getCurrentUsage(env, uid);
+  if (!usage) {
+    return respond(JSON.stringify({ error: 'no_usage_record', message: 'Usage record not found — contact support.' }), 403, { 'Content-Type': 'application/json' });
+  }
+  if (usage.reviews_used >= usage.reviews_allowance) {
+    return respond(JSON.stringify({
+      error:             'cap_reached',
+      reviews_used:      usage.reviews_used,
+      reviews_allowance: usage.reviews_allowance,
+      period_end:        usage.period_end,
+    }), 403, { 'Content-Type': 'application/json' });
+  }
+
+  // Increment reviews_used
+  const incRes = await fetch(
+    `${SUPABASE_URL}/rest/v1/usage?id=eq.${encodeURIComponent(usage.id)}`,
+    {
+      method: 'PATCH',
+      headers: { 'apikey': svcKey, 'Authorization': `Bearer ${svcKey}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ reviews_used: usage.reviews_used + 1 }),
+    }
+  );
+  if (!incRes.ok) {
+    return respond(JSON.stringify({ error: 'Server error — please try again.' }), 502, { 'Content-Type': 'application/json' });
+  }
+
+  // Insert into cv_submissions (service role — bypasses client INSERT restrictions)
+  const subRes = await fetch(`${SUPABASE_URL}/rest/v1/cv_submissions`, {
+    method: 'POST',
+    headers: { 'apikey': svcKey, 'Authorization': `Bearer ${svcKey}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
+    body: JSON.stringify({
+      purchase_id, user_id: uid, storage_path,
+      request_note: request_note || '', status: 'submitted', candidate_email: user.email,
+    }),
+  });
+  if (!subRes.ok) {
+    // Roll back the increment so the user can try again
+    await fetch(`${SUPABASE_URL}/rest/v1/usage?id=eq.${encodeURIComponent(usage.id)}`, {
+      method: 'PATCH',
+      headers: { 'apikey': svcKey, 'Authorization': `Bearer ${svcKey}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ reviews_used: usage.reviews_used }),
+    });
+    return respond(JSON.stringify({ error: 'Submission failed — please try again.' }), 502, { 'Content-Type': 'application/json' });
+  }
+  const subData = await subRes.json();
+  const sub = Array.isArray(subData) ? subData[0] : subData;
+
+  // Notify admin (awaited to ensure delivery)
+  const dateStr = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+  let fileUrl = null;
+  try {
+    const signRes = await fetch(`${SUPABASE_URL}/storage/v1/object/sign/cv-uploads/${storage_path}`, {
+      method: 'POST',
+      headers: { 'apikey': svcKey, 'Authorization': `Bearer ${svcKey}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ expiresIn: 604800 }),
+    });
+    if (signRes.ok) { const sd = await signRes.json(); fileUrl = `${SUPABASE_URL}/storage/v1${sd.signedURL}`; }
+  } catch (_) {}
+  try {
+    await sendEmail(env, {
+      to: ['info@superceptron.com', 'neal.roym@gmail.com'],
+      subject: `[SuperReview] CV from ${user.email} — ${dateStr}`,
+      text:
+        `New SuperReview submission.\n\n` +
+        `Customer: ${user.email}\nPurchase ID: ${purchase_id}\nSubmission ID: ${sub?.id}\nDate: ${dateStr}\n` +
+        `Reviews used this period: ${usage.reviews_used + 1} / ${usage.reviews_allowance}\n\n` +
+        `Note:\n${request_note || '(none)'}\n\n` +
+        (fileUrl ? `Download CV (7 days):\n${fileUrl}` : `Storage path: cv-uploads/${storage_path}`),
+    });
+  } catch (_) {}
+
+  return respond(JSON.stringify({ ok: true, submission: sub || null }), 200, { 'Content-Type': 'application/json' });
+}
+
+async function handleBuyOverflowReview(request, env) {
+  let body;
+  try { body = await request.json(); } catch { return respond('Invalid JSON', 400); }
+
+  const user = await verifyUser(body.token, env);
+  if (!user) return respond(JSON.stringify({ error: 'Unauthorized' }), 403, { 'Content-Type': 'application/json' });
+  if (!env.STRIPE_SECRET_KEY) return respond(JSON.stringify({ error: 'Not configured.' }), 500, { 'Content-Type': 'application/json' });
+  if (!OVERFLOW_REVIEW_PRICE_ID) {
+    return respond(JSON.stringify({ error: 'overflow_not_configured', message: 'Extra review purchases are not yet available.' }), 503, { 'Content-Type': 'application/json' });
+  }
+
+  const params = new URLSearchParams({
+    mode: 'payment',
+    'line_items[0][price]': OVERFLOW_REVIEW_PRICE_ID,
+    'line_items[0][quantity]': '1',
+    success_url: `${SITE_ORIGIN}/profile.html?overflow=1&session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url:  `${SITE_ORIGIN}/profile.html`,
+    customer_email: user.email,
+    'metadata[type]':    'overflow_review',
+    'metadata[user_id]': user.id,
+  });
+  const stripeRes = await fetch('https://api.stripe.com/v1/checkout/sessions', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${env.STRIPE_SECRET_KEY}`, 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: params.toString(),
+  });
+  if (!stripeRes.ok) {
+    console.error('Stripe overflow checkout error:', await stripeRes.text());
+    return respond(JSON.stringify({ error: 'Could not create checkout — please try again.' }), 502, { 'Content-Type': 'application/json' });
+  }
+  const session = await stripeRes.json();
+  return respond(JSON.stringify({ url: session.url }), 200, { 'Content-Type': 'application/json' });
+}
+
+async function handleUsage(request, env) {
+  let body;
+  try { body = await request.json(); } catch { return respond('Invalid JSON', 400); }
+  const user = await verifyUser(body.token, env);
+  if (!user) return respond(JSON.stringify({ error: 'Unauthorized' }), 403, { 'Content-Type': 'application/json' });
+  const usage = await getCurrentUsage(env, user.id);
+  if (!usage) return respond(JSON.stringify({ eligible: false }), 200, { 'Content-Type': 'application/json' });
+  return respond(JSON.stringify({
+    eligible:          true,
+    reviews_used:      usage.reviews_used,
+    reviews_allowance: usage.reviews_allowance,
+    period_start:      usage.period_start,
+    period_end:        usage.period_end,
+  }), 200, { 'Content-Type': 'application/json' });
 }
 
 function respond(body, status, extraHeaders = {}) {

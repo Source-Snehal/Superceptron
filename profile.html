@@ -1702,6 +1702,24 @@
             });
         }
 
+        function buyOverflowReview(btn) {
+            var prev = btn.textContent;
+            btn.disabled = true; btn.textContent = 'Loading…';
+            sb.auth.getSession().then(function (r) {
+                var token = r.data && r.data.session && r.data.session.access_token;
+                if (!token) { btn.disabled = false; btn.textContent = prev; return; }
+                fetch(WORKER_URL + '/buy-overflow-review', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: token }),
+                }).then(function (res) { return res.json(); })
+                  .then(function (d) {
+                    btn.disabled = false; btn.textContent = prev;
+                    if (d.url) { window.location.href = d.url; }
+                    else alert(d.message || d.error || 'Could not start checkout. Email info@superceptron.com.');
+                }).catch(function () { btn.disabled = false; btn.textContent = prev; alert('Could not start checkout. Email info@superceptron.com.'); });
+            });
+        }
+
         function deleteAccount() {
             if (!confirm('Permanently delete your account and all uploads? This cannot be undone.')) return;
             if (!sb) return;
@@ -1796,23 +1814,63 @@
                     .then(function (r) {
                         if (r.error) { if (statusEl) statusEl.textContent = 'Upload failed — ' + r.error.message; submitBtn.disabled = false; return; }
                         if (statusEl) statusEl.textContent = 'Saving…';
-                        sb.from('cv_submissions').insert({
-                            purchase_id: pid, user_id: userId,
-                            storage_path: storagePath, request_note: note,
-                            status: 'submitted', candidate_email: userEmail,
-                        }).select('id, status, request_note').then(function (sr) {
-                            if (sr.error || !sr.data || !sr.data.length) {
-                                if (statusEl) statusEl.textContent = 'Saved — email info@superceptron.com if you don\'t hear from us.';
-                                return;
-                            }
-                            var sub = sr.data[0];
-                            fetch(WORKER_URL + '/cv-notify', {
-                                method: 'POST', headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({ submission_id: sub.id, purchase_id: pid, tier: purchase.tier, user_email: userEmail, storage_path: storagePath, note: note }),
-                            }).catch(function () {});
-                            renderSubmissionState(sub);
-                            if (statusEl) statusEl.textContent = '';
-                        });
+
+                        if (purchase.tier === 'super_review') {
+                            /* Human review — server enforces cap */
+                            sb.auth.getSession().then(function (sess) {
+                                var token = sess.data && sess.data.session && sess.data.session.access_token;
+                                if (!token) { if (statusEl) statusEl.textContent = 'Session expired — please reload.'; submitBtn.disabled = false; return; }
+                                fetch(WORKER_URL + '/submit-review', {
+                                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ token: token, purchase_id: pid, storage_path: storagePath, request_note: note }),
+                                }).then(function (res) { return res.json(); })
+                                  .then(function (d) {
+                                    if (d.error === 'cap_reached') {
+                                        submitBtn.disabled = false;
+                                        if (statusEl) {
+                                            var resetDate = d.period_end ? new Date(d.period_end).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) : '';
+                                            statusEl.innerHTML =
+                                                'You\'ve used all ' + d.reviews_allowance + ' review' + (d.reviews_allowance !== 1 ? 's' : '') + ' this period' +
+                                                (resetDate ? ' — resets ' + resetDate : '') + '. ' +
+                                                '<button class="ocard-manage-link" id="overflow-btn-' + pid + '" style="font-size:0.8125rem;text-decoration:underline">Buy an extra review — £15 →</button>';
+                                            var ob = document.getElementById('overflow-btn-' + pid);
+                                            if (ob) ob.addEventListener('click', function () { buyOverflowReview(ob); });
+                                        }
+                                        return;
+                                    }
+                                    if (!d.ok) {
+                                        if (statusEl) statusEl.textContent = d.message || d.error || 'Submission failed — email info@superceptron.com.';
+                                        submitBtn.disabled = false;
+                                        return;
+                                    }
+                                    var sub = d.submission || { status: 'submitted', request_note: note };
+                                    renderSubmissionState(sub);
+                                    if (statusEl) statusEl.textContent = '';
+                                }).catch(function () {
+                                    if (statusEl) statusEl.textContent = 'Network error — please try again.';
+                                    submitBtn.disabled = false;
+                                });
+                            });
+                        } else {
+                            /* super_rewrite / super_coach — no cap, direct insert */
+                            sb.from('cv_submissions').insert({
+                                purchase_id: pid, user_id: userId,
+                                storage_path: storagePath, request_note: note,
+                                status: 'submitted', candidate_email: userEmail,
+                            }).select('id, status, request_note').then(function (sr) {
+                                if (sr.error || !sr.data || !sr.data.length) {
+                                    if (statusEl) statusEl.textContent = 'Saved — email info@superceptron.com if you don\'t hear from us.';
+                                    return;
+                                }
+                                var sub = sr.data[0];
+                                fetch(WORKER_URL + '/cv-notify', {
+                                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ submission_id: sub.id, purchase_id: pid, tier: purchase.tier, user_email: userEmail, storage_path: storagePath, note: note }),
+                                }).catch(function () {});
+                                renderSubmissionState(sub);
+                                if (statusEl) statusEl.textContent = '';
+                            });
+                        }
                     });
             });
 
