@@ -1038,13 +1038,27 @@ async function handleDeleteAccount(request, env) {
   try { await deleteFiles('cv-uploads',   cvPaths); }        catch (e) { console.error('GDPR: cv-uploads delete:', e); }
   try { await deleteFiles('completed-cvs', completedPaths); } catch (e) { console.error('GDPR: completed-cvs delete:', e); }
 
-  // Delete the auth user — FK ON DELETE CASCADE handles profiles, purchases, cv_submissions
+  // Explicitly delete public-schema rows before deleting the auth user.
+  // This avoids FK constraint failures when CASCADE is not configured on the DB tables.
+  const svcHdrs = { 'apikey': svcKey, 'Authorization': `Bearer ${svcKey}` };
+  const uidQ    = `user_id=eq.${uid}`;
+  await Promise.allSettled([
+    fetch(`${SUPABASE_URL}/rest/v1/cv_submissions?${uidQ}`,   { method: 'DELETE', headers: svcHdrs }),
+    fetch(`${SUPABASE_URL}/rest/v1/review_usage?${uidQ}`,     { method: 'DELETE', headers: svcHdrs }),
+    fetch(`${SUPABASE_URL}/rest/v1/purchases?${uidQ}`,        { method: 'DELETE', headers: svcHdrs }),
+  ]);
+  // profiles uses id = uid (not user_id)
+  await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${uid}`, { method: 'DELETE', headers: svcHdrs })
+        .catch(e => console.error('GDPR: profiles delete:', e));
+
+  // Now delete the auth user
   const delRes = await fetch(`${SUPABASE_URL}/auth/v1/admin/users/${uid}`, {
     method: 'DELETE',
-    headers: { 'apikey': svcKey, 'Authorization': `Bearer ${svcKey}` },
+    headers: svcHdrs,
   });
   if (!delRes.ok) {
-    console.error('GDPR: auth delete error:', await delRes.text());
+    const errText = await delRes.text().catch(() => '');
+    console.error('GDPR: auth delete error:', errText);
     return respond(JSON.stringify({ error: 'Deletion failed — contact info@superceptron.com' }), 502, { 'Content-Type': 'application/json' });
   }
 
