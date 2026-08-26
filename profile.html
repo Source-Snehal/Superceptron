@@ -285,12 +285,31 @@
         .cv-textarea { display: block; width: 100%; min-height: 200px; background: transparent; border: none; outline: none; resize: vertical; font-family: var(--font); font-size: 0.875rem; color: var(--w60); line-height: 1.7; padding: 1rem 1.25rem; box-sizing: border-box; caret-color: var(--p); }
         .cv-textarea:focus { color: var(--white); }
         .cv-textarea::placeholder { color: var(--w30); }
-        .cv-file-bar { display: flex; align-items: center; gap: 0.625rem; padding: 0.75rem 1.25rem; border-top: 1px solid var(--w08); }
-        .cv-file-btn { font-family: var(--mono); font-size: 0.65rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--w30); background: none; border: 1px solid var(--w08); border-radius: 6px; padding: 0.35rem 0.75rem; cursor: pointer; transition: color 0.15s, border-color 0.15s; }
-        .cv-file-btn:hover { color: var(--white); border-color: var(--w30); }
-        .cv-file-hint { font-family: var(--mono); font-size: 0.62rem; color: var(--w30); }
-        .cv-file-name { font-family: var(--mono); font-size: 0.65rem; color: var(--accent); background: rgba(77,255,180,0.06); border: 1px solid rgba(77,255,180,0.16); border-radius: 4px; padding: 0.2rem 0.5rem; display: none; }
-        .cv-file-name.visible { display: inline; }
+        /* CV file drop zone */
+        .cv-drop-zone {
+            margin: 1.25rem; border: 1.5px dashed var(--w12); border-radius: 12px;
+            padding: 2.5rem 1.5rem; text-align: center; cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+            display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+        }
+        .cv-drop-zone:hover, .cv-drop-zone.drag-over { border-color: var(--p); background: rgba(123,104,238,0.04); }
+        .cv-drop-icon { font-size: 1.5rem; margin-bottom: 0.25rem; }
+        .cv-drop-label { font-size: 0.875rem; font-weight: 600; color: var(--w60); }
+        .cv-drop-sub { font-family: var(--mono); font-size: 0.7rem; color: var(--w30); }
+        /* CV file chip (after upload) */
+        .cv-file-chip {
+            display: none; margin: 1.25rem; padding: 0.875rem 1.125rem;
+            background: rgba(77,255,180,0.04); border: 1px solid rgba(77,255,180,0.16);
+            border-radius: 12px; align-items: center; gap: 0.875rem;
+        }
+        .cv-file-chip.visible { display: flex; }
+        .cv-file-icon { font-size: 1.25rem; flex-shrink: 0; }
+        .cv-file-info { flex: 1; min-width: 0; }
+        .cv-file-label { font-size: 0.875rem; font-weight: 600; color: var(--white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .cv-file-meta { font-family: var(--mono); font-size: 0.65rem; color: var(--w30); margin-top: 0.1rem; }
+        .cv-replace-btn { font-family: var(--mono); font-size: 0.65rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--w30); background: none; border: 1px solid var(--w08); border-radius: 6px; padding: 0.35rem 0.75rem; cursor: pointer; white-space: nowrap; transition: color 0.15s, border-color 0.15s; flex-shrink: 0; }
+        .cv-replace-btn:hover { color: var(--white); border-color: var(--w30); }
+        .cv-extract-hint { font-family: var(--mono); font-size: 0.65rem; color: var(--w30); text-align: center; padding: 0 1.25rem 1rem; }
 
         /* ── Responsive ── */
         @media (max-width: 768px) {
@@ -376,16 +395,25 @@
                     </div>
                     <div class="cv-card">
                         <div class="cv-card-head">
-                            <span class="cv-card-title">CV text</span>
+                            <span class="cv-card-title">CV</span>
                             <span class="cv-badge" id="cv-badge">Not saved</span>
                         </div>
-                        <textarea class="cv-textarea" id="prof-cv" placeholder="Paste your CV text here — or upload a PDF below." rows="12"></textarea>
-                        <div class="cv-file-bar">
-                            <button class="cv-file-btn" id="cv-upload-btn">Upload PDF / .txt</button>
-                            <input type="file" id="cv-file-input" accept=".pdf,.txt" style="display:none">
-                            <span class="cv-file-name" id="cv-file-name"></span>
-                            <span class="cv-file-hint">PDF text is extracted automatically</span>
+                        <!-- Drop zone (shown when no file) -->
+                        <div class="cv-drop-zone" id="cv-drop-zone">
+                            <div class="cv-drop-icon">📄</div>
+                            <div class="cv-drop-label">Upload your CV</div>
+                            <div class="cv-drop-sub">Drop a PDF or .txt here, or click to browse</div>
                         </div>
+                        <!-- File chip (shown after upload) -->
+                        <div class="cv-file-chip" id="cv-file-chip">
+                            <div class="cv-file-icon">📄</div>
+                            <div class="cv-file-info">
+                                <div class="cv-file-label" id="cv-file-label">—</div>
+                                <div class="cv-file-meta" id="cv-file-meta">Text extracted</div>
+                            </div>
+                            <button class="cv-replace-btn" id="cv-replace-btn">Replace</button>
+                        </div>
+                        <input type="file" id="cv-file-input" accept=".pdf,.txt" style="display:none">
                     </div>
                     <div class="cv-card">
                         <div class="cv-card-head">
@@ -1123,27 +1151,89 @@
         });
 
         /* ── My CVs view ── */
-        var cvTimer = null;
-        function scheduleCvSave() {
-            clearTimeout(cvTimer);
-            $('cv-badge').textContent = 'Unsaved';
-            $('jd-badge').textContent = 'Unsaved';
-            cvTimer = setTimeout(saveCv, 2000);
+        var cvTextStore = '';  /* extracted text, used for submissions */
+
+        function showCvFile(filename, meta) {
+            $('cv-drop-zone').style.display = 'none';
+            $('cv-file-chip').classList.add('visible');
+            $('cv-file-label').textContent = filename;
+            $('cv-file-meta').textContent = meta || 'Text extracted';
         }
+        function showCvDrop() {
+            $('cv-drop-zone').style.display = '';
+            $('cv-file-chip').classList.remove('visible');
+        }
+
+        function handleCvFile(file) {
+            if (!file) return;
+            var ext = file.name.split('.').pop().toLowerCase();
+            if (ext === 'txt') {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    cvTextStore = e.target.result;
+                    showCvFile(file.name, 'Plain text · ' + Math.round(file.size / 1024) + ' KB');
+                    saveCv();
+                };
+                reader.readAsText(file);
+            } else if (ext === 'pdf') {
+                $('cv-file-label').textContent = 'Reading…';
+                $('cv-file-chip').classList.add('visible');
+                $('cv-drop-zone').style.display = 'none';
+                extractPdfText(file, function (text) {
+                    if (text && text.trim()) {
+                        cvTextStore = text;
+                        showCvFile(file.name, 'PDF · ' + Math.round(file.size / 1024) + ' KB');
+                        saveCv();
+                    } else {
+                        showCvDrop();
+                        alert('Couldn\'t extract text from this PDF — try a text-based PDF or .txt file.');
+                    }
+                });
+            }
+        }
+
         function saveCv() {
             if (!sb || !userId) return;
-            sb.from('profiles').upsert({ id: userId, cv_text: $('prof-cv').value, jd_text: $('prof-jd').value })
+            var jdVal = $('prof-jd') ? $('prof-jd').value : '';
+            sb.from('profiles').upsert({ id: userId, cv_text: cvTextStore, jd_text: jdVal })
                 .select('cv_text').then(function (r) {
-                    if (!r.error && r.data && r.data.length) { $('cv-badge').textContent = 'Saved'; $('jd-badge').textContent = 'Saved'; }
+                    if (!r.error && r.data && r.data.length) {
+                        $('cv-badge').textContent = 'Saved';
+                        $('cv-badge').style.color = 'var(--accent)';
+                    }
                 });
         }
-        $('prof-cv').addEventListener('input', scheduleCvSave);
-        $('prof-jd').addEventListener('input', scheduleCvSave);
+
+        /* Drop zone click / drag */
+        $('cv-drop-zone').addEventListener('click', function () { $('cv-file-input').click(); });
+        $('cv-replace-btn').addEventListener('click', function () { $('cv-file-input').click(); });
+
+        $('cv-drop-zone').addEventListener('dragover', function (e) { e.preventDefault(); this.classList.add('drag-over'); });
+        $('cv-drop-zone').addEventListener('dragleave', function () { this.classList.remove('drag-over'); });
+        $('cv-drop-zone').addEventListener('drop', function (e) {
+            e.preventDefault(); this.classList.remove('drag-over');
+            handleCvFile(e.dataTransfer.files[0]);
+        });
+
+        $('cv-file-input').addEventListener('change', function () {
+            handleCvFile(this.files[0]);
+            this.value = '';
+        });
+
+        /* JD auto-save */
+        var jdTimer = null;
+        $('prof-jd').addEventListener('input', function () {
+            $('jd-badge').textContent = 'Unsaved';
+            clearTimeout(jdTimer);
+            jdTimer = setTimeout(saveCv, 1800);
+        });
+
         $('btn-save-cv').addEventListener('click', function () {
             var btn = this; btn.disabled = true; $('cv-status').textContent = 'Saving…';
-            clearTimeout(cvTimer);
+            clearTimeout(jdTimer);
             if (!sb || !userId) { btn.disabled = false; return; }
-            sb.from('profiles').upsert({ id: userId, cv_text: $('prof-cv').value, jd_text: $('prof-jd').value })
+            var jdVal = $('prof-jd') ? $('prof-jd').value : '';
+            sb.from('profiles').upsert({ id: userId, cv_text: cvTextStore, jd_text: jdVal })
                 .select().then(function (r) {
                     btn.disabled = false;
                     var ok = !r.error && r.data && r.data.length;
@@ -1152,23 +1242,6 @@
                     if (ok) { $('cv-badge').textContent = 'Saved'; $('jd-badge').textContent = 'Saved'; }
                     setTimeout(function () { $('cv-status').textContent = ''; $('cv-status').className = 'save-status'; }, 3000);
                 });
-        });
-        $('cv-upload-btn').addEventListener('click', function () { $('cv-file-input').click(); });
-        $('cv-file-input').addEventListener('change', function () {
-            var file = this.files[0]; if (!file) return;
-            var ext = file.name.split('.').pop().toLowerCase();
-            var nameEl = $('cv-file-name');
-            if (ext === 'txt') {
-                var reader = new FileReader();
-                reader.onload = function (e) { $('prof-cv').value = e.target.result; nameEl.textContent = file.name; nameEl.classList.add('visible'); scheduleCvSave(); };
-                reader.readAsText(file);
-            } else if (ext === 'pdf') {
-                nameEl.textContent = 'Reading PDF…'; nameEl.classList.add('visible');
-                extractPdfText(file, function (text) {
-                    if (text && text.trim()) { $('prof-cv').value = text; nameEl.textContent = file.name; scheduleCvSave(); }
-                    else { nameEl.classList.remove('visible'); alert('Couldn\'t extract text — please paste your CV directly.'); }
-                });
-            }
         });
 
         /* ── Polling ── */
@@ -1242,7 +1315,12 @@
                 $('acc-role').value = profile.target_role || '';
 
                 /* My CVs */
-                if (profile.cv_text) { $('prof-cv').value = profile.cv_text; $('cv-badge').textContent = 'Saved'; }
+                if (profile.cv_text) {
+                    cvTextStore = profile.cv_text;
+                    showCvFile('CV on file', 'Saved · upload a new file to replace');
+                    $('cv-badge').textContent = 'Saved';
+                    $('cv-badge').style.color = 'var(--accent)';
+                }
                 if (profile.jd_text) { $('prof-jd').value = profile.jd_text; $('jd-badge').textContent = 'Saved'; }
 
                 /* Home title */
