@@ -130,9 +130,9 @@ Language rules:
  * Change prices in ONE place here — nowhere else.
  * ─────────────────────────────────────────────────────────────── */
 const PRICES = {
-  cv_pdf:         { amount: 1900, label: 'Polished CV — ATS-Friendly PDF' },  // £19  ← SET ME
-  human_review:   { amount: 4900, label: 'Expert Human Review' },              // £49  ← SET ME
-  career_session: { amount: 9900, label: '1:1 Career Session' },               // £99  ← SET ME
+  cv_pdf:         { amount: 999,  label: 'CV Rewrite' },         // £9.99 / $9.99
+  human_review:   { amount: 2999, label: 'Expert Human Review' }, // £29.99 / $29.99
+  career_session: { amount: 8999, label: '1:1 Career Session' },  // £89.99 / $89.99
 };
 // TODO: paste your Calendly / booking link here before launching tier 3
 const BOOKING_URL = '';
@@ -297,7 +297,8 @@ async function handleCreateCheckout(request, env) {
   let body;
   try { body = await request.json(); } catch { return respond('Invalid JSON', 400); }
 
-  const { tier, cv, jd } = body;
+  const { tier, cv, jd, currency } = body;
+  const curr = (currency === 'usd') ? 'usd' : 'gbp';
   if (!tier || !PRICES[tier]) {
     return respond(JSON.stringify({ error: 'Invalid tier.' }), 400, { 'Content-Type': 'application/json' });
   }
@@ -325,11 +326,11 @@ async function handleCreateCheckout(request, env) {
 
   const params = new URLSearchParams({
     mode: 'payment',
-    'line_items[0][price_data][currency]': 'gbp',
+    'line_items[0][price_data][currency]': curr,
     'line_items[0][price_data][product_data][name]': PRICES[tier].label,
     'line_items[0][price_data][unit_amount]': String(PRICES[tier].amount),
     'line_items[0][quantity]': '1',
-    success_url: `${SITE_ORIGIN}/checkout-success.html?tier=${tier}&session_id={CHECKOUT_SESSION_ID}`,
+    success_url: `${SITE_ORIGIN}/checkout-success.html?tier=${tier}&currency=${curr}&session_id={CHECKOUT_SESSION_ID}`,
     cancel_url:  `${SITE_ORIGIN}/checkout-cancel.html`,
     'metadata[tier]':        tier,
     'metadata[purchase_id]': String(purchaseId ?? ''),

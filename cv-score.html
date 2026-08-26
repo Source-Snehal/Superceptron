@@ -20,6 +20,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 
+    <!-- Supabase JS — required for candidate accounts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
     <style>
         /* ── Candidate-side colour token (purple as primary) ── */
         :root {
@@ -968,6 +971,321 @@
             letter-spacing: 0.03em;
         }
 
+        /* ── Free badge ── */
+        .free-badge {
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            background: rgba(77,255,180,0.12);
+            color: var(--accent);
+            border: 1px solid rgba(77,255,180,0.22);
+            border-radius: 4px;
+            padding: 0.18rem 0.45rem;
+            vertical-align: middle;
+            margin-left: 0.375rem;
+        }
+
+        .disclaimer-link {
+            color: var(--p);
+            text-decoration: none;
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            letter-spacing: 0.03em;
+        }
+        .disclaimer-link:hover { text-decoration: underline; }
+
+        /* ── Services section ── */
+        .services-section {
+            padding: 5rem 1.5rem;
+            border-top: 1px solid var(--w08);
+        }
+        .services-inner {
+            max-width: var(--max);
+            margin: 0 auto;
+        }
+        .services-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        .services-label {
+            font-family: var(--mono);
+            font-size: 0.64rem;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--p);
+            margin-bottom: 0.75rem;
+        }
+        .services-headline {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--white);
+            margin-bottom: 0.625rem;
+        }
+        .services-sub {
+            font-size: 0.9375rem;
+            color: var(--w60);
+        }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .service-card {
+            background: var(--black-2);
+            border: 1px solid var(--w08);
+            border-radius: var(--r-lg);
+            padding: 1.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            transition: border-color 0.25s;
+        }
+        .service-card:hover { border-color: var(--p-border); }
+        .service-card-featured {
+            border-color: var(--p-border);
+            background: var(--p-dim);
+        }
+        .service-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+        }
+        .service-name {
+            font-size: 0.9375rem;
+            font-weight: 700;
+            color: var(--white);
+            letter-spacing: -0.015em;
+        }
+        .service-tag {
+            font-family: var(--mono);
+            font-size: 0.58rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            background: rgba(123,104,238,0.12);
+            color: var(--p);
+            border-radius: 4px;
+            padding: 0.2rem 0.5rem;
+            white-space: nowrap;
+        }
+        .service-tag-expert {
+            background: rgba(77,255,180,0.1);
+            color: var(--accent);
+        }
+        .service-desc {
+            font-size: 0.875rem;
+            color: var(--w60);
+            line-height: 1.75;
+        }
+        .service-features {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.45rem;
+            flex: 1;
+        }
+        .service-features li {
+            font-size: 0.8125rem;
+            color: var(--w60);
+            padding-left: 1.125rem;
+            position: relative;
+            line-height: 1.6;
+        }
+        .service-features li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-size: 0.72rem;
+            line-height: 1.8;
+        }
+        .service-cta {
+            font-family: var(--font);
+            font-size: 0.875rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            background: transparent;
+            color: var(--white);
+            border: 1.5px solid var(--w12);
+            border-radius: 100px;
+            padding: 0.6875rem 1.25rem;
+            cursor: pointer;
+            transition: all 0.2s var(--ease);
+            text-align: center;
+            width: 100%;
+        }
+        .service-cta:hover { border-color: var(--p-border); background: var(--p-hover); }
+        .service-cta-featured {
+            background: var(--p);
+            border-color: var(--p);
+            color: #fff;
+        }
+        .service-cta-featured:hover { opacity: 0.88; background: var(--p); }
+        .service-delivery {
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            color: var(--w30);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            text-align: center;
+        }
+        .services-note {
+            text-align: center;
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            color: var(--w30);
+            letter-spacing: 0.04em;
+        }
+        @media (max-width: 720px) {
+            .services-grid { grid-template-columns: 1fr; }
+        }
+
+        /* ── Auth overlay ── */
+        .auth-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.72);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 900;
+            padding: 1.5rem;
+        }
+        .auth-modal {
+            background: var(--black-2);
+            border: 1px solid var(--p-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 400px;
+            width: 100%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            animation: riseIn 0.28s var(--ease) both;
+        }
+        .auth-close {
+            position: absolute;
+            top: 1.125rem;
+            right: 1.125rem;
+            background: none;
+            border: none;
+            color: var(--w30);
+            cursor: pointer;
+            padding: 0.3rem;
+            border-radius: 6px;
+            transition: color 0.2s;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+        }
+        .auth-close:hover { color: var(--white); }
+        .auth-tabs {
+            display: flex;
+            gap: 0;
+            background: var(--w04);
+            border-radius: 10px;
+            padding: 3px;
+            width: fit-content;
+        }
+        .auth-tab {
+            font-family: var(--font);
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--w30);
+            background: none;
+            border: none;
+            border-radius: 8px;
+            padding: 0.4rem 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            letter-spacing: -0.01em;
+        }
+        .auth-tab-active {
+            background: var(--black-3);
+            color: var(--white);
+        }
+        .auth-heading {
+            font-size: 1.375rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--white);
+            margin: 0;
+        }
+        .auth-sub {
+            font-size: 0.875rem;
+            color: var(--w60);
+            line-height: 1.65;
+            margin: -0.5rem 0 0;
+        }
+        .auth-field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.375rem;
+        }
+        .auth-label {
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: var(--w60);
+        }
+        .auth-input {
+            background: var(--black-3);
+            border: 1px solid var(--w08);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            font-family: var(--font);
+            font-size: 0.9375rem;
+            color: var(--white);
+            outline: none;
+            transition: border-color 0.2s;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .auth-input::placeholder { color: var(--w30); }
+        .auth-input:focus { border-color: var(--p-border); }
+        .auth-error {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.02em;
+            min-height: 1em;
+            color: #F87171;
+        }
+        .auth-error.ok { color: var(--accent); }
+        .auth-submit {
+            font-family: var(--font);
+            font-size: 0.9375rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            background: var(--p);
+            color: #fff;
+            border: none;
+            border-radius: 100px;
+            padding: 0.875rem 1.5rem;
+            cursor: pointer;
+            width: 100%;
+            transition: opacity 0.2s;
+        }
+        .auth-submit:hover:not(:disabled) { opacity: 0.88; }
+        .auth-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+        .auth-privacy {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            color: var(--w30);
+            letter-spacing: 0.03em;
+            text-align: center;
+        }
+        .auth-privacy-link { color: var(--p); text-decoration: none; }
+        .auth-privacy-link:hover { text-decoration: underline; }
+
         /* ── Candidate footer ── */
         .cand-footer {
             border-top: 1px solid var(--w08);
@@ -1034,7 +1352,9 @@
             <a href="index.html" class="logo">Superceptron</a>
             <div class="nav-right">
                 <a href="#how-it-works" class="cand-nav-link">How it works</a>
-                <a href="#expert-review" class="cand-nav-cta">Expert Review</a>
+                <a href="#services" class="cand-nav-link">Services</a>
+                <a href="profile.html" class="cand-nav-cta" id="nav-profile" style="display:none">My account</a>
+                <button class="cand-nav-cta" id="nav-signin" style="background:transparent;border:1.5px solid rgba(123,104,238,0.35);color:var(--p);cursor:pointer;">Sign in</button>
             </div>
         </div>
     </nav>
@@ -1121,13 +1441,10 @@
             <p class="tool-error" id="tool-error"></p>
 
             <div class="action-row">
-                <button class="btn-analyse" id="btn-analyse">Analyse my CV</button>
-                <button class="btn-expert" id="btn-expert">
-                    Expert Review &nbsp;·&nbsp; £49
-                </button>
+                <button class="btn-analyse" id="btn-analyse">Analyse my CV <span class="free-badge">Free</span></button>
             </div>
 
-            <p class="tool-disclaimer">Free analysis: nothing stored. Paid upgrades: your CV is stored securely to fulfil your order.</p>
+            <p class="tool-disclaimer">Free analysis — nothing stored. &nbsp;<a href="#services" class="disclaimer-link">See paid services →</a></p>
 
         </div>
     </section>
@@ -1187,73 +1504,105 @@
         </div>
     </section>
 
-    <!-- ── PRICING / UPGRADES ── -->
-    <section class="pricing-section" id="expert-review">
-        <div class="pricing-section-inner">
+    <!-- ── PAID SERVICES ── -->
+    <section class="services-section" id="services">
+        <div class="services-inner">
 
-            <div class="pricing-header reveal">
-                <p class="pricing-label">Upgrade</p>
-                <h2 class="pricing-headline">Take it further.</h2>
-                <p class="pricing-sub">Choose the level of support that fits where you are.</p>
+            <div class="services-header reveal">
+                <p class="services-label">Paid services</p>
+                <h2 class="services-headline">Take it further.</h2>
+                <p class="services-sub">Choose what you need — sign in or create an account to get started.</p>
             </div>
 
-            <div class="pricing-grid reveal">
+            <div class="services-grid reveal">
 
-                <!-- Tier 1: Polished CV / PDF -->
-                <div class="pricing-card">
-                    <div class="pricing-card-top">
-                        <span class="pricing-tier-label">Polished CV</span>
-                        <span class="pricing-price">£19</span>
+                <div class="service-card">
+                    <div class="service-card-top">
+                        <span class="service-name">CV Rewrite</span>
+                        <span class="service-tag">Most popular</span>
                     </div>
-                    <p class="pricing-desc">Your CV rewritten for this role — ATS-friendly structure, strong language, delivered as a PDF ready to send.</p>
-                    <ul class="pricing-features">
-                        <li>Full CV rewrite against this JD</li>
-                        <li>ATS-optimised structure</li>
+                    <p class="service-desc">Your CV rewritten for this specific role — structure, language, and framing that makes your real experience come through clearly.</p>
+                    <ul class="service-features">
+                        <li>Full rewrite against this JD</li>
+                        <li>Stronger structure and language</li>
                         <li>PDF delivered to your inbox</li>
                     </ul>
-                    <button class="pricing-cta" data-tier="cv_pdf">Get Polished CV →</button>
-                    <span class="pricing-delivery">Instant delivery</span>
+                    <button class="service-cta" data-tier="cv_pdf">Get started →</button>
+                    <span class="service-delivery">Delivered to your inbox</span>
                 </div>
 
-                <!-- Tier 2: Expert Human Review -->
-                <div class="pricing-card pricing-card-featured">
-                    <div class="pricing-card-top">
-                        <span class="pricing-tier-label">Expert Review</span>
-                        <span class="pricing-price">£49</span>
+                <div class="service-card service-card-featured">
+                    <div class="service-card-top">
+                        <span class="service-name">Human Review</span>
+                        <span class="service-tag service-tag-expert">Expert</span>
                     </div>
-                    <p class="pricing-desc">A senior recruiter reads your CV in context, rewrites the weak spots, and makes sure your real strengths aren't buried.</p>
-                    <ul class="pricing-features">
+                    <p class="service-desc">A senior recruiter reads your CV in context, rewrites the weak spots, and makes sure your real strengths aren't buried.</p>
+                    <ul class="service-features">
                         <li>Human expert review</li>
                         <li>Weak sections rewritten</li>
                         <li>Personalised to this exact JD</li>
                     </ul>
-                    <button class="pricing-cta pricing-cta-featured" data-tier="human_review">Get Expert Review →</button>
-                    <span class="pricing-delivery">Within 48 hours</span>
+                    <button class="service-cta service-cta-featured" data-tier="human_review">Get started →</button>
+                    <span class="service-delivery">Within 48 hours</span>
                 </div>
 
-                <!-- Tier 3: 1:1 Career Session -->
-                <div class="pricing-card">
-                    <div class="pricing-card-top">
-                        <span class="pricing-tier-label">1:1 Career Session</span>
-                        <span class="pricing-price">£99</span>
+                <div class="service-card">
+                    <div class="service-card-top">
+                        <span class="service-name">1:1 Career Session</span>
                     </div>
-                    <p class="pricing-desc">45 minutes with a senior recruiter — your CV, your target role, what's actually working in the market right now.</p>
-                    <ul class="pricing-features">
+                    <p class="service-desc">45 minutes with a senior recruiter — your CV, your target role, and what's actually working in the market right now.</p>
+                    <ul class="service-features">
                         <li>45-min 1:1 video session</li>
                         <li>CV and strategy review</li>
                         <li>Book immediately after payment</li>
                     </ul>
-                    <button class="pricing-cta" data-tier="career_session">Book Session →</button>
-                    <span class="pricing-delivery">Book immediately after payment</span>
+                    <button class="service-cta" data-tier="career_session">Get started →</button>
+                    <span class="service-delivery">Book immediately after payment</span>
                 </div>
 
             </div>
 
-            <p class="pricing-checkout-err" id="pricing-err"></p>
-            <p class="pricing-note">Secure card payment via Stripe — no account needed.</p>
+            <p class="services-note">Secure payment via Stripe &nbsp;·&nbsp; Prices in GBP or USD &nbsp;·&nbsp; Sign in or register — it takes 30 seconds</p>
 
         </div>
     </section>
+
+    <!-- ── AUTH MODAL ── -->
+    <div class="auth-overlay" id="auth-overlay" role="dialog" aria-modal="true" aria-labelledby="auth-heading" style="display:none">
+        <div class="auth-modal">
+
+            <button class="auth-close" id="auth-close" aria-label="Close">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <line x1="2" y1="2" x2="14" y2="14" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+                    <line x1="14" y1="2" x2="2" y2="14" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+                </svg>
+            </button>
+
+            <div class="auth-tabs">
+                <button class="auth-tab auth-tab-active" id="tab-register">Register</button>
+                <button class="auth-tab" id="tab-login">Sign in</button>
+            </div>
+
+            <h2 class="auth-heading" id="auth-heading">Create your account</h2>
+            <p class="auth-sub" id="auth-sub">Save your CV and manage your orders in one place.</p>
+
+            <form id="auth-form" novalidate>
+                <div class="auth-field">
+                    <label class="auth-label" for="auth-email">Email address</label>
+                    <input class="auth-input" id="auth-email" type="email" placeholder="you@example.com" autocomplete="email" required>
+                </div>
+                <div class="auth-field" style="margin-top:0.75rem;">
+                    <label class="auth-label" for="auth-password">Password</label>
+                    <input class="auth-input" id="auth-password" type="password" placeholder="At least 8 characters" autocomplete="current-password" minlength="8" required>
+                </div>
+                <p class="auth-error" id="auth-error" style="margin-top:0.625rem;"></p>
+                <button class="auth-submit" id="auth-submit" type="submit" style="margin-top:0.5rem;">Create account →</button>
+            </form>
+
+            <p class="auth-privacy">We'll never share your email. <a href="privacy.html" class="auth-privacy-link">Privacy policy</a></p>
+
+        </div>
+    </div>
 
     <!-- ── FOOTER ── -->
     <footer class="cand-footer">
@@ -1275,10 +1624,29 @@
     (function () {
         'use strict';
 
-        /* ── CONFIG — update WORKER_URL after deploying chat-worker/worker.js ── */
+        /* ── CONFIG ── */
         var WORKER_URL = 'https://superceptron-chat.superceptron.workers.dev';
         var SCORE_URL  = WORKER_URL + '/score';
-        var W3F_KEY    = '8d60dc7b-2668-4945-9ae5-c522327c14da';
+
+        /* ── SUPABASE — TODO: fill in your project credentials ──────────────────
+         * 1. Create a free project at supabase.com
+         * 2. Settings → API → copy Project URL and anon/public key
+         * 3. In Supabase SQL editor, run:
+         *      CREATE TABLE profiles (
+         *        id UUID REFERENCES auth.users PRIMARY KEY,
+         *        cv_text TEXT,
+         *        jd_text TEXT,
+         *        updated_at TIMESTAMPTZ DEFAULT now()
+         *      );
+         *      ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
+         *      CREATE POLICY "Users manage own profile" ON profiles
+         *        FOR ALL USING (auth.uid() = id) WITH CHECK (auth.uid() = id);
+         * ─────────────────────────────────────────────────────────────────────── */
+        var SUPABASE_URL      = 'https://nnvfflsenziqecjrdkks.supabase.co';
+        var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5udmZmbHNlbnppcWVjanJka2tzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc2OTg4OTUsImV4cCI6MjEwMzI3NDg5NX0.6il0odidWgV-R7WdhIeH0AEbO2a6YNzeAqR90es-oBQ';
+        var sb = (window.supabase && SUPABASE_URL.indexOf('YOUR_') === -1)
+            ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+            : null;
 
         /* ── HELPERS ── */
         function $(id) { return document.getElementById(id); }
@@ -1523,60 +1891,139 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
-        /* ── STRIPE CHECKOUT ── */
-        var CHECKOUT_URL = WORKER_URL + '/create-checkout';
+        /* ── NAV AUTH STATE ── */
+        function refreshNavAuth() {
+            if (!sb) return;
+            sb.auth.getSession().then(function (r) {
+                var session = r.data && r.data.session;
+                var signinEl  = $('nav-signin');
+                var profileEl = $('nav-profile');
+                if (signinEl)  signinEl.style.display  = session ? 'none' : '';
+                if (profileEl) profileEl.style.display = session ? '' : 'none';
+            });
+        }
+        refreshNavAuth();
 
-        function startCheckout(tier, btn) {
-            var cv = readInput('cv');
-            var jd = readInput('jd');
-            var errEl = $('pricing-err');
+        /* ── AUTH MODAL ── */
+        var pendingTier = null;
+        var isRegister  = true;
 
-            // CV required for pdf and review tiers
-            if ((tier === 'cv_pdf' || tier === 'human_review') && !cv) {
-                if (errEl) {
-                    errEl.textContent = 'Please add your CV first — we need it to fulfil this order.';
-                    errEl.classList.add('visible');
-                    errEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }
+        function openAuth(tier) {
+            pendingTier = tier;
+            if (!sb) {
+                /* Supabase not configured yet — show modal with a note */
+                showAuthOverlay();
+                var errEl = $('auth-error');
+                if (errEl) errEl.textContent = 'Account system not yet configured — email info@superceptron.com to purchase.';
                 return;
             }
-            if (errEl) errEl.classList.remove('visible');
-
-            var original = btn.textContent;
-            btn.disabled = true;
-            btn.textContent = 'Redirecting…';
-
-            fetch(CHECKOUT_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ tier: tier, cv: cv, jd: jd })
-            })
-            .then(function (r) { return r.json(); })
-            .then(function (data) {
-                if (data.error) throw new Error(data.error);
-                window.location.href = data.url;
-            })
-            .catch(function (err) {
-                btn.disabled = false;
-                btn.textContent = original;
-                if (errEl) {
-                    errEl.textContent = err.message || 'Something went wrong — please try again.';
-                    errEl.classList.add('visible');
+            sb.auth.getSession().then(function (r) {
+                var session = r.data && r.data.session;
+                if (session) {
+                    window.location.href = tier ? 'profile.html?service=' + tier : 'profile.html';
+                    return;
                 }
+                showAuthOverlay();
             });
         }
 
-        /* btn-expert in action row → tier 2 shortcut */
-        $('btn-expert').addEventListener('click', function () {
-            startCheckout('human_review', this);
+        function showAuthOverlay() {
+            var overlay = $('auth-overlay');
+            if (!overlay) return;
+            overlay.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            setTimeout(function () { var i = $('auth-email'); if (i) i.focus(); }, 80);
+        }
+
+        function closeAuthOverlay() {
+            var overlay = $('auth-overlay');
+            if (overlay) overlay.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        function setAuthMode(register) {
+            isRegister = register;
+            var t1  = $('tab-register');
+            var t2  = $('tab-login');
+            var h   = $('auth-heading');
+            var sub = $('auth-sub');
+            var sub2 = $('auth-submit');
+            var err = $('auth-error');
+            if (t1)   t1.classList.toggle('auth-tab-active', register);
+            if (t2)   t2.classList.toggle('auth-tab-active', !register);
+            if (h)    h.textContent   = register ? 'Create your account' : 'Welcome back';
+            if (sub)  sub.textContent = register
+                ? 'Save your CV and manage your orders in one place.'
+                : 'Sign in to continue to your profile.';
+            if (sub2) sub2.textContent = register ? 'Create account →' : 'Sign in →';
+            if (err)  { err.textContent = ''; err.classList.remove('ok'); }
+        }
+
+        /* Modal close / tab wiring */
+        var authOverlay = $('auth-overlay');
+        var authClose   = $('auth-close');
+        if (authClose)   authClose.addEventListener('click', closeAuthOverlay);
+        if (authOverlay) authOverlay.addEventListener('click', function (e) {
+            if (e.target === authOverlay) closeAuthOverlay();
+        });
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeAuthOverlay(); });
+
+        var tabReg = $('tab-register'), tabLog = $('tab-login');
+        if (tabReg) tabReg.addEventListener('click', function () { setAuthMode(true); });
+        if (tabLog) tabLog.addEventListener('click', function () { setAuthMode(false); });
+
+        /* Form submit */
+        var authForm = $('auth-form');
+        if (authForm) {
+            authForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                if (!sb) return;
+
+                var email    = ($('auth-email').value || '').trim();
+                var password = $('auth-password').value || '';
+                var errEl    = $('auth-error');
+                var subBtn   = $('auth-submit');
+
+                errEl.textContent = '';
+                errEl.classList.remove('ok');
+                subBtn.disabled   = true;
+                subBtn.textContent = isRegister ? 'Creating account…' : 'Signing in…';
+
+                var promise = isRegister
+                    ? sb.auth.signUp({ email: email, password: password })
+                    : sb.auth.signInWithPassword({ email: email, password: password });
+
+                promise.then(function (result) {
+                    if (result.error) {
+                        errEl.textContent  = result.error.message;
+                        subBtn.disabled    = false;
+                        subBtn.textContent = isRegister ? 'Create account →' : 'Sign in →';
+                        return;
+                    }
+                    /* Registration with email confirmation required */
+                    if (isRegister && !(result.data && result.data.session)) {
+                        errEl.classList.add('ok');
+                        errEl.textContent  = 'Check your email for a confirmation link, then sign in below.';
+                        setAuthMode(false);
+                        subBtn.disabled    = false;
+                        return;
+                    }
+                    closeAuthOverlay();
+                    window.location.href = pendingTier
+                        ? 'profile.html?service=' + pendingTier
+                        : 'profile.html';
+                });
+            });
+        }
+
+        /* Service card buttons → open auth */
+        document.querySelectorAll('.service-cta').forEach(function (btn) {
+            btn.addEventListener('click', function () { openAuth(this.dataset.tier); });
         });
 
-        /* Pricing grid tier buttons */
-        document.querySelectorAll('.pricing-cta').forEach(function (btn) {
-            btn.addEventListener('click', function () {
-                startCheckout(this.dataset.tier, this);
-            });
-        });
+        /* Nav sign-in button */
+        var navSigninBtn = $('nav-signin');
+        if (navSigninBtn) navSigninBtn.addEventListener('click', function () { openAuth(null); });
 
     })();
     </script>

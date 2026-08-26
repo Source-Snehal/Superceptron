@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile — Superceptron</title>
+    <meta name="robots" content="noindex">
+    <link rel="icon" href="logo.jpeg" type="image/jpeg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+    <style>
+        :root {
+            --p: #7B68EE;
+            --p-dim: rgba(123,104,238,0.08);
+            --p-mid: rgba(123,104,238,0.22);
+            --p-glow: rgba(123,104,238,0.35);
+            --p-border: rgba(123,104,238,0.18);
+            --p-hover: rgba(123,104,238,0.12);
+        }
+
+        /* ── Nav overrides ── */
+        .profile-nav-email {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--w30);
+            letter-spacing: 0.04em;
+        }
+        .btn-signout {
+            font-family: var(--font);
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--w30);
+            background: none;
+            border: 1px solid var(--w08);
+            border-radius: 100px;
+            padding: 0.4rem 1rem;
+            cursor: pointer;
+            transition: color 0.2s, border-color 0.2s;
+            letter-spacing: -0.01em;
+        }
+        .btn-signout:hover { color: var(--white); border-color: var(--w30); }
+
+        /* ── Page layout ── */
+        .profile-wrap {
+            padding: 7rem 1.5rem 5rem;
+            min-height: 100vh;
+        }
+        .profile-inner {
+            max-width: 760px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* ── Service banner ── */
+        .service-banner {
+            background: var(--p-dim);
+            border: 1px solid var(--p-border);
+            border-radius: var(--r-lg);
+            padding: 1.5rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .service-banner-left {}
+        .service-banner-eyebrow {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--p);
+            margin-bottom: 0.375rem;
+        }
+        .service-banner-name {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--white);
+            letter-spacing: -0.02em;
+        }
+        .service-banner-desc {
+            font-size: 0.875rem;
+            color: var(--w60);
+            line-height: 1.6;
+            margin-top: 0.25rem;
+        }
+        .service-banner-change {
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            color: var(--w30);
+            text-decoration: none;
+            letter-spacing: 0.04em;
+            transition: color 0.2s;
+            white-space: nowrap;
+        }
+        .service-banner-change:hover { color: var(--w60); }
+
+        /* ── Input section ── */
+        .profile-section {
+            background: var(--black-2);
+            border: 1px solid var(--w08);
+            border-radius: var(--r-lg);
+            overflow: hidden;
+        }
+        .profile-section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.125rem 1.5rem;
+            border-bottom: 1px solid var(--w08);
+        }
+        .profile-section-title {
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--white);
+            letter-spacing: -0.01em;
+        }
+        .profile-section-badge {
+            font-family: var(--mono);
+            font-size: 0.58rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--w30);
+            background: var(--w04);
+            border: 1px solid var(--w08);
+            border-radius: 4px;
+            padding: 0.18rem 0.5rem;
+        }
+        .profile-textarea {
+            display: block;
+            width: 100%;
+            min-height: 220px;
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: vertical;
+            font-family: var(--font);
+            font-size: 0.875rem;
+            color: var(--w60);
+            line-height: 1.7;
+            padding: 1rem 1.5rem 1.25rem;
+            box-sizing: border-box;
+            caret-color: var(--p);
+        }
+        .profile-textarea:focus { color: var(--white); }
+        .profile-textarea::placeholder { color: var(--w30); }
+
+        .profile-file-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.625rem;
+            padding: 0.75rem 1.5rem;
+            border-top: 1px solid var(--w08);
+        }
+        .profile-file-btn {
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--w30);
+            background: none;
+            border: 1px solid var(--w08);
+            border-radius: 6px;
+            padding: 0.35rem 0.75rem;
+            cursor: pointer;
+            transition: color 0.2s, border-color 0.2s;
+        }
+        .profile-file-btn:hover { color: var(--white); border-color: var(--w30); }
+        .profile-file-hint {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            color: var(--w30);
+            letter-spacing: 0.02em;
+        }
+        .profile-file-name {
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            color: var(--accent);
+            background: rgba(77,255,180,0.06);
+            border: 1px solid rgba(77,255,180,0.16);
+            border-radius: 4px;
+            padding: 0.2rem 0.5rem;
+            display: none;
+        }
+        .profile-file-name.visible { display: inline; }
+        .profile-save-indicator {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            color: var(--accent);
+            letter-spacing: 0.04em;
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        .profile-save-indicator.visible { opacity: 1; }
+
+        /* ── Checkout box ── */
+        .checkout-box {
+            background: var(--black-2);
+            border: 1px solid var(--w08);
+            border-radius: var(--r-lg);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+        .checkout-box-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .checkout-price-display {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        .checkout-price-label {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--w30);
+        }
+        .checkout-price-value {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            color: var(--white);
+            line-height: 1;
+        }
+        .checkout-price-delivery {
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            color: var(--w30);
+            letter-spacing: 0.04em;
+            margin-top: 0.25rem;
+        }
+
+        /* Currency toggle */
+        .currency-toggle {
+            display: flex;
+            gap: 0;
+            background: var(--w04);
+            border-radius: 10px;
+            padding: 3px;
+            align-self: flex-start;
+        }
+        .curr-btn {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            color: var(--w30);
+            background: none;
+            border: none;
+            border-radius: 8px;
+            padding: 0.4rem 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .curr-btn.active {
+            background: var(--black-3);
+            color: var(--white);
+        }
+
+        /* Proceed button */
+        .btn-checkout {
+            font-family: var(--font);
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: -0.015em;
+            background: var(--p);
+            color: #fff;
+            border: none;
+            border-radius: 100px;
+            padding: 1rem 2rem;
+            cursor: pointer;
+            width: 100%;
+            transition: opacity 0.2s, transform 0.25s var(--ease), box-shadow 0.25s;
+        }
+        .btn-checkout:hover:not(:disabled) {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px var(--p-glow);
+        }
+        .btn-checkout:disabled { opacity: 0.45; cursor: not-allowed; }
+
+        .checkout-note {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            color: var(--w30);
+            letter-spacing: 0.04em;
+            text-align: center;
+        }
+        .checkout-err {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: #F87171;
+            letter-spacing: 0.02em;
+            display: none;
+            text-align: center;
+        }
+        .checkout-err.visible { display: block; }
+
+        /* ── Saved indicator ── */
+        .profile-autosave {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            color: var(--w30);
+            letter-spacing: 0.04em;
+            text-align: right;
+        }
+        .profile-autosave.saved { color: var(--accent); }
+
+        /* ── Loading state ── */
+        .profile-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            min-height: 60vh;
+        }
+        .profile-loading p {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--w30);
+            letter-spacing: 0.06em;
+        }
+        .profile-spinner {
+            width: 28px;
+            height: 28px;
+            border: 2px solid var(--w08);
+            border-top-color: var(--p);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @media (max-width: 600px) {
+            .profile-wrap { padding: 6rem 1.125rem 4rem; }
+            .checkout-box-top { flex-direction: column-reverse; }
+            .service-banner { padding: 1.25rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ── NAV ── -->
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="logo">Superceptron</a>
+            <div class="nav-right">
+                <span class="profile-nav-email" id="profile-email-nav"></span>
+                <button class="btn-signout" id="btn-signout">Sign out</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="profile-wrap">
+        <!-- Loading state (shown while checking auth) -->
+        <div class="profile-loading" id="profile-loading">
+            <div class="profile-spinner"></div>
+            <p>Loading…</p>
+        </div>
+
+        <!-- Main content (hidden until auth confirmed) -->
+        <div class="profile-inner" id="profile-content" style="display:none">
+
+            <!-- Service banner -->
+            <div class="service-banner" id="service-banner">
+                <div class="service-banner-left">
+                    <p class="service-banner-eyebrow">Selected service</p>
+                    <p class="service-banner-name" id="banner-name">—</p>
+                    <p class="service-banner-desc" id="banner-desc"></p>
+                </div>
+                <a href="cv-score.html#services" class="service-banner-change">← Change service</a>
+            </div>
+
+            <!-- CV input -->
+            <div class="profile-section">
+                <div class="profile-section-header">
+                    <span class="profile-section-title">Your CV</span>
+                    <span class="profile-section-badge" id="cv-save-badge">Not saved yet</span>
+                </div>
+                <textarea class="profile-textarea" id="prof-cv"
+                    placeholder="Paste your full CV text here — we'll use this for your order and save it to your account for next time.&#10;&#10;If you have a PDF, copy and paste the text directly from it."
+                    rows="12"></textarea>
+                <div class="profile-file-bar">
+                    <button class="profile-file-btn" id="cv-upload-btn">Upload .txt</button>
+                    <input type="file" id="cv-file-input" accept=".txt" style="display:none">
+                    <span class="profile-file-name" id="cv-file-name"></span>
+                    <span class="profile-file-hint">or paste above — PDF: copy text directly from your PDF viewer</span>
+                </div>
+            </div>
+
+            <!-- JD input -->
+            <div class="profile-section">
+                <div class="profile-section-header">
+                    <span class="profile-section-title">Job Description</span>
+                    <span class="profile-section-badge" id="jd-save-badge">Not saved yet</span>
+                </div>
+                <textarea class="profile-textarea" id="prof-jd"
+                    placeholder="Paste the job description for the role you're applying to. The more complete, the better the match."
+                    rows="9"></textarea>
+            </div>
+
+            <!-- Checkout -->
+            <div class="checkout-box">
+                <div class="checkout-box-top">
+                    <div class="checkout-price-display">
+                        <span class="checkout-price-label">Price</span>
+                        <span class="checkout-price-value" id="price-display">—</span>
+                        <span class="checkout-price-delivery" id="price-delivery"></span>
+                    </div>
+                    <div class="currency-toggle">
+                        <button class="curr-btn active" id="curr-gbp">£ GBP</button>
+                        <button class="curr-btn" id="curr-usd">$ USD</button>
+                    </div>
+                </div>
+                <button class="btn-checkout" id="btn-checkout">Proceed to payment →</button>
+                <p class="checkout-note">Secure card payment via Stripe &nbsp;·&nbsp; Nothing is charged until you complete checkout</p>
+                <p class="checkout-err" id="checkout-err"></p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ── FOOTER ── -->
+    <footer style="border-top:1px solid var(--w08);padding:1.5rem;text-align:center;">
+        <p style="font-size:0.8125rem;color:var(--w30);">
+            <a href="index.html" style="color:var(--w30);text-decoration:none;margin-right:1.5rem;">Home</a>
+            <a href="cv-score.html" style="color:var(--w30);text-decoration:none;margin-right:1.5rem;">Free CV scorer</a>
+            <a href="privacy.html" style="color:var(--w30);text-decoration:none;">Privacy</a>
+        </p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+    (function () {
+        'use strict';
+
+        /* ── CONFIG — same placeholders as cv-score.html ── */
+        var WORKER_URL       = 'https://superceptron-chat.superceptron.workers.dev';
+        var SUPABASE_URL      = 'https://nnvfflsenziqecjrdkks.supabase.co';
+        var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5udmZmbHNlbnppcWVjanJka2tzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc2OTg4OTUsImV4cCI6MjEwMzI3NDg5NX0.6il0odidWgV-R7WdhIeH0AEbO2a6YNzeAqR90es-oBQ';
+
+        var sb = (window.supabase && SUPABASE_URL.indexOf('YOUR_') === -1)
+            ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+            : null;
+
+        /* ── SERVICE DEFINITIONS ── */
+        var SERVICES = {
+            cv_pdf: {
+                name:     'CV Rewrite',
+                desc:     'Your CV rewritten for this specific role — structure, language, and framing that makes your real experience come through.',
+                GBP:      { display: '£9.99',  amount: 999  },
+                USD:      { display: '$9.99',   amount: 999  },
+                delivery: 'Delivered to your inbox',
+            },
+            human_review: {
+                name:     'Human Review',
+                desc:     'A senior recruiter reads your CV in context, rewrites the weak spots, and makes sure your real strengths aren\'t buried.',
+                GBP:      { display: '£29.99', amount: 2999 },
+                USD:      { display: '$29.99',  amount: 2999 },
+                delivery: 'Within 48 hours',
+            },
+            career_session: {
+                name:     '1:1 Career Session',
+                desc:     '45 minutes with a senior recruiter — your CV, your target role, and what\'s actually working in the market right now.',
+                GBP:      { display: '£89.99', amount: 8999 },
+                USD:      { display: '$89.99',  amount: 8999 },
+                delivery: 'Book immediately after payment',
+            },
+        };
+
+        /* ── STATE ── */
+        var currentCurrency = 'GBP';
+        var params   = new URLSearchParams(window.location.search);
+        var service  = params.get('service') || '';
+        var userId   = null;
+        var saveTimer = null;
+
+        /* ── HELPERS ── */
+        function $(id) { return document.getElementById(id); }
+
+        function showContent() {
+            $('profile-loading').style.display = 'none';
+            $('profile-content').style.display = '';
+        }
+
+        /* ── RENDER SERVICE BANNER ── */
+        function renderBanner() {
+            var svc = SERVICES[service];
+            if (!svc) {
+                /* No service selected — show generic welcome */
+                $('banner-name').textContent = 'Your account';
+                $('banner-desc').textContent = 'Choose a service from the CV scorer to get started.';
+                $('checkout-box') && ($('checkout-box').style.display = 'none');
+                return;
+            }
+            $('banner-name').textContent = svc.name;
+            $('banner-desc').textContent = svc.desc;
+            renderPrice();
+        }
+
+        function renderPrice() {
+            var svc = SERVICES[service];
+            if (!svc) return;
+            var curr = svc[currentCurrency];
+            $('price-display').textContent  = curr.display;
+            $('price-delivery').textContent = svc.delivery;
+        }
+
+        /* ── CURRENCY TOGGLE ── */
+        $('curr-gbp').addEventListener('click', function () {
+            currentCurrency = 'GBP';
+            $('curr-gbp').classList.add('active');
+            $('curr-usd').classList.remove('active');
+            renderPrice();
+        });
+        $('curr-usd').addEventListener('click', function () {
+            currentCurrency = 'USD';
+            $('curr-usd').classList.add('active');
+            $('curr-gbp').classList.remove('active');
+            renderPrice();
+        });
+
+        /* ── AUTOSAVE to Supabase ── */
+        function scheduleAutosave() {
+            clearTimeout(saveTimer);
+            saveTimer = setTimeout(saveProfile, 1800);
+        }
+
+        function saveProfile() {
+            if (!sb || !userId) return;
+            var cvText = $('prof-cv').value;
+            var jdText = $('prof-jd').value;
+            sb.from('profiles')
+                .upsert({ id: userId, cv_text: cvText, jd_text: jdText, updated_at: new Date().toISOString() })
+                .then(function (r) {
+                    if (!r.error) {
+                        $('cv-save-badge').textContent = 'Saved';
+                        $('jd-save-badge').textContent = 'Saved';
+                    }
+                });
+        }
+
+        $('prof-cv').addEventListener('input', function () {
+            $('cv-save-badge').textContent = 'Unsaved';
+            scheduleAutosave();
+        });
+        $('prof-jd').addEventListener('input', function () {
+            $('jd-save-badge').textContent = 'Unsaved';
+            scheduleAutosave();
+        });
+
+        /* ── FILE UPLOAD (txt only) ── */
+        var cvUploadBtn   = $('cv-upload-btn');
+        var cvFileInput   = $('cv-file-input');
+        var cvFileNameEl  = $('cv-file-name');
+
+        cvUploadBtn.addEventListener('click', function () { cvFileInput.click(); });
+        cvFileInput.addEventListener('change', function () {
+            var file = cvFileInput.files[0];
+            if (!file) return;
+            var ext = file.name.split('.').pop().toLowerCase();
+            if (ext !== 'txt') {
+                alert('Please upload a .txt file, or paste your CV text directly into the box above.');
+                return;
+            }
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('prof-cv').value = e.target.result;
+                cvFileNameEl.textContent = file.name;
+                cvFileNameEl.classList.add('visible');
+                $('cv-save-badge').textContent = 'Unsaved';
+                scheduleAutosave();
+            };
+            reader.readAsText(file);
+        });
+
+        /* ── CHECKOUT ── */
+        $('btn-checkout').addEventListener('click', function () {
+            var cv   = ($('prof-cv').value || '').trim();
+            var jd   = ($('prof-jd').value || '').trim();
+            var errEl = $('checkout-err');
+            errEl.textContent = '';
+            errEl.classList.remove('visible');
+
+            if (!service || !SERVICES[service]) {
+                errEl.textContent = 'No service selected — go back and choose a service.';
+                errEl.classList.add('visible');
+                return;
+            }
+            if ((service === 'cv_pdf' || service === 'human_review') && !cv) {
+                errEl.textContent = 'Please paste your CV text above before continuing.';
+                errEl.classList.add('visible');
+                return;
+            }
+
+            var btn = this;
+            btn.disabled    = true;
+            btn.textContent = 'Redirecting to Stripe…';
+
+            /* Save profile first, then go to checkout */
+            var doCheckout = function () {
+                fetch(WORKER_URL + '/create-checkout', {
+                    method:  'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        tier:     service,
+                        cv:       cv,
+                        jd:       jd,
+                        currency: currentCurrency.toLowerCase(),
+                    }),
+                })
+                .then(function (r) { return r.json(); })
+                .then(function (data) {
+                    if (data.error) throw new Error(data.error);
+                    window.location.href = data.url;
+                })
+                .catch(function (err) {
+                    btn.disabled    = false;
+                    btn.textContent = 'Proceed to payment →';
+                    errEl.textContent = err.message || 'Something went wrong — please try again.';
+                    errEl.classList.add('visible');
+                });
+            };
+
+            if (sb && userId) {
+                sb.from('profiles')
+                    .upsert({ id: userId, cv_text: cv, jd_text: jd, updated_at: new Date().toISOString() })
+                    .then(doCheckout);
+            } else {
+                doCheckout();
+            }
+        });
+
+        /* ── SIGN OUT ── */
+        $('btn-signout').addEventListener('click', function () {
+            if (sb) {
+                sb.auth.signOut().then(function () {
+                    window.location.href = 'cv-score.html';
+                });
+            } else {
+                window.location.href = 'cv-score.html';
+            }
+        });
+
+        /* ── AUTH CHECK on load ── */
+        if (!sb) {
+            /* Supabase not configured — still show the page but without saved data */
+            showContent();
+            renderBanner();
+            $('profile-email-nav').textContent = '';
+            $('cv-save-badge').textContent = 'Not connected';
+            $('jd-save-badge').textContent = 'Not connected';
+            return;
+        }
+
+        sb.auth.getSession().then(function (r) {
+            var session = r.data && r.data.session;
+            if (!session) {
+                /* Not logged in — redirect back to scorer */
+                window.location.href = 'cv-score.html';
+                return;
+            }
+
+            userId = session.user.id;
+            $('profile-email-nav').textContent = session.user.email;
+
+            /* Load saved CV / JD */
+            sb.from('profiles')
+                .select('cv_text, jd_text')
+                .eq('id', userId)
+                .maybeSingle()
+                .then(function (r) {
+                    if (r.data) {
+                        $('prof-cv').value = r.data.cv_text || '';
+                        $('prof-jd').value = r.data.jd_text || '';
+                        if (r.data.cv_text) $('cv-save-badge').textContent = 'Saved';
+                        if (r.data.jd_text) $('jd-save-badge').textContent = 'Saved';
+                    }
+                    showContent();
+                    renderBanner();
+                });
+        });
+
+    })();
+    </script>
+</body>
+</html>
