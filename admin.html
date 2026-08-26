@@ -51,6 +51,53 @@
             color: var(--muted); cursor: pointer; transition: all 0.15s;
         }
         .a-signout:hover { color: var(--white); border-color: var(--border-hi); }
+        .a-chpw {
+            font-family: var(--font); font-size: 0.8125rem; font-weight: 600;
+            padding: 0.375rem 0.875rem; border-radius: 8px;
+            border: 1px solid var(--border); background: transparent;
+            color: var(--muted); cursor: pointer; transition: all 0.15s;
+        }
+        .a-chpw:hover { color: var(--white); border-color: var(--border-hi); }
+
+        /* Change-password modal */
+        .cpw-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.72); z-index: 50;
+            display: flex; align-items: center; justify-content: center; padding: 1.5rem;
+        }
+        .cpw-modal {
+            background: #111; border: 1px solid var(--border-hi); border-radius: 16px;
+            padding: 2rem; width: 100%; max-width: 360px;
+            display: flex; flex-direction: column; gap: 1.25rem;
+        }
+        .cpw-title { font-size: 1.0625rem; font-weight: 800; letter-spacing: -0.025em; }
+        .cpw-fields { display: flex; flex-direction: column; gap: 0.625rem; }
+        .cpw-input {
+            width: 100%; padding: 0.7rem 0.875rem; border-radius: 10px;
+            border: 1px solid var(--border); background: rgba(255,255,255,0.03);
+            font-family: var(--font); font-size: 0.875rem; color: var(--white);
+            outline: none; transition: border-color 0.15s; box-sizing: border-box;
+        }
+        .cpw-input:focus { border-color: var(--p-border); }
+        .cpw-input::placeholder { color: var(--muted); }
+        .cpw-actions { display: flex; gap: 0.625rem; justify-content: flex-end; }
+        .cpw-cancel {
+            font-family: var(--font); font-size: 0.8125rem; font-weight: 600;
+            padding: 0.5rem 1rem; border-radius: 8px;
+            border: 1px solid var(--border); background: transparent;
+            color: var(--muted); cursor: pointer; transition: all 0.15s;
+        }
+        .cpw-cancel:hover { color: var(--white); border-color: var(--border-hi); }
+        .cpw-save {
+            font-family: var(--font); font-size: 0.8125rem; font-weight: 700;
+            padding: 0.5rem 1.25rem; border-radius: 8px;
+            border: none; background: var(--p); color: #fff;
+            cursor: pointer; transition: opacity 0.15s;
+        }
+        .cpw-save:hover { opacity: 0.88; }
+        .cpw-save:disabled { opacity: 0.4; cursor: not-allowed; }
+        .cpw-msg { font-size: 0.8125rem; display: none; padding: 0.5rem 0.75rem; border-radius: 8px; }
+        .cpw-msg.err { color: var(--red); background: rgba(248,113,113,0.07); border: 1px solid rgba(248,113,113,0.18); }
+        .cpw-msg.ok  { color: var(--green); background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.22); }
 
         /* ── Main ── */
         .a-main { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
@@ -258,9 +305,26 @@
             <span class="a-nav-brand">Super<span>ceptron</span> Admin</span>
             <div class="a-nav-right">
                 <span class="a-nav-user" id="admin-email"></span>
+                <button class="a-chpw" id="btn-chpw">Change password</button>
                 <button class="a-signout" id="btn-signout">Sign out</button>
             </div>
         </nav>
+
+        <!-- Change-password modal -->
+        <div class="cpw-overlay" id="cpw-overlay" hidden>
+            <div class="cpw-modal">
+                <div class="cpw-title">Change password</div>
+                <div class="cpw-fields">
+                    <input class="cpw-input" type="password" id="cpw-new"     placeholder="New password" autocomplete="new-password">
+                    <input class="cpw-input" type="password" id="cpw-confirm" placeholder="Confirm new password" autocomplete="new-password">
+                </div>
+                <div class="cpw-msg" id="cpw-msg"></div>
+                <div class="cpw-actions">
+                    <button class="cpw-cancel" id="cpw-cancel">Cancel</button>
+                    <button class="cpw-save"   id="cpw-save">Save →</button>
+                </div>
+            </div>
+        </div>
 
         <main class="a-main">
             <div class="a-page-title">CV Submissions</div>
@@ -389,6 +453,57 @@
                 document.getElementById('auth-overlay').hidden = false;
                 showLogin();
             });
+        });
+
+        /* ── Change password ── */
+        function openChpw() {
+            document.getElementById('cpw-new').value     = '';
+            document.getElementById('cpw-confirm').value = '';
+            var msg = document.getElementById('cpw-msg');
+            msg.style.display = 'none'; msg.textContent = '';
+            document.getElementById('cpw-save').disabled = false;
+            document.getElementById('cpw-save').textContent = 'Save →';
+            document.getElementById('cpw-overlay').hidden = false;
+            document.getElementById('cpw-new').focus();
+        }
+        function closeChpw() { document.getElementById('cpw-overlay').hidden = true; }
+
+        document.getElementById('btn-chpw').addEventListener('click', openChpw);
+        document.getElementById('cpw-cancel').addEventListener('click', closeChpw);
+        document.getElementById('cpw-overlay').addEventListener('click', function (e) {
+            if (e.target === this) closeChpw();
+        });
+
+        document.getElementById('cpw-save').addEventListener('click', function () {
+            var np  = document.getElementById('cpw-new').value;
+            var cp  = document.getElementById('cpw-confirm').value;
+            var msg = document.getElementById('cpw-msg');
+            var btn = document.getElementById('cpw-save');
+
+            function showMsg(text, type) {
+                msg.textContent = text;
+                msg.className = 'cpw-msg ' + type;
+                msg.style.display = '';
+            }
+            if (!np) { showMsg('Enter a new password.', 'err'); return; }
+            if (np.length < 8) { showMsg('Password must be at least 8 characters.', 'err'); return; }
+            if (np !== cp) { showMsg('Passwords don\'t match.', 'err'); return; }
+
+            btn.disabled = true; btn.textContent = 'Saving…';
+            sb.auth.updateUser({ password: np })
+                .then(function (r) {
+                    if (r.error) {
+                        btn.disabled = false; btn.textContent = 'Save →';
+                        showMsg(r.error.message, 'err');
+                    } else {
+                        showMsg('Password updated.', 'ok');
+                        setTimeout(closeChpw, 1400);
+                    }
+                })
+                .catch(function () {
+                    btn.disabled = false; btn.textContent = 'Save →';
+                    showMsg('Network error — try again.', 'err');
+                });
         });
 
         /* ── Filters ── */
