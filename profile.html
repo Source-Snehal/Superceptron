@@ -878,9 +878,9 @@
             if (!sb || !userId) return;
             var name = $('dash-name').value.trim();
             var role = $('dash-role').value.trim();
-            sb.from('profiles').upsert({ id: userId, full_name: name, target_role: role })
+            sb.from('profiles').upsert({ id: userId, full_name: name, target_role: role }).select()
                 .then(function (r) {
-                    if (!r.error) flashSave('header-saved');
+                    if (!r.error && r.data && r.data.length) flashSave('header-saved');
                 });
         }
 
@@ -915,10 +915,10 @@
                 full_name:   name,
                 target_role: role,
                 skills:      JSON.stringify(skills),
-            }).then(function (r) {
+            }).select().then(function (r) {
                 btn.disabled = false;
-                if (r.error) {
-                    $('profile-status').textContent = 'Error saving — try again.';
+                if (r.error || !r.data || !r.data.length) {
+                    $('profile-status').textContent = 'Error saving — check Supabase columns exist.';
                 } else {
                     $('profile-status').textContent = 'Saved ✓';
                     $('profile-status').classList.add('saved');
@@ -946,8 +946,8 @@
                 id:      userId,
                 cv_text: $('prof-cv').value,
                 jd_text: $('prof-jd').value,
-            }).then(function (r) {
-                if (!r.error) {
+            }).select().then(function (r) {
+                if (!r.error && r.data && r.data.length) {
                     $('cv-badge').textContent = 'Saved';
                     $('jd-badge').textContent = 'Saved';
                 }
@@ -968,10 +968,10 @@
                 id:      userId,
                 cv_text: $('prof-cv').value,
                 jd_text: $('prof-jd').value,
-            }).then(function (r) {
+            }).select().then(function (r) {
                 btn.disabled = false;
-                if (r.error) {
-                    $('cv-status').textContent = 'Error saving — try again.';
+                if (r.error || !r.data || !r.data.length) {
+                    $('cv-status').textContent = 'Error saving — check Supabase columns exist.';
                 } else {
                     $('cv-status').textContent = 'Saved ✓';
                     $('cv-status').classList.add('saved');
