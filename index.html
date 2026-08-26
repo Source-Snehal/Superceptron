@@ -59,7 +59,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 80px 1.5rem 3rem;
+            padding: 72px 1.5rem 2.5rem;
         }
 
         .hub-hero-inner {
@@ -67,7 +67,7 @@
             max-width: var(--max);
             display: flex;
             flex-direction: column;
-            gap: 3.5rem;
+            gap: 2.25rem;
         }
 
         /* ── Thesis block ── */
@@ -75,17 +75,18 @@
             text-align: center;
         }
 
+        /* rgba(255,255,255,0.55) on #070707 ≈ 6.2:1 — passes WCAG AA */
         .hub-sub {
             font-family: var(--mono);
             font-size: 0.8125rem;
-            color: var(--w30);
+            color: rgba(255,255,255,0.55);
             letter-spacing: 0.02em;
             line-height: 1.9;
         }
 
         /* ── Rolling hero animation ── */
         .roll-hero {
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.875rem;
             text-align: center;
         }
 
@@ -256,6 +257,71 @@
             transform: translateY(-2px);
         }
 
+        /* ── Email capture ── */
+        .hub-capture {
+            text-align: center;
+            margin-top: 0.25rem;
+        }
+
+        .capture-label {
+            display: block;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: rgba(255,255,255,0.3);
+            letter-spacing: 0.03em;
+            margin-bottom: 0.75rem;
+        }
+
+        .capture-row {
+            display: inline-flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .capture-input {
+            font-family: var(--font);
+            font-size: 0.8125rem;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 100px;
+            color: var(--white);
+            padding: 0.45rem 1rem;
+            outline: none;
+            width: 220px;
+            transition: border-color 0.2s;
+        }
+
+        .capture-input::placeholder { color: rgba(255,255,255,0.2); }
+        .capture-input:focus { border-color: rgba(255,255,255,0.3); }
+
+        .capture-btn {
+            font-family: var(--font);
+            font-size: 0.8125rem;
+            font-weight: 600;
+            padding: 0.45rem 1rem;
+            border-radius: 100px;
+            background: rgba(255,255,255,0.07);
+            color: rgba(255,255,255,0.6);
+            border: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            white-space: nowrap;
+        }
+
+        .capture-btn:hover { background: rgba(255,255,255,0.12); color: var(--white); }
+        .capture-btn:focus-visible { outline: 2px solid rgba(255,255,255,0.4); outline-offset: 2px; }
+
+        .capture-msg {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            margin-top: 0.5rem;
+            min-height: 1em;
+            color: rgba(255,255,255,0.35);
+        }
+
+        .capture-msg.ok    { color: var(--accent); }
+        .capture-msg.error { color: #F87171; }
+
         /* ── Shared animation ── */
         @keyframes riseIn {
             from { opacity: 0; transform: translateY(18px); }
@@ -407,6 +473,21 @@
 
             </div>
 
+            <!-- Email capture — secondary, below both CTAs -->
+            <div class="hub-capture">
+                <form class="capture-form" id="capture-form" novalidate>
+                    <label class="capture-label" for="capture-email">
+                        Not ready yet? Leave your email and we'll keep you posted.
+                    </label>
+                    <div class="capture-row">
+                        <input class="capture-input" id="capture-email" type="email"
+                               placeholder="your@email.com" autocomplete="email" aria-required="true">
+                        <button class="capture-btn" type="submit">Notify me</button>
+                    </div>
+                    <p class="capture-msg" id="capture-msg" aria-live="polite"></p>
+                </form>
+            </div>
+
         </div>
     </main>
 
@@ -539,6 +620,67 @@
             }
 
             setTimeout(run, 200);
+        })();
+
+        /* ── Email capture ──────────────────────────────────────────────────────
+         * TODO: set CAPTURE_ENDPOINT to your form backend before going live.
+         * Options:
+         *   Formspree  — https://formspree.io  → 'https://formspree.io/f/YOUR_ID'
+         *   Formcarry  — https://formcarry.com → 'https://formcarry.com/s/YOUR_ID'
+         *   Own API    — any endpoint that accepts POST { email: '...' }
+         * Leave empty to get the friendly thanks state + a console warning.
+         * ─────────────────────────────────────────────────────────────────────── */
+        (function () {
+            var CAPTURE_ENDPOINT = ''; /* <-- paste your endpoint here */
+
+            var form  = document.getElementById('capture-form');
+            var input = document.getElementById('capture-email');
+            var msg   = document.getElementById('capture-msg');
+
+            if (!form) return;
+
+            function setMsg(text, cls) {
+                msg.textContent = text;
+                msg.className   = 'capture-msg' + (cls ? ' ' + cls : '');
+            }
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                var email = (input.value || '').trim();
+
+                if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    setMsg('Please enter a valid email address.', 'error');
+                    input.focus();
+                    return;
+                }
+
+                if (!CAPTURE_ENDPOINT) {
+                    /* TODO: CAPTURE_ENDPOINT is not set — plug in your endpoint above */
+                    console.warn('[Superceptron] Email capture: CAPTURE_ENDPOINT is empty. Set it in index.html to actually save emails.');
+                    form.style.display = 'none';
+                    setMsg('Thanks — we\'ll be in touch.', 'ok');
+                    return;
+                }
+
+                var btn = form.querySelector('.capture-btn');
+                btn.disabled = true;
+                setMsg('');
+
+                fetch(CAPTURE_ENDPOINT, {
+                    method:  'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body:    JSON.stringify({ email: email }),
+                })
+                .then(function (r) {
+                    if (!r.ok) throw new Error('http ' + r.status);
+                    form.style.display = 'none';
+                    setMsg('Thanks — we\'ll be in touch.', 'ok');
+                })
+                .catch(function () {
+                    btn.disabled = false;
+                    setMsg('Something went wrong — try again.', 'error');
+                });
+            });
         })();
     </script>
 </body>
