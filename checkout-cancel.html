@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Cancelled — Superceptron</title>
+    <link rel="icon" href="logo.jpeg" type="image/jpeg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        :root {
+            --p: #7B68EE;
+            --p-border: rgba(123,104,238,0.18);
+        }
+
+        .cancel-wrap {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .cancel-card {
+            max-width: 480px;
+            width: 100%;
+            background: var(--black-2);
+            border: 1px solid var(--w08);
+            border-radius: 20px;
+            padding: 3rem 2.5rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .cancel-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.03);
+            border: 1.5px solid var(--w12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+
+        .cancel-eyebrow {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--w30);
+        }
+
+        .cancel-heading {
+            font-size: clamp(1.375rem, 3.5vw, 1.75rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--white);
+            line-height: 1.2;
+        }
+
+        .cancel-body {
+            font-size: 0.9375rem;
+            color: var(--w60);
+            line-height: 1.75;
+        }
+
+        .cancel-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font);
+            font-size: 0.9375rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            background: var(--p);
+            color: #fff;
+            border: none;
+            border-radius: 100px;
+            padding: 0.875rem 2rem;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        .cancel-cta:hover { opacity: 0.85; }
+
+        .cancel-home {
+            font-size: 0.875rem;
+            color: var(--w30);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .cancel-home:hover { color: var(--w60); }
+    </style>
+</head>
+<body>
+
+    <nav class="nav" id="nav" style="position:fixed;">
+        <div class="nav-inner">
+            <a href="index.html" class="logo">Superceptron</a>
+        </div>
+    </nav>
+
+    <div class="cancel-wrap">
+        <div class="cancel-card">
+
+            <div class="cancel-icon" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <line x1="6" y1="6" x2="18" y2="18" stroke="rgba(255,255,255,0.3)" stroke-width="1.8" stroke-linecap="round"/>
+                    <line x1="18" y1="6" x2="6" y2="18" stroke="rgba(255,255,255,0.3)" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+            </div>
+
+            <p class="cancel-eyebrow">Payment cancelled</p>
+            <h1 class="cancel-heading">No charge was made.</h1>
+            <p class="cancel-body">Your payment was cancelled — nothing has been taken from your card. Head back to try again whenever you're ready.</p>
+
+            <a href="cv-score.html" class="cancel-cta">Back to CV scorer</a>
+            <a href="index.html" class="cancel-home">← Home</a>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,3 +1,8 @@
 name = "superceptron-chat"
 main = "worker.js"
 compatibility_date = "2024-09-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "superceptron-cvs"
+database_id = "b1d7ca69-fad1-40cc-9263-3a1e383a59dc"

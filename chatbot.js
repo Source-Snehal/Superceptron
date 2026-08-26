@@ -10,9 +10,9 @@
   'use strict';
 
   /* ── CONFIG ────────────────────────────────────────────────── */
-  var WORKER_URL = 'https://superceptron-chat.YOUR_SUBDOMAIN.workers.dev';
+  var WORKER_URL = 'https://superceptron-chat.superceptron.workers.dev';
   var W3F_KEY    = '8d60dc7b-2668-4945-9ae5-c522327c14da';
-  var GREETING   = "Hi — I’m the Superceptron assistant. Ask me anything about our resume screening service, pricing, or how to get started.";
+  var GREETING   = "Hi — I’m Percy, Superceptron’s AI assistant. Ask me anything about our resume screening service, pricing, or how to get started.";
 
   if (WORKER_URL.indexOf('YOUR_SUBDOMAIN') !== -1) {
     console.warn('[Superceptron chat] Worker not configured yet. Set WORKER_URL in chatbot.js after deploying chat-worker/worker.js.');
@@ -125,13 +125,13 @@
     var panel = document.createElement('div');
     panel.id = 'sc-panel';
     panel.setAttribute('role', 'dialog');
-    panel.setAttribute('aria-label', 'Superceptron chat assistant');
+    panel.setAttribute('aria-label', 'Percy — Superceptron AI assistant');
     panel.innerHTML =
       '<div id="sc-head">' +
         '<div id="sc-avatar">' + ICON_BOT + '</div>' +
         '<div id="sc-head-info">' +
-          '<span id="sc-head-name">Superceptron</span>' +
-          '<span id="sc-head-status">Online &middot; AI assistant</span>' +
+          '<span id="sc-head-name">Percy</span>' +
+          '<span id="sc-head-status">Online &middot; Superceptron AI</span>' +
         '</div>' +
         '<button id="sc-close-btn" aria-label="Close chat">' +
           '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><line x1="3" y1="3" x2="11" y2="11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="11" y1="3" x2="3" y2="11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
@@ -179,6 +179,9 @@
 
     btn.addEventListener('click', function() { isOpen ? close() : open(); });
     closeEl.addEventListener('click', close);
+
+    // Auto-open with greeting on page load
+    setTimeout(function () { if (!isOpen) open(); }, 2500);
 
     /* Auto-resize textarea */
     inputEl.addEventListener('input', function() {

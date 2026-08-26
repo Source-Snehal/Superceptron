@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmed — Superceptron</title>
+    <link rel="icon" href="logo.jpeg" type="image/jpeg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        /* TODO: update BOOKING_URL when Calendly / booking system is ready */
+        :root {
+            --p: #7B68EE;
+            --p-dim: rgba(123,104,238,0.08);
+            --p-border: rgba(123,104,238,0.18);
+        }
+
+        .success-wrap {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .success-card {
+            max-width: 520px;
+            width: 100%;
+            background: var(--black-2);
+            border: 1px solid var(--p-border);
+            border-radius: 20px;
+            padding: 3rem 2.5rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .success-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(77,255,180,0.07);
+            border: 1.5px solid rgba(77,255,180,0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+
+        .success-eyebrow {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        .success-heading {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--white);
+            line-height: 1.15;
+        }
+
+        .success-body {
+            font-size: 0.9375rem;
+            color: var(--w60);
+            line-height: 1.75;
+        }
+
+        .success-detail {
+            background: var(--black-3);
+            border: 1px solid var(--w08);
+            border-radius: 12px;
+            padding: 1.125rem 1.375rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--w60);
+            letter-spacing: 0.03em;
+            line-height: 1.8;
+            text-align: left;
+        }
+
+        .success-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font);
+            font-size: 0.9375rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            background: var(--p);
+            color: #fff;
+            border: none;
+            border-radius: 100px;
+            padding: 0.875rem 2rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        .success-cta:hover { opacity: 0.85; }
+
+        .success-back {
+            font-size: 0.875rem;
+            color: var(--w30);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .success-back:hover { color: var(--w60); }
+
+        /* Booking-specific state (tier 3) */
+        .booking-prompt { display: none; }
+
+        nav { position: static; background: transparent; border: none; box-shadow: none; }
+    </style>
+</head>
+<body>
+
+    <nav class="nav" id="nav" style="position:fixed;">
+        <div class="nav-inner">
+            <a href="index.html" class="logo">Superceptron</a>
+        </div>
+    </nav>
+
+    <div class="success-wrap">
+        <div class="success-card" id="success-card">
+
+            <div class="success-icon" aria-hidden="true">
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                    <path d="M6 14l6 6 10-12" stroke="#4DFFB4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+
+            <p class="success-eyebrow" id="success-eyebrow">Payment confirmed</p>
+            <h1 class="success-heading" id="success-heading">You're all set.</h1>
+            <p class="success-body" id="success-body"></p>
+            <div class="success-detail" id="success-detail" style="display:none"></div>
+
+            <!-- Tier 3: booking CTA (shown if BOOKING_URL is set) -->
+            <div class="booking-prompt" id="booking-prompt">
+                <a id="booking-link" class="success-cta" href="#" target="_blank" rel="noopener">
+                    Book your session →
+                </a>
+            </div>
+
+            <a href="cv-score.html" class="success-back">← Back to CV scorer</a>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+    (function () {
+        // TODO: paste your Calendly / booking link here when ready
+        var BOOKING_URL = '';
+
+        var params = new URLSearchParams(window.location.search);
+        var tier = params.get('tier') || '';
+
+        var headingEl = document.getElementById('success-heading');
+        var bodyEl    = document.getElementById('success-body');
+        var detailEl  = document.getElementById('success-detail');
+        var eyebrowEl = document.getElementById('success-eyebrow');
+        var bookingEl = document.getElementById('booking-prompt');
+        var bookLink  = document.getElementById('booking-link');
+
+        if (tier === 'cv_pdf') {
+            eyebrowEl.textContent = 'Payment confirmed';
+            headingEl.textContent = 'Your polished CV is on its way.';
+            bodyEl.textContent    = 'We\'ve received your payment and your CV is being prepared. You\'ll receive your ATS-friendly PDF to your inbox shortly.';
+            // TODO: show estimated delivery time once PDF pipeline is live
+
+        } else if (tier === 'human_review') {
+            eyebrowEl.textContent = 'Payment confirmed';
+            headingEl.textContent = 'We\'ve got it.';
+            bodyEl.textContent    = 'A senior recruiter will review your CV against the job description and get back to you within 48 hours. Keep an eye on your inbox.';
+            detailEl.innerHTML    =
+                'What happens next:<br>' +
+                '1. Your CV is reviewed by a senior recruiter<br>' +
+                '2. Weak sections are rewritten for this specific role<br>' +
+                '3. You receive the revised version by email';
+            detailEl.style.display = '';
+
+        } else if (tier === 'career_session') {
+            eyebrowEl.textContent = 'Payment confirmed';
+            headingEl.textContent = 'Time to book your session.';
+
+            if (BOOKING_URL) {
+                bodyEl.textContent = 'Your payment is confirmed. Click below to choose a time that works for you.';
+                bookLink.href      = BOOKING_URL;
+                bookingEl.style.display = '';
+            } else {
+                // BOOKING_URL not set yet — fallback message
+                bodyEl.textContent = 'Your payment is confirmed. You\'ll receive a booking link at your email address within a few hours. Reach out to info@superceptron.com if you don\'t hear back.';
+            }
+
+        } else {
+            // Unknown tier — generic confirmation
+            headingEl.textContent = 'Payment confirmed.';
+            bodyEl.textContent    = 'Thank you for your purchase. We\'ll be in touch shortly at your email address.';
+        }
+    })();
+    </script>
+</body>
+</html>
