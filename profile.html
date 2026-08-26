@@ -13,6 +13,8 @@
 
     <!-- Supabase JS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <!-- PDF.js for CV text extraction -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
     <style>
         :root {
@@ -372,10 +374,10 @@
                     placeholder="Paste your full CV text here — we'll use this for your order and save it to your account for next time.&#10;&#10;If you have a PDF, copy and paste the text directly from it."
                     rows="12"></textarea>
                 <div class="profile-file-bar">
-                    <button class="profile-file-btn" id="cv-upload-btn">Upload .txt</button>
-                    <input type="file" id="cv-file-input" accept=".txt" style="display:none">
+                    <button class="profile-file-btn" id="cv-upload-btn">Upload CV</button>
+                    <input type="file" id="cv-file-input" accept=".pdf,.txt" style="display:none">
                     <span class="profile-file-name" id="cv-file-name"></span>
-                    <span class="profile-file-hint">or paste above — PDF: copy text directly from your PDF viewer</span>
+                    <span class="profile-file-hint">PDF or .txt — or paste text directly above</span>
                 </div>
             </div>
 
@@ -418,6 +420,43 @@
     <script>
     (function () {
         'use strict';
+
+        /* ── PDF.js setup ── */
+        if (window.pdfjsLib) {
+            pdfjsLib.GlobalWorkerOptions.workerSrc =
+                'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        }
+
+        function extractPdfText(file, callback) {
+            if (!window.pdfjsLib) { callback(''); return; }
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                pdfjsLib.getDocument({ data: new Uint8Array(e.target.result) }).promise
+                    .then(function (pdf) {
+                        var total = pdf.numPages;
+                        if (total === 0) { callback(''); return; }
+                        var pages = new Array(total), done = 0;
+                        for (var i = 1; i <= total; i++) {
+                            (function (pageNum) {
+                                pdf.getPage(pageNum).then(function (page) {
+                                    page.getTextContent().then(function (content) {
+                                        var lines = [], lastY;
+                                        content.items.forEach(function (item) {
+                                            if (lastY !== undefined && Math.abs(item.transform[5] - lastY) > 5) lines.push('\n');
+                                            lines.push(item.str);
+                                            lastY = item.transform[5];
+                                        });
+                                        pages[pageNum - 1] = lines.join(' ');
+                                        if (++done === total) callback(pages.join('\n\n'));
+                                    });
+                                });
+                            })(i);
+                        }
+                    })
+                    .catch(function () { callback(''); });
+            };
+            reader.readAsArrayBuffer(file);
+        }
 
         /* ── CONFIG ── */
         var SUPABASE_URL      = 'https://nnvfflsenziqecjrdkks.supabase.co';
@@ -531,19 +570,34 @@
             var file = cvFileInput.files[0];
             if (!file) return;
             var ext = file.name.split('.').pop().toLowerCase();
-            if (ext !== 'txt') {
-                alert('Please upload a .txt file, or paste your CV text directly into the box above.');
-                return;
-            }
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $('prof-cv').value = e.target.result;
-                cvFileNameEl.textContent = file.name;
+
+            if (ext === 'txt') {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('prof-cv').value = e.target.result;
+                    cvFileNameEl.textContent = file.name;
+                    cvFileNameEl.classList.add('visible');
+                    $('cv-save-badge').textContent = 'Unsaved';
+                    scheduleAutosave();
+                };
+                reader.readAsText(file);
+            } else if (ext === 'pdf') {
+                cvFileNameEl.textContent = 'Reading…';
                 cvFileNameEl.classList.add('visible');
-                $('cv-save-badge').textContent = 'Unsaved';
-                scheduleAutosave();
-            };
-            reader.readAsText(file);
+                extractPdfText(file, function (text) {
+                    if (text && text.trim()) {
+                        $('prof-cv').value = text;
+                        cvFileNameEl.textContent = file.name;
+                        $('cv-save-badge').textContent = 'Unsaved';
+                        scheduleAutosave();
+                    } else {
+                        cvFileNameEl.classList.remove('visible');
+                        alert('Couldn\'t extract text from this PDF — please paste your CV text directly.');
+                    }
+                });
+            } else {
+                alert('Please upload a .pdf or .txt file.');
+            }
         });
 
         /* ── CHECKOUT ── */

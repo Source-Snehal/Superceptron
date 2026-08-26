@@ -1631,10 +1631,49 @@
         </div>
     </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="script.js"></script>
     <script>
     (function () {
         'use strict';
+
+        /* ── PDF.js setup ── */
+        if (window.pdfjsLib) {
+            pdfjsLib.GlobalWorkerOptions.workerSrc =
+                'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        }
+
+        function extractPdfText(file, callback) {
+            if (!window.pdfjsLib) { callback(''); return; }
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                pdfjsLib.getDocument({ data: new Uint8Array(e.target.result) }).promise
+                    .then(function (pdf) {
+                        var total  = pdf.numPages;
+                        if (total === 0) { callback(''); return; }
+                        var pages  = new Array(total);
+                        var done   = 0;
+                        for (var i = 1; i <= total; i++) {
+                            (function (pageNum) {
+                                pdf.getPage(pageNum).then(function (page) {
+                                    page.getTextContent().then(function (content) {
+                                        var lines = [], lastY;
+                                        content.items.forEach(function (item) {
+                                            if (lastY !== undefined && Math.abs(item.transform[5] - lastY) > 5) lines.push('\n');
+                                            lines.push(item.str);
+                                            lastY = item.transform[5];
+                                        });
+                                        pages[pageNum - 1] = lines.join(' ');
+                                        if (++done === total) callback(pages.join('\n\n'));
+                                    });
+                                });
+                            })(i);
+                        }
+                    })
+                    .catch(function () { callback(''); });
+            };
+            reader.readAsArrayBuffer(file);
+        }
 
         /* ── CONFIG ── */
         var WORKER_URL = 'https://superceptron-chat.superceptron.workers.dev';
@@ -1734,15 +1773,29 @@
                     $(prefix + '-text').value = e.target.result;
                     setFilename(prefix, file.name);
                     tabs.showPaste();
-                    setNotice(prefix, file.name + ' loaded — text ready below.', 'ok');
+                    setNotice(prefix, file.name + ' loaded.', 'ok');
                 };
                 reader.readAsText(file);
-            } else if (ext === 'pdf' || ext === 'docx') {
+            } else if (ext === 'pdf') {
+                setNotice(prefix, 'Reading PDF…', '');
+                extractPdfText(file, function (text) {
+                    if (text && text.trim()) {
+                        $(prefix + '-text').value = text;
+                        setFilename(prefix, file.name);
+                        tabs.showPaste();
+                        setNotice(prefix, file.name + ' — text extracted.', 'ok');
+                    } else {
+                        tabs.showPaste();
+                        setNotice(prefix, 'Couldn\'t read this PDF — please paste your text directly.', 'warn');
+                        $(prefix + '-text').focus();
+                    }
+                });
+            } else if (ext === 'docx') {
                 tabs.showPaste();
-                setNotice(prefix, ext.toUpperCase() + ' text can\'t be extracted in the browser — please paste your text in the box above.', 'warn');
+                setNotice(prefix, 'For Word documents, copy and paste the text directly from Word.', 'warn');
                 $(prefix + '-text').focus();
             } else {
-                setNotice(prefix, 'Unsupported format. Please use .pdf, .docx, or .txt.', 'warn');
+                setNotice(prefix, 'Unsupported format — use .pdf, .docx, or .txt.', 'warn');
             }
         }
 
