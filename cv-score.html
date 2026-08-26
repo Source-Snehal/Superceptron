@@ -548,7 +548,6 @@
         }
         .fit-bar-fill {
             height: 100%;
-            background: var(--accent);
             border-radius: 2px;
             transition: width 0.8s var(--ease);
             width: 0%;
@@ -576,9 +575,49 @@
             border-top: 1px solid var(--w08);
         }
 
+        /* Quick wins (re-enabled below fit card) */
+        .quick-wins-card {
+            background: var(--black-2);
+            border: 1px solid var(--w08);
+            border-radius: var(--r-lg);
+            padding: 1.5rem 2rem;
+            margin-bottom: 1.25rem;
+            animation: riseIn 0.45s var(--ease) both;
+        }
+        .quick-wins-title {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        .quick-wins-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.625rem;
+        }
+        .quick-wins-list li {
+            font-size: 0.875rem;
+            color: var(--w60);
+            line-height: 1.7;
+            padding-left: 1.25rem;
+            position: relative;
+        }
+        .quick-wins-list li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-size: 0.8rem;
+            line-height: 1.8;
+        }
+
         /* Legacy — kept so print CSS etc. don't break */
         .sections-grid { display: none; }
-        .quick-wins-card { display: none; }
         .score-header-card { display: none; }
 
         /* AI flag notice */
@@ -1775,12 +1814,25 @@
         }
 
         /* ── RENDER RESULTS ── */
+        function barColor(score) {
+            if (score >= 70) return '#4DFFB4';
+            if (score >= 50) return '#F59E0B';
+            return '#F87171';
+        }
+
+        function fitScoreColor(score) {
+            if (score >= 70) return '#4DFFB4';
+            if (score >= 50) return '#F59E0B';
+            return '#F87171';
+        }
+
         function renderResults(data) {
             var section = $('results-section');
             section.style.display = 'block';
 
             var score = data.overall_score || 0;
             var score10 = Math.round(score / 10);
+            var scoreCol = fitScoreColor(score);
 
             var fitLabel, fitClass;
             if (score >= 80)      { fitLabel = 'STRONG FIT';   fitClass = 'fit-badge-strong'; }
@@ -1788,15 +1840,16 @@
             else if (score >= 40) { fitLabel = 'MODERATE FIT'; fitClass = 'fit-badge-moderate'; }
             else                  { fitLabel = 'WEAK FIT';     fitClass = 'fit-badge-weak'; }
 
-            /* Build section rows */
+            /* Build section rows — bars colored by individual score */
             var sectionsHtml = (data.sections || []).map(function (s) {
-                var s10 = Math.round((s.score || 0) / 10);
+                var s10  = Math.round((s.score || 0) / 10);
+                var col  = barColor(s.score || 0);
                 return '<div class="fit-section-row">' +
                     '<div class="fit-section-header">' +
                         '<span class="fit-section-name">' + esc(s.title) + '</span>' +
-                        '<span class="fit-section-score">' + s10 + '/10</span>' +
+                        '<span class="fit-section-score" style="color:' + col + '">' + s10 + '/10</span>' +
                     '</div>' +
-                    '<div class="fit-bar-track"><div class="fit-bar-fill" style="width:' + (s.score || 0) + '%;"></div></div>' +
+                    '<div class="fit-bar-track"><div class="fit-bar-fill" style="width:' + (s.score || 0) + '%;background:' + col + ';"></div></div>' +
                     '<p class="fit-section-desc">' + esc(s.finding) + '</p>' +
                     (s.suggestion ? '<p class="fit-section-change">' + esc(s.suggestion) + '</p>' : '') +
                 '</div>';
@@ -1809,7 +1862,7 @@
                 '<div class="fit-card-top">' +
                     '<p class="fit-eyebrow">Overall Fit</p>' +
                     '<div class="fit-score-row">' +
-                        '<span class="fit-score-num">' + score10 + '/10</span>' +
+                        '<span class="fit-score-num" style="color:' + scoreCol + '">' + score10 + '/10</span>' +
                         '<span class="fit-badge ' + fitClass + '">' + fitLabel + '</span>' +
                     '</div>' +
                     '<p class="fit-headline-text">' + esc(data.headline) + '</p>' +
@@ -1820,9 +1873,22 @@
             /* AI flag */
             $('ai-flag').classList.toggle('visible', !!data.ai_flag);
 
-            /* Clear legacy containers */
+            /* Quick wins */
+            var qwCard = $('quick-wins-card');
+            if (data.quick_wins && data.quick_wins.length) {
+                var items = data.quick_wins.map(function (w) {
+                    return '<li>' + esc(w) + '</li>';
+                }).join('');
+                qwCard.innerHTML =
+                    '<p class="quick-wins-title">Quick wins</p>' +
+                    '<ul class="quick-wins-list">' + items + '</ul>';
+                qwCard.style.display = '';
+            } else {
+                qwCard.style.display = 'none';
+            }
+
+            /* Clear legacy grid */
             $('sections-grid').innerHTML = '';
-            $('quick-wins-card').innerHTML = '';
 
             section.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
