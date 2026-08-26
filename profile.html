@@ -553,6 +553,8 @@
         <div class="nav-inner">
             <a href="index.html" class="logo">Superceptron</a>
             <div class="nav-right">
+                <a href="cv-score.html" style="font-size:0.8125rem;color:var(--w60);text-decoration:none;transition:color 0.2s;"
+                   onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--w60)'">← CV scorer</a>
                 <span class="dash-nav-email" id="dash-email-nav"></span>
                 <button class="btn-signout" id="btn-signout">Sign out</button>
             </div>
@@ -878,7 +880,8 @@
             if (!sb || !userId) return;
             var name = $('dash-name').value.trim();
             var role = $('dash-role').value.trim();
-            sb.from('profiles').upsert({ id: userId, full_name: name, target_role: role }).select()
+            sb.from('profiles').upsert({ id: userId, full_name: name, target_role: role })
+                .select('full_name, target_role')
                 .then(function (r) {
                     if (!r.error && r.data && r.data.length) flashSave('header-saved');
                 });
@@ -915,10 +918,10 @@
                 full_name:   name,
                 target_role: role,
                 skills:      JSON.stringify(skills),
-            }).select().then(function (r) {
+            }).select('full_name, target_role, skills').then(function (r) {
                 btn.disabled = false;
                 if (r.error || !r.data || !r.data.length) {
-                    $('profile-status').textContent = 'Error saving — check Supabase columns exist.';
+                    $('profile-status').textContent = 'Error — run the Supabase schema migration (see console).';
                 } else {
                     $('profile-status').textContent = 'Saved ✓';
                     $('profile-status').classList.add('saved');
@@ -946,7 +949,7 @@
                 id:      userId,
                 cv_text: $('prof-cv').value,
                 jd_text: $('prof-jd').value,
-            }).select().then(function (r) {
+            }).select('cv_text, jd_text').then(function (r) {
                 if (!r.error && r.data && r.data.length) {
                     $('cv-badge').textContent = 'Saved';
                     $('jd-badge').textContent = 'Saved';
