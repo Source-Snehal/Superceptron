@@ -149,8 +149,52 @@
         #auth-overlay {
             position: fixed; inset: 0; background: var(--bg); z-index: 99;
             display: flex; align-items: center; justify-content: center;
-            font-family: var(--mono); font-size: 0.8rem; color: var(--muted);
+            font-family: var(--font); padding: 1.5rem;
         }
+        .auth-box {
+            width: 100%; max-width: 360px; display: flex; flex-direction: column; gap: 1.5rem;
+        }
+        .auth-box-title {
+            font-size: 1.25rem; font-weight: 800; letter-spacing: -0.03em;
+        }
+        .auth-box-title span { color: var(--p); }
+        .auth-box-sub { font-size: 0.8125rem; color: var(--muted); margin-top: 0.25rem; }
+        .auth-fields { display: flex; flex-direction: column; gap: 0.625rem; }
+        .auth-input {
+            width: 100%; padding: 0.7rem 0.875rem; border-radius: 10px;
+            border: 1px solid var(--border); background: rgba(255,255,255,0.03);
+            font-family: var(--font); font-size: 0.875rem; color: var(--white);
+            outline: none; transition: border-color 0.15s; box-sizing: border-box;
+        }
+        .auth-input:focus { border-color: var(--p-border); }
+        .auth-input::placeholder { color: var(--muted); }
+        .auth-submit {
+            width: 100%; padding: 0.75rem; border-radius: 10px;
+            border: none; background: var(--p); color: #fff;
+            font-family: var(--font); font-size: 0.9375rem; font-weight: 700;
+            cursor: pointer; transition: opacity 0.15s;
+        }
+        .auth-submit:hover { opacity: 0.88; }
+        .auth-submit:disabled { opacity: 0.45; cursor: not-allowed; }
+        .auth-err {
+            font-size: 0.8125rem; color: var(--red); display: none;
+            padding: 0.625rem 0.875rem; border-radius: 8px;
+            background: rgba(248,113,113,0.07); border: 1px solid rgba(248,113,113,0.18);
+        }
+        .auth-denied {
+            text-align: center; display: flex; flex-direction: column;
+            align-items: center; gap: 1rem;
+        }
+        .auth-denied-icon { font-size: 2rem; }
+        .auth-denied-title { font-size: 1.125rem; font-weight: 700; }
+        .auth-denied-sub { font-size: 0.8125rem; color: var(--muted); }
+        .auth-denied-out {
+            font-family: var(--font); font-size: 0.8125rem; font-weight: 600;
+            padding: 0.45rem 1.125rem; border-radius: 8px;
+            border: 1px solid var(--border); background: transparent;
+            color: var(--muted); cursor: pointer; transition: all 0.15s; margin-top: 0.25rem;
+        }
+        .auth-denied-out:hover { color: var(--white); border-color: var(--border-hi); }
 
         /* Empty / loading states */
         .a-empty { text-align: center; padding: 4rem 2rem; font-size: 0.9375rem; color: var(--muted); }
@@ -172,12 +216,39 @@
 </head>
 <body>
 
-    <!-- Auth checking overlay -->
+    <!-- Auth overlay: login / checking / denied -->
     <div id="auth-overlay">
-        <div style="display:flex;flex-direction:column;align-items:center;gap:0.75rem">
+
+        <!-- Checking spinner (default) -->
+        <div id="auth-checking" style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;font-family:var(--mono);font-size:0.8rem;color:var(--muted)">
             <div class="a-spinner"></div>
             Checking access…
         </div>
+
+        <!-- Login form (shown when no session) -->
+        <div id="auth-login" class="auth-box" style="display:none">
+            <div>
+                <div class="auth-box-title">Super<span>ceptron</span> Admin</div>
+                <div class="auth-box-sub">Sign in to continue.</div>
+            </div>
+            <div class="auth-fields">
+                <input id="auth-email" class="auth-input" type="email" placeholder="Email" autocomplete="email">
+                <input id="auth-password" class="auth-input" type="password" placeholder="Password" autocomplete="current-password">
+            </div>
+            <div id="auth-err" class="auth-err"></div>
+            <button id="auth-submit" class="auth-submit">Sign in</button>
+        </div>
+
+        <!-- Access denied (logged in but not admin) -->
+        <div id="auth-denied" class="auth-box" style="display:none">
+            <div class="auth-denied">
+                <div class="auth-denied-icon">🔒</div>
+                <div class="auth-denied-title">Access denied</div>
+                <div class="auth-denied-sub">Your account doesn't have admin access.</div>
+                <button class="auth-denied-out" id="auth-denied-out">Sign out</button>
+            </div>
+        </div>
+
     </div>
 
     <!-- Admin UI (hidden until auth confirmed) -->
@@ -231,28 +302,93 @@
         var TIER_LABELS   = { super_review: 'SuperReview', super_rewrite: 'SuperRewrite', super_coach: 'SuperCoach' };
         var STATUS_LABELS = { submitted: 'Submitted', in_review: 'In review', complete: 'Complete' };
 
+        /* ── Auth helpers ── */
+        function showChecking() {
+            document.getElementById('auth-checking').style.display = '';
+            document.getElementById('auth-login').style.display    = 'none';
+            document.getElementById('auth-denied').style.display   = 'none';
+        }
+        function showLogin(errMsg) {
+            document.getElementById('auth-checking').style.display = 'none';
+            document.getElementById('auth-login').style.display    = '';
+            document.getElementById('auth-denied').style.display   = 'none';
+            var errEl = document.getElementById('auth-err');
+            if (errMsg) { errEl.textContent = errMsg; errEl.style.display = ''; }
+            else        { errEl.style.display = 'none'; }
+        }
+        function showDenied() {
+            document.getElementById('auth-checking').style.display = 'none';
+            document.getElementById('auth-login').style.display    = 'none';
+            document.getElementById('auth-denied').style.display   = '';
+        }
+        function showAdminUI(email) {
+            document.getElementById('auth-overlay').hidden = true;
+            document.getElementById('admin-ui').hidden = false;
+            document.getElementById('admin-email').textContent = email;
+        }
+
+        function checkAdmin(session) {
+            token = session.access_token;
+            sb.from('admins').select('user_id').eq('user_id', session.user.id).maybeSingle()
+                .then(function (ar) {
+                    if (!ar.data) { showDenied(); return; }
+                    showAdminUI(session.user.email);
+                    loadSubmissions();
+                    setInterval(loadSubmissions, 60000);
+                })
+                .catch(function () { showDenied(); });
+        }
+
         /* ── Init ── */
-        if (!sb) { document.getElementById('auth-overlay').textContent = 'Supabase not available.'; return; }
+        if (!sb) {
+            document.getElementById('auth-checking').textContent = 'Supabase not available.';
+            return;
+        }
 
         sb.auth.getSession().then(function (r) {
             var session = r.data && r.data.session;
-            if (!session) { window.location.href = 'cv-score.html'; return; }
-            token = session.access_token;
+            if (!session) { showLogin(); return; }
+            checkAdmin(session);
+        });
 
-            /* Client-side admin gate (server verifies on every API call too) */
-            sb.from('admins').select('user_id').eq('user_id', session.user.id).maybeSingle()
-                .then(function (ar) {
-                    if (!ar.data) { window.location.href = 'cv-score.html'; return; }
-                    document.getElementById('auth-overlay').hidden = true;
-                    document.getElementById('admin-ui').hidden = false;
-                    document.getElementById('admin-email').textContent = session.user.email;
-                    loadSubmissions();
-                    setInterval(loadSubmissions, 60000);
+        /* ── Login form ── */
+        document.getElementById('auth-submit').addEventListener('click', function () {
+            var email    = document.getElementById('auth-email').value.trim();
+            var password = document.getElementById('auth-password').value;
+            var btn      = document.getElementById('auth-submit');
+            if (!email || !password) { showLogin('Enter your email and password.'); return; }
+            btn.disabled = true;
+            btn.textContent = 'Signing in…';
+            sb.auth.signInWithPassword({ email: email, password: password })
+                .then(function (r) {
+                    if (r.error || !r.data.session) {
+                        btn.disabled = false; btn.textContent = 'Sign in';
+                        showLogin(r.error ? r.error.message : 'Sign-in failed.');
+                        return;
+                    }
+                    showChecking();
+                    checkAdmin(r.data.session);
                 });
         });
 
+        document.getElementById('auth-email').addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') document.getElementById('auth-password').focus();
+        });
+        document.getElementById('auth-password').addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') document.getElementById('auth-submit').click();
+        });
+
+        /* ── Denied sign-out ── */
+        document.getElementById('auth-denied-out').addEventListener('click', function () {
+            sb.auth.signOut().then(function () { showLogin(); });
+        });
+
         document.getElementById('btn-signout').addEventListener('click', function () {
-            sb.auth.signOut().then(function () { window.location.href = 'cv-score.html'; });
+            sb.auth.signOut().then(function () {
+                document.getElementById('admin-ui').hidden = true;
+                document.getElementById('auth-overlay').hidden = false;
+                showLogin();
+            });
         });
 
         /* ── Filters ── */
