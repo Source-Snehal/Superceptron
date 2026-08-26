@@ -140,9 +140,8 @@ const BOOKING_URL = '';
 /* ── USAGE / OVERFLOW CONFIG ─────────────────────────────────────
  * One place for review allowances + £15 overflow price.
  * ─────────────────────────────────────────────────────────────── */
-const OVERFLOW_REVIEW_PRICE_ID = ''; // TODO: paste Stripe one-time Price ID (£15)
-const OVERFLOW_REVIEW_AMOUNT   = 1500; // pence (£15.00)
-const TIER_REVIEW_ALLOWANCE    = { super_review: 2 }; // tiers that include human reviews
+const OVERFLOW_PAYMENT_LINK = 'https://buy.stripe.com/9B628ka93fMyfxjf6agUM09'; // £15 extra review
+const TIER_REVIEW_ALLOWANCE = { super_review: 2 }; // tiers that include human reviews
 
 const SUPABASE_URL = 'https://nnvfflsenziqecjrdkks.supabase.co';
 const SITE_ORIGIN  = 'https://www.superceptron.com';
@@ -439,8 +438,8 @@ async function handleStripeWebhook(request, env) {
       } catch (e) { console.error('Fetch subscription error:', e); }
     }
 
-    // Write purchase to Supabase — upsert by user_id+tier so re-purchases or webhook replays don't duplicate
-    if (userId && env.SUPABASE_SERVICE_KEY) {
+    // Write purchase to Supabase — skip for overflow_review (not a subscription purchase)
+    if (userId && env.SUPABASE_SERVICE_KEY && tier !== 'overflow_review') {
       try {
         const updates = {
           status:               'paid',
@@ -486,10 +485,9 @@ async function handleStripeWebhook(request, env) {
     // TODO (career_session): booking handled client-side via BOOKING_URL constant
 
     // Overflow review purchase: idempotently increment reviews_allowance
-    if (session.metadata?.type === 'overflow_review') {
-      const ovUserId = session.metadata?.user_id;
-      if (ovUserId && env.SUPABASE_SERVICE_KEY) {
-        await handleOverflowPayment(env, session.id, ovUserId);
+    if (tier === 'overflow_review') {
+      if (userId && env.SUPABASE_SERVICE_KEY) {
+        await handleOverflowPayment(env, session.id, userId);
       }
     }
   }
@@ -1168,32 +1166,13 @@ async function handleBuyOverflowReview(request, env) {
 
   const user = await verifyUser(body.token, env);
   if (!user) return respond(JSON.stringify({ error: 'Unauthorized' }), 403, { 'Content-Type': 'application/json' });
-  if (!env.STRIPE_SECRET_KEY) return respond(JSON.stringify({ error: 'Not configured.' }), 500, { 'Content-Type': 'application/json' });
-  if (!OVERFLOW_REVIEW_PRICE_ID) {
+  if (!OVERFLOW_PAYMENT_LINK) {
     return respond(JSON.stringify({ error: 'overflow_not_configured', message: 'Extra review purchases are not yet available.' }), 503, { 'Content-Type': 'application/json' });
   }
 
-  const params = new URLSearchParams({
-    mode: 'payment',
-    'line_items[0][price]': OVERFLOW_REVIEW_PRICE_ID,
-    'line_items[0][quantity]': '1',
-    success_url: `${SITE_ORIGIN}/profile.html?overflow=1&session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url:  `${SITE_ORIGIN}/profile.html`,
-    customer_email: user.email,
-    'metadata[type]':    'overflow_review',
-    'metadata[user_id]': user.id,
-  });
-  const stripeRes = await fetch('https://api.stripe.com/v1/checkout/sessions', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${env.STRIPE_SECRET_KEY}`, 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: params.toString(),
-  });
-  if (!stripeRes.ok) {
-    console.error('Stripe overflow checkout error:', await stripeRes.text());
-    return respond(JSON.stringify({ error: 'Could not create checkout — please try again.' }), 502, { 'Content-Type': 'application/json' });
-  }
-  const session = await stripeRes.json();
-  return respond(JSON.stringify({ url: session.url }), 200, { 'Content-Type': 'application/json' });
+  // Stripe Payment Links accept ?client_reference_id — encode userId+tier so the webhook identifies this payment
+  const url = OVERFLOW_PAYMENT_LINK + '?client_reference_id=' + encodeURIComponent(user.id + '___overflow_review');
+  return respond(JSON.stringify({ url }), 200, { 'Content-Type': 'application/json' });
 }
 
 async function handleUsage(request, env) {
