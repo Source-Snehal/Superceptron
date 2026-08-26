@@ -1483,7 +1483,7 @@
                 <span class="analyse-progress-label" id="analyse-progress-label">Reading your CV…</span>
             </div>
 
-            <p class="tool-disclaimer">Free analysis — nothing stored. &nbsp;<a href="#services" class="disclaimer-link">See paid services →</a></p>
+            <p class="tool-disclaimer">Free analysis — nothing stored.</p>
 
         </div>
     </section>
@@ -1518,8 +1518,8 @@
         </div>
     </section>
 
-    <!-- ── PAID SERVICES ── -->
-    <section class="services-section" id="services">
+    <!-- ── PAID SERVICES — hidden until analysis completes ── -->
+    <section class="services-section" id="services" style="display:none">
         <div class="services-inner">
 
             <div class="services-header reveal">
@@ -1842,7 +1842,7 @@
         /* ── RENDER RESULTS ── */
         function renderResults(data) {
             var section = $('results-section');
-            section.style.display = '';
+            section.style.display = 'block';
 
             /* Score header */
             var col = scoreColor(data.overall_score);
@@ -1900,6 +1900,10 @@
             }
 
             section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            /* Show the services section below results */
+            var svcSection = document.getElementById('services');
+            if (svcSection) svcSection.style.display = 'block';
         }
 
         function esc(s) {
@@ -2007,6 +2011,8 @@
         /* ── EDIT INPUTS ── */
         $('btn-edit-inputs').addEventListener('click', function () {
             $('results-section').style.display = 'none';
+            var svcSection = document.getElementById('services');
+            if (svcSection) svcSection.style.display = 'none';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
