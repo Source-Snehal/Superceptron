@@ -784,9 +784,16 @@
             var badgeCls = purchase.subscription_status === 'past_due' ? 'past-due' : '';
             var badgeTxt = purchase.subscription_status === 'past_due' ? 'Past due' : 'Active';
             var meter    = (isReview && usage && usage.eligible) ? usageMeterHTML(usage, true) : '';
+            var feats    = isReview
+                ? ['Human expert review', 'Delivered within 48 hours', 'Personalised to your JD']
+                : ['Unlimited AI rewrites', 'ATS compatibility checks', 'Stronger structure and language'];
+            var featsHTML = '<div class="tile-features">' +
+                feats.map(function (f) { return '<span class="tile-feat check">' + f + '</span>'; }).join('') +
+                '</div>';
             return '<div class="tile tile-owned" tabindex="0" role="button" aria-label="Open ' + label + ' workspace">' +
                 '<div class="tile-head"><span class="tile-name">' + label + '</span><span class="tile-badge ' + badgeCls + '">' + badgeTxt + '</span></div>' +
                 '<div class="tile-meta">' + price + ' · ' + renewStr + '</div>' +
+                featsHTML +
                 meter +
                 '<div class="tile-foot"><button class="tile-open-btn">Open workspace →</button></div>' +
                 '</div>';
