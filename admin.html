@@ -271,6 +271,20 @@
             <button id="auth-submit" class="auth-submit">Sign in</button>
         </div>
 
+        <!-- Set new password (shown after clicking reset link) -->
+        <div id="auth-reset" class="auth-box" style="display:none">
+            <div>
+                <div class="auth-box-title">Set new password</div>
+                <div class="auth-box-sub">Choose a password for your admin account.</div>
+            </div>
+            <div class="auth-fields">
+                <input id="reset-pw"      class="auth-input" type="password" placeholder="New password" autocomplete="new-password">
+                <input id="reset-pw-conf" class="auth-input" type="password" placeholder="Confirm password" autocomplete="new-password">
+            </div>
+            <div id="reset-err" class="auth-err"></div>
+            <button id="reset-submit" class="auth-submit">Set password &amp; sign in</button>
+        </div>
+
     </div>
 
     <!-- Admin UI (hidden until auth confirmed) -->
@@ -381,11 +395,20 @@
         function showLogin(errMsg) {
             document.getElementById('auth-checking').style.display = 'none';
             document.getElementById('auth-login').style.display    = '';
+            document.getElementById('auth-reset').style.display    = 'none';
             var errEl = document.getElementById('auth-err');
             if (errMsg) { errEl.textContent = errMsg; errEl.style.display = ''; }
             else        { errEl.style.display = 'none'; }
             var btn = document.getElementById('auth-submit');
             btn.disabled = false; btn.textContent = 'Sign in';
+        }
+
+        function showReset() {
+            document.getElementById('auth-checking').style.display = 'none';
+            document.getElementById('auth-login').style.display    = 'none';
+            document.getElementById('auth-reset').style.display    = '';
+            document.getElementById('reset-err').style.display     = 'none';
+            document.getElementById('reset-pw').focus();
         }
 
         function showAdminUI(email) {
@@ -403,8 +426,28 @@
             showLogin();
         }
 
-        /* ── Init: restore session from sessionStorage ── */
+        /* ── Parse URL hash (Supabase appends #access_token=...&type=recovery) ── */
+        function parseHash() {
+            var hash = window.location.hash.replace(/^#/, '');
+            var params = {};
+            hash.split('&').forEach(function (part) {
+                var kv = part.split('=');
+                if (kv.length === 2) params[decodeURIComponent(kv[0])] = decodeURIComponent(kv[1]);
+            });
+            return params;
+        }
+
+        /* ── Init: check for recovery hash first, then session ── */
         (function () {
+            var hashParams = parseHash();
+            if (hashParams.type === 'recovery' && hashParams.access_token) {
+                /* Recovery link clicked — store token and show set-password form */
+                token = hashParams.access_token;
+                history.replaceState(null, '', window.location.pathname); /* clear hash */
+                showReset();
+                return;
+            }
+
             var stored = sessionStorage.getItem('admin_token');
             if (!stored) { showLogin(); return; }
             getUser(stored).then(function (user) {
@@ -415,6 +458,45 @@
                 setInterval(loadSubmissions, 60000);
             });
         })();
+
+        /* ── Set-password form (after reset link) ── */
+        document.getElementById('reset-submit').addEventListener('click', function () {
+            var np   = document.getElementById('reset-pw').value;
+            var conf = document.getElementById('reset-pw-conf').value;
+            var btn  = this;
+            var errEl = document.getElementById('reset-err');
+
+            function showErr(msg) { errEl.textContent = msg; errEl.style.display = ''; }
+
+            if (!np) { showErr('Enter a new password.'); return; }
+            if (np.length < 6) { showErr('Password must be at least 6 characters.'); return; }
+            if (np !== conf) { showErr('Passwords don\'t match.'); return; }
+
+            btn.disabled = true; btn.textContent = 'Saving…';
+            errEl.style.display = 'none';
+            updatePassword(token, np).then(function (data) {
+                if (data.error || data.message) {
+                    btn.disabled = false; btn.textContent = 'Set password & sign in';
+                    showErr(data.error_description || data.message || 'Update failed.');
+                } else {
+                    /* Password set — token is still valid, go straight in */
+                    sessionStorage.setItem('admin_token', token);
+                    showAdminUI(data.email || '');
+                    loadSubmissions();
+                    setInterval(loadSubmissions, 60000);
+                }
+            }).catch(function () {
+                btn.disabled = false; btn.textContent = 'Set password & sign in';
+                showErr('Network error — try again.');
+            });
+        });
+
+        document.getElementById('reset-pw').addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') document.getElementById('reset-pw-conf').focus();
+        });
+        document.getElementById('reset-pw-conf').addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') document.getElementById('reset-submit').click();
+        });
 
         /* ── Login form ── */
         document.getElementById('auth-submit').addEventListener('click', function () {
