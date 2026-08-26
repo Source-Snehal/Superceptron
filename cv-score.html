@@ -88,15 +88,9 @@
             color: var(--w60);
             line-height: 1.75;
         }
-        .cand-super-line {
-            font-size: 0.875rem;
-            color: var(--w30);
-            line-height: 1.65;
-            margin-top: 0.75rem;
-        }
-        .cand-super-line strong {
-            color: var(--p);
-            font-weight: 600;
+        .btn-analyse b {
+            font-weight: 800;
+            letter-spacing: -0.02em;
         }
 
         /* ── Tool section ── */
@@ -1402,8 +1396,7 @@
         <div class="cand-hero-inner">
             <span class="cand-eyebrow">For Candidates</span>
             <h1 class="cand-headline">Make sure you're<br>read correctly.</h1>
-            <p class="cand-sub">Paste your CV and a job description. Get a clear read on how your experience comes across — and where it might be getting missed.</p>
-            <p class="cand-super-line">Get a Super detailed analysis on your CV and see if your CV is being filtered by ATS, powered by <strong>SuperIntelligence<sup>®</sup></strong></p>
+            <p class="cand-sub">Compare your CV against any job description instantly. Get a pinpoint analysis of your strengths and missing links, powered by Superintelligence.</p>
         </div>
     </section>
 
@@ -1435,7 +1428,7 @@
                                 <span id="cv-filename-text"></span>
                                 <a class="dz-remove" id="cv-remove" href="#">✕</a>
                             </span>
-                            <input type="file" id="cv-file-input" accept=".pdf,.docx,.txt">
+                            <input type="file" id="cv-file-input" accept=".pdf,.docx,.txt" style="display:none">
                         </div>
                         <p class="file-notice" id="cv-notice"></p>
                     </div>
@@ -1466,7 +1459,7 @@
                                 <span id="jd-filename-text"></span>
                                 <a class="dz-remove" id="jd-remove" href="#">✕</a>
                             </span>
-                            <input type="file" id="jd-file-input" accept=".pdf,.docx,.txt">
+                            <input type="file" id="jd-file-input" accept=".pdf,.docx,.txt" style="display:none">
                         </div>
                         <p class="file-notice" id="jd-notice"></p>
                     </div>
@@ -1480,7 +1473,7 @@
             <p class="tool-error" id="tool-error"></p>
 
             <div class="action-row">
-                <button class="btn-analyse" id="btn-analyse">SuperAnalyse my CV — free</button>
+                <button class="btn-analyse" id="btn-analyse"><b>SuperAnalyse</b> my CV for free</button>
             </div>
 
             <div class="analyse-progress-wrap" id="analyse-progress-wrap" style="display:none">
@@ -1946,14 +1939,14 @@
             })
             .then(function (data) {
                 btn.disabled    = false;
-                btn.textContent = 'SuperAnalyse my CV — free';
+                btn.innerHTML = '<b>SuperAnalyse</b> my CV for free';
                 if (data.error) throw new Error(data.error);
                 finishProgress(true);
                 renderResults(data);
             })
             .catch(function () {
                 btn.disabled    = false;
-                btn.textContent = 'SuperAnalyse my CV — free';
+                btn.innerHTML = '<b>SuperAnalyse</b> my CV for free';
                 finishProgress(false);
                 showError('Something went wrong — please try again or email info@superceptron.com.');
             });
