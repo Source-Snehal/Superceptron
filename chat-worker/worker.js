@@ -169,6 +169,19 @@ export default {
     // ── /cv-notify (fulfilment email on CV submission) ──
     if (path === '/cv-notify') return handleCvNotify(request, env);
 
+    // ── /customer-portal (Stripe billing portal link) ──
+    if (path === '/customer-portal') return handleCustomerPortal(request, env);
+
+    // ── Admin routes (JWT + admins-table check on every call) ──
+    if (path === '/admin/submissions')   return handleAdminSubmissions(request, env);
+    if (path === '/admin/cv-url')        return handleAdminCvUrl(request, env);
+    if (path === '/admin/set-status')    return handleAdminSetStatus(request, env);
+    if (path === '/admin/complete')      return handleAdminComplete(request, env);
+
+    // ── Candidate authenticated routes ──
+    if (path === '/candidate/completed-url') return handleCandidateCompletedUrl(request, env);
+    if (path === '/delete-account')          return handleDeleteAccount(request, env);
+
     // ── Default: chat route ──
     let body;
     try {
@@ -394,33 +407,64 @@ async function handleStripeWebhook(request, env) {
     const email   = session.customer_details?.email ?? '';
 
     // Parse client_reference_id written by cv-score.html: "{userId}___{tier}"
-    const crid    = session.client_reference_id ?? '';
-    const sepIdx  = crid.indexOf('___');
-    const userId  = sepIdx !== -1 ? crid.slice(0, sepIdx) : null;
-    const tier    = sepIdx !== -1 ? crid.slice(sepIdx + 3) : (session.metadata?.tier ?? '');
+    const crid   = session.client_reference_id ?? '';
+    const sepIdx = crid.indexOf('___');
+    const userId = sepIdx !== -1 ? crid.slice(0, sepIdx) : null;
+    const tier   = sepIdx !== -1 ? crid.slice(sepIdx + 3) : (session.metadata?.tier ?? '');
 
-    // Write purchase to Supabase (source of truth for dashboards)
-    if (userId && env.SUPABASE_URL && env.SUPABASE_SERVICE_KEY) {
+    // For subscriptions: fetch sub to get period_end
+    let subId = null, periodEnd = null, customerId = session.customer ?? null;
+    if (session.mode === 'subscription' && session.subscription && env.STRIPE_SECRET_KEY) {
       try {
-        const sbRes = await fetch(`${env.SUPABASE_URL}/rest/v1/purchases`, {
-          method: 'POST',
-          headers: {
-            'apikey':        env.SUPABASE_SERVICE_KEY,
-            'Authorization': `Bearer ${env.SUPABASE_SERVICE_KEY}`,
-            'Content-Type':  'application/json',
-            'Prefer':        'return=minimal',
-          },
-          body: JSON.stringify({
-            user_id:           userId,
-            tier:              tier,
-            status:            'paid',
-            stripe_session_id: session.id,
-          }),
+        const subRes = await fetch(`https://api.stripe.com/v1/subscriptions/${session.subscription}`, {
+          headers: { Authorization: `Bearer ${env.STRIPE_SECRET_KEY}` },
         });
-        if (!sbRes.ok) console.error('Supabase purchases insert error:', await sbRes.text());
-      } catch (sbErr) {
-        console.error('Supabase purchases fetch error:', sbErr);
-      }
+        if (subRes.ok) {
+          const sub = await subRes.json();
+          subId     = sub.id;
+          periodEnd = new Date(sub.current_period_end * 1000).toISOString();
+        }
+      } catch (e) { console.error('Fetch subscription error:', e); }
+    }
+
+    // Write purchase to Supabase — upsert by user_id+tier so re-purchases or webhook replays don't duplicate
+    if (userId && env.SUPABASE_SERVICE_KEY) {
+      try {
+        const updates = {
+          status:               'paid',
+          stripe_session_id:    session.id,
+          stripe_customer_id:   customerId,
+          subscription_id:      subId,
+          subscription_status:  subId ? 'active' : null,
+          current_period_end:   periodEnd,
+        };
+        // Check if a row already exists for this user+tier
+        const checkRes = await fetch(
+          `${SUPABASE_URL}/rest/v1/purchases?user_id=eq.${encodeURIComponent(userId)}&tier=eq.${encodeURIComponent(tier)}&select=id&limit=1`,
+          { headers: { 'apikey': env.SUPABASE_SERVICE_KEY, 'Authorization': `Bearer ${env.SUPABASE_SERVICE_KEY}` } }
+        );
+        const existing = checkRes.ok ? await checkRes.json() : [];
+        if (existing.length > 0) {
+          // Update the existing row
+          const patchRes = await fetch(
+            `${SUPABASE_URL}/rest/v1/purchases?id=eq.${existing[0].id}`,
+            {
+              method: 'PATCH',
+              headers: { 'apikey': env.SUPABASE_SERVICE_KEY, 'Authorization': `Bearer ${env.SUPABASE_SERVICE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+              body: JSON.stringify(updates),
+            }
+          );
+          if (!patchRes.ok) console.error('Supabase purchases patch error:', await patchRes.text());
+        } else {
+          // Insert a new row
+          const postRes = await fetch(`${SUPABASE_URL}/rest/v1/purchases`, {
+            method: 'POST',
+            headers: { 'apikey': env.SUPABASE_SERVICE_KEY, 'Authorization': `Bearer ${env.SUPABASE_SERVICE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+            body: JSON.stringify({ user_id: userId, tier, ...updates }),
+          });
+          if (!postRes.ok) console.error('Supabase purchases insert error:', await postRes.text());
+        }
+      } catch (sbErr) { console.error('Supabase purchases fetch error:', sbErr); }
     }
 
     if (tier === 'super_review' || tier === 'human_review') {
@@ -430,7 +474,53 @@ async function handleStripeWebhook(request, env) {
     // TODO (career_session): booking handled client-side via BOOKING_URL constant
   }
 
+  // ── Subscription updated (renewal, cancel, reactivate) ──
+  if (event.type === 'customer.subscription.updated') {
+    const sub = event.data.object;
+    await supabaseUpdateBySub(env, sub.id, {
+      subscription_status: sub.status,
+      current_period_end:  new Date(sub.current_period_end * 1000).toISOString(),
+    });
+  }
+
+  // ── Payment failed → mark past_due ──
+  if (event.type === 'invoice.payment_failed') {
+    const inv = event.data.object;
+    if (inv.subscription) {
+      await supabaseUpdateBySub(env, inv.subscription, { subscription_status: 'past_due' });
+    }
+  }
+
+  // ── Invoice paid → restore active + new period_end ──
+  if (event.type === 'invoice.paid') {
+    const inv = event.data.object;
+    if (inv.subscription && inv.lines?.data?.[0]?.period?.end) {
+      await supabaseUpdateBySub(env, inv.subscription, {
+        subscription_status: 'active',
+        current_period_end:  new Date(inv.lines.data[0].period.end * 1000).toISOString(),
+      });
+    }
+  }
+
   return respond(JSON.stringify({ received: true }), 200, { 'Content-Type': 'application/json' });
+}
+
+async function supabaseUpdateBySub(env, subscriptionId, updates) {
+  if (!env.SUPABASE_SERVICE_KEY || !subscriptionId) return;
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/purchases?subscription_id=eq.${encodeURIComponent(subscriptionId)}`,
+      {
+        method: 'PATCH',
+        headers: {
+          'apikey': env.SUPABASE_SERVICE_KEY, 'Authorization': `Bearer ${env.SUPABASE_SERVICE_KEY}`,
+          'Content-Type': 'application/json', 'Prefer': 'return=minimal',
+        },
+        body: JSON.stringify(updates),
+      }
+    );
+    if (!res.ok) console.error('supabaseUpdateBySub error:', await res.text());
+  } catch (e) { console.error('supabaseUpdateBySub fetch error:', e); }
 }
 
 async function verifyStripeSignature(payload, sigHeader, secret) {
@@ -570,6 +660,46 @@ async function handleCvNotify(request, env) {
   return respond(JSON.stringify({ ok: true }), 200, { 'Content-Type': 'application/json' });
 }
 
+/* ── STRIPE CUSTOMER PORTAL ───────────────────────────────────── */
+async function handleCustomerPortal(request, env) {
+  if (!env.STRIPE_SECRET_KEY) {
+    return respond(JSON.stringify({ error: 'Not configured.' }), 500, { 'Content-Type': 'application/json' });
+  }
+
+  let body;
+  try { body = await request.json(); } catch { return respond('Invalid JSON', 400); }
+
+  const { stripe_customer_id } = body;
+  if (!stripe_customer_id) {
+    return respond(JSON.stringify({ error: 'Missing stripe_customer_id.' }), 400, { 'Content-Type': 'application/json' });
+  }
+
+  try {
+    const params = new URLSearchParams({
+      customer:   stripe_customer_id,
+      return_url: `${SITE_ORIGIN}/profile.html`,
+    });
+    const portalRes = await fetch('https://api.stripe.com/v1/billing_portal/sessions', {
+      method: 'POST',
+      headers: {
+        Authorization:  `Bearer ${env.STRIPE_SECRET_KEY}`,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: params.toString(),
+    });
+    if (!portalRes.ok) {
+      const err = await portalRes.text();
+      console.error('Stripe portal error:', err);
+      return respond(JSON.stringify({ error: 'Could not open billing portal.' }), 502, { 'Content-Type': 'application/json' });
+    }
+    const portal = await portalRes.json();
+    return respond(JSON.stringify({ url: portal.url }), 200, { 'Content-Type': 'application/json' });
+  } catch (e) {
+    console.error('handleCustomerPortal error:', e);
+    return respond(JSON.stringify({ error: 'Server error.' }), 500, { 'Content-Type': 'application/json' });
+  }
+}
+
 async function notifyReview(customerEmail, purchaseId, env) {
   await sendEmail(env, {
     to:      ['info@superceptron.com', 'neal.roym@gmail.com'],
@@ -582,6 +712,248 @@ async function notifyReview(customerEmail, purchaseId, env) {
       `wrangler d1 execute superceptron-cvs --remote --command ` +
       `"SELECT id, tier, customer_email, cv_text, jd_text FROM purchases WHERE id = ${purchaseId};"`,
   });
+}
+
+/* ── AUTH VERIFICATION HELPERS ───────────────────────────────── */
+async function verifyUser(token, env) {
+  if (!token || !env.SUPABASE_SERVICE_KEY) return null;
+  try {
+    const res = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+      headers: {
+        'apikey':        env.SUPABASE_SERVICE_KEY,
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    if (!res.ok) return null;
+    const user = await res.json();
+    return user?.id ? user : null;
+  } catch { return null; }
+}
+
+async function verifyAdmin(token, env) {
+  const user = await verifyUser(token, env);
+  if (!user) return null;
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/admins?user_id=eq.${encodeURIComponent(user.id)}&select=user_id&limit=1`,
+      { headers: { 'apikey': env.SUPABASE_SERVICE_KEY, 'Authorization': `Bearer ${env.SUPABASE_SERVICE_KEY}` } }
+    );
+    if (!res.ok) return null;
+    const rows = await res.json();
+    return rows.length > 0 ? user : null;
+  } catch { return null; }
+}
+
+/* ── ADMIN ROUTES ─────────────────────────────────────────────── */
+
+async function handleAdminSubmissions(request, env) {
+  let body;
+  try { body = await request.json(); } catch { return respond('Invalid JSON', 400); }
+  const admin = await verifyAdmin(body.token, env);
+  if (!admin) return respond(JSON.stringify({ error: 'Unauthorized' }), 403, { 'Content-Type': 'application/json' });
+
+  const svcKey = env.SUPABASE_SERVICE_KEY;
+  let url = `${SUPABASE_URL}/rest/v1/cv_submissions?select=*,purchases(id,tier,created_at,subscription_status)&order=submitted_at.desc`;
+  if (body.status) url += `&status=eq.${encodeURIComponent(body.status)}`;
+
+  const res = await fetch(url, {
+    headers: { 'apikey': svcKey, 'Authorization': `Bearer ${svcKey}` },
+  });
+  if (!res.ok) return respond(JSON.stringify({ error: 'Failed to fetch submissions' }), 502, { 'Content-Type': 'application/json' });
+  return respond(await res.text(), 200, { 'Content-Type': 'application/json' });
+}
+
+async function handleAdminCvUrl(request, env) {
+  let body;
+  try { body = await request.json(); } catch { return respond('Invalid JSON', 400); }
+  const admin = await verifyAdmin(body.token, env);
+  if (!admin) return respond(JSON.stringify({ error: 'Unauthorized' }), 403, { 'Content-Type': 'application/json' });
+
+  const { storage_path, bucket = 'cv-uploads' } = body;
+  if (!storage_path) return respond(JSON.stringify({ error: 'Missing storage_path' }), 400, { 'Content-Type': 'application/json' });
+  const allowed = ['cv-uploads', 'completed-cvs'];
+  if (!allowed.includes(bucket)) return respond(JSON.stringify({ error: 'Invalid bucket' }), 400, { 'Content-Type': 'application/json' });
+
+  const svcKey = env.SUPABASE_SERVICE_KEY;
+  const signRes = await fetch(`${SUPABASE_URL}/storage/v1/object/sign/${bucket}/${storage_path}`, {
+    method: 'POST',
+    headers: { 'apikey': svcKey, 'Authorization': `Bearer ${svcKey}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ expiresIn: 3600 }),
+  });
+  if (!signRes.ok) return respond(JSON.stringify({ error: 'Could not generate URL' }), 502, { 'Content-Type': 'application/json' });
+  const sd = await signRes.json();
+  return respond(JSON.stringify({ url: `${SUPABASE_URL}/storage/v1${sd.signedURL}` }), 200, { 'Content-Type': 'application/json' });
+}
+
+async function handleAdminSetStatus(request, env) {
+  let body;
+  try { body = await request.json(); } catch { return respond('Invalid JSON', 400); }
+  const admin = await verifyAdmin(body.token, env);
+  if (!admin) return respond(JSON.stringify({ error: 'Unauthorized' }), 403, { 'Content-Type': 'application/json' });
+
+  const { submission_id } = body;
+  if (!submission_id) return respond(JSON.stringify({ error: 'Missing submission_id' }), 400, { 'Content-Type': 'application/json' });
+
+  const svcKey = env.SUPABASE_SERVICE_KEY;
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/cv_submissions?id=eq.${encodeURIComponent(submission_id)}`, {
+    method: 'PATCH',
+    headers: { 'apikey': svcKey, 'Authorization': `Bearer ${svcKey}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+    body: JSON.stringify({ status: 'in_review' }),
+  });
+  if (!res.ok) return respond(JSON.stringify({ error: 'Status update failed' }), 502, { 'Content-Type': 'application/json' });
+  return respond(JSON.stringify({ ok: true }), 200, { 'Content-Type': 'application/json' });
+}
+
+async function handleAdminComplete(request, env) {
+  let form;
+  try { form = await request.formData(); } catch { return respond(JSON.stringify({ error: 'Invalid form data' }), 400, { 'Content-Type': 'application/json' }); }
+
+  const token         = form.get('token');
+  const submission_id = form.get('submission_id');
+  const purchase_id   = form.get('purchase_id');
+  const user_id       = form.get('user_id');
+  const tier          = form.get('tier') || '';
+  const candidate_email = form.get('candidate_email') || '';
+  const file          = form.get('file');
+
+  if (!token || !submission_id || !purchase_id || !user_id || !file) {
+    return respond(JSON.stringify({ error: 'Missing required fields' }), 400, { 'Content-Type': 'application/json' });
+  }
+
+  const admin = await verifyAdmin(token, env);
+  if (!admin) return respond(JSON.stringify({ error: 'Unauthorized' }), 403, { 'Content-Type': 'application/json' });
+
+  if (file.type !== 'application/pdf') {
+    return respond(JSON.stringify({ error: 'File must be a PDF' }), 400, { 'Content-Type': 'application/json' });
+  }
+  if (file.size > 20 * 1024 * 1024) {
+    return respond(JSON.stringify({ error: 'File too large (max 20 MB)' }), 400, { 'Content-Type': 'application/json' });
+  }
+
+  const svcKey = env.SUPABASE_SERVICE_KEY;
+  const storagePath = `${user_id}/${purchase_id}/completed.pdf`;
+  const fileBuffer  = await file.arrayBuffer();
+
+  const uploadRes = await fetch(`${SUPABASE_URL}/storage/v1/object/completed-cvs/${storagePath}`, {
+    method: 'POST',
+    headers: {
+      'apikey': svcKey, 'Authorization': `Bearer ${svcKey}`,
+      'Content-Type': 'application/pdf', 'x-upsert': 'true',
+    },
+    body: fileBuffer,
+  });
+  if (!uploadRes.ok) {
+    console.error('Storage upload error:', await uploadRes.text());
+    return respond(JSON.stringify({ error: 'File upload failed' }), 502, { 'Content-Type': 'application/json' });
+  }
+
+  const updateRes = await fetch(`${SUPABASE_URL}/rest/v1/cv_submissions?id=eq.${encodeURIComponent(submission_id)}`, {
+    method: 'PATCH',
+    headers: { 'apikey': svcKey, 'Authorization': `Bearer ${svcKey}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+    body: JSON.stringify({ status: 'complete', completed_file_path: storagePath }),
+  });
+  if (!updateRes.ok) {
+    console.error('Status update error:', await updateRes.text());
+    return respond(JSON.stringify({ error: 'File uploaded but status update failed — retry or update manually' }), 502, { 'Content-Type': 'application/json' });
+  }
+
+  if (candidate_email) {
+    const tierLabels = { super_review: 'SuperReview', super_rewrite: 'SuperRewrite', super_coach: 'SuperCoach' };
+    const label = tierLabels[tier] || tier;
+    await sendEmail(env, {
+      to: candidate_email,
+      subject: `Your ${label} from Superceptron is ready`,
+      text:
+        `Hi,\n\nYour ${label} is complete. Log in to download your reviewed CV:\n\n` +
+        `${SITE_ORIGIN}/profile.html\n\n` +
+        `Questions? Reply to this email or reach us at info@superceptron.com.\n\n` +
+        `— Superceptron`,
+    });
+  }
+
+  return respond(JSON.stringify({ ok: true }), 200, { 'Content-Type': 'application/json' });
+}
+
+/* ── CANDIDATE AUTHENTICATED ROUTES ──────────────────────────── */
+
+async function handleCandidateCompletedUrl(request, env) {
+  let body;
+  try { body = await request.json(); } catch { return respond('Invalid JSON', 400); }
+
+  const { token, purchase_id } = body;
+  if (!token || !purchase_id) return respond(JSON.stringify({ error: 'Missing fields' }), 400, { 'Content-Type': 'application/json' });
+
+  const user = await verifyUser(token, env);
+  if (!user) return respond(JSON.stringify({ error: 'Unauthorized' }), 403, { 'Content-Type': 'application/json' });
+
+  const svcKey = env.SUPABASE_SERVICE_KEY;
+
+  // Confirm ownership: purchase must belong to this user
+  const pRes = await fetch(
+    `${SUPABASE_URL}/rest/v1/purchases?id=eq.${encodeURIComponent(purchase_id)}&user_id=eq.${encodeURIComponent(user.id)}&select=id&limit=1`,
+    { headers: { 'apikey': svcKey, 'Authorization': `Bearer ${svcKey}` } }
+  );
+  const purchases = pRes.ok ? await pRes.json() : [];
+  if (purchases.length === 0) return respond(JSON.stringify({ error: 'Not found' }), 404, { 'Content-Type': 'application/json' });
+
+  const storagePath = `${user.id}/${purchase_id}/completed.pdf`;
+  const signRes = await fetch(`${SUPABASE_URL}/storage/v1/object/sign/completed-cvs/${storagePath}`, {
+    method: 'POST',
+    headers: { 'apikey': svcKey, 'Authorization': `Bearer ${svcKey}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ expiresIn: 3600 }),
+  });
+  if (!signRes.ok) return respond(JSON.stringify({ error: 'Could not generate download link' }), 502, { 'Content-Type': 'application/json' });
+  const sd = await signRes.json();
+  return respond(JSON.stringify({ url: `${SUPABASE_URL}/storage/v1${sd.signedURL}` }), 200, { 'Content-Type': 'application/json' });
+}
+
+async function handleDeleteAccount(request, env) {
+  let body;
+  try { body = await request.json(); } catch { return respond('Invalid JSON', 400); }
+
+  const user = await verifyUser(body.token, env);
+  if (!user) return respond(JSON.stringify({ error: 'Unauthorized' }), 403, { 'Content-Type': 'application/json' });
+
+  const svcKey = env.SUPABASE_SERVICE_KEY;
+  const uid    = user.id;
+
+  // Collect storage paths from cv_submissions before DB rows are deleted
+  let cvPaths = [], completedPaths = [];
+  try {
+    const subRes = await fetch(
+      `${SUPABASE_URL}/rest/v1/cv_submissions?user_id=eq.${uid}&select=storage_path,completed_file_path`,
+      { headers: { 'apikey': svcKey, 'Authorization': `Bearer ${svcKey}` } }
+    );
+    if (subRes.ok) {
+      const subs = await subRes.json();
+      cvPaths        = subs.map(s => s.storage_path).filter(Boolean);
+      completedPaths = subs.map(s => s.completed_file_path).filter(Boolean);
+    }
+  } catch (e) { console.error('GDPR: fetch subs error:', e); }
+
+  // Delete files from Storage (non-blocking — don't fail the delete if storage cleanup fails)
+  async function deleteFiles(bucket, paths) {
+    if (!paths.length) return;
+    await fetch(`${SUPABASE_URL}/storage/v1/object/${bucket}`, {
+      method: 'DELETE',
+      headers: { 'apikey': svcKey, 'Authorization': `Bearer ${svcKey}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prefixes: paths }),
+    });
+  }
+  try { await deleteFiles('cv-uploads',   cvPaths); }        catch (e) { console.error('GDPR: cv-uploads delete:', e); }
+  try { await deleteFiles('completed-cvs', completedPaths); } catch (e) { console.error('GDPR: completed-cvs delete:', e); }
+
+  // Delete the auth user — FK ON DELETE CASCADE handles profiles, purchases, cv_submissions
+  const delRes = await fetch(`${SUPABASE_URL}/auth/v1/admin/users/${uid}`, {
+    method: 'DELETE',
+    headers: { 'apikey': svcKey, 'Authorization': `Bearer ${svcKey}` },
+  });
+  if (!delRes.ok) {
+    console.error('GDPR: auth delete error:', await delRes.text());
+    return respond(JSON.stringify({ error: 'Deletion failed — contact info@superceptron.com' }), 502, { 'Content-Type': 'application/json' });
+  }
+
+  return respond(JSON.stringify({ ok: true }), 200, { 'Content-Type': 'application/json' });
 }
 
 function respond(body, status, extraHeaders = {}) {

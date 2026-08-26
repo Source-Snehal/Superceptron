@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin — Superceptron</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" href="logo.jpeg" type="image/jpeg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg:       #080808;
+            --surface:  #111;
+            --border:   rgba(255,255,255,0.07);
+            --border-hi: rgba(255,255,255,0.13);
+            --p:        #7b68ee;
+            --p-dim:    rgba(123,104,238,0.1);
+            --p-border: rgba(123,104,238,0.3);
+            --white:    #fff;
+            --muted:    rgba(255,255,255,0.38);
+            --muted2:   rgba(255,255,255,0.55);
+            --mono:     'JetBrains Mono', monospace;
+            --font:     'Inter', sans-serif;
+            --green:    #4ade80;
+            --amber:    #fbbf24;
+            --red:      #f87171;
+            --r:        14px;
+        }
+        html, body { background: var(--bg); color: var(--white); font-family: var(--font); min-height: 100vh; font-size: 0.9375rem; }
+        a { color: inherit; text-decoration: none; }
+
+        /* ── Nav ── */
+        .a-nav {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0.875rem 2rem; border-bottom: 1px solid var(--border);
+            position: sticky; top: 0; z-index: 20;
+            background: rgba(8,8,8,0.92); backdrop-filter: blur(14px);
+        }
+        .a-nav-brand { font-size: 1rem; font-weight: 800; letter-spacing: -0.03em; }
+        .a-nav-brand span { color: var(--p); }
+        .a-nav-right { display: flex; align-items: center; gap: 1rem; }
+        .a-nav-user { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); }
+        .a-signout {
+            font-family: var(--font); font-size: 0.8125rem; font-weight: 600;
+            padding: 0.375rem 0.875rem; border-radius: 8px;
+            border: 1px solid var(--border); background: transparent;
+            color: var(--muted); cursor: pointer; transition: all 0.15s;
+        }
+        .a-signout:hover { color: var(--white); border-color: var(--border-hi); }
+
+        /* ── Main ── */
+        .a-main { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
+        .a-page-title { font-size: 1.375rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 1.5rem; }
+
+        /* ── Filter bar ── */
+        .a-filters { display: flex; gap: 0.375rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
+        .a-filter-btn {
+            font-family: var(--font); font-size: 0.8125rem; font-weight: 600;
+            padding: 0.375rem 0.875rem; border-radius: 100px;
+            border: 1px solid var(--border); background: transparent; color: var(--muted);
+            cursor: pointer; transition: all 0.15s;
+        }
+        .a-filter-btn:hover { color: var(--white); border-color: var(--border-hi); }
+        .a-filter-btn.active { background: var(--p-dim); border-color: var(--p-border); color: var(--white); }
+
+        /* ── Stats ── */
+        .a-stats { display: flex; gap: 2rem; margin-bottom: 1.75rem; flex-wrap: wrap; }
+        .a-stat { font-size: 0.8125rem; color: var(--muted); }
+        .a-stat strong { font-family: var(--mono); color: var(--white); font-weight: 600; margin-right: 0.25rem; }
+
+        /* ── Cards ── */
+        .a-card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: var(--r); margin-bottom: 0.875rem;
+            overflow: hidden; transition: border-color 0.15s;
+        }
+        .a-card:hover { border-color: var(--border-hi); }
+
+        .a-card-head {
+            display: flex; align-items: flex-start; justify-content: space-between;
+            padding: 1.25rem 1.5rem 1rem; gap: 1rem;
+        }
+        .a-card-email { font-size: 1rem; font-weight: 700; letter-spacing: -0.015em; margin-bottom: 0.25rem; }
+        .a-card-meta { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); }
+
+        /* Status badges */
+        .a-badge {
+            font-family: var(--mono); font-size: 0.58rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.1em;
+            padding: 0.22rem 0.65rem; border-radius: 100px;
+            border: 1px solid; white-space: nowrap; flex-shrink: 0;
+        }
+        .a-badge.submitted { background: rgba(251,191,36,0.08); border-color: rgba(251,191,36,0.28); color: var(--amber); }
+        .a-badge.in_review { background: rgba(123,104,238,0.1);  border-color: rgba(123,104,238,0.3); color: #b8aeff; }
+        .a-badge.complete  { background: rgba(74,222,128,0.07);  border-color: rgba(74,222,128,0.22); color: var(--green); }
+
+        /* Note */
+        .a-card-note {
+            margin: 0 1.5rem 0.875rem;
+            padding: 0.75rem 1rem; border-radius: 8px;
+            background: rgba(255,255,255,0.025); border-left: 2px solid var(--border);
+            font-size: 0.8125rem; color: var(--muted2); font-style: italic; line-height: 1.6;
+        }
+
+        /* Divider */
+        .a-divider { height: 1px; background: var(--border); margin: 0 1.5rem; }
+
+        /* Actions row */
+        .a-card-actions { display: flex; gap: 0.5rem; padding: 0.875rem 1.5rem; flex-wrap: wrap; }
+        .a-btn {
+            font-family: var(--font); font-size: 0.8125rem; font-weight: 600;
+            padding: 0.45rem 1rem; border-radius: 8px;
+            border: 1px solid var(--border); background: transparent; color: var(--white);
+            cursor: pointer; transition: all 0.15s; white-space: nowrap;
+        }
+        .a-btn:hover    { background: rgba(255,255,255,0.055); border-color: var(--border-hi); }
+        .a-btn:disabled { opacity: 0.38; cursor: not-allowed; }
+        .a-btn.primary  { background: var(--p-dim); border-color: var(--p-border); color: #c4bbff; }
+        .a-btn.primary:hover { background: rgba(123,104,238,0.17); }
+        .a-btn.success  { background: rgba(74,222,128,0.07); border-color: rgba(74,222,128,0.28); color: var(--green); }
+
+        /* Upload panel */
+        .a-upload-panel {
+            margin: 0 1.5rem 1.25rem;
+            padding: 1rem 1.125rem;
+            border: 1px dashed rgba(123,104,238,0.28); border-radius: 10px;
+            display: none; flex-direction: column; gap: 0.75rem;
+        }
+        .a-upload-panel.visible { display: flex; }
+        .a-upload-lbl  { font-size: 0.8125rem; color: var(--muted); }
+        .a-upload-row  { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+        .a-file-input  { font-family: var(--mono); font-size: 0.75rem; color: var(--white); }
+        .a-file-input::file-selector-button {
+            font-family: var(--font); font-size: 0.8125rem; font-weight: 600;
+            padding: 0.375rem 0.875rem; border-radius: 6px;
+            border: 1px solid var(--border); background: rgba(255,255,255,0.04); color: var(--white);
+            cursor: pointer; margin-right: 0.625rem; transition: background 0.15s;
+        }
+        .a-file-input::file-selector-button:hover { background: rgba(255,255,255,0.08); }
+        .a-upload-msg { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); }
+        .a-upload-msg.err { color: var(--red); }
+        .a-upload-msg.ok  { color: var(--green); }
+
+        /* Auth overlay */
+        #auth-overlay {
+            position: fixed; inset: 0; background: var(--bg); z-index: 99;
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--mono); font-size: 0.8rem; color: var(--muted);
+        }
+
+        /* Empty / loading states */
+        .a-empty { text-align: center; padding: 4rem 2rem; font-size: 0.9375rem; color: var(--muted); }
+        .a-loading { padding: 2rem; text-align: center; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); }
+        .a-spinner {
+            display: inline-block; width: 20px; height: 20px;
+            border: 2px solid rgba(255,255,255,0.08); border-top-color: var(--p);
+            border-radius: 50%; animation: a-spin 0.75s linear infinite; margin-bottom: 0.75rem;
+        }
+        @keyframes a-spin { to { transform: rotate(360deg); } }
+
+        @media (max-width: 640px) {
+            .a-nav { padding: 0.875rem 1rem; }
+            .a-main { padding: 1.5rem 1rem 4rem; }
+            .a-card-head { flex-direction: column; }
+            .a-badge { align-self: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Auth checking overlay -->
+    <div id="auth-overlay">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:0.75rem">
+            <div class="a-spinner"></div>
+            Checking access…
+        </div>
+    </div>
+
+    <!-- Admin UI (hidden until auth confirmed) -->
+    <div id="admin-ui" hidden>
+
+        <nav class="a-nav">
+            <span class="a-nav-brand">Super<span>ceptron</span> Admin</span>
+            <div class="a-nav-right">
+                <span class="a-nav-user" id="admin-email"></span>
+                <button class="a-signout" id="btn-signout">Sign out</button>
+            </div>
+        </nav>
+
+        <main class="a-main">
+            <div class="a-page-title">CV Submissions</div>
+
+            <!-- Filters -->
+            <div class="a-filters">
+                <button class="a-filter-btn active" data-status="">All</button>
+                <button class="a-filter-btn" data-status="submitted">Submitted</button>
+                <button class="a-filter-btn" data-status="in_review">In Review</button>
+                <button class="a-filter-btn" data-status="complete">Complete</button>
+            </div>
+
+            <!-- Stats -->
+            <div class="a-stats" id="stats-bar"></div>
+
+            <!-- Cards -->
+            <div id="cards-container">
+                <div class="a-loading">
+                    <div class="a-spinner"></div><br>Loading submissions…
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <script>
+    (function () {
+        'use strict';
+
+        var SUPABASE_URL      = 'https://nnvfflsenziqecjrdkks.supabase.co';
+        var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5udmZmbHNlbnppcWVjanJka2tzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc2OTg4OTUsImV4cCI6MjEwMzI3NDg5NX0.6il0odidWgV-R7WdhIeH0AEbO2a6YNzeAqR90es-oBQ';
+        var WORKER_URL        = 'https://superceptron-chat.superceptron.workers.dev';
+
+        var sb            = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+        var token         = null;
+        var activeFilter  = '';
+        var allSubs       = [];
+
+        var TIER_LABELS   = { super_review: 'SuperReview', super_rewrite: 'SuperRewrite', super_coach: 'SuperCoach' };
+        var STATUS_LABELS = { submitted: 'Submitted', in_review: 'In review', complete: 'Complete' };
+
+        /* ── Init ── */
+        if (!sb) { document.getElementById('auth-overlay').textContent = 'Supabase not available.'; return; }
+
+        sb.auth.getSession().then(function (r) {
+            var session = r.data && r.data.session;
+            if (!session) { window.location.href = 'cv-score.html'; return; }
+            token = session.access_token;
+
+            /* Client-side admin gate (server verifies on every API call too) */
+            sb.from('admins').select('user_id').eq('user_id', session.user.id).maybeSingle()
+                .then(function (ar) {
+                    if (!ar.data) { window.location.href = 'cv-score.html'; return; }
+                    document.getElementById('auth-overlay').hidden = true;
+                    document.getElementById('admin-ui').hidden = false;
+                    document.getElementById('admin-email').textContent = session.user.email;
+                    loadSubmissions();
+                    setInterval(loadSubmissions, 60000);
+                });
+        });
+
+        document.getElementById('btn-signout').addEventListener('click', function () {
+            sb.auth.signOut().then(function () { window.location.href = 'cv-score.html'; });
+        });
+
+        /* ── Filters ── */
+        document.querySelectorAll('.a-filter-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.a-filter-btn').forEach(function (b) { b.classList.remove('active'); });
+                btn.classList.add('active');
+                activeFilter = btn.dataset.status;
+                renderCards();
+            });
+        });
+
+        /* ── Load ── */
+        function loadSubmissions() {
+            fetch(WORKER_URL + '/admin/submissions', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ token: token }),
+            }).then(function (r) { return r.json(); })
+              .then(function (data) {
+                if (!Array.isArray(data)) {
+                    document.getElementById('cards-container').innerHTML = '<div class="a-empty">Error loading submissions.<br><span style="font-size:0.8125rem;font-family:var(--mono)">' + (data.error || 'Unknown error') + '</span></div>';
+                    return;
+                }
+                allSubs = data;
+                renderStats();
+                renderCards();
+            }).catch(function (e) {
+                document.getElementById('cards-container').innerHTML = '<div class="a-empty">Network error — could not load submissions.</div>';
+            });
+        }
+
+        /* ── Stats ── */
+        function renderStats() {
+            var c = { submitted: 0, in_review: 0, complete: 0 };
+            allSubs.forEach(function (s) { if (c[s.status] !== undefined) c[s.status]++; });
+            document.getElementById('stats-bar').innerHTML =
+                '<div class="a-stat"><strong>' + allSubs.length     + '</strong>total</div>' +
+                '<div class="a-stat"><strong>' + c.submitted        + '</strong>waiting</div>' +
+                '<div class="a-stat"><strong>' + c.in_review        + '</strong>in review</div>' +
+                '<div class="a-stat"><strong>' + c.complete         + '</strong>complete</div>';
+        }
+
+        /* ── Cards ── */
+        function renderCards() {
+            var list = activeFilter ? allSubs.filter(function (s) { return s.status === activeFilter; }) : allSubs;
+            var container = document.getElementById('cards-container');
+            if (list.length === 0) {
+                container.innerHTML = '<div class="a-empty">No submissions' + (activeFilter ? ' with status <em>' + esc(STATUS_LABELS[activeFilter] || activeFilter) + '</em>' : '') + '.</div>';
+                return;
+            }
+            container.innerHTML = '';
+            list.forEach(function (sub) {
+                var el = document.createElement('div');
+                el.className = 'a-card';
+                el.id = 'card-' + sub.id;
+                el.innerHTML = buildCardHTML(sub);
+                container.appendChild(el);
+                wireCard(sub);
+            });
+        }
+
+        function buildCardHTML(sub) {
+            var tier    = (sub.purchases && sub.purchases.tier) || '';
+            var tierLbl = TIER_LABELS[tier] || tier;
+            var statLbl = STATUS_LABELS[sub.status] || sub.status;
+            var dateStr = sub.submitted_at
+                ? new Date(sub.submitted_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
+                : '—';
+
+            var noteHTML = sub.request_note
+                ? '<div class="a-card-note">' + esc(sub.request_note.slice(0, 320)) + (sub.request_note.length > 320 ? '…' : '') + '</div>'
+                : '';
+
+            var actions = '<button class="a-btn" id="dl-cv-' + sub.id + '">⬇ Download CV</button>';
+            if (sub.status === 'submitted') {
+                actions += ' <button class="a-btn primary" id="start-' + sub.id + '">▶ Start review</button>';
+            }
+            if (sub.status === 'in_review') {
+                actions += ' <button class="a-btn primary" id="show-upload-' + sub.id + '">📎 Upload completed CV</button>';
+            }
+            if (sub.status === 'complete' && sub.completed_file_path) {
+                actions += ' <button class="a-btn success" id="dl-done-' + sub.id + '">⬇ View completed</button>';
+            }
+
+            var uploadPanel =
+                '<div class="a-upload-panel" id="up-panel-' + sub.id + '">' +
+                  '<div class="a-upload-lbl">Upload the completed PDF:</div>' +
+                  '<div class="a-upload-row">' +
+                    '<input type="file" class="a-file-input" id="file-' + sub.id + '" accept="application/pdf">' +
+                    '<button class="a-btn primary" id="do-upload-' + sub.id + '">Upload &amp; mark complete →</button>' +
+                  '</div>' +
+                  '<div class="a-upload-msg" id="up-msg-' + sub.id + '"></div>' +
+                '</div>';
+
+            return (
+                '<div class="a-card-head">' +
+                  '<div>' +
+                    '<div class="a-card-email">' + esc(sub.candidate_email || 'No email recorded') + '</div>' +
+                    '<div class="a-card-meta">' + esc(tierLbl) + ' · submitted ' + dateStr + '</div>' +
+                  '</div>' +
+                  '<span class="a-badge ' + sub.status + '">' + esc(statLbl) + '</span>' +
+                '</div>' +
+                noteHTML +
+                '<div class="a-divider"></div>' +
+                '<div class="a-card-actions">' + actions + '</div>' +
+                uploadPanel
+            );
+        }
+
+        /* ── Wire buttons ── */
+        function wireCard(sub) {
+            var sid = sub.id;
+
+            /* Download original CV */
+            on('dl-cv-' + sid, function (btn) {
+                setLoading(btn, '⬇ Download CV');
+                apiPost('/admin/cv-url', { token: token, storage_path: sub.storage_path, bucket: 'cv-uploads' })
+                    .then(function (d) {
+                        clearLoading(btn, '⬇ Download CV');
+                        if (d.url) window.open(d.url, '_blank');
+                        else alert('Could not generate download link.');
+                    }).catch(function () { clearLoading(btn, '⬇ Download CV'); alert('Network error.'); });
+            });
+
+            /* Start review */
+            on('start-' + sid, function (btn) {
+                setLoading(btn, '▶ Start review');
+                apiPost('/admin/set-status', { token: token, submission_id: sid })
+                    .then(function (d) {
+                        if (d.ok) setTimeout(loadSubmissions, 400);
+                        else { clearLoading(btn, '▶ Start review'); alert(d.error || 'Error'); }
+                    }).catch(function () { clearLoading(btn, '▶ Start review'); alert('Network error.'); });
+            });
+
+            /* Show upload panel */
+            on('show-upload-' + sid, function (btn) {
+                var panel = document.getElementById('up-panel-' + sid);
+                if (panel) panel.classList.toggle('visible');
+            });
+
+            /* Submit complete upload */
+            on('do-upload-' + sid, function (btn) {
+                var fileInput = document.getElementById('file-' + sid);
+                var msgEl     = document.getElementById('up-msg-' + sid);
+                var file = fileInput && fileInput.files[0];
+                if (!file) { setMsg(msgEl, 'Please select a PDF file.', 'err'); return; }
+                if (file.type !== 'application/pdf') { setMsg(msgEl, 'File must be a PDF.', 'err'); return; }
+
+                setLoading(btn, 'Upload & mark complete →');
+                setMsg(msgEl, 'Uploading…', '');
+
+                var tier = (sub.purchases && sub.purchases.tier) || '';
+                var fd   = new FormData();
+                fd.append('token',           token);
+                fd.append('submission_id',   sid);
+                fd.append('purchase_id',     sub.purchase_id);
+                fd.append('user_id',         sub.user_id);
+                fd.append('tier',            tier);
+                fd.append('candidate_email', sub.candidate_email || '');
+                fd.append('file',            file);
+
+                fetch(WORKER_URL + '/admin/complete', { method: 'POST', body: fd })
+                    .then(function (r) { return r.json(); })
+                    .then(function (d) {
+                        if (d.ok) {
+                            setMsg(msgEl, 'Done — candidate notified by email.', 'ok');
+                            setTimeout(loadSubmissions, 1200);
+                        } else {
+                            clearLoading(btn, 'Upload & mark complete →');
+                            setMsg(msgEl, d.error || 'Upload failed.', 'err');
+                        }
+                    }).catch(function () {
+                        clearLoading(btn, 'Upload & mark complete →');
+                        setMsg(msgEl, 'Network error — try again.', 'err');
+                    });
+            });
+
+            /* View completed CV (admin) */
+            on('dl-done-' + sid, function (btn) {
+                setLoading(btn, '⬇ View completed');
+                apiPost('/admin/cv-url', { token: token, storage_path: sub.completed_file_path, bucket: 'completed-cvs' })
+                    .then(function (d) {
+                        clearLoading(btn, '⬇ View completed');
+                        if (d.url) window.open(d.url, '_blank');
+                        else alert('Could not generate link.');
+                    }).catch(function () { clearLoading(btn, '⬇ View completed'); });
+            });
+        }
+
+        /* ── Utilities ── */
+        function on(id, fn) {
+            var el = document.getElementById(id);
+            if (el) el.addEventListener('click', function () { fn(el); });
+        }
+
+        function apiPost(path, data) {
+            return fetch(WORKER_URL + path, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            }).then(function (r) { return r.json(); });
+        }
+
+        function setLoading(btn, orig) {
+            btn.disabled = true;
+            btn.dataset.orig = orig;
+            btn.textContent = '…';
+        }
+        function clearLoading(btn, fallback) {
+            btn.disabled = false;
+            btn.textContent = btn.dataset.orig || fallback;
+        }
+        function setMsg(el, text, cls) {
+            if (!el) return;
+            el.textContent = text;
+            el.className = 'a-upload-msg' + (cls ? ' ' + cls : '');
+        }
+
+        function esc(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+    })();
+    </script>
+</body>
+</html>

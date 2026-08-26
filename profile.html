@@ -580,278 +580,236 @@
         .tier-status-badge.in-review   { color: var(--amber); border-color: var(--amber-border); background: var(--amber-dim); }
         .tier-status-badge.complete    { color: var(--accent); border-color: var(--green-border); background: var(--green-dim); }
 
-        /* Booking section (SuperCoach) */
-        .booking-section {
-            background: var(--amber-dim); border: 1px solid var(--amber-border);
-            border-radius: var(--r); padding: 1.5rem;
-            display: flex; flex-direction: column; gap: 1rem;
-        }
-        .booking-heading { font-size: 1rem; font-weight: 700; color: var(--amber); letter-spacing: -0.015em; }
-        .booking-body { font-size: 0.875rem; color: var(--w60); line-height: 1.7; }
-        .booking-btn {
-            display: inline-flex; align-items: center; justify-content: center;
-            font-family: var(--font); font-size: 0.9375rem; font-weight: 700;
-            background: var(--amber); color: #000; border: none; border-radius: 100px;
-            padding: 0.75rem 1.75rem; text-decoration: none; cursor: pointer;
-            transition: opacity 0.2s; width: fit-content;
-        }
-        .booking-btn:hover { opacity: 0.88; }
-        .booking-placeholder { font-family: var(--mono); font-size: 0.65rem; color: var(--amber); letter-spacing: 0.06em; opacity: 0.7; }
+        /* ══════════════════════════════════════════════
+           PAID DASHBOARD — v2
+        ══════════════════════════════════════════════ */
+        .pdash-wrap { padding: 7rem 1.5rem 6rem; min-height: 100vh; }
+        .pdash-inner { max-width: 780px; margin: 0 auto; display: flex; flex-direction: column; gap: 2.5rem; }
 
-        /* Upload zone */
-        .upload-zone {
-            background: var(--black-3); border: 1.5px dashed var(--w12); border-radius: var(--r);
-            padding: 2rem 1.5rem; display: flex; flex-direction: column;
-            align-items: center; justify-content: center; gap: 0.625rem;
-            cursor: pointer; transition: border-color 0.2s, background 0.2s;
-            text-align: center; min-height: 110px;
+        /* Welcome */
+        .pdash-welcome { display: flex; flex-direction: column; gap: 0.3rem; }
+        .pdash-greeting {
+            font-size: clamp(1.75rem, 4vw, 2.25rem);
+            font-weight: 800; letter-spacing: -0.04em; color: var(--white); line-height: 1.1;
         }
-        .upload-zone:hover { border-color: var(--w30); }
-        .upload-zone.drag-over { border-color: var(--accent); background: var(--green-dim); }
-        .upload-zone.has-file  { border-style: solid; border-color: var(--accent); background: var(--green-dim); }
-        .upload-icon { font-size: 1.375rem; line-height: 1; }
-        .upload-label { font-size: 0.875rem; font-weight: 600; color: var(--white); }
-        .upload-sub { font-family: var(--mono); font-size: 0.62rem; color: var(--w30); letter-spacing: 0.04em; }
-        .upload-file-name { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); font-weight: 500; }
+        .pdash-greeting span { color: var(--p); }
+        .pdash-sub { font-size: 0.9375rem; color: var(--w30); line-height: 1.6; margin-top: 0.25rem; }
 
-        /* Request note */
-        .request-note {
-            background: var(--black-3); border: 1px solid var(--w08); border-radius: var(--r);
-            width: 100%; min-height: 110px; padding: 0.875rem 1rem;
+        /* ── Order card ── */
+        .order-card {
+            background: var(--black-2);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 20px;
+            overflow: hidden;
+            animation: riseIn 0.4s cubic-bezier(0.16,1,0.3,1) both;
+        }
+
+        /* Card header */
+        .ocard-head {
+            padding: 1.75rem 2rem;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 1rem;
+            align-items: start;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .ocard-head-left { display: flex; flex-direction: column; gap: 0.5rem; }
+        .ocard-tier { font-size: 1.375rem; font-weight: 800; letter-spacing: -0.03em; color: var(--white); line-height: 1; }
+        .ocard-meta {
+            font-family: var(--mono); font-size: 0.62rem; color: var(--w30);
+            letter-spacing: 0.03em; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;
+        }
+        .ocard-meta-sep { color: rgba(255,255,255,0.12); }
+        .ocard-head-right { display: flex; flex-direction: column; align-items: flex-end; gap: 0.625rem; flex-shrink: 0; }
+
+        /* Subscription pill */
+        .ocard-sub-pill {
+            font-family: var(--mono); font-size: 0.57rem; font-weight: 600; letter-spacing: 0.1em;
+            text-transform: uppercase; padding: 0.22rem 0.7rem; border-radius: 100px; border: 1px solid;
+        }
+        .ocard-sub-pill.active   { color: #86efac; border-color: rgba(134,239,172,0.22); background: rgba(134,239,172,0.06); }
+        .ocard-sub-pill.past-due { color: #fbbf24; border-color: rgba(251,191,36,0.28); background: rgba(251,191,36,0.07); }
+        .ocard-sub-pill.canceled { color: var(--w30); border-color: rgba(255,255,255,0.08); }
+        .ocard-sub-pill.paid     { color: var(--w30); border-color: rgba(255,255,255,0.08); }
+
+        /* Manage plan link */
+        .ocard-manage-link {
+            font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.04em;
+            color: var(--w30); background: none; border: none; cursor: pointer;
+            padding: 0; text-decoration: none; transition: color 0.15s;
+        }
+        .ocard-manage-link:hover { color: var(--white); }
+
+        /* Past-due banner */
+        .past-due-banner {
+            background: rgba(251,191,36,0.06); border-bottom: 1px solid rgba(251,191,36,0.18);
+            padding: 0.875rem 2rem; display: flex; align-items: center; gap: 0.625rem;
+            font-size: 0.875rem; color: #fbbf24; line-height: 1.5;
+        }
+        .past-due-banner strong { font-weight: 700; }
+
+        /* ── Step indicator ── */
+        .ocard-steps {
+            display: flex; align-items: center; padding: 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            overflow-x: auto; scrollbar-width: none;
+        }
+        .ocard-steps::-webkit-scrollbar { display: none; }
+        .step-node { display: flex; flex-direction: column; align-items: center; gap: 0.45rem; flex-shrink: 0; min-width: 72px; }
+        .step-circle {
+            width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.1);
+            background: var(--black-3); display: flex; align-items: center; justify-content: center;
+            position: relative; z-index: 1; transition: all 0.3s;
+        }
+        .step-node.s-done .step-circle  { border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.04); }
+        .step-node.s-done .step-circle::after {
+            content: ''; width: 7px; height: 4.5px;
+            border-left: 1.5px solid rgba(255,255,255,0.6); border-bottom: 1.5px solid rgba(255,255,255,0.6);
+            transform: rotate(-45deg) translate(0.5px, -0.5px);
+        }
+        .step-node.s-active .step-circle { border-color: var(--p); background: rgba(123,104,238,0.15); }
+        .step-node.s-active .step-circle::after { content: ''; width: 9px; height: 9px; border-radius: 50%; background: var(--p); }
+        .step-lbl {
+            font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.07em; text-transform: uppercase;
+            color: rgba(255,255,255,0.15); text-align: center; white-space: nowrap;
+        }
+        .step-node.s-done .step-lbl   { color: rgba(255,255,255,0.35); }
+        .step-node.s-active .step-lbl { color: var(--p); font-weight: 600; }
+        .step-connector { flex: 1; height: 1px; background: rgba(255,255,255,0.07); margin-bottom: 1.6rem; min-width: 1.5rem; transition: background 0.3s; }
+        .step-connector.s-done { background: rgba(255,255,255,0.18); }
+
+        /* ── Card body ── */
+        .ocard-body { padding: 2rem; display: flex; flex-direction: column; gap: 2rem; }
+        .ocard-section-lbl {
+            font-family: var(--mono); font-size: 0.6rem; font-weight: 500;
+            letter-spacing: 0.14em; text-transform: uppercase;
+            color: rgba(255,255,255,0.28); margin-bottom: 0.75rem;
+        }
+
+        /* ── Upload zone ── */
+        .ocard-upload {
+            border: 1px dashed rgba(255,255,255,0.1); border-radius: 14px;
+            background: rgba(255,255,255,0.018); padding: 2.5rem 2rem;
+            text-align: center; cursor: pointer; transition: all 0.2s;
+            display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+            min-height: 120px; justify-content: center;
+        }
+        .ocard-upload:hover { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.03); }
+        .ocard-upload.u-drag   { border-color: var(--p); border-style: solid; background: rgba(123,104,238,0.07); }
+        .ocard-upload.u-file   { border-style: solid; border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.03); }
+        .ocard-upload-icon     { font-size: 1.625rem; opacity: 0.4; }
+        .ocard-upload-label    { font-size: 0.875rem; font-weight: 600; color: var(--w60); }
+        .ocard-upload-sub      { font-family: var(--mono); font-size: 0.6rem; color: var(--w30); letter-spacing: 0.04em; }
+        .ocard-upload-filename { font-family: var(--mono); font-size: 0.75rem; color: var(--white); font-weight: 600; }
+
+        /* ── Note ── */
+        .ocard-note {
+            background: transparent; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px;
+            width: 100%; min-height: 100px; padding: 0.875rem 1rem;
             font-family: var(--font); font-size: 0.875rem; color: var(--white);
             line-height: 1.7; resize: vertical; outline: none; box-sizing: border-box;
             transition: border-color 0.2s; caret-color: var(--p);
         }
-        .request-note::placeholder { color: var(--w30); }
-        .request-note:focus { border-color: var(--p-border); }
+        .ocard-note::placeholder { color: rgba(255,255,255,0.2); }
+        .ocard-note:focus { border-color: rgba(123,104,238,0.3); }
 
-        /* Tier submit button */
-        .tier-submit-btn {
+        /* ── Submit button ── */
+        .ocard-submit {
             font-family: var(--font); font-size: 0.9375rem; font-weight: 700;
-            border: none; border-radius: 100px; padding: 0.75rem 2rem;
-            cursor: pointer; transition: opacity 0.2s; width: 100%;
+            border: none; border-radius: 100px; padding: 0.9rem 2rem;
+            cursor: pointer; transition: opacity 0.2s; width: 100%; letter-spacing: -0.01em;
         }
-        .tier-submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-        .tier-submit-btn:hover:not(:disabled) { opacity: 0.88; }
-        .tier-submit-btn.review  { background: var(--p); color: #fff; }
-        .tier-submit-btn.rewrite { background: var(--accent); color: #000; }
-        .tier-submit-btn.coach   { background: var(--amber); color: #000; }
-        .tier-submit-status {
-            font-family: var(--mono); font-size: 0.65rem; color: var(--w30);
-            letter-spacing: 0.04em; display: block; margin-top: 0.5rem;
-        }
-
-        /* Post-submission state */
-        .submission-state {
-            background: var(--black-3); border: 1px solid var(--w08);
-            border-radius: var(--r); padding: 1.375rem 1.5rem;
-            display: flex; flex-direction: column; gap: 0.5rem;
-        }
-        .submission-state-title { font-size: 0.9375rem; font-weight: 700; color: var(--white); }
-        .submission-state-body  { font-size: 0.875rem; color: var(--w60); line-height: 1.7; }
-        .submission-note-preview {
-            font-family: var(--mono); font-size: 0.65rem; color: var(--w30);
-            font-style: italic; margin-top: 0.25rem; white-space: pre-wrap;
+        .ocard-submit:disabled { opacity: 0.28; cursor: not-allowed; }
+        .ocard-submit:hover:not(:disabled) { opacity: 0.88; }
+        .ocard-submit.t-review  { background: var(--p); color: #fff; }
+        .ocard-submit.t-rewrite { background: var(--white); color: #000; }
+        .ocard-submit.t-coach   { background: var(--white); color: #000; }
+        .ocard-submit-hint {
+            font-family: var(--mono); font-size: 0.6rem; color: rgba(255,255,255,0.25);
+            letter-spacing: 0.03em; text-align: center; margin-top: 0.625rem;
         }
 
-        /* Privacy note */
-        .privacy-note { font-family: var(--mono); font-size: 0.62rem; color: var(--w30); letter-spacing: 0.03em; line-height: 1.7; }
-        .privacy-note a { color: var(--w60); text-decoration: underline; }
-        .privacy-note a:hover { color: var(--white); }
+        /* ── Submitted state ── */
+        .ocard-done {
+            background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; gap: 0.375rem;
+        }
+        .ocard-done-title { font-size: 0.9375rem; font-weight: 700; color: var(--white); }
+        .ocard-done-body  { font-size: 0.875rem; color: var(--w60); line-height: 1.6; }
+        .ocard-done-note  { font-family: var(--mono); font-size: 0.62rem; color: var(--w30); margin-top: 0.25rem; font-style: italic; white-space: pre-wrap; }
 
-        /* Section title colour per tier */
-        .tier-panel-super-review  .form-section-title { color: var(--p); }
-        .tier-panel-super-rewrite .form-section-title { color: var(--accent); }
-        .tier-panel-super-coach   .form-section-title { color: var(--amber); }
+        /* ── Coach booking ── */
+        .ocard-booking {
+            border: 1px solid rgba(255,255,255,0.08); border-radius: 14px;
+            padding: 1.5rem; display: flex; flex-direction: column; gap: 0.875rem;
+        }
+        .ocard-booking-title { font-size: 1.0625rem; font-weight: 700; color: var(--white); letter-spacing: -0.015em; }
+        .ocard-booking-body  { font-size: 0.875rem; color: var(--w60); line-height: 1.7; }
+        .ocard-booking-btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            font-family: var(--font); font-size: 0.9375rem; font-weight: 700;
+            background: var(--white); color: #000; border: none; border-radius: 100px;
+            padding: 0.75rem 1.75rem; cursor: pointer; transition: opacity 0.2s;
+            width: fit-content; text-decoration: none;
+        }
+        .ocard-booking-btn:hover { opacity: 0.88; }
+        .ocard-booking-placeholder { font-family: var(--mono); font-size: 0.62rem; color: var(--w30); letter-spacing: 0.04em; }
 
-        /* ══════════════════════════════════════════════
-           PAID DASHBOARD
-        ══════════════════════════════════════════════ */
-        .pdash-wrap {
-            padding: 7rem 1.5rem 5rem;
-            min-height: 100vh;
-        }
-        .pdash-inner {
-            max-width: 860px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
+        /* ── Privacy ── */
+        .ocard-privacy { font-family: var(--mono); font-size: 0.6rem; color: rgba(255,255,255,0.2); letter-spacing: 0.03em; line-height: 1.7; text-align: center; }
+        .ocard-privacy a { color: rgba(255,255,255,0.35); text-decoration: underline; }
+        .ocard-privacy a:hover { color: var(--w60); }
 
-        /* Welcome */
-        .pdash-welcome { display: flex; flex-direction: column; gap: 0.375rem; }
-        .pdash-greeting {
-            font-size: clamp(1.5rem, 3.5vw, 2rem);
-            font-weight: 800;
-            letter-spacing: -0.035em;
-            color: var(--white);
-            line-height: 1.15;
+        /* ── In-review state ── */
+        .ocard-in-review {
+            background: rgba(123,104,238,0.05); border: 1px solid rgba(123,104,238,0.15);
+            border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; gap: 0.625rem;
         }
-        .pdash-greeting span { color: var(--accent); }
-        .pdash-sub { font-size: 0.9375rem; color: var(--w60); line-height: 1.6; }
-
-        /* Order card */
-        .order-card {
-            background: var(--black-2);
-            border: 1px solid var(--w08);
-            border-radius: var(--r-lg);
-            overflow: hidden;
-            animation: riseIn 0.35s ease both;
-        }
-        .order-card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            padding: 1.5rem 2rem;
-            border-bottom: 1px solid var(--w08);
-            flex-wrap: wrap;
-        }
-        .order-header-left { display: flex; flex-direction: column; gap: 0.3rem; }
-        .order-tier-name {
-            font-size: 1.125rem;
-            font-weight: 800;
-            letter-spacing: -0.025em;
-        }
-        .order-card-super-review  .order-tier-name { color: var(--p); }
-        .order-card-super-rewrite .order-tier-name { color: var(--accent); }
-        .order-card-super-coach   .order-tier-name { color: var(--amber); }
-        .order-date {
-            font-family: var(--mono);
-            font-size: 0.62rem;
-            color: var(--w30);
-            letter-spacing: 0.04em;
+        .ocard-in-review-pill {
+            font-family: var(--mono); font-size: 0.57rem; font-weight: 600;
+            letter-spacing: 0.1em; text-transform: uppercase;
+            padding: 0.22rem 0.65rem; border-radius: 100px;
+            background: rgba(123,104,238,0.12); border: 1px solid rgba(123,104,238,0.25);
+            color: var(--p); width: fit-content; margin-bottom: 0.25rem;
         }
 
-        /* Status tracker */
-        .order-tracker {
-            display: flex;
-            align-items: center;
-            padding: 1.375rem 2rem;
-            border-bottom: 1px solid var(--w08);
-            gap: 0;
-            overflow-x: auto;
-            scrollbar-width: none;
+        /* ── Complete state ── */
+        .ocard-complete {
+            background: rgba(134,239,172,0.04); border: 1px solid rgba(134,239,172,0.18);
+            border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;
         }
-        .order-tracker::-webkit-scrollbar { display: none; }
-        .tracker-step {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.4rem;
-            flex-shrink: 0;
+        .ocard-complete-title { font-size: 0.9375rem; font-weight: 700; color: #86efac; }
+        .ocard-dl-btn {
+            font-family: var(--font); font-size: 0.9375rem; font-weight: 700;
+            background: var(--white); color: #000; border: none; border-radius: 100px;
+            padding: 0.75rem 1.75rem; cursor: pointer; transition: opacity 0.2s;
+            letter-spacing: -0.01em; width: fit-content;
         }
-        .tracker-dot {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            border: 2px solid var(--w12);
-            background: var(--black-3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            position: relative;
-        }
-        .tracker-dot::after {
-            content: '';
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: transparent;
-            transition: background 0.3s;
-        }
-        .tracker-step.done .tracker-dot {
-            border-color: var(--accent);
-            background: rgba(77,255,180,0.12);
-        }
-        .tracker-step.done .tracker-dot::after { background: var(--accent); }
-        .tracker-step.active .tracker-dot {
-            border-color: var(--p);
-            background: rgba(123,104,238,0.12);
-        }
-        .tracker-step.active .tracker-dot::after { background: var(--p); }
-        .tracker-label {
-            font-family: var(--mono);
-            font-size: 0.58rem;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            color: var(--w30);
-            white-space: nowrap;
-            text-align: center;
-        }
-        .tracker-step.done .tracker-label   { color: var(--accent); }
-        .tracker-step.active .tracker-label { color: var(--p); }
-        .tracker-line {
-            flex: 1;
-            min-width: 2rem;
-            height: 2px;
-            background: var(--w08);
-            margin-bottom: 1.4rem;
-            transition: background 0.3s;
-        }
-        .tracker-line.done { background: var(--accent); }
+        .ocard-dl-btn:hover { opacity: 0.88; }
+        .ocard-dl-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-        /* Order body */
-        .order-body {
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1.75rem;
-        }
-        .order-section-title {
-            font-family: var(--mono);
-            font-size: 0.62rem;
-            font-weight: 500;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            color: var(--w30);
-            margin-bottom: 0.625rem;
-        }
-        .order-card-super-review  .order-section-title { color: var(--p); }
-        .order-card-super-rewrite .order-section-title { color: var(--accent); }
-        .order-card-super-coach   .order-section-title { color: var(--amber); }
+        /* ── Upload intro (awaiting state) ── */
+        .ocard-upload-intro { font-size: 0.8125rem; color: rgba(255,255,255,0.3); line-height: 1.6; margin-bottom: 0.75rem; }
 
-        /* Account section (collapsible) */
-        .pdash-account {
-            background: var(--black-2);
-            border: 1px solid var(--w08);
-            border-radius: var(--r-lg);
-            overflow: hidden;
-        }
+        /* ── Account collapsible ── */
+        .pdash-account { background: var(--black-2); border: 1px solid rgba(255,255,255,0.07); border-radius: 20px; overflow: hidden; }
         .pdash-account-toggle {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1.25rem 1.75rem;
-            font-family: var(--font);
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--w60);
-            background: none;
-            border: none;
-            cursor: pointer;
-            transition: color 0.2s;
-            text-align: left;
+            width: 100%; display: flex; align-items: center; justify-content: space-between;
+            padding: 1.25rem 2rem; font-family: var(--font); font-size: 0.875rem; font-weight: 500;
+            color: rgba(255,255,255,0.3); background: none; border: none; cursor: pointer; transition: color 0.2s; text-align: left;
         }
-        .pdash-account-toggle:hover { color: var(--white); }
+        .pdash-account-toggle:hover { color: var(--w60); }
         .pdash-account-toggle-icon { transition: transform 0.2s; font-style: normal; }
         .pdash-account-toggle.open .pdash-account-toggle-icon { transform: rotate(180deg); }
-        .pdash-account-body {
-            border-top: 1px solid var(--w08);
-            padding: 1.75rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
+        .pdash-account-body { border-top: 1px solid rgba(255,255,255,0.06); padding: 2rem; display: flex; flex-direction: column; gap: 1.5rem; }
 
         @media (max-width: 640px) {
-            .pdash-wrap { padding: 6rem 1rem 4rem; }
-            .order-card-header { padding: 1.25rem; }
-            .order-tracker { padding: 1rem 1.25rem; }
-            .order-body { padding: 1.25rem; }
+            .pdash-wrap { padding: 6rem 1rem 5rem; }
+            .ocard-head { padding: 1.25rem; grid-template-columns: 1fr; }
+            .ocard-head-right { flex-direction: row; align-items: center; flex-wrap: wrap; }
+            .ocard-steps { padding: 1.25rem; }
+            .ocard-body { padding: 1.25rem; gap: 1.5rem; }
+            .past-due-banner { padding: 0.75rem 1.25rem; }
             .pdash-account-body { padding: 1.25rem; }
         }
     </style>
@@ -1588,119 +1546,183 @@
                 .then(function (r) { if (r.data) setSubmissionState(panel, purchase, r.data); });
         }
 
+        /* ── Stripe customer portal ── */
+        window.openCustomerPortal = function (customerId) {
+            fetch(WORKER_URL + '/customer-portal', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ stripe_customer_id: customerId }),
+            }).then(function (r) { return r.json(); })
+              .then(function (d) { if (d.url) window.location.href = d.url; else alert('Could not open billing portal — email info@superceptron.com.'); })
+              .catch(function () { alert('Could not open billing portal — email info@superceptron.com.'); });
+        };
+
         function buildOrderCardHTML(purchase) {
             var tier = purchase.tier;
             var meta = TIER_META[tier];
             if (!meta) return '';
-            var pid  = purchase.id;
-            var date = new Date(purchase.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+            var pid     = purchase.id;
+            var date    = new Date(purchase.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
             var isCoach = (tier === 'super_coach');
+            var isSub   = !isCoach;
 
-            var bookingHTML = '';
-            if (isCoach) {
-                bookingHTML =
-                    '<div><p class="order-section-title">Book your session</p>' +
-                    '<div class="booking-section">' +
-                    '<p class="booking-heading">45-minute 1:1 with a senior recruiter</p>' +
-                    '<p class="booking-body">Choose a time that works for you. Come with your CV and a clear idea of what you\'re targeting.</p>' +
-                    (BOOKING_URL
-                        ? '<a class="booking-btn" href="' + BOOKING_URL + '" target="_blank" rel="noopener">Book your session →</a>'
-                        : '<p class="booking-placeholder">Booking link coming shortly. Email info@superceptron.com to arrange directly.</p>') +
-                    '</div></div>';
+            var subStatus  = purchase.subscription_status || null;
+            var customerId = purchase.stripe_customer_id  || null;
+            var periodEnd  = purchase.current_period_end  || null;
+
+            /* Subscription pill */
+            var pillCls  = subStatus === 'active' ? 'active' : subStatus === 'past_due' ? 'past-due' : subStatus === 'canceled' ? 'canceled' : 'paid';
+            var pillTxt  = subStatus === 'active' ? 'Active' : subStatus === 'past_due' ? 'Past due' : subStatus === 'canceled' ? 'Canceled' : 'Paid';
+            var subPill  = '<span class="ocard-sub-pill ' + pillCls + '" id="sub-pill-' + pid + '">' + pillTxt + '</span>';
+
+            /* Renewal date */
+            var renewLine = '';
+            if (isSub && periodEnd) {
+                var rd = new Date(periodEnd).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+                renewLine = '<span class="ocard-meta-sep">·</span><span id="renew-date-' + pid + '">Renews ' + rd + '</span>';
             }
 
+            /* Manage plan link */
+            var manageLink = (isSub && customerId)
+                ? '<button class="ocard-manage-link" onclick="openCustomerPortal(\'' + customerId + '\')">Manage plan →</button>'
+                : '';
+
+            /* Past-due banner */
+            var pdBanner = (isSub && subStatus === 'past_due')
+                ? '<div class="past-due-banner">⚠&ensp;<span><strong>Payment failed.</strong> Update your payment method to keep access.' +
+                  (customerId ? ' <button class="ocard-manage-link" style="font-size:0.8125rem;text-decoration:underline" onclick="openCustomerPortal(\'' + customerId + '\')">Update now →</button>' : '') +
+                  '</span></div>'
+                : '';
+
+            var typeLabel = isSub ? 'Monthly subscription' : 'One-time session';
+
+            /* Coach booking block */
+            var bookingHTML = isCoach
+                ? '<div>' +
+                  '<p class="ocard-section-lbl">Book your session</p>' +
+                  '<div class="ocard-booking">' +
+                  '<p class="ocard-booking-title">45-minute 1:1 with a senior recruiter</p>' +
+                  '<p class="ocard-booking-body">Choose a time that works. Come with your CV and a clear sense of what you\'re targeting — we\'ll do the rest.</p>' +
+                  (BOOKING_URL
+                    ? '<a class="ocard-booking-btn" href="' + BOOKING_URL + '" target="_blank" rel="noopener">Book your session →</a>'
+                    : '<p class="ocard-booking-placeholder">Booking link coming shortly — email info@superceptron.com to arrange.</p>') +
+                  '</div></div>'
+                : '';
+
             return (
-                '<div class="order-card order-card-' + tier.replace(/_/g, '-') + '" id="order-' + pid + '">' +
+                '<div class="order-card" id="order-' + pid + '">' +
 
-                '<div class="order-card-header">' +
-                '<div class="order-header-left">' +
-                '<span class="order-tier-name">' + meta.label + '</span>' +
-                '<span class="order-date">Purchased ' + date + '</span>' +
-                '</div>' +
-                '<span class="tier-status-badge awaiting" id="order-badge-' + pid + '">Awaiting upload</span>' +
-                '</div>' +
+                pdBanner +
 
-                '<div class="order-tracker" id="order-tracker-' + pid + '">' +
-                '<div class="tracker-step done" id="ts-confirmed-' + pid + '"><div class="tracker-dot"></div><span class="tracker-label">Confirmed</span></div>' +
-                '<div class="tracker-line done" id="tl1-' + pid + '"></div>' +
-                '<div class="tracker-step" id="ts-uploaded-' + pid + '"><div class="tracker-dot"></div><span class="tracker-label">Uploaded</span></div>' +
-                '<div class="tracker-line" id="tl2-' + pid + '"></div>' +
-                '<div class="tracker-step" id="ts-review-' + pid + '"><div class="tracker-dot"></div><span class="tracker-label">In review</span></div>' +
-                '<div class="tracker-line" id="tl3-' + pid + '"></div>' +
-                '<div class="tracker-step" id="ts-complete-' + pid + '"><div class="tracker-dot"></div><span class="tracker-label">Complete</span></div>' +
+                '<div class="ocard-head">' +
+                  '<div class="ocard-head-left">' +
+                    '<span class="ocard-tier">' + meta.label + '</span>' +
+                    '<span class="ocard-meta">' + typeLabel + '<span class="ocard-meta-sep">·</span>Purchased ' + date + renewLine + '</span>' +
+                  '</div>' +
+                  '<div class="ocard-head-right">' + subPill + manageLink + '</div>' +
                 '</div>' +
 
-                '<div class="order-body">' +
-
-                bookingHTML +
-
-                '<div id="upload-section-' + pid + '">' +
-                '<p class="order-section-title">' + meta.uploadLabel + '</p>' +
-                '<div class="upload-zone" id="upload-zone-' + pid + '" role="button" tabindex="0" aria-label="Upload PDF">' +
-                '<span class="upload-icon">📄</span>' +
-                '<span class="upload-label">Click or drag your CV here</span>' +
-                '<span class="upload-sub">PDF only · max 10 MB</span>' +
-                '</div>' +
-                '<input type="file" id="cv-pdf-input-' + pid + '" accept="application/pdf" style="display:none">' +
+                '<div class="ocard-steps">' +
+                  '<div class="step-node s-done"  id="step-conf-' + pid + '"><div class="step-circle"></div><span class="step-lbl">Confirmed</span></div>' +
+                  '<div class="step-connector"    id="step-c1-'   + pid + '"></div>' +
+                  '<div class="step-node"          id="step-up-'   + pid + '"><div class="step-circle"></div><span class="step-lbl">Uploaded</span></div>' +
+                  '<div class="step-connector"    id="step-c2-'   + pid + '"></div>' +
+                  '<div class="step-node"          id="step-rev-'  + pid + '"><div class="step-circle"></div><span class="step-lbl">In review</span></div>' +
+                  '<div class="step-connector"    id="step-c3-'   + pid + '"></div>' +
+                  '<div class="step-node"          id="step-done-' + pid + '"><div class="step-circle"></div><span class="step-lbl">Complete</span></div>' +
                 '</div>' +
 
-                '<div>' +
-                '<p class="order-section-title">' + meta.noteLabel + '</p>' +
-                '<textarea class="request-note" id="request-note-' + pid + '" placeholder="' + meta.notePH + '" rows="4"></textarea>' +
+                '<div class="ocard-body">' +
+                  bookingHTML +
+                  '<div id="upload-section-' + pid + '">' +
+                    '<p class="ocard-section-lbl">' + meta.uploadLabel + '</p>' +
+                    '<div class="ocard-upload" id="upload-zone-' + pid + '" role="button" tabindex="0" aria-label="Upload PDF">' +
+                      '<span class="ocard-upload-icon">📄</span>' +
+                      '<span class="ocard-upload-label">Click or drag your CV here</span>' +
+                      '<span class="ocard-upload-sub">PDF only · max 10 MB</span>' +
+                    '</div>' +
+                    '<input type="file" id="cv-pdf-input-' + pid + '" accept="application/pdf" style="display:none">' +
+                  '</div>' +
+                  '<div>' +
+                    '<p class="ocard-section-lbl">' + meta.noteLabel + '</p>' +
+                    '<textarea class="ocard-note" id="request-note-' + pid + '" placeholder="' + meta.notePH + '" rows="4"></textarea>' +
+                  '</div>' +
+                  '<div>' +
+                    '<button class="ocard-submit t-' + meta.btnClass + '" id="tier-submit-' + pid + '" disabled>' + meta.submitLabel + '</button>' +
+                    '<p class="ocard-submit-hint" id="tier-submit-status-' + pid + '"></p>' +
+                  '</div>' +
+                  '<p class="ocard-privacy">Your CV is stored privately. <a href="privacy.html" target="_blank">Privacy policy</a>. Deleted after fulfillment.</p>' +
                 '</div>' +
 
-                '<div>' +
-                '<button class="tier-submit-btn ' + meta.btnClass + '" id="tier-submit-' + pid + '" disabled>' + meta.submitLabel + '</button>' +
-                '<span class="tier-submit-status" id="tier-submit-status-' + pid + '"></span>' +
-                '</div>' +
-
-                '<p class="privacy-note">Your CV is stored privately and only visible to you and the reviewer. ' +
-                '<a href="privacy.html" target="_blank">Privacy policy</a>. Files deleted after fulfillment.</p>' +
-
-                '</div></div>'
+                '</div>'  // .order-card
             );
         }
 
         function advanceTracker(pid, submissionStatus) {
-            var steps = {
-                uploaded: document.getElementById('ts-uploaded-' + pid),
-                review:   document.getElementById('ts-review-' + pid),
-                complete: document.getElementById('ts-complete-' + pid),
-                line1:    document.getElementById('tl1-' + pid),
-                line2:    document.getElementById('tl2-' + pid),
-                line3:    document.getElementById('tl3-' + pid),
-            };
-            var badge = document.getElementById('order-badge-' + pid);
-
-            if (!steps.uploaded) return;
+            var up   = document.getElementById('step-up-'   + pid);
+            var rev  = document.getElementById('step-rev-'  + pid);
+            var done = document.getElementById('step-done-' + pid);
+            var c1   = document.getElementById('step-c1-'   + pid);
+            var c2   = document.getElementById('step-c2-'   + pid);
+            var c3   = document.getElementById('step-c3-'   + pid);
+            if (!up) return;
 
             if (submissionStatus === 'submitted') {
-                steps.uploaded.classList.add('done');
-                if (steps.line1) steps.line1.classList.add('done'); /* line after Confirmed */
-                if (steps.review) steps.review.classList.add('active');
-                if (badge) { badge.textContent = 'Submitted'; badge.className = 'tier-status-badge submitted'; }
+                if (c1) c1.classList.add('s-done');
+                if (up) up.classList.add('s-done');
+                if (rev) rev.classList.add('s-active');
             } else if (submissionStatus === 'in_review') {
-                steps.uploaded.classList.add('done');
-                steps.review.classList.add('done');
-                if (steps.line1) steps.line1.classList.add('done');
-                if (steps.line2) steps.line2.classList.add('done');
-                if (steps.complete) steps.complete.classList.add('active');
-                if (badge) { badge.textContent = 'In review'; badge.className = 'tier-status-badge in-review'; }
+                if (c1) c1.classList.add('s-done'); if (c2) c2.classList.add('s-done');
+                if (up) up.classList.add('s-done'); if (rev) rev.classList.add('s-done');
+                if (done) done.classList.add('s-active');
             } else if (submissionStatus === 'complete') {
-                steps.uploaded.classList.add('done');
-                steps.review.classList.add('done');
-                steps.complete.classList.add('done');
-                if (steps.line1) steps.line1.classList.add('done');
-                if (steps.line2) steps.line2.classList.add('done');
-                if (steps.line3) steps.line3.classList.add('done');
-                if (badge) { badge.textContent = 'Complete'; badge.className = 'tier-status-badge complete'; }
+                if (c1) c1.classList.add('s-done'); if (c2) c2.classList.add('s-done'); if (c3) c3.classList.add('s-done');
+                if (up) up.classList.add('s-done'); if (rev) rev.classList.add('s-done'); if (done) done.classList.add('s-done');
             }
         }
 
+        /* ── Submission state globals ── */
+        var submissionRenderers = {};  /* { purchaseId: renderFn } */
+        var submissionStatuses  = {};  /* { purchaseId: status }   */
+
+        function downloadCompletedCv(purchase, btn) {
+            var prev = btn.textContent;
+            btn.disabled = true; btn.textContent = 'Generating link…';
+            sb.auth.getSession().then(function (r) {
+                var token = r.data && r.data.session && r.data.session.access_token;
+                if (!token) { btn.disabled = false; btn.textContent = prev; return; }
+                fetch(WORKER_URL + '/candidate/completed-url', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: token, purchase_id: purchase.id }),
+                }).then(function (res) { return res.json(); })
+                  .then(function (d) {
+                    btn.disabled = false; btn.textContent = prev;
+                    if (d.url) window.open(d.url, '_blank');
+                    else alert('Download not available yet — please try again shortly.');
+                }).catch(function () { btn.disabled = false; btn.textContent = prev; alert('Could not generate link. Email info@superceptron.com.'); });
+            });
+        }
+
+        function deleteAccount() {
+            if (!confirm('Permanently delete your account and all uploads? This cannot be undone.')) return;
+            if (!sb) return;
+            sb.auth.getSession().then(function (r) {
+                var token = r.data && r.data.session && r.data.session.access_token;
+                if (!token) { alert('Please sign in again before deleting your account.'); return; }
+                fetch(WORKER_URL + '/delete-account', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: token }),
+                }).then(function (res) { return res.json(); })
+                  .then(function (d) {
+                    if (d.ok) { sb.auth.signOut().then(function () { window.location.href = 'cv-score.html'; }); }
+                    else       { alert(d.error || 'Deletion failed — email info@superceptron.com.'); }
+                }).catch(function () { alert('Deletion failed — email info@superceptron.com.'); });
+            });
+        }
+
         function wireOrderCard(purchase) {
-            var pid     = purchase.id;
-            var zone    = document.getElementById('upload-zone-' + pid);
-            var fileinp = document.getElementById('cv-pdf-input-' + pid);
+            var pid       = purchase.id;
+            var zone      = document.getElementById('upload-zone-' + pid);
+            var fileinp   = document.getElementById('cv-pdf-input-' + pid);
             var submitBtn = document.getElementById('tier-submit-' + pid);
             var statusEl  = document.getElementById('tier-submit-status-' + pid);
             if (!zone || !fileinp || !submitBtn) return;
@@ -1708,19 +1730,60 @@
             function setFile(file) {
                 if (!file) return;
                 if (file.type !== 'application/pdf') { alert('Please upload a PDF file.'); return; }
-                if (file.size > 10 * 1024 * 1024)    { alert('File too large — max 10 MB.'); return; }
+                if (file.size > 10 * 1024 * 1024)   { alert('File too large — max 10 MB.'); return; }
                 tierFiles[pid] = file;
-                zone.classList.add('has-file');
-                zone.innerHTML = '<span class="upload-icon">✅</span><span class="upload-file-name">' + file.name + '</span><span class="upload-sub">Click to change</span>';
+                zone.classList.remove('u-drag'); zone.classList.add('u-file');
+                zone.innerHTML =
+                    '<span class="ocard-upload-icon">📄</span>' +
+                    '<span class="ocard-upload-filename">' + file.name + '</span>' +
+                    '<span class="ocard-upload-sub">Click to change</span>';
                 submitBtn.disabled = false;
             }
 
             zone.addEventListener('click', function () { fileinp.click(); });
             zone.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') fileinp.click(); });
-            zone.addEventListener('dragover', function (e) { e.preventDefault(); zone.classList.add('drag-over'); });
-            zone.addEventListener('dragleave', function () { zone.classList.remove('drag-over'); });
-            zone.addEventListener('drop', function (e) { e.preventDefault(); zone.classList.remove('drag-over'); var f = e.dataTransfer.files[0]; if (f) setFile(f); });
+            zone.addEventListener('dragover', function (e) { e.preventDefault(); zone.classList.add('u-drag'); });
+            zone.addEventListener('dragleave', function () { zone.classList.remove('u-drag'); });
+            zone.addEventListener('drop', function (e) { e.preventDefault(); zone.classList.remove('u-drag'); var f = e.dataTransfer.files[0]; if (f) setFile(f); });
             fileinp.addEventListener('change', function () { if (this.files[0]) setFile(this.files[0]); });
+
+            function renderSubmissionState(sub) {
+                var upSec = document.getElementById('upload-section-' + pid);
+                if (!upSec) return;
+                submissionStatuses[pid] = sub.status;
+                advanceTracker(pid, sub.status);
+                if (submitBtn && submitBtn.parentElement) submitBtn.parentElement.style.display = 'none';
+                var note     = sub.request_note || '';
+                var noteSnip = note ? '<p class="ocard-done-note">Your note: ' + note.slice(0, 240) + (note.length > 240 ? '…' : '') + '</p>' : '';
+                if (sub.status === 'submitted') {
+                    upSec.innerHTML =
+                        '<p class="ocard-section-lbl">Your submission</p>' +
+                        '<div class="ocard-done">' +
+                          '<span class="ocard-done-title">Received — preparing your review</span>' +
+                          '<span class="ocard-done-body">We\'ll email you at ' + userEmail + ' when it\'s ready.</span>' +
+                          noteSnip +
+                        '</div>';
+                } else if (sub.status === 'in_review') {
+                    upSec.innerHTML =
+                        '<p class="ocard-section-lbl">Your submission</p>' +
+                        '<div class="ocard-in-review">' +
+                          '<span class="ocard-in-review-pill">In review</span>' +
+                          '<span class="ocard-done-title">Your CV is with us now</span>' +
+                          '<span class="ocard-done-body">We\'ll email you at ' + userEmail + ' as soon as it\'s ready. Most reviews complete within 48 hours.</span>' +
+                          noteSnip +
+                        '</div>';
+                } else if (sub.status === 'complete') {
+                    upSec.innerHTML =
+                        '<p class="ocard-section-lbl">Your completed CV</p>' +
+                        '<div class="ocard-complete">' +
+                          '<span class="ocard-complete-title">✓ Your reviewed CV is ready</span>' +
+                          '<button class="ocard-dl-btn" id="dl-btn-' + pid + '">Download your reviewed CV →</button>' +
+                        '</div>';
+                    var dlBtn = document.getElementById('dl-btn-' + pid);
+                    if (dlBtn) dlBtn.addEventListener('click', function () { downloadCompletedCv(purchase, dlBtn); });
+                }
+            }
+            submissionRenderers[pid] = renderSubmissionState;
 
             submitBtn.addEventListener('click', function () {
                 var file = tierFiles[pid];
@@ -1735,10 +1798,11 @@
                         if (statusEl) statusEl.textContent = 'Saving…';
                         sb.from('cv_submissions').insert({
                             purchase_id: pid, user_id: userId,
-                            storage_path: storagePath, request_note: note, status: 'submitted',
+                            storage_path: storagePath, request_note: note,
+                            status: 'submitted', candidate_email: userEmail,
                         }).select('id, status, request_note').then(function (sr) {
                             if (sr.error || !sr.data || !sr.data.length) {
-                                if (statusEl) statusEl.textContent = 'Saved but log failed — email info@superceptron.com.';
+                                if (statusEl) statusEl.textContent = 'Saved — email info@superceptron.com if you don\'t hear from us.';
                                 return;
                             }
                             var sub = sr.data[0];
@@ -1746,38 +1810,61 @@
                                 method: 'POST', headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ submission_id: sub.id, purchase_id: pid, tier: purchase.tier, user_email: userEmail, storage_path: storagePath, note: note }),
                             }).catch(function () {});
-                            advanceTracker(pid, 'submitted');
-                            var upSec = document.getElementById('upload-section-' + pid);
-                            if (upSec) {
-                                upSec.innerHTML = '<p class="order-section-title">Your submission</p>' +
-                                    '<div class="submission-state">' +
-                                    '<span class="submission-state-title">Submitted — we\'ll be in touch at ' + userEmail + '</span>' +
-                                    (note ? '<p class="submission-note-preview">Your note: ' + note.slice(0, 200) + (note.length > 200 ? '…' : '') + '</p>' : '') +
-                                    '</div>';
-                            }
-                            if (submitBtn.parentElement) submitBtn.parentElement.style.display = 'none';
+                            renderSubmissionState(sub);
                             if (statusEl) statusEl.textContent = '';
                         });
                     });
             });
 
-            /* Check for existing submission */
+            /* Check for existing submission on load */
             sb.from('cv_submissions').select('*').eq('purchase_id', pid).maybeSingle()
                 .then(function (r) {
                     if (!r.data) return;
-                    var sub = r.data;
-                    advanceTracker(pid, sub.status);
-                    var upSec = document.getElementById('upload-section-' + pid);
-                    if (upSec) {
-                        upSec.innerHTML = '<p class="order-section-title">Your submission</p>' +
-                            '<div class="submission-state">' +
-                            '<span class="submission-state-title">Submitted — we\'ll be in touch at ' + userEmail + '</span>' +
-                            (sub.request_note ? '<p class="submission-note-preview">Your note: ' + sub.request_note.slice(0, 200) + '</p>' : '') +
-                            '</div>';
-                    }
-                    if (submitBtn && submitBtn.parentElement) submitBtn.parentElement.style.display = 'none';
+                    renderSubmissionState(r.data);
                 });
         }
+
+        /* Poll subscription status every 30s for live updates */
+        function pollSubscriptions() {
+            if (!sb || !userId) return;
+            sb.from('purchases').select('id, subscription_status, current_period_end')
+              .eq('user_id', userId).eq('status', 'paid')
+              .then(function (r) {
+                if (!r.data) return;
+                r.data.forEach(function (p) {
+                    var pill = document.getElementById('sub-pill-' + p.id);
+                    if (pill && p.subscription_status) {
+                        var cls = p.subscription_status === 'active' ? 'active' : p.subscription_status === 'past_due' ? 'past-due' : 'canceled';
+                        var txt = p.subscription_status === 'active' ? 'Active' : p.subscription_status === 'past_due' ? 'Past due' : 'Canceled';
+                        pill.className = 'ocard-sub-pill ' + cls;
+                        pill.textContent = txt;
+                    }
+                    var rd = document.getElementById('renew-date-' + p.id);
+                    if (rd && p.current_period_end) {
+                        var d = new Date(p.current_period_end).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+                        rd.textContent = 'Renews ' + d;
+                    }
+                });
+              });
+        }
+        function pollAllSubmissions() {
+            var pids = Object.keys(submissionStatuses);
+            if (!sb || !userId || !pids.length) return;
+            sb.from('cv_submissions')
+              .select('purchase_id, status, request_note, storage_path, completed_file_path')
+              .in('purchase_id', pids)
+              .then(function (r) {
+                if (!r.data) return;
+                r.data.forEach(function (sub) {
+                    var prev = submissionStatuses[sub.purchase_id];
+                    if (prev !== undefined && sub.status !== prev) {
+                        var render = submissionRenderers[sub.purchase_id];
+                        if (render) render(sub);
+                    }
+                });
+              });
+        }
+        setInterval(function () { pollSubscriptions(); pollAllSubmissions(); }, 30000);
 
         function loadPurchases() {
             if (!sb || !userId) { $('dash-loading').style.display = 'none'; $('dash-wrap').style.display = ''; return; }
@@ -1856,26 +1943,10 @@
         }
 
         var paDelete = $('pa-delete');
-        if (paDelete) {
-            paDelete.addEventListener('click', function () {
-                if (!confirm('Permanently delete your account and all data? This cannot be undone.')) return;
-                if (!sb) return;
-                sb.from('profiles').delete().eq('id', userId).then(function () {
-                    sb.auth.signOut().then(function () { window.location.href = 'cv-score.html'; });
-                });
-            });
-        }
+        if (paDelete) paDelete.addEventListener('click', deleteAccount);
 
         /* ── DELETE ACCOUNT (free user panel) ── */
-        $('btn-delete').addEventListener('click', function () {
-            if (!confirm('Are you sure? This permanently deletes your account and all saved data. This cannot be undone.')) return;
-            if (!sb) return;
-            sb.from('profiles').delete().eq('id', userId).then(function () {
-                sb.auth.signOut().then(function () {
-                    window.location.href = 'cv-score.html';
-                });
-            });
-        });
+        $('btn-delete').addEventListener('click', deleteAccount);
 
         /* ── SIGN OUT ── */
         $('btn-signout').addEventListener('click', function () {
