@@ -75,23 +75,24 @@
         .mobile-logo { font-size: 1rem; font-weight: 800; letter-spacing: -0.03em; color: var(--white); }
 
         /* ── Main area ── */
-        .main-wrap { margin-left: 220px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
-        .main { padding: 2.5rem 3rem; max-width: 860px; }
+        .main-wrap { margin-left: 220px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; align-items: center; }
+        .main { padding: 3rem 2.5rem; max-width: 820px; width: 100%; box-sizing: border-box; }
 
         /* ── Views ── */
-        .view { animation: riseIn 0.3s cubic-bezier(0.16,1,0.3,1) both; }
-        @keyframes riseIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
-        .view-header { margin-bottom: 2rem; }
-        .view-title { font-size: clamp(1.5rem,3vw,2rem); font-weight: 800; letter-spacing: -0.04em; color: var(--white); line-height: 1.1; margin: 0 0 0.375rem; }
+        .view { animation: riseIn 0.35s cubic-bezier(0.16,1,0.3,1) both; }
+        @keyframes riseIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+        .view-header { margin-bottom: 2.5rem; }
+        .view-title { font-size: clamp(1.75rem,3.5vw,2.5rem); font-weight: 900; letter-spacing: -0.05em; color: var(--white); line-height: 1.05; margin: 0 0 0.5rem; }
+        #home-title { font-size: clamp(2.25rem,5vw,3.5rem); }
         .view-title span { color: var(--p); }
-        .view-sub { font-size: 0.9375rem; color: var(--w30); margin: 0; }
+        .view-sub { font-size: 0.9375rem; color: var(--w30); margin: 0; line-height: 1.6; }
         .section-lbl { font-family: var(--mono); font-size: 0.6rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--w30); margin: 0 0 0.875rem; }
 
         /* ── Tile grid ── */
-        .tiles-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1rem; margin-bottom: 2.5rem; }
+        .tiles-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.125rem; margin-bottom: 2.75rem; }
         .tile {
-            background: var(--black-2); border: 1px solid var(--w08); border-radius: 16px;
-            padding: 1.5rem; display: flex; flex-direction: column; gap: 0.875rem;
+            background: var(--black-2); border: 1px solid var(--w08); border-radius: 18px;
+            padding: 1.625rem; display: flex; flex-direction: column; gap: 0.875rem;
             transition: border-color 0.2s, box-shadow 0.2s; position: relative;
         }
         .tile-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; }
@@ -109,8 +110,8 @@
         .tile-foot { margin-top: auto; }
 
         /* Owned */
-        .tile-owned { border-color: rgba(123,104,238,0.25); background: rgba(123,104,238,0.04); cursor: pointer; }
-        .tile-owned:hover { border-color: rgba(123,104,238,0.45); box-shadow: 0 0 0 1px rgba(123,104,238,0.1); }
+        .tile-owned { border-color: rgba(123,104,238,0.28); background: rgba(123,104,238,0.045); cursor: pointer; }
+        .tile-owned:hover { border-color: rgba(123,104,238,0.52); box-shadow: 0 0 28px rgba(123,104,238,0.1), 0 0 0 1px rgba(123,104,238,0.12); }
         .tile-owned .tile-name { color: var(--p); }
         .tile-owned .tile-badge { color: #86efac; border-color: rgba(134,239,172,0.22); background: rgba(134,239,172,0.06); }
         .tile-owned .tile-badge.past-due { color: #fbbf24; border-color: rgba(251,191,36,0.28); background: rgba(251,191,36,0.07); }
@@ -142,7 +143,7 @@
         /* ── Add-on section ── */
         .addon-section { margin-bottom: 2rem; }
         .addon-section-lbl { font-family: var(--mono); font-size: 0.6rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--w30); margin: 0 0 0.875rem; padding-top: 0.5rem; border-top: 1px solid var(--w08); display: block; }
-        .addon-card { background: var(--black-2); border: 1px solid var(--w08); border-radius: 16px; padding: 1.5rem; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 1.5rem; }
+        .addon-card { background: var(--black-2); border: 1px solid var(--w08); border-radius: 18px; padding: 1.625rem 2rem; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 1.5rem; }
         .addon-left { display: flex; flex-direction: column; gap: 0.375rem; }
         .addon-name { font-size: 1.0625rem; font-weight: 700; letter-spacing: -0.02em; color: var(--white); }
         .addon-desc { font-size: 0.875rem; color: var(--w60); line-height: 1.6; }
@@ -318,13 +319,13 @@
 
         /* ── AI Rewrite tile on home ── */
         .ai-rewrite-card {
-            background: linear-gradient(135deg, rgba(123,104,238,0.07) 0%, rgba(123,104,238,0.03) 100%);
-            border: 1px solid rgba(123,104,238,0.22); border-radius: 16px;
-            padding: 1.5rem; display: flex; align-items: center; justify-content: space-between;
+            background: linear-gradient(135deg, rgba(123,104,238,0.1) 0%, rgba(100,80,220,0.04) 100%);
+            border: 1px solid rgba(123,104,238,0.28); border-radius: 18px;
+            padding: 1.625rem 2rem; display: flex; align-items: center; justify-content: space-between;
             gap: 1.5rem; cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2.75rem;
         }
-        .ai-rewrite-card:hover { border-color: rgba(123,104,238,0.45); box-shadow: 0 0 0 1px rgba(123,104,238,0.1); }
+        .ai-rewrite-card:hover { border-color: rgba(123,104,238,0.5); box-shadow: 0 0 28px rgba(123,104,238,0.09), 0 0 0 1px rgba(123,104,238,0.12); }
         .ai-rewrite-left { display: flex; flex-direction: column; gap: 0.375rem; }
         .ai-rewrite-name { font-size: 1rem; font-weight: 800; letter-spacing: -0.025em; color: var(--p); }
         .ai-rewrite-desc { font-size: 0.8125rem; color: var(--w60); line-height: 1.5; }
@@ -350,7 +351,7 @@
             .sidebar { transform: translateX(-100%); }
             .sidebar.open { transform: translateX(0); }
             .mobile-bar { display: flex; }
-            .main-wrap { margin-left: 0; }
+            .main-wrap { margin-left: 0; align-items: stretch; }
             .main { padding: 1.5rem 1.25rem; }
             .tiles-grid { grid-template-columns: 1fr; }
             .addon-card { grid-template-columns: 1fr; }
@@ -360,6 +361,50 @@
             .detail-body { padding: 1.25rem; gap: 1.5rem; }
             .form-grid { grid-template-columns: 1fr; }
             .billing-card-head { flex-direction: column; align-items: flex-start; }
+        }
+
+        /* ── Review Workspace ── */
+        .ws-head { display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; margin-bottom:2rem; flex-wrap:wrap; }
+        .ws-plan-name { font-size:1.375rem; font-weight:800; letter-spacing:-0.03em; color:var(--white); }
+        .ws-plan-meta { font-size:0.8125rem; color:var(--w30); margin-top:0.25rem; }
+        .ws-hero { display:flex; align-items:center; gap:2rem; padding:1.75rem 2rem; border:1px solid rgba(123,104,238,0.22); border-radius:16px; background:rgba(123,104,238,0.04); margin-bottom:2rem; flex-wrap:wrap; }
+        .ws-count-block { display:flex; flex-direction:column; align-items:center; gap:0.25rem; background:rgba(123,104,238,0.1); border:1px solid rgba(123,104,238,0.28); border-radius:14px; padding:1.25rem 1.875rem; flex-shrink:0; min-width:90px; }
+        .ws-count { font-size:3.75rem; font-weight:900; letter-spacing:-0.06em; color:var(--p); line-height:1; display:block; }
+        .ws-count-lbl { font-family:var(--mono); font-size:0.58rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(123,104,238,0.65); margin-top:0.25rem; }
+        .ws-hero-right { display:flex; flex-direction:column; gap:0.5rem; min-width:0; }
+        .ws-hero-title { font-size:1.0625rem; font-weight:700; color:var(--white); }
+        .ws-hero-sub { font-size:0.875rem; color:var(--w60); line-height:1.6; max-width:38ch; }
+        .ws-reset-row { display:flex; align-items:center; gap:0.5rem; margin-top:0.125rem; }
+        .ws-reset-dot { width:6px; height:6px; border-radius:50%; background:var(--p); opacity:0.7; animation:dotPulse 2.2s ease-in-out infinite; flex-shrink:0; }
+        @keyframes dotPulse { 0%,100%{opacity:0.3;transform:scale(0.85)} 50%{opacity:1;transform:scale(1.15)} }
+        .ws-reset-txt { font-family:var(--mono); font-size:0.65rem; color:var(--w30); }
+        .ws-tracker { border:1px solid var(--w08); border-radius:16px; overflow:hidden; margin-bottom:2rem; }
+        .ws-tracker-head { display:grid; grid-template-columns:3.25rem 1fr 11rem 8rem; border-bottom:1px solid var(--w08); background:rgba(255,255,255,0.02); }
+        .ws-th { font-family:var(--mono); font-size:0.58rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--w30); padding:0.75rem 1rem; font-weight:500; }
+        .ws-th:first-child { text-align:center; }
+        .ws-row { display:grid; grid-template-columns:3.25rem 1fr 11rem 8rem; border-bottom:1px solid var(--w08); align-items:center; animation:wsRowIn 0.45s cubic-bezier(0.16,1,0.3,1) both; transition:background 0.15s; }
+        .ws-row:last-child { border-bottom:none; }
+        .ws-row:hover { background:rgba(255,255,255,0.016); }
+        @keyframes wsRowIn { from{opacity:0;transform:translateX(-10px)} to{opacity:1;transform:translateX(0)} }
+        .ws-cell { padding:1rem 1rem; font-size:0.875rem; color:var(--w60); }
+        .ws-cell-num { font-family:var(--mono); font-size:0.72rem; font-weight:700; color:var(--w30); text-align:center; }
+        .ws-cell-date { font-family:var(--mono); font-size:0.75rem; }
+        .ws-cell-action { padding-right:1rem; }
+        .ws-status-pill { display:inline-flex; align-items:center; gap:0.35rem; font-family:var(--mono); font-size:0.6rem; font-weight:600; letter-spacing:0.09em; text-transform:uppercase; padding:0.3rem 0.75rem; border-radius:100px; border:1px solid; white-space:nowrap; }
+        .ws-status-pill.sp-complete  { color:#86efac; border-color:rgba(134,239,172,0.22); background:rgba(134,239,172,0.06); }
+        .ws-status-pill.sp-inreview  { color:var(--p); border-color:rgba(123,104,238,0.3); background:rgba(123,104,238,0.08); animation:pillPulse 2.5s ease-in-out infinite; }
+        .ws-status-pill.sp-submitted { color:#fbbf24; border-color:rgba(251,191,36,0.26); background:rgba(251,191,36,0.06); }
+        .ws-status-pill.sp-available { color:var(--w30); border-color:var(--w08); background:transparent; border-style:dashed; }
+        @keyframes pillPulse { 0%,100%{box-shadow:none} 50%{box-shadow:0 0 0 4px rgba(123,104,238,0.1)} }
+        .ws-dl-btn { font-family:var(--font); font-size:0.78rem; font-weight:600; color:var(--white); background:var(--w08); border:1px solid var(--w12); border-radius:8px; padding:0.35rem 0.875rem; cursor:pointer; transition:background 0.15s; white-space:nowrap; }
+        .ws-dl-btn:hover { background:var(--w12); }
+        .ws-dl-btn:disabled { opacity:0.4; cursor:not-allowed; }
+        .ws-new-title { font-family:var(--mono); font-size:0.6rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--w30); margin-bottom:1.125rem; display:block; padding-top:0.5rem; border-top:1px solid var(--w08); }
+        .ws-empty { padding:2.5rem 2rem; text-align:center; color:var(--w30); font-size:0.875rem; }
+        @media (max-width: 768px) {
+            .ws-hero { gap:1.25rem; }
+            .ws-tracker-head, .ws-row { grid-template-columns:2.5rem 1fr 9rem; }
+            .ws-tracker-head > .ws-th:last-child, .ws-row > .ws-cell:last-child { display:none; }
         }
     </style>
 </head>
@@ -933,7 +978,8 @@
                     grid.appendChild(tile);
                     if (owned && owned.tier === tier) {
                         tile.addEventListener('click', function (e) {
-                            if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
+                            if (e.target.tagName === 'A') return;
+                            if (e.target.tagName === 'BUTTON' && !e.target.classList.contains('tile-open-btn')) return;
                             openDetailView(owned, usage);
                         });
                         tile.addEventListener('keydown', function (e) {
@@ -1028,6 +1074,19 @@
         }
 
         /* ── Detail view ── */
+        function animateCount(el, target) {
+            if (!el) return;
+            var duration = 700, startTime = null;
+            function step(ts) {
+                if (!startTime) startTime = ts;
+                var prog = Math.min((ts - startTime) / duration, 1);
+                var ease = 1 - Math.pow(1 - prog, 3);
+                el.textContent = Math.round(target * ease);
+                if (prog < 1) requestAnimationFrame(step);
+            }
+            requestAnimationFrame(step);
+        }
+
         function openDetailView(purchase, usage) {
             var pid       = purchase.id;
             var tier      = purchase.tier;
@@ -1051,19 +1110,141 @@
                   '</div>'
                 : '';
 
-            var atCap     = isReview && usage && usage.eligible && usage.reviews_used >= usage.reviews_allowance;
-            var meterHTML = (isReview && usage && usage.eligible) ? usageMeterHTML(usage, false) : '';
-            var noteLabel = isReview ? 'What should the reviewer focus on?' : 'What do you want changed?';
-            var notePH    = isReview
-                ? 'Any specific concerns, target companies, or aspects of your background you want addressed.'
-                : 'What roles are you targeting? Tone, structure, specific sections — any context that helps.';
-            var submitLbl = isReview ? 'Submit for review →' : 'Submit for rewrite →';
-            var submitCls = isReview ? 't-review' : 't-rewrite';
+            /* ── SuperReview: beautiful tracker workspace ── */
+            if (isReview && usage && usage.eligible) {
+                var used      = usage.reviews_used      || 0;
+                var total     = usage.reviews_allowance || 3;
+                var remaining = Math.max(0, total - used);
+                var atCap     = used >= total;
+                var resetDate = usage.period_end
+                    ? new Date(usage.period_end).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })
+                    : (renewStr || '');
 
-            var submitAreaHTML = atCap
-                ? overflowPromptHTML(usage)
-                : '<button class="submit-btn ' + submitCls + '" id="tier-submit-' + pid + '" disabled>' + submitLbl + '</button>' +
-                  '<p class="submit-hint" id="tier-submit-status-' + pid + '"></p>';
+                $('detail-content').innerHTML =
+                    pdBanner +
+                    '<div class="ws-head">' +
+                      '<div>' +
+                        '<div class="ws-plan-name">' + label + ' workspace</div>' +
+                        '<div class="ws-plan-meta">' + price + ' · Monthly' + (renewStr ? ' · Renews ' + renewStr : '') + '</div>' +
+                      '</div>' +
+                      '<div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap">' +
+                        '<span class="status-pill ' + pillCls + '">' + pillTxt + '</span>' +
+                        manageBtn +
+                      '</div>' +
+                    '</div>' +
+
+                    '<div class="ws-hero">' +
+                      '<div class="ws-count-block">' +
+                        '<span class="ws-count" id="ws-rem-count">0</span>' +
+                        '<span class="ws-count-lbl">remaining</span>' +
+                      '</div>' +
+                      '<div class="ws-hero-right">' +
+                        '<span class="ws-hero-title">' + remaining + ' of ' + total + ' review' + (total !== 1 ? 's' : '') + ' remaining this period</span>' +
+                        '<span class="ws-hero-sub">Submit your CV for a personalised human review — delivered within 48 hours.</span>' +
+                        '<div class="ws-reset-row">' +
+                          '<div class="ws-reset-dot"></div>' +
+                          '<span class="ws-reset-txt">Allowance resets ' + (resetDate || 'on next billing date') + '</span>' +
+                        '</div>' +
+                      '</div>' +
+                    '</div>' +
+
+                    '<div class="ws-tracker">' +
+                      '<div class="ws-tracker-head">' +
+                        '<div class="ws-th" style="text-align:center">#</div>' +
+                        '<div class="ws-th">Submitted</div>' +
+                        '<div class="ws-th">Status</div>' +
+                        '<div class="ws-th"></div>' +
+                      '</div>' +
+                      '<div id="ws-rows"><div class="ws-empty">Loading…</div></div>' +
+                    '</div>' +
+
+                    (atCap
+                        ? overflowPromptHTML(usage)
+                        : '<span class="ws-new-title">Submit a new review</span>' +
+                          '<div id="upload-section-' + pid + '">' +
+                            '<div class="upload-zone" id="upload-zone-' + pid + '" role="button" tabindex="0" aria-label="Upload CV PDF">' +
+                              '<span class="upload-icon">📄</span>' +
+                              '<span class="upload-label">Click or drag your CV here</span>' +
+                              '<span class="upload-sub">PDF only · max 10 MB</span>' +
+                            '</div>' +
+                            '<input type="file" id="cv-pdf-input-' + pid + '" accept="application/pdf" style="display:none">' +
+                          '</div>' +
+                          '<div style="margin-top:1rem">' +
+                            '<p class="detail-section-lbl">What should the reviewer focus on?</p>' +
+                            '<textarea class="detail-note" id="request-note-' + pid + '" placeholder="Any specific concerns, target companies, or aspects of your background." rows="3"></textarea>' +
+                          '</div>' +
+                          '<div id="submit-wrap-' + pid + '" style="margin-top:1rem">' +
+                            '<button class="submit-btn t-review" id="tier-submit-' + pid + '" disabled>Submit for review →</button>' +
+                            '<p class="submit-hint" id="tier-submit-status-' + pid + '"></p>' +
+                          '</div>' +
+                          '<p class="privacy-note" style="margin-top:1rem">Your CV is stored privately and only accessible to you and the reviewer. <a href="privacy.html" target="_blank">Privacy policy</a>. Deleted after fulfilment.</p>'
+                    );
+
+                var ob = $('overflow-buy-btn');
+                if (ob) ob.addEventListener('click', function () { buyOverflowReview(ob); });
+
+                /* Load all submissions → build tracker rows */
+                sb.from('cv_submissions').select('*').eq('purchase_id', pid).order('created_at', { ascending: true })
+                    .then(function (r) {
+                        var subs    = r.data || [];
+                        var wsRows  = $('ws-rows');
+                        if (!wsRows) return;
+                        var rowsHTML = '';
+                        subs.forEach(function (sub, i) {
+                            var dateStr = sub.created_at
+                                ? new Date(sub.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
+                                : '—';
+                            var pCls, pTxt;
+                            if (sub.status === 'complete')      { pCls = 'sp-complete';  pTxt = '✓ Complete'; }
+                            else if (sub.status === 'in_review'){ pCls = 'sp-inreview';  pTxt = '● In review'; }
+                            else                                 { pCls = 'sp-submitted'; pTxt = '⏳ Received'; }
+                            var actHTML = (sub.status === 'complete')
+                                ? '<button class="ws-dl-btn" id="ws-dl-' + sub.id + '">Download →</button>'
+                                : '';
+                            rowsHTML +=
+                                '<div class="ws-row" style="animation-delay:' + (i * 0.07) + 's">' +
+                                '<div class="ws-cell ws-cell-num">' + (i + 1) + '</div>' +
+                                '<div class="ws-cell ws-cell-date">' + dateStr + '</div>' +
+                                '<div class="ws-cell"><span class="ws-status-pill ' + pCls + '">' + pTxt + '</span></div>' +
+                                '<div class="ws-cell ws-cell-action">' + actHTML + '</div>' +
+                                '</div>';
+                        });
+                        /* Empty remaining slots */
+                        for (var j = subs.length; j < total; j++) {
+                            rowsHTML +=
+                                '<div class="ws-row" style="animation-delay:' + (j * 0.07) + 's">' +
+                                '<div class="ws-cell ws-cell-num">' + (j + 1) + '</div>' +
+                                '<div class="ws-cell ws-cell-date" style="color:var(--w30)">—</div>' +
+                                '<div class="ws-cell"><span class="ws-status-pill sp-available">Available</span></div>' +
+                                '<div class="ws-cell ws-cell-action"></div>' +
+                                '</div>';
+                        }
+                        wsRows.innerHTML = rowsHTML || '<div class="ws-empty">No submissions yet</div>';
+
+                        /* Wire download buttons */
+                        subs.forEach(function (sub) {
+                            var btn = $('ws-dl-' + sub.id);
+                            if (btn) btn.addEventListener('click', function () { downloadCompletedCv(purchase, btn); });
+                        });
+
+                        /* Register polling renderer */
+                        if (subs.length) {
+                            submissionStatuses[pid] = subs[subs.length - 1].status;
+                        }
+                        submissionRenderers[pid] = function () { openDetailView(purchase, currentUsage || usage); };
+
+                        animateCount($('ws-rem-count'), remaining);
+                    });
+
+                if (!atCap) wireUploadSubmit(purchase, usage);
+                showView('detail');
+                return;
+            }
+
+            /* ── SuperRewrite / fallback: existing workspace ── */
+            var atCap2    = false;
+            var noteLabel = 'What do you want changed?';
+            var notePH    = 'What roles are you targeting? Tone, structure, specific sections — any context that helps.';
 
             $('detail-content').innerHTML =
                 '<div class="detail-card">' +
@@ -1089,7 +1270,6 @@
                 '<div class="step-node" id="step-done-' + pid + '"><div class="step-circle"></div><span class="step-lbl">Complete</span></div>' +
                 '</div>' +
                 '<div class="detail-body">' +
-                meterHTML +
                 '<div id="upload-section-' + pid + '">' +
                 '<p class="detail-section-lbl">Upload your CV</p>' +
                 '<div class="upload-zone" id="upload-zone-' + pid + '" role="button" tabindex="0" aria-label="Upload PDF">' +
@@ -1103,25 +1283,19 @@
                 '<p class="detail-section-lbl">' + noteLabel + '</p>' +
                 '<textarea class="detail-note" id="request-note-' + pid + '" placeholder="' + notePH + '" rows="4"></textarea>' +
                 '</div>' +
-                '<div id="submit-wrap-' + pid + '">' + submitAreaHTML + '</div>' +
+                '<div id="submit-wrap-' + pid + '">' +
+                '<button class="submit-btn t-rewrite" id="tier-submit-' + pid + '" disabled>Submit for rewrite →</button>' +
+                '<p class="submit-hint" id="tier-submit-status-' + pid + '"></p>' +
+                '</div>' +
                 '<p class="privacy-note">Your CV is stored privately and only accessible to you and the reviewer. <a href="privacy.html" target="_blank">Privacy policy</a>. Deleted after fulfilment.</p>' +
                 '</div>' +
                 '</div>';
 
-            /* Wire overflow buy btn */
-            var ob = $('overflow-buy-btn');
-            if (ob) ob.addEventListener('click', function () { buyOverflowReview(ob); });
-
-            /* Check existing submission */
             sb.from('cv_submissions').select('*').eq('purchase_id', pid).maybeSingle()
                 .then(function (r) { if (r.data) renderSubmissionState(pid, r.data, purchase); });
 
-            /* Register renderer for polling */
             submissionRenderers[pid] = function (sub) { renderSubmissionState(pid, sub, purchase); };
-
-            /* Wire upload + submit (only if not at cap and no existing submission) */
-            if (!atCap) wireUploadSubmit(purchase, usage);
-
+            wireUploadSubmit(purchase, usage);
             showView('detail');
         }
 
@@ -1199,7 +1373,12 @@
                                         return;
                                     }
                                     var sub = d.submission || { status: 'submitted', request_note: note };
-                                    renderSubmissionState(pid, sub, purchase);
+                                    if (currentUsage) { currentUsage.reviews_used = (currentUsage.reviews_used || 0) + 1; }
+                                    if (purchase.tier === 'super_review') {
+                                        openDetailView(purchase, currentUsage || usage);
+                                    } else {
+                                        renderSubmissionState(pid, sub, purchase);
+                                    }
                                     if (statusEl) statusEl.textContent = '';
                                 }).catch(function () {
                                     if (statusEl) statusEl.textContent = 'Network error — please try again.';
