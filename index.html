@@ -119,11 +119,25 @@
             will-change: transform;
         }
 
-        .roll-super { display: inline-block; }
+        /* Registered custom property so the browser can interpolate the gradient stop */
+        @property --paint {
+            syntax: '<percentage>';
+            inherits: false;
+            initial-value: 0%;
+        }
+
+        .roll-super {
+            display: inline-block;
+            /* gradient stop at 0% = entirely white; transitions to 100% = entirely green */
+            background: linear-gradient(to left, var(--accent) var(--paint), #ffffff var(--paint));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
         .roll-dot { display: inline-block; }
 
-        /* Starts clipped to zero-width; JS expands it to reveal "ceptron" */
+        /* Starts clipped to zero-width; JS expands it and it's always painted green */
         .roll-ceptron {
             display: inline-block;
             overflow: hidden;
@@ -132,6 +146,10 @@
             white-space: nowrap;
             vertical-align: bottom;
             will-change: max-width, opacity;
+            background: var(--accent);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         /* ── Path cards ── */
@@ -359,7 +377,7 @@
 
                     <!-- Single stage: prefix exits, slot collapses, ceptron expands -->
                     <div class="roll-stage" id="roll-stage" aria-live="polite">
-                        <div class="roll-slot" id="roll-slot"><span class="roll-prefix" id="roll-prefix">Hire</span></div><span class="roll-super">&thinsp;Super</span><span class="roll-dot" id="roll-dot">.</span><span class="roll-ceptron" id="roll-ceptron">ceptron</span>
+                        <div class="roll-slot" id="roll-slot"><span class="roll-prefix" id="roll-prefix">Hire</span></div><span class="roll-super" id="roll-super">Super</span><span class="roll-dot" id="roll-dot">.</span><span class="roll-ceptron" id="roll-ceptron">ceptron</span>
                     </div>
 
                 </div>
@@ -431,6 +449,7 @@
 
             var slotEl    = document.getElementById('roll-slot');
             var prefixEl  = document.getElementById('roll-prefix');
+            var superEl   = document.getElementById('roll-super');
             var dotEl     = document.getElementById('roll-dot');
             var ceptronEl = document.getElementById('roll-ceptron');
 
@@ -446,6 +465,7 @@
             WORDS.forEach(function (w) { probe.textContent = w; maxW = Math.max(maxW, probe.offsetWidth); });
             document.body.removeChild(probe);
             slotEl.style.width = maxW + 'px';
+            slotEl.style.marginRight = '0.18em'; /* gap between rolling word and Super */
 
             /* Animate first word in on load */
             prefixEl.textContent = WORDS[0];
@@ -484,18 +504,24 @@
                     ceptronEl.style.maxWidth = '0';
                     ceptronEl.getBoundingClientRect(); /* commit 0 before transition */
 
-                    /* Step 3: collapse slot → Super slides left */
-                    slotEl.style.transition = 'width 0.42s cubic-bezier(0.4,0,0.2,1)';
+                    /* Step 3: collapse slot + margin → Super slides left seamlessly */
+                    slotEl.style.transition = 'width 0.42s cubic-bezier(0.4,0,0.2,1), margin-right 0.42s cubic-bezier(0.4,0,0.2,1)';
                     slotEl.style.width = '0';
+                    slotEl.style.marginRight = '0';
 
                     /* Step 4: dot fades out */
-                    dotEl.style.transition = 'opacity 0.28s ease';
+                    dotEl.style.transition = 'opacity 0.22s ease';
                     dotEl.style.opacity    = '0';
 
-                    /* Step 5: ceptron wipes in */
-                    ceptronEl.style.transition = 'max-width 0.44s cubic-bezier(0,0,0.2,1), opacity 0.3s ease 0.06s';
+                    /* Step 5: ceptron wipes in (already green via CSS) */
+                    ceptronEl.style.transition = 'max-width 0.44s cubic-bezier(0,0,0.2,1), opacity 0.28s ease 0.04s';
                     ceptronEl.style.maxWidth   = ceptronW + 'px';
                     ceptronEl.style.opacity    = '1';
+
+                    /* Step 6: paint spreads from the Super/ceptron junction outward —
+                       green sweeps right-to-left through "Super" while ceptron appears green */
+                    superEl.style.transition = '--paint 0.46s cubic-bezier(0,0,0.2,1)';
+                    superEl.style.setProperty('--paint', '100%');
                 }, 210);
             }
 
