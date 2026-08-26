@@ -137,7 +137,8 @@ const PRICES = {
 // TODO: paste your Calendly / booking link here before launching tier 3
 const BOOKING_URL = '';
 
-const SITE_ORIGIN = 'https://www.superceptron.com';
+const SUPABASE_URL = 'https://nnvfflsenziqecjrdkks.supabase.co';
+const SITE_ORIGIN  = 'https://www.superceptron.com';
 
 export default {
   async fetch(request, env) {
@@ -164,6 +165,9 @@ export default {
 
     // ── /lead (homepage email capture) ──
     if (path === '/lead') return handleLead(request, env);
+
+    // ── /cv-notify (fulfilment email on CV submission) ──
+    if (path === '/cv-notify') return handleCvNotify(request, env);
 
     // ── Default: chat route ──
     let body;
@@ -500,6 +504,67 @@ async function handleLead(request, env) {
     to:      'info@superceptron.com',
     subject: `New lead: ${email}`,
     text:    `New homepage lead.\n\nEmail: ${email}\n\nThey left their email on superceptron.com asking to be kept posted.`,
+  });
+
+  return respond(JSON.stringify({ ok: true }), 200, { 'Content-Type': 'application/json' });
+}
+
+/* ── CV SUBMISSION NOTIFY ────────────────────────────────────── */
+async function handleCvNotify(request, env) {
+  let body;
+  try { body = await request.json(); } catch { return respond('Invalid JSON', 400); }
+
+  const { submission_id, purchase_id, tier, user_email, storage_path, note } = body;
+
+  const tierLabels = { super_review: 'SuperReview', super_rewrite: 'SuperRewrite', super_coach: 'SuperCoach' };
+  const tierLabel  = tierLabels[tier] || tier;
+  const dateStr    = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+
+  // Generate a signed download URL (7 days) so admin can download the CV
+  let fileUrl = null;
+  const svcKey = env.SUPABASE_SERVICE_KEY || '';
+  if (storage_path && svcKey) {
+    try {
+      const signRes = await fetch(
+        `${SUPABASE_URL}/storage/v1/object/sign/cv-uploads/${storage_path}`,
+        {
+          method: 'POST',
+          headers: {
+            'apikey': svcKey, 'Authorization': `Bearer ${svcKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ expiresIn: 604800 }),
+        }
+      );
+      if (signRes.ok) {
+        const sd = await signRes.json();
+        fileUrl = `${SUPABASE_URL}/storage/v1${sd.signedURL}`;
+      } else {
+        console.error('Signed URL error:', await signRes.text());
+      }
+    } catch (e) { console.error('Signed URL fetch error:', e); }
+  }
+
+  /* TODO: REPLACE WITH GOOGLE DRIVE API
+   * Service account → auto-forward to per-tier subfolders:
+   *   SuperReview/  SuperRewrite/  SuperCoach/
+   * Swap this sendEmail call for a Drive upload when ready.
+   * Function signature to keep: forwardCvToFulfilment(tierLabel, userEmail, fileUrl, note)
+   */
+  await sendEmail(env, {
+    to:      'info@superceptron.com',
+    subject: `[${tierLabel}] CV from ${user_email} — ${dateStr}`,
+    text:
+      `New ${tierLabel} submission.\n\n` +
+      `Customer: ${user_email}\n` +
+      `Tier: ${tierLabel}\n` +
+      `Purchase ID: ${purchase_id}\n` +
+      `Submission ID: ${submission_id}\n` +
+      `Date: ${dateStr}\n\n` +
+      `Note from customer:\n${note || '(none)'}\n\n` +
+      (fileUrl
+        ? `Download CV (link valid 7 days):\n${fileUrl}`
+        : `Storage path: cv-uploads/${storage_path}\nDownload from Supabase Storage dashboard.`),
   });
 
   return respond(JSON.stringify({ ok: true }), 200, { 'Content-Type': 'application/json' });

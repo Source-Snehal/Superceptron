@@ -545,6 +545,124 @@
             .form-grid { grid-template-columns: 1fr; }
             .services-grid { grid-template-columns: 1fr; }
         }
+
+        /* ── Tier dashboard tokens ── */
+        :root {
+            --amber: #F59E0B;
+            --amber-dim: rgba(245,158,11,0.08);
+            --amber-border: rgba(245,158,11,0.22);
+            --green-dim: rgba(77,255,180,0.07);
+            --green-border: rgba(77,255,180,0.22);
+        }
+
+        /* Confirmation card */
+        .tier-confirm-card {
+            background: var(--black-3);
+            border: 1px solid var(--w08);
+            border-radius: var(--r);
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .tier-confirm-left { display: flex; flex-direction: column; gap: 0.3rem; }
+        .tier-confirm-name { font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; color: var(--white); }
+        .tier-confirm-date { font-family: var(--mono); font-size: 0.62rem; color: var(--w30); letter-spacing: 0.04em; }
+        .tier-status-badge {
+            font-family: var(--mono); font-size: 0.6rem; font-weight: 600;
+            letter-spacing: 0.12em; text-transform: uppercase;
+            padding: 0.3rem 0.75rem; border-radius: 100px; border: 1px solid;
+        }
+        .tier-status-badge.awaiting    { color: var(--w30); border-color: var(--w08); background: var(--w04); }
+        .tier-status-badge.submitted   { color: var(--p); border-color: var(--p-border); background: var(--p-dim); }
+        .tier-status-badge.in-review   { color: var(--amber); border-color: var(--amber-border); background: var(--amber-dim); }
+        .tier-status-badge.complete    { color: var(--accent); border-color: var(--green-border); background: var(--green-dim); }
+
+        /* Booking section (SuperCoach) */
+        .booking-section {
+            background: var(--amber-dim); border: 1px solid var(--amber-border);
+            border-radius: var(--r); padding: 1.5rem;
+            display: flex; flex-direction: column; gap: 1rem;
+        }
+        .booking-heading { font-size: 1rem; font-weight: 700; color: var(--amber); letter-spacing: -0.015em; }
+        .booking-body { font-size: 0.875rem; color: var(--w60); line-height: 1.7; }
+        .booking-btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            font-family: var(--font); font-size: 0.9375rem; font-weight: 700;
+            background: var(--amber); color: #000; border: none; border-radius: 100px;
+            padding: 0.75rem 1.75rem; text-decoration: none; cursor: pointer;
+            transition: opacity 0.2s; width: fit-content;
+        }
+        .booking-btn:hover { opacity: 0.88; }
+        .booking-placeholder { font-family: var(--mono); font-size: 0.65rem; color: var(--amber); letter-spacing: 0.06em; opacity: 0.7; }
+
+        /* Upload zone */
+        .upload-zone {
+            background: var(--black-3); border: 1.5px dashed var(--w12); border-radius: var(--r);
+            padding: 2rem 1.5rem; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; gap: 0.625rem;
+            cursor: pointer; transition: border-color 0.2s, background 0.2s;
+            text-align: center; min-height: 110px;
+        }
+        .upload-zone:hover { border-color: var(--w30); }
+        .upload-zone.drag-over { border-color: var(--accent); background: var(--green-dim); }
+        .upload-zone.has-file  { border-style: solid; border-color: var(--accent); background: var(--green-dim); }
+        .upload-icon { font-size: 1.375rem; line-height: 1; }
+        .upload-label { font-size: 0.875rem; font-weight: 600; color: var(--white); }
+        .upload-sub { font-family: var(--mono); font-size: 0.62rem; color: var(--w30); letter-spacing: 0.04em; }
+        .upload-file-name { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); font-weight: 500; }
+
+        /* Request note */
+        .request-note {
+            background: var(--black-3); border: 1px solid var(--w08); border-radius: var(--r);
+            width: 100%; min-height: 110px; padding: 0.875rem 1rem;
+            font-family: var(--font); font-size: 0.875rem; color: var(--white);
+            line-height: 1.7; resize: vertical; outline: none; box-sizing: border-box;
+            transition: border-color 0.2s; caret-color: var(--p);
+        }
+        .request-note::placeholder { color: var(--w30); }
+        .request-note:focus { border-color: var(--p-border); }
+
+        /* Tier submit button */
+        .tier-submit-btn {
+            font-family: var(--font); font-size: 0.9375rem; font-weight: 700;
+            border: none; border-radius: 100px; padding: 0.75rem 2rem;
+            cursor: pointer; transition: opacity 0.2s; width: 100%;
+        }
+        .tier-submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .tier-submit-btn:hover:not(:disabled) { opacity: 0.88; }
+        .tier-submit-btn.review  { background: var(--p); color: #fff; }
+        .tier-submit-btn.rewrite { background: var(--accent); color: #000; }
+        .tier-submit-btn.coach   { background: var(--amber); color: #000; }
+        .tier-submit-status {
+            font-family: var(--mono); font-size: 0.65rem; color: var(--w30);
+            letter-spacing: 0.04em; display: block; margin-top: 0.5rem;
+        }
+
+        /* Post-submission state */
+        .submission-state {
+            background: var(--black-3); border: 1px solid var(--w08);
+            border-radius: var(--r); padding: 1.375rem 1.5rem;
+            display: flex; flex-direction: column; gap: 0.5rem;
+        }
+        .submission-state-title { font-size: 0.9375rem; font-weight: 700; color: var(--white); }
+        .submission-state-body  { font-size: 0.875rem; color: var(--w60); line-height: 1.7; }
+        .submission-note-preview {
+            font-family: var(--mono); font-size: 0.65rem; color: var(--w30);
+            font-style: italic; margin-top: 0.25rem; white-space: pre-wrap;
+        }
+
+        /* Privacy note */
+        .privacy-note { font-family: var(--mono); font-size: 0.62rem; color: var(--w30); letter-spacing: 0.03em; line-height: 1.7; }
+        .privacy-note a { color: var(--w60); text-decoration: underline; }
+        .privacy-note a:hover { color: var(--white); }
+
+        /* Section title colour per tier */
+        .tier-panel-super-review  .form-section-title { color: var(--p); }
+        .tier-panel-super-rewrite .form-section-title { color: var(--accent); }
+        .tier-panel-super-coach   .form-section-title { color: var(--amber); }
     </style>
 </head>
 <body>
@@ -784,17 +902,14 @@
             document.querySelectorAll('.dash-tab').forEach(function (btn) {
                 btn.classList.toggle('active', btn.dataset.tab === name);
             });
-            ['profile','cv','services','settings'].forEach(function (p) {
-                $('panel-' + p).style.display = p === name ? '' : 'none';
+            document.querySelectorAll('.dash-panel').forEach(function (p) {
+                p.style.display = (p.id === 'panel-' + name) ? '' : 'none';
             });
         }
 
         document.querySelectorAll('.dash-tab').forEach(function (btn) {
             btn.addEventListener('click', function () { showTab(this.dataset.tab); });
         });
-
-        /* If coming from cv-score with ?service=, go to services tab */
-        if (params.get('service')) showTab('services');
 
         /* ── SKILLS CHIPS ── */
         var skills = [];
@@ -1022,6 +1137,250 @@
             }
         });
 
+        /* ── TIER DASHBOARDS ── */
+        var BOOKING_URL = ''; /* TODO: paste Calendly link here when ready */
+        var WORKER_URL  = 'https://superceptron-chat.superceptron.workers.dev';
+
+        var TIER_META = {
+            super_review: {
+                label:       'SuperReview',
+                btnClass:    'review',
+                heading:     'SuperReview',
+                uploadLabel: 'Upload your CV',
+                noteLabel:   'What should the reviewer focus on?',
+                notePH:      'Any specific concerns, target companies, or aspects of your background you want addressed.',
+                submitLabel: 'Submit for review →',
+                successMsg:  'Your CV is with the reviewer. We\'ll be in touch within 48 hours.',
+            },
+            super_rewrite: {
+                label:       'SuperRewrite',
+                btnClass:    'rewrite',
+                heading:     'SuperRewrite',
+                uploadLabel: 'Upload your CV',
+                noteLabel:   'What do you want changed?',
+                notePH:      'What roles are you targeting? Tone, structure, specific sections — any context that helps.',
+                submitLabel: 'Submit for rewrite →',
+                successMsg:  'We\'ve received your CV. Your rewrite will be delivered to your inbox.',
+            },
+            super_coach: {
+                label:       'SuperCoach',
+                btnClass:    'coach',
+                heading:     'SuperCoach',
+                uploadLabel: 'Upload your CV',
+                noteLabel:   'What would you like to cover?',
+                notePH:      'What are you trying to achieve? Target roles, companies, anything you want to tackle in the session.',
+                submitLabel: 'Submit CV and book session →',
+                successMsg:  'We\'ve received your CV. Book your session using the link above.',
+            },
+        };
+
+        var tierFiles = {};
+
+        function buildTierPanelHTML(purchase) {
+            var tier = purchase.tier;
+            var meta = TIER_META[tier];
+            if (!meta) return '';
+            var pid  = purchase.id;
+            var date = new Date(purchase.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+            var isCoach = (tier === 'super_coach');
+
+            var bookingHTML = '';
+            if (isCoach) {
+                bookingHTML =
+                    '<div class="form-section">' +
+                    '<p class="form-section-title">Book your session</p>' +
+                    '<div class="booking-section">' +
+                    '<p class="booking-heading">45-minute 1:1 with a senior recruiter</p>' +
+                    '<p class="booking-body">Choose a time that works for you. Come with your CV and a clear idea of what you\'re targeting — we\'ll do the rest.</p>' +
+                    (BOOKING_URL
+                        ? '<a class="booking-btn" href="' + BOOKING_URL + '" target="_blank" rel="noopener">Book your session →</a>'
+                        : '<p class="booking-placeholder">TODO: Booking link coming shortly. Email info@superceptron.com and we\'ll arrange your session directly.</p>') +
+                    '</div></div>';
+            }
+
+            return (
+                '<div class="form-section">' +
+                '<p class="form-section-title">' + meta.heading + '</p>' +
+                '<div class="tier-confirm-card">' +
+                '<div class="tier-confirm-left">' +
+                '<span class="tier-confirm-name">' + meta.heading + '</span>' +
+                '<span class="tier-confirm-date">Purchased ' + date + '</span>' +
+                '</div>' +
+                '<span class="tier-status-badge awaiting" id="status-badge-' + pid + '">Awaiting upload</span>' +
+                '</div></div>' +
+
+                bookingHTML +
+
+                '<div class="form-section" id="upload-section-' + pid + '">' +
+                '<p class="form-section-title">' + meta.uploadLabel + '</p>' +
+                '<div class="upload-zone" id="upload-zone-' + pid + '" role="button" tabindex="0" aria-label="Upload PDF">' +
+                '<span class="upload-icon">📄</span>' +
+                '<span class="upload-label">Click or drag your CV here</span>' +
+                '<span class="upload-sub">PDF only · max 10 MB</span>' +
+                '</div>' +
+                '<input type="file" id="cv-pdf-input-' + pid + '" accept="application/pdf" style="display:none">' +
+                '</div>' +
+
+                '<div class="form-section">' +
+                '<p class="form-section-title">' + meta.noteLabel + '</p>' +
+                '<textarea class="request-note" id="request-note-' + pid + '" placeholder="' + meta.notePH + '" rows="5"></textarea>' +
+                '</div>' +
+
+                '<div class="form-section">' +
+                '<button class="tier-submit-btn ' + meta.btnClass + '" id="tier-submit-' + pid + '" disabled>' + meta.submitLabel + '</button>' +
+                '<span class="tier-submit-status" id="tier-submit-status-' + pid + '"></span>' +
+                '</div>' +
+
+                '<div class="form-section">' +
+                '<p class="privacy-note">Your CV is stored privately and only accessible to you and the reviewer. ' +
+                '<a href="privacy.html" target="_blank">Privacy policy</a> · ' +
+                '<span style="opacity:0.55">Files are deleted after fulfillment. UK GDPR compliant.</span>' +
+                '</p></div>'
+            );
+        }
+
+        function setSubmissionState(panel, purchase, sub) {
+            var pid    = purchase.id;
+            var meta   = TIER_META[purchase.tier] || {};
+            var badge  = document.getElementById('status-badge-' + pid);
+            var upSec  = document.getElementById('upload-section-' + pid);
+            var subBtn = document.getElementById('tier-submit-' + pid);
+            var subPar = subBtn && subBtn.parentElement;
+
+            var statusMap   = { submitted: 'submitted', in_review: 'in-review', complete: 'complete' };
+            var statusLabel = { submitted: 'Submitted',  in_review: 'In review',  complete: 'Complete' };
+            var cls = statusMap[sub.status] || 'submitted';
+            if (badge) { badge.textContent = statusLabel[sub.status] || 'Submitted'; badge.className = 'tier-status-badge ' + cls; }
+
+            var doneDiv = document.createElement('div');
+            doneDiv.className = 'form-section';
+            doneDiv.innerHTML =
+                '<p class="form-section-title">Your submission</p>' +
+                '<div class="submission-state">' +
+                '<span class="submission-state-title">' + (meta.successMsg || 'Submitted successfully.') + '</span>' +
+                '<span class="submission-state-body">We\'ll be in touch at ' + userEmail + '.</span>' +
+                (sub.request_note ? '<p class="submission-note-preview">Your note: ' + sub.request_note.slice(0, 200) + (sub.request_note.length > 200 ? '…' : '') + '</p>' : '') +
+                '</div>';
+            if (upSec)  upSec.replaceWith(doneDiv);
+            if (subPar) subPar.style.display = 'none';
+        }
+
+        function wireTierPanel(panel, purchase) {
+            var pid     = purchase.id;
+            var zone    = document.getElementById('upload-zone-' + pid);
+            var fileinp = document.getElementById('cv-pdf-input-' + pid);
+            var submitBtn = document.getElementById('tier-submit-' + pid);
+            var statusEl  = document.getElementById('tier-submit-status-' + pid);
+            if (!zone || !fileinp || !submitBtn) return;
+
+            function setFile(file) {
+                if (!file) return;
+                if (file.type !== 'application/pdf') { alert('Please upload a PDF file.'); return; }
+                if (file.size > 10 * 1024 * 1024)    { alert('File too large — please keep it under 10 MB.'); return; }
+                tierFiles[pid] = file;
+                zone.classList.add('has-file');
+                zone.innerHTML =
+                    '<span class="upload-icon">✅</span>' +
+                    '<span class="upload-file-name">' + file.name + '</span>' +
+                    '<span class="upload-sub">Click to change</span>';
+                submitBtn.disabled = false;
+            }
+
+            zone.addEventListener('click', function () { fileinp.click(); });
+            zone.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') fileinp.click(); });
+            zone.addEventListener('dragover', function (e) { e.preventDefault(); zone.classList.add('drag-over'); });
+            zone.addEventListener('dragleave', function () { zone.classList.remove('drag-over'); });
+            zone.addEventListener('drop', function (e) { e.preventDefault(); zone.classList.remove('drag-over'); var f = e.dataTransfer.files[0]; if (f) setFile(f); });
+            fileinp.addEventListener('change', function () { if (this.files[0]) setFile(this.files[0]); });
+
+            submitBtn.addEventListener('click', function () {
+                var file = tierFiles[pid];
+                var note = (document.getElementById('request-note-' + pid) || {}).value || '';
+                if (!file) { alert('Please upload your CV first.'); return; }
+
+                submitBtn.disabled = true;
+                if (statusEl) statusEl.textContent = 'Uploading…';
+
+                var storagePath = userId + '/' + pid + '/cv.pdf';
+
+                sb.storage.from('cv-uploads').upload(storagePath, file, { contentType: 'application/pdf', upsert: true })
+                    .then(function (r) {
+                        if (r.error) {
+                            if (statusEl) statusEl.textContent = 'Upload failed — ' + r.error.message;
+                            submitBtn.disabled = false;
+                            return;
+                        }
+                        if (statusEl) statusEl.textContent = 'Saving…';
+                        sb.from('cv_submissions').insert({
+                            purchase_id:  pid,
+                            user_id:      userId,
+                            storage_path: storagePath,
+                            request_note: note,
+                            status:       'submitted',
+                        }).select('id, status, request_note, submitted_at').then(function (sr) {
+                            if (sr.error || !sr.data || !sr.data.length) {
+                                if (statusEl) statusEl.textContent = 'Saved, but submission log failed — email info@superceptron.com with your order.';
+                                return;
+                            }
+                            var sub = sr.data[0];
+                            /* Non-blocking admin notification */
+                            fetch(WORKER_URL + '/cv-notify', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ submission_id: sub.id, purchase_id: pid, tier: purchase.tier, user_email: userEmail, storage_path: storagePath, note: note }),
+                            }).catch(function () {});
+                            setSubmissionState(panel, purchase, sub);
+                            if (statusEl) statusEl.textContent = '';
+                        });
+                    });
+            });
+
+            /* Check for existing submission on load */
+            sb.from('cv_submissions').select('*').eq('purchase_id', pid).maybeSingle()
+                .then(function (r) { if (r.data) setSubmissionState(panel, purchase, r.data); });
+        }
+
+        function renderTierDashboard(purchase) {
+            var tier = purchase.tier;
+            var meta = TIER_META[tier];
+            if (!meta) return;
+            var tabName = 'tier-' + purchase.id;
+
+            var tab = document.createElement('button');
+            tab.className = 'dash-tab';
+            tab.setAttribute('data-tab', tabName);
+            tab.setAttribute('role', 'tab');
+            tab.textContent = meta.label;
+            document.querySelector('.dash-tabs').appendChild(tab);
+            tab.addEventListener('click', function () { showTab(tabName); });
+
+            var panel = document.createElement('div');
+            panel.id        = 'panel-' + tabName;
+            panel.className = 'dash-panel tier-panel tier-panel-' + tier.replace(/_/g, '-');
+            panel.style.display = 'none';
+            panel.innerHTML = buildTierPanelHTML(purchase);
+            document.querySelector('.dash-inner').appendChild(panel);
+
+            wireTierPanel(panel, purchase);
+        }
+
+        function loadPurchases() {
+            if (!sb || !userId) { $('dash-loading').style.display = 'none'; $('dash-wrap').style.display = ''; return; }
+            sb.from('purchases').select('*').eq('user_id', userId).eq('status', 'paid')
+                .order('created_at', { ascending: false })
+                .then(function (r) {
+                    (r.data || []).forEach(renderTierDashboard);
+                    $('dash-loading').style.display = 'none';
+                    $('dash-wrap').style.display = '';
+                    /* Auto-open first tier tab when returning from Stripe */
+                    if (params.get('session_id') && r.data && r.data.length) {
+                        showTab('tier-' + r.data[0].id);
+                        /* Clean URL without reload */
+                        history.replaceState({}, '', window.location.pathname);
+                    }
+                });
+        }
+
         /* ── DELETE ACCOUNT ── */
         $('btn-delete').addEventListener('click', function () {
             if (!confirm('Are you sure? This permanently deletes your account and all saved data. This cannot be undone.')) return;
@@ -1077,9 +1436,8 @@
                     /* Avatar */
                     if (d.avatar_url) showAvatar(d.avatar_url);
 
-                    /* Show */
-                    $('dash-loading').style.display = 'none';
-                    $('dash-wrap').style.display = '';
+                    /* Load purchases → then show dashboard */
+                    loadPurchases();
                 });
         });
 
