@@ -526,7 +526,7 @@
         /* ── Rolling hero animation ── */
         (function () {
             var WORDS   = ['Hire', 'Land', 'Match', 'Work'];
-            var HOLD_MS = 1200;
+            var HOLD_MS = 650;
 
             var slotEl    = document.getElementById('roll-slot');
             var prefixEl  = document.getElementById('roll-prefix');
@@ -559,17 +559,17 @@
 
             function flipTo(text) {
                 return new Promise(function (resolve) {
-                    prefixEl.style.transition = 'transform 0.2s cubic-bezier(0.4,0,1,1)';
+                    prefixEl.style.transition = 'transform 0.13s cubic-bezier(0.4,0,1,1)';
                     prefixEl.style.transform  = 'translateY(-115%)';
                     setTimeout(function () {
                         prefixEl.style.transition = 'none';
                         prefixEl.style.transform  = 'translateY(115%)';
                         prefixEl.textContent = text;
                         prefixEl.getBoundingClientRect();
-                        prefixEl.style.transition = 'transform 0.2s cubic-bezier(0,0,0.2,1)';
+                        prefixEl.style.transition = 'transform 0.13s cubic-bezier(0,0,0.2,1)';
                         prefixEl.style.transform  = 'translateY(0)';
-                        setTimeout(resolve, 200);
-                    }, 200);
+                        setTimeout(resolve, 130);
+                    }, 130);
                 });
             }
 
