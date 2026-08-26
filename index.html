@@ -73,27 +73,6 @@
         /* ── Thesis block ── */
         .hub-thesis {
             text-align: center;
-            animation: riseIn 0.7s var(--ease) 0.15s both;
-        }
-
-        .hub-brand-label {
-            display: inline-block;
-            font-family: var(--mono);
-            font-size: 0.64rem;
-            font-weight: 500;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--accent);
-            margin-bottom: 1.5rem;
-        }
-
-        .hub-headline {
-            font-size: clamp(2rem, 4.5vw, 3rem);
-            font-weight: 800;
-            letter-spacing: -0.035em;
-            line-height: 1.08;
-            color: var(--white);
-            margin-bottom: 1.25rem;
         }
 
         .hub-sub {
@@ -102,6 +81,105 @@
             color: var(--w30);
             letter-spacing: 0.02em;
             line-height: 1.9;
+        }
+
+        /* ── Rolling hero animation ── */
+        .roll-hero {
+            min-height: 5.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .roll-stage {
+            display: flex;
+            align-items: baseline;
+            font-size: clamp(2.75rem, 6vw, 4.5rem);
+            font-weight: 800;
+            letter-spacing: -0.042em;
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        .roll-prefix {
+            display: inline-block;
+            color: var(--white);
+        }
+
+        .roll-constant { color: var(--white); }
+
+        .roll-dot { color: var(--accent); }
+
+        .roll-prefix.word-in  { animation: wordIn  0.35s var(--ease) both; }
+        .roll-prefix.word-out { animation: wordOut 0.30s var(--ease) both; }
+
+        @keyframes wordIn {
+            from { opacity: 0; transform: translateY(0.45em); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes wordOut {
+            from { opacity: 1; transform: translateY(0); }
+            to   { opacity: 0; transform: translateY(-0.45em); }
+        }
+
+        /* Brand formation */
+        .brand-form {
+            display: none;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .brand-form.visible { display: flex; }
+
+        .brand-logo-img {
+            width: clamp(38px, 5vw, 52px);
+            height: clamp(38px, 5vw, 52px);
+            border-radius: 11px;
+            object-fit: cover;
+            flex-shrink: 0;
+            opacity: 0;
+        }
+        .brand-logo-img.b-in {
+            animation: bLogoIn 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) 0.04s both;
+        }
+
+        .brand-wordmark {
+            font-size: clamp(2.75rem, 6vw, 4.5rem);
+            font-weight: 800;
+            letter-spacing: -0.042em;
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        .brand-txt-super {
+            display: inline-block;
+            color: var(--white);
+            opacity: 0;
+        }
+        .brand-txt-super.b-in {
+            animation: bSuperIn 0.5s var(--ease) 0s both;
+        }
+
+        .brand-txt-ceptron {
+            display: inline-block;
+            color: var(--white);
+            opacity: 0;
+        }
+        .brand-txt-ceptron.b-in {
+            animation: bCeptronIn 0.45s var(--ease) 0.2s both;
+        }
+
+        @keyframes bLogoIn {
+            from { opacity: 0; transform: scale(0.45) rotate(-12deg); }
+            to   { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+        @keyframes bSuperIn {
+            from { opacity: 0; transform: translateX(1.1em); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes bCeptronIn {
+            from { opacity: 0; transform: translateX(1.8em); }
+            to   { opacity: 1; transform: translateX(0); }
         }
 
         /* ── Path cards ── */
@@ -323,12 +401,30 @@
         <div class="hub-hero-inner">
 
             <div class="hub-thesis">
-                <span class="hub-brand-label">Superceptron</span>
-                <h1 class="hub-headline">Hiring works when<br>the signal is clear.</h1>
+
+                <!-- Rolling hero -->
+                <div class="roll-hero">
+
+                    <!-- Phase 1: rolling words -->
+                    <div class="roll-stage" id="roll-stage" aria-live="polite">
+                        <span class="roll-prefix" id="roll-prefix">Hire</span><span class="roll-constant">&thinsp;Super</span><span class="roll-dot">.</span>
+                    </div>
+
+                    <!-- Phase 2: brand formation (revealed by JS) -->
+                    <div class="brand-form" id="brand-form" aria-label="Superceptron">
+                        <img src="logo.jpeg" class="brand-logo-img" id="brand-logo" alt="">
+                        <div class="brand-wordmark">
+                            <span class="brand-txt-super" id="brand-super">Super</span><span class="brand-txt-ceptron" id="brand-ceptron">ceptron</span>
+                        </div>
+                    </div>
+
+                </div>
+
                 <p class="hub-sub">
                     Keyword filters reject good people. Good CVs get missed.<br>
                     We work on both ends of that problem.
                 </p>
+
             </div>
 
             <div class="hub-paths">
@@ -365,7 +461,7 @@
 
     <script src="script.js"></script>
     <script>
-        // Brighten noise words on the hovered card's side
+        /* ── Noise word hover brightening ── */
         (function () {
             var cards = document.querySelectorAll('.path-card');
             var words = document.querySelectorAll('.noise-word');
@@ -382,6 +478,67 @@
                     });
                 });
             });
+        })();
+
+        /* ── Rolling hero animation ── */
+        (function () {
+            var WORDS   = ['Hire', 'Land', 'Match', 'Work'];
+            var IN_MS   = 350;
+            var HOLD_MS = 1100;
+            var OUT_MS  = 300;
+
+            var prefixEl  = document.getElementById('roll-prefix');
+            var rollEl    = document.getElementById('roll-stage');
+            var brandEl   = document.getElementById('brand-form');
+            var logoEl    = document.getElementById('brand-logo');
+            var superEl   = document.getElementById('brand-super');
+            var ceptronEl = document.getElementById('brand-ceptron');
+
+            if (!prefixEl) return;
+
+            var idx = 0;
+
+            function step() {
+                var word   = WORDS[idx];
+                var isLast = (idx === WORDS.length - 1);
+
+                prefixEl.textContent = word;
+                prefixEl.classList.remove('word-out');
+                void prefixEl.offsetWidth; /* force reflow */
+                prefixEl.classList.add('word-in');
+
+                setTimeout(function () {
+                    prefixEl.classList.remove('word-in');
+                    void prefixEl.offsetWidth;
+                    prefixEl.classList.add('word-out');
+
+                    setTimeout(function () {
+                        prefixEl.classList.remove('word-out');
+                        if (isLast) {
+                            revealBrand();
+                        } else {
+                            idx++;
+                            step();
+                        }
+                    }, OUT_MS);
+                }, IN_MS + HOLD_MS);
+            }
+
+            function revealBrand() {
+                rollEl.style.transition = 'opacity 0.3s ease';
+                rollEl.style.opacity = '0';
+                setTimeout(function () {
+                    rollEl.style.display = 'none';
+                    brandEl.classList.add('visible');
+                    requestAnimationFrame(function () {
+                        logoEl.classList.add('b-in');
+                        superEl.classList.add('b-in');
+                        ceptronEl.classList.add('b-in');
+                    });
+                }, 320);
+            }
+
+            step();
         })();
     </script>
 </body>
