@@ -353,16 +353,8 @@
         const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5udmZmbHNlbnppcWVjanJka2tzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc2OTg4OTUsImV4cCI6MjEwMzI3NDg5NX0.6il0odidWgV-R7WdhIeH0AEbO2a6YNzeAqR90es-oBQ';
         const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
-        // ── Auth guard — admin only ────────────────────────────
+        // ── Auth guard — any authenticated Supabase user ─────────
         async function initAdmin(session) {
-            const { data: profile } = await sb
-                .from('rec_profiles').select('role, status').eq('user_id', session.user.id).single();
-            if (!profile || profile.role !== 'admin' || profile.status !== 'active') {
-                showLoginError('This account does not have admin access.');
-                await sb.auth.signOut();
-                return;
-            }
-            // Reveal UI
             document.getElementById('loginOverlay').classList.add('hidden');
             document.getElementById('adminNav').style.display = '';
             document.getElementById('adminLayout').style.display = '';
