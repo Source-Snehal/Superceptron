@@ -1,5 +1,5 @@
 const {
-    createAdminClient, isGenericDomain, extractDomain,
+    createAdminClient, requireAuth, isGenericDomain, extractDomain,
     sendApprovalRequest, sendApprovalConfirmation, sendError, handleOptions,
 } = require('./_lib');
 
@@ -16,17 +16,17 @@ module.exports = async function handler(req, res) {
     if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
     try {
-        const { userId, email, fullName } = req.body ?? {};
-        if (!userId || !email) return res.status(400).json({ error: 'Missing userId or email' });
+        const { userId, fullName } = req.body ?? {};
+        if (!userId) return res.status(400).json({ error: 'Missing userId' });
 
-        const admin = createAdminClient();
-
-        // Verify this user actually exists in auth.users (prevent spoofing)
-        const { data: { user: authUser }, error: authErr } =
-            await admin.auth.admin.getUserById(userId);
-        if (authErr || !authUser || authUser.email !== email) {
+        // Verify identity via the user's own session token — more reliable than getUserById
+        const { user: authUser } = await requireAuth(req);
+        if (authUser.id !== userId) {
             return res.status(403).json({ error: 'User verification failed' });
         }
+        const email = authUser.email;
+
+        const admin = createAdminClient();
 
         // Check profile doesn't already exist (idempotent call guard)
         const { data: existing } = await admin

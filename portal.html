@@ -356,24 +356,28 @@
                 return;
             }
 
-            if (!authData.user) {
-                // Email confirmation required — show check-email state
+            if (!authData.session) {
+                // Email confirmation required — Supabase v2 always returns a user
+                // object but session is null until confirmed. Show check-email state.
                 document.getElementById('authArea').hidden = true;
                 document.getElementById('checkEmailState').hidden = false;
                 document.getElementById('confirmedEmail').textContent = email;
                 return;
             }
 
-            // User confirmed immediately (e.g. no email confirmation required in dev)
-            await finishSignup(authData.user.id, email, name, btn);
+            // Session present — email confirmation not required (or already confirmed)
+            await finishSignup(authData.session, name, btn);
         });
 
-        // Called after email confirmation OR when user lands back on portal after confirming
-        async function finishSignup(userId, email, name, btn) {
+        // Called when a valid session exists (immediate signup or post-email-confirm)
+        async function finishSignup(session, name, btn) {
             const resp = await fetch('/api/portal/auth', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ userId, email, fullName: name }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${session.access_token}`,
+                },
+                body: JSON.stringify({ userId: session.user.id, fullName: name }),
             });
             const data = await resp.json();
 
@@ -425,7 +429,7 @@
                 const { data: existingProfile } = await sb
                     .from('rec_profiles').select('status').eq('user_id', sess.user.id).single();
                 if (!existingProfile) {
-                    await finishSignup(sess.user.id, sess.user.email, '', null);
+                    await finishSignup(sess, '', null);
                 } else if (existingProfile.status === 'active') {
                     window.location.href = '/portal-dashboard.html';
                 } else {
