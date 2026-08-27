@@ -322,9 +322,15 @@
                 .from('rec_profiles').select('role, status').eq('user_id', data.user.id).single();
 
             if (!profile) {
-                // Edge: auth exists but no profile yet — retry profile creation
-                showError('loginErr', 'Account setup incomplete. Please contact support.');
-                btn.disabled = false; btn.textContent = 'Sign in';
+                // Auth exists but profile wasn't created (e.g. email confirmed at site root).
+                // Try to create it now using the active session.
+                const { data: { session: loginSess } } = await sb.auth.getSession();
+                if (loginSess) {
+                    await finishSignup(loginSess, '', btn);
+                } else {
+                    showError('loginErr', 'Account setup incomplete. Please contact support.');
+                    btn.disabled = false; btn.textContent = 'Sign in';
+                }
                 return;
             }
             if (profile.status === 'pending') { showPending(null); return; }
@@ -345,7 +351,10 @@
             const email    = document.getElementById('signupEmail').value.trim().toLowerCase();
             const password = document.getElementById('signupPassword').value;
 
-            const { data: authData, error: authErr } = await sb.auth.signUp({ email, password });
+            const { data: authData, error: authErr } = await sb.auth.signUp({
+                email, password,
+                options: { emailRedirectTo: 'https://www.superceptron.com/portal.html' },
+            });
             if (authErr) {
                 btn.disabled = false; btn.textContent = 'Create account';
                 if (authErr.message?.toLowerCase().includes('already registered')) {
