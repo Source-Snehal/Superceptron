@@ -29,11 +29,17 @@ async function requireAuth(req) {
     return { user, token };
 }
 
-// Verifies auth AND that the caller's rec_profiles.role = 'admin'.
+// Verifies auth AND that the caller is admin.
+// Primary check: ADMIN_EMAIL env var (for a Supabase-only admin account).
+// Fallback: rec_profiles.role = 'admin' (legacy path).
 async function requireAdmin(req) {
     const { user, token } = await requireAuth(req);
-    const admin = createAdminClient();
-    const { data: profile, error } = await admin
+    const adminEmail = process.env.ADMIN_EMAIL;
+    if (adminEmail && user.email === adminEmail) {
+        return { user, token, profile: null };
+    }
+    const adminClient = createAdminClient();
+    const { data: profile, error } = await adminClient
         .from('rec_profiles')
         .select('role, status, organisation_id')
         .eq('user_id', user.id)
