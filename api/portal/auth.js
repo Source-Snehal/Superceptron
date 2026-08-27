@@ -1,15 +1,18 @@
 const {
     createAdminClient, isGenericDomain, extractDomain,
-    sendApprovalRequest, sendError, handleOptions,
+    sendApprovalRequest, sendApprovalConfirmation, sendError, handleOptions,
 } = require('./_lib');
 
-// POST /api/portal/auth
-// Called client-side immediately after supabase.auth.signUp() succeeds.
-// Creates the rec_profiles row and organisation (or join request).
-// Returns: { status: 'active' | 'pending', orgName, ownerEmail (masked, if pending) }
+// GET  /api/portal/auth?action=approve&token=<uuid>&uid=<user_id>  — approval link from email
+// POST /api/portal/auth  — called after signUp(); creates rec_profiles + org
 
 module.exports = async function handler(req, res) {
     if (handleOptions(req, res)) return;
+
+    if (req.method === 'GET' && req.query.action === 'approve') {
+        return handleApprove(req, res);
+    }
+
     if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
     try {
@@ -116,6 +119,31 @@ module.exports = async function handler(req, res) {
         return sendError(res, err);
     }
 };
+
+async function handleApprove(req, res) {
+    const { token, uid } = req.query ?? {};
+    if (!token || !uid) return res.redirect('/portal-approve.html?error=missing_params');
+    try {
+        const admin = createAdminClient();
+        const { data: profile, error } = await admin
+            .from('rec_profiles')
+            .select('user_id, approval_token, status, organisation_id')
+            .eq('user_id', uid).single();
+        if (error || !profile) return res.redirect('/portal-approve.html?error=not_found');
+        if (profile.status === 'active') return res.redirect('/portal-approve.html?result=already_active');
+        if (profile.status !== 'pending') return res.redirect('/portal-approve.html?error=invalid_state');
+        if (profile.approval_token !== token) return res.redirect('/portal-approve.html?error=invalid_token');
+        const { error: updateErr } = await admin
+            .from('rec_profiles').update({ status: 'active', approval_token: null }).eq('user_id', uid);
+        if (updateErr) throw updateErr;
+        const { data: { user } } = await admin.auth.admin.getUserById(uid);
+        const { data: org } = await admin.from('organisations').select('name').eq('id', profile.organisation_id).single();
+        if (user?.email) await sendApprovalConfirmation({ newUserEmail: user.email, orgName: org?.name ?? '' });
+        return res.redirect('/portal-approve.html?result=approved');
+    } catch (err) {
+        return sendError(res, err);
+    }
+}
 
 async function getMaskedOwnerEmail(admin, orgId) {
     try {

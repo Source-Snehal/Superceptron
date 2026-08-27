@@ -161,7 +161,7 @@ async function sendAdminNewSubmission({ recruiterEmail, orgName, roleTitle, cvCo
 }
 
 async function sendApprovalRequest({ ownerEmail, pendingName, pendingEmail, orgName, approvalToken, pendingUserId }) {
-    const link = `https://www.superceptron.com/portal-approve.html?token=${approvalToken}&uid=${pendingUserId}`;
+    const link = `https://www.superceptron.com/api/portal/auth?action=approve&token=${approvalToken}&uid=${pendingUserId}`;
     await resend.emails.send({
         from: FROM,
         to: ownerEmail,

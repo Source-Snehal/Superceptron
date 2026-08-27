@@ -506,7 +506,7 @@
 
         // ── Download all CVs ──────────────────────────────────
         window.downloadAll = async (roleId) => {
-            const resp = await fetch(`/api/portal/admin/roles/${roleId}/download-all`, {
+            const resp = await fetch(`/api/portal/admin/roles/${roleId}/actions`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             const data = await resp.json();
@@ -532,7 +532,7 @@
             if (!role.jd_file_path) return;
 
             // Use admin storage signed URL (service role)
-            const { data } = await fetch(`/api/portal/admin/roles/${roleId}/download-all`, {
+            const { data } = await fetch(`/api/portal/admin/roles/${roleId}/actions`, {
                 headers: { Authorization: `Bearer ${token}` },
             }).then(r => r.json());
             // JD is separate from uploads — generate direct signed URL via admin client
@@ -551,7 +551,7 @@
             btn.disabled = true; btn.textContent = 'Uploading shortlist…';
 
             // Get signed upload URL
-            const initResp = await fetch(`/api/portal/admin/roles/${roleId}/upload-init`, {
+            const initResp = await fetch(`/api/portal/admin/roles/${roleId}/actions`, {
                 method: 'POST',
                 headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
                 body: JSON.stringify({ filename: file.name, size: file.size }),

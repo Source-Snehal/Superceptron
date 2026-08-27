@@ -550,7 +550,7 @@
             const rowId = `file-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
             // Init — validate server-side and get signed URL
-            const initResp = await fetch(`/api/portal/roles/${roleId}/upload-init`, {
+            const initResp = await fetch(`/api/portal/roles/${roleId}/upload?action=init`, {
                 method: 'POST',
                 headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
                 body: JSON.stringify({ filename: file.name, size: file.size }),
@@ -573,7 +573,7 @@
             }
 
             // Confirm server-side
-            const confirmResp = await fetch(`/api/portal/roles/${roleId}/upload-confirm`, {
+            const confirmResp = await fetch(`/api/portal/roles/${roleId}/upload?action=confirm`, {
                 method: 'POST',
                 headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
                 body: JSON.stringify({ path: initData.path, originalName: file.name, size: file.size }),
@@ -714,7 +714,7 @@
         });
         document.getElementById('jdFileInput').addEventListener('change', async e => {
             const file = e.target.files[0]; if (!file) return;
-            const initResp = await fetch(`/api/portal/roles/${roleId}/upload-init`, {
+            const initResp = await fetch(`/api/portal/roles/${roleId}/upload?action=init`, {
                 method: 'POST',
                 headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
                 body: JSON.stringify({ filename: `jd_${file.name}`, size: file.size }),
