@@ -149,7 +149,7 @@
                 </a>
             </div>
 
-            <a href="cv-score.html" class="success-back">← Back to résumé scorer</a>
+            <a href="cv-score.html" class="success-back">← Back to resume scorer</a>
 
         </div>
     </div>
@@ -172,16 +172,16 @@
 
         if (tier === 'cv_pdf') {
             eyebrowEl.textContent = 'SuperRewrite — payment confirmed';
-            headingEl.textContent = 'Your rewritten résumé is on its way.';
-            bodyEl.textContent    = 'We\'ve received your payment and your résumé rewrite is in progress. You\'ll receive your polished PDF to your inbox shortly.';
+            headingEl.textContent = 'Your rewritten resume is on its way.';
+            bodyEl.textContent    = 'We\'ve received your payment and your resume rewrite is in progress. You\'ll receive your polished PDF to your inbox shortly.';
 
         } else if (tier === 'human_review') {
             eyebrowEl.textContent = 'SuperReview — payment confirmed';
             headingEl.textContent = 'We\'ve got it.';
-            bodyEl.textContent    = 'A senior recruiter will review your résumé against the job description and get back to you within 48 hours. Keep an eye on your inbox.';
+            bodyEl.textContent    = 'A senior recruiter will review your resume against the job description and get back to you within 48 hours. Keep an eye on your inbox.';
             detailEl.innerHTML    =
                 'What happens next:<br>' +
-                '1. Your résumé is reviewed by a senior recruiter<br>' +
+                '1. Your resume is reviewed by a senior recruiter<br>' +
                 '2. Weak sections are rewritten for this specific role<br>' +
                 '3. You receive the revised version by email';
             detailEl.style.display = '';

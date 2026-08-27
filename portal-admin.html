@@ -247,7 +247,7 @@
                     <select class="admin-select" id="sortSelect">
                         <option value="">Sort: newest</option>
                         <option value="age_desc">Sort: oldest first</option>
-                        <option value="cv_desc">Sort: most résumés</option>
+                        <option value="cv_desc">Sort: most resumes</option>
                     </select>
                 </div>
             </div>
@@ -258,7 +258,7 @@
                         <tr>
                             <th>Org</th>
                             <th>Role</th>
-                            <th>résumés</th>
+                            <th>resumes</th>
                             <th>Age</th>
                             <th>Status</th>
                         </tr>
@@ -418,14 +418,14 @@
                             </div>` : '').join('')}
                     </div>
 
-                    <!-- résumés -->
+                    <!-- resumes -->
                     <div class="detail-section">
-                        <div class="detail-label">résumés (${role.uploads?.length ?? 0})</div>
+                        <div class="detail-label">resumes (${role.uploads?.length ?? 0})</div>
                         ${isActive ? `
                             <button class="detail-action-btn btn-amber" onclick="downloadAll('${role.id}')">
-                                ↓ Download all résumés
+                                ↓ Download all resumes
                             </button>` : ''}
-                        ${isReady ? '<div style="font-size:0.8rem;color:var(--text-muted);font-style:italic">résumé files deleted on delivery</div>' : ''}
+                        ${isReady ? '<div style="font-size:0.8rem;color:var(--text-muted);font-style:italic">resume files deleted on delivery</div>' : ''}
                         ${role.jd_file_path ? `<button class="detail-action-btn btn-amber" style="margin-top:0.375rem" onclick="downloadJd('${role.id}')">↓ Job description</button>` : ''}
                     </div>
 
@@ -441,7 +441,7 @@
                             <div class="deliver-selected" id="deliverSelected" hidden></div>
                             <textarea class="deliver-notes" id="deliverNotes" rows="2" placeholder="Note to recruiter (optional)"></textarea>
                             <button class="deliver-btn" id="deliverBtn" disabled onclick="deliver('${role.id}')">Deliver shortlist + notify recruiter</button>
-                            <div class="deliver-warning">This will delete the recruiter's résumé files and send them an email.</div>
+                            <div class="deliver-warning">This will delete the recruiter's resume files and send them an email.</div>
                         </div>
                     </div>` : ''}
 
@@ -504,7 +504,7 @@
             });
         };
 
-        // ── Download all résumés ──────────────────────────────────
+        // ── Download all resumes ──────────────────────────────────
         window.downloadAll = async (roleId) => {
             const resp = await fetch(`/api/portal/admin/roles/${roleId}/actions`, {
                 headers: { Authorization: `Bearer ${token}` },

@@ -261,7 +261,7 @@
         </div>
 
         <div id="submittedBanner" class="submitted-banner" hidden>
-            <strong>Submitted.</strong> We're reading through the résumés — expect a shortlist within <strong>2–3 working days</strong>.
+            <strong>Submitted.</strong> We're reading through the resumes — expect a shortlist within <strong>2–3 working days</strong>.
             You'll get an email the moment it's ready.
         </div>
 
@@ -356,7 +356,7 @@
             <!-- ── Upload panel ── -->
             <div class="upload-card">
                 <div class="upload-card-header">
-                    <span class="upload-card-title">Upload résumés</span>
+                    <span class="upload-card-title">Upload resumes</span>
                     <span class="upload-count"><span id="cvCount">0</span> / 60 · <span class="upload-limit" id="remaining">60 remaining</span></span>
                 </div>
 
@@ -369,7 +369,7 @@
 
                 <div id="uploadArea">
                     <div class="drop-zone" id="dropZone">
-                        <p>Drag &amp; drop résumés or a folder here</p>
+                        <p>Drag &amp; drop resumes or a folder here</p>
                         <small>PDF · DOC · DOCX · RTF · TXT · up to 10 MB per file</small>
                         <div class="drop-zone-btns">
                             <button class="drop-zone-btn" id="browseFilesBtn" type="button">Browse files</button>
@@ -382,7 +382,7 @@
                 </div>
 
                 <div class="data-note">
-                    <strong>Data handling:</strong> Your résumé files are deleted from our servers the moment your shortlist is delivered.
+                    <strong>Data handling:</strong> Your resume files are deleted from our servers the moment your shortlist is delivered.
                     Files are never used to train any model.
                     <a href="/privacy.html">Privacy policy</a> · <a href="/privacy.html#dpa">DPA</a>
                     <button class="delete-all-btn" id="deleteAllBtn">Delete all uploaded files</button>
@@ -502,7 +502,7 @@
         document.getElementById('submitBtn').addEventListener('click', async () => {
             if (role?.status !== 'draft') return;
             await saveTracker();
-            if (!confirm('Submit this role? You won\'t be able to edit the brief or add more résumés after submitting.')) return;
+            if (!confirm('Submit this role? You won\'t be able to edit the brief or add more resumes after submitting.')) return;
             const btn = document.getElementById('submitBtn');
             btn.disabled = true; btn.textContent = 'Submitting…';
             const resp = await fetch(`/api/portal/roles/${roleId}/submit`, {
@@ -523,7 +523,7 @@
             else { const d = await resp.json(); alert(d.error || 'Delete failed'); }
         });
 
-        // ── résumé count ──────────────────────────────────────────
+        // ── resume count ──────────────────────────────────────────
         let cvCount = 0;
         function updateCvCount(n) {
             cvCount = n;
@@ -598,7 +598,7 @@
         async function handleFiles(files) {
             if (role?.status !== 'draft') return;
             if (cvCount + files.length > 60) {
-                alert(`Adding ${files.length} file${files.length > 1 ? 's' : ''} would exceed the 60 résumé limit. You have ${60 - cvCount} remaining.`);
+                alert(`Adding ${files.length} file${files.length > 1 ? 's' : ''} would exceed the 60 resume limit. You have ${60 - cvCount} remaining.`);
                 return;
             }
             // Upload each file sequentially (per-file retry makes parallel messy)
@@ -751,7 +751,7 @@
 
         // ── Delete all ────────────────────────────────────────
         document.getElementById('deleteAllBtn').addEventListener('click', async () => {
-            if (!confirm('Delete all uploaded résumé files for this role?')) return;
+            if (!confirm('Delete all uploaded resume files for this role?')) return;
             const rows = document.querySelectorAll('[id^="existing-"]');
             for (const row of rows) {
                 const uploadId = row.id.replace('existing-', '');
