@@ -375,6 +375,81 @@
             .path-card-green,
             .path-card-purple { animation: none; opacity: 1; transform: none; }
         }
+
+        /* ── Blog section ── */
+        .hub-blog {
+            border-top: 1px solid var(--w08);
+            padding: 3.5rem 1.5rem;
+            max-width: 860px;
+            margin: 0 auto;
+        }
+        .hub-blog-header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 1.75rem;
+        }
+        .hub-blog-label {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--w30);
+        }
+        .hub-blog-all {
+            font-size: 0.8125rem;
+            color: var(--w60);
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+        .hub-blog-all:hover { color: var(--white); }
+        .hub-blog-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            background: var(--w08);
+            border: 1px solid var(--w08);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .hub-blog-card {
+            background: var(--black-2);
+            padding: 1.5rem 1.75rem;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            transition: background 0.15s;
+        }
+        .hub-blog-card:hover { background: var(--black-3); }
+        .hub-blog-tag {
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--w30);
+        }
+        .hub-blog-title {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: var(--white);
+            line-height: 1.4;
+            letter-spacing: -0.01em;
+        }
+        .hub-blog-excerpt {
+            font-size: 0.825rem;
+            color: var(--w60);
+            line-height: 1.65;
+            flex: 1;
+        }
+        .hub-blog-read {
+            font-size: 0.775rem;
+            color: var(--w30);
+            margin-top: 0.25rem;
+        }
+        @media (max-width: 600px) {
+            .hub-blog-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -384,8 +459,8 @@
         <div class="nav-inner">
             <a href="index.html" class="logo">Superceptron</a>
             <div class="nav-right">
-                <a href="about.html" style="font-size:0.875rem;color:var(--w60);text-decoration:none;transition:color 0.2s ease;"
-                   onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--w60)'">Contact</a>
+                <a href="blog.html" style="font-size:0.875rem;color:var(--w60);text-decoration:none;transition:color 0.2s ease;"
+                   onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--w60)'">Blog</a>
             </div>
         </div>
     </nav>
@@ -482,6 +557,28 @@
 
         </div>
     </main>
+
+    <!-- BLOG -->
+    <div class="hub-blog">
+        <div class="hub-blog-header">
+            <span class="hub-blog-label">From the blog</span>
+            <a href="blog.html" class="hub-blog-all">View all posts →</a>
+        </div>
+        <div class="hub-blog-grid">
+            <a href="blog-ats-rejection.html" class="hub-blog-card">
+                <span class="hub-blog-tag">For candidates</span>
+                <span class="hub-blog-title">Why Your CV Gets Rejected Before a Human Ever Reads It</span>
+                <p class="hub-blog-excerpt">Most rejections happen in milliseconds, before anyone has read a word. Here's what's actually happening inside the systems that decide your fate.</p>
+                <span class="hub-blog-read">8 min read →</span>
+            </a>
+            <a href="blog-resume-screening.html" class="hub-blog-card">
+                <span class="hub-blog-tag">For recruiters</span>
+                <span class="hub-blog-title">How AI Resume Screening Saves 40 Hours Per Search</span>
+                <p class="hub-blog-excerpt">Independent recruiting firms are quietly recovering two working days per search. This is the workflow shift that makes it possible.</p>
+                <span class="hub-blog-read">6 min read →</span>
+            </a>
+        </div>
+    </div>
 
     <!-- FOOTER -->
     <footer class="hub-footer">
