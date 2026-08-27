@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CV — Priya Sharma</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: #fff; color: #111; font-size: 14px; line-height: 1.6; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .page { max-width: 780px; margin: 0 auto; padding: 3rem 3.5rem; }
+
+  /* Header */
+  .cv-header { border-bottom: 2px solid #111; padding-bottom: 1.375rem; margin-bottom: 1.75rem; }
+  .cv-name { font-size: 2rem; font-weight: 700; letter-spacing: -0.025em; line-height: 1.1; margin-bottom: 0.375rem; }
+  .cv-title { font-size: 1rem; color: #555; font-weight: 400; margin-bottom: 0.875rem; }
+  .cv-contact { display: flex; gap: 1.5rem; flex-wrap: wrap; font-size: 0.8125rem; color: #555; font-family: 'JetBrains Mono', monospace; }
+  .cv-contact a { color: #555; text-decoration: none; }
+
+  /* Section */
+  .section { margin-bottom: 1.875rem; }
+  .section-title { font-size: 0.68rem; font-family: 'JetBrains Mono', monospace; font-weight: 500; letter-spacing: 0.13em; text-transform: uppercase; color: #888; border-bottom: 1px solid #e5e5e5; padding-bottom: 0.375rem; margin-bottom: 1.125rem; }
+
+  /* Experience */
+  .job { margin-bottom: 1.5rem; }
+  .job:last-child { margin-bottom: 0; }
+  .job-header { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 0.2rem; }
+  .job-role { font-size: 0.9375rem; font-weight: 600; color: #111; letter-spacing: -0.01em; }
+  .job-dates { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: #888; white-space: nowrap; }
+  .job-company { font-size: 0.8125rem; color: #555; margin-bottom: 0.625rem; }
+  .job-company em { font-style: normal; color: #888; }
+  ul.bullets { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.35rem; }
+  ul.bullets li { font-size: 0.875rem; color: #444; line-height: 1.65; padding-left: 1.125rem; position: relative; }
+  ul.bullets li::before { content: "·"; position: absolute; left: 0; color: #bbb; font-size: 1rem; line-height: 1.5; }
+
+  /* Skills */
+  .skills-grid { display: grid; grid-template-columns: 140px 1fr; gap: 0.5rem 1.5rem; }
+  .skill-label { font-size: 0.8125rem; font-weight: 600; color: #111; padding-top: 0.1rem; }
+  .skill-val { font-size: 0.8125rem; color: #444; }
+
+  /* Education */
+  .edu { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 0.75rem; }
+  .edu:last-child { margin-bottom: 0; }
+  .edu-degree { font-size: 0.9rem; font-weight: 600; color: #111; }
+  .edu-school { font-size: 0.8125rem; color: #555; }
+  .edu-dates { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: #888; white-space: nowrap; }
+
+  @media print { .page { padding: 2rem 2.5rem; } }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="cv-header">
+    <div class="cv-name">Priya Sharma</div>
+    <div class="cv-title">Senior AI / ML Engineer</div>
+    <div class="cv-contact">
+      <span>priya.sharma@email.com</span>
+      <span>+44 7712 334 891</span>
+      <span>London, UK</span>
+      <a href="#">linkedin.com/in/priyasharma-ml</a>
+      <a href="#">github.com/priya-sharma</a>
+    </div>
+  </header>
+
+  <div class="section">
+    <div class="section-title">Summary</div>
+    <p style="font-size:0.875rem;color:#444;line-height:1.75;">Senior ML/AI engineer with 7 years' experience building and shipping production systems. Spent the last three years focused on LLM-powered product features — RAG pipelines, NL-to-SQL, semantic search — in Series B and C SaaS environments. Strong Python background, comfortable owning systems end-to-end from architecture through on-call. Looking for a role where AI is genuinely core to the product, not a bolt-on.</p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Experience</div>
+
+    <div class="job">
+      <div class="job-header">
+        <span class="job-role">Senior AI Engineer</span>
+        <span class="job-dates">Mar 2022 – Present</span>
+      </div>
+      <div class="job-company">Kairon Analytics &nbsp;<em>· Series C SaaS, 180 people, London</em></div>
+      <ul class="bullets">
+        <li>Led the build of Kairon's natural-language query feature — an NL-to-SQL pipeline serving 3,000+ end users across 85 enterprise customers. Reduced average query resolution time by 62% versus the previous manual analyst workflow.</li>
+        <li>Designed and owns the RAG layer: vector embeddings of customer schema, sample queries, and business glossary ingested via LangChain, stored in pgvector on RDS. Context window management handles schemas of up to 400 tables without degradation.</li>
+        <li>Built the LLM evaluation framework: automated regression testing across 1,200+ query/answer pairs with weekly human-in-the-loop review. Cut hallucination rate from 8.4% to 1.1% over 9 months.</li>
+        <li>Migrated the inference layer from GPT-3.5 to a hybrid GPT-4o / Claude 3.5 Sonnet setup based on cost-accuracy trade-off analysis, reducing inference cost by 34% with no accuracy regression.</li>
+        <li>Mentors two mid-level ML engineers; co-authored the team's LLM engineering guidelines.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <span class="job-role">ML Engineer</span>
+        <span class="job-dates">Aug 2019 – Feb 2022</span>
+      </div>
+      <div class="job-company">Sortly Technologies &nbsp;<em>· Series A e-commerce SaaS, London</em></div>
+      <ul class="bullets">
+        <li>Built demand forecasting models (XGBoost, Prophet) integrated into Sortly's inventory management product; forecasting now used by 40% of the active customer base.</li>
+        <li>Owned the feature engineering pipeline (PySpark, AWS Glue), reducing data prep time from 6 hours to 45 minutes per training run.</li>
+        <li>Introduced model monitoring via Evidently AI; set up drift detection and alerting that caught two significant distribution shifts before customer impact.</li>
+        <li>Collaborated with product on the insight notification system — ML-detected anomalies surfaced as plain-English alerts to customers.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <span class="job-role">Data Scientist</span>
+        <span class="job-dates">Sep 2017 – Jul 2019</span>
+      </div>
+      <div class="job-company">Retail Insight Group &nbsp;<em>· Data consultancy, London</em></div>
+      <ul class="bullets">
+        <li>Delivered ML engagements for retail clients (churn prediction, basket analysis, price elasticity modelling) in Python and R.</li>
+        <li>Built internal NLP pipeline for customer feedback classification using spaCy and a fine-tuned BERT classifier.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Skills</div>
+    <div class="skills-grid">
+      <span class="skill-label">LLM / GenAI</span>
+      <span class="skill-val">RAG pipelines, NL-to-SQL, prompt engineering, function calling, LLM evaluation, LangChain, LlamaIndex, OpenAI API, Anthropic API</span>
+
+      <span class="skill-label">ML / Python</span>
+      <span class="skill-val">PyTorch, Scikit-learn, XGBoost, Pandas, Numpy, FastAPI, PySpark</span>
+
+      <span class="skill-label">Vector / Search</span>
+      <span class="skill-val">pgvector, Pinecone, OpenSearch, text-embedding-3-large</span>
+
+      <span class="skill-label">Infrastructure</span>
+      <span class="skill-val">AWS (ECS, Lambda, RDS, S3, Glue), Terraform, Docker, GitHub Actions</span>
+
+      <span class="skill-label">Data</span>
+      <span class="skill-val">PostgreSQL, dbt, Snowflake, Redshift</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Education</div>
+    <div class="edu">
+      <div>
+        <div class="edu-degree">MEng Computer Science (Machine Learning)</div>
+        <div class="edu-school">University of Edinburgh &nbsp;· First Class Honours</div>
+      </div>
+      <span class="edu-dates">2013 – 2017</span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

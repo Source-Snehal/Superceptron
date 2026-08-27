@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CV — Leila Okonkwo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: #fff; color: #111; font-size: 14px; line-height: 1.6; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .page { max-width: 780px; margin: 0 auto; padding: 3rem 3.5rem; }
+  .cv-header { border-bottom: 2px solid #111; padding-bottom: 1.375rem; margin-bottom: 1.75rem; }
+  .cv-name { font-size: 2rem; font-weight: 700; letter-spacing: -0.025em; line-height: 1.1; margin-bottom: 0.375rem; }
+  .cv-title { font-size: 1rem; color: #555; font-weight: 400; margin-bottom: 0.875rem; }
+  .cv-contact { display: flex; gap: 1.5rem; flex-wrap: wrap; font-size: 0.8125rem; color: #555; font-family: 'JetBrains Mono', monospace; }
+  .cv-contact a { color: #555; text-decoration: none; }
+  .section { margin-bottom: 1.875rem; }
+  .section-title { font-size: 0.68rem; font-family: 'JetBrains Mono', monospace; font-weight: 500; letter-spacing: 0.13em; text-transform: uppercase; color: #888; border-bottom: 1px solid #e5e5e5; padding-bottom: 0.375rem; margin-bottom: 1.125rem; }
+  .job { margin-bottom: 1.5rem; }
+  .job:last-child { margin-bottom: 0; }
+  .job-header { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 0.2rem; }
+  .job-role { font-size: 0.9375rem; font-weight: 600; color: #111; letter-spacing: -0.01em; }
+  .job-dates { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: #888; white-space: nowrap; }
+  .job-company { font-size: 0.8125rem; color: #555; margin-bottom: 0.625rem; }
+  .job-company em { font-style: normal; color: #888; }
+  ul.bullets { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.35rem; }
+  ul.bullets li { font-size: 0.875rem; color: #444; line-height: 1.65; padding-left: 1.125rem; position: relative; }
+  ul.bullets li::before { content: "·"; position: absolute; left: 0; color: #bbb; font-size: 1rem; line-height: 1.5; }
+  .skills-grid { display: grid; grid-template-columns: 140px 1fr; gap: 0.5rem 1.5rem; }
+  .skill-label { font-size: 0.8125rem; font-weight: 600; color: #111; }
+  .skill-val { font-size: 0.8125rem; color: #444; }
+  .edu { margin-bottom: 1rem; }
+  .edu:last-child { margin-bottom: 0; }
+  .edu-header { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+  .edu-degree { font-size: 0.9rem; font-weight: 600; color: #111; }
+  .edu-school { font-size: 0.8125rem; color: #555; }
+  .edu-dates { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: #888; white-space: nowrap; }
+  .edu-detail { font-size: 0.8125rem; color: #666; margin-top: 0.25rem; font-style: italic; }
+  .pub { font-size: 0.8125rem; color: #444; line-height: 1.6; margin-bottom: 0.5rem; padding-left: 1rem; position: relative; }
+  .pub::before { content: "–"; position: absolute; left: 0; color: #bbb; }
+  @media print { .page { padding: 2rem 2.5rem; } }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="cv-header">
+    <div class="cv-name">Leila Okonkwo</div>
+    <div class="cv-title">Research Scientist / ML Engineer</div>
+    <div class="cv-contact">
+      <span>leila.okonkwo@email.com</span>
+      <span>+44 7624 558 102</span>
+      <span>London, UK</span>
+      <a href="#">scholar.google.com/leila-okonkwo</a>
+      <a href="#">github.com/leila-okonkwo</a>
+    </div>
+  </header>
+
+  <div class="section">
+    <div class="section-title">Profile</div>
+    <p style="font-size:0.875rem;color:#444;line-height:1.75;">ML researcher transitioning into applied AI engineering. PhD in NLP from UCL with a focus on retrieval-augmented generation and question-answering systems. Two years of industry experience post-PhD at a Series A AI startup where I shifted from pure research toward productionising our models. Strong theoretical foundation in LLMs; continuing to build production engineering depth in cloud deployment and software engineering at scale.</p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Experience</div>
+
+    <div class="job">
+      <div class="job-header">
+        <span class="job-role">Applied Research Scientist</span>
+        <span class="job-dates">Sep 2022 – Present</span>
+      </div>
+      <div class="job-company">Cognito AI &nbsp;<em>· Series A AI startup, 35 people, London</em></div>
+      <ul class="bullets">
+        <li>Lead the research behind Cognito's knowledge assistant product — an enterprise QA system over internal documents. Responsible for RAG architecture, chunking strategies, and retrieval quality.</li>
+        <li>Moved our embedding pipeline from a batch-once process to incremental updates using LangChain + Chroma; reduced index freshness lag from 24 hours to under 20 minutes.</li>
+        <li>Built and ran offline evaluation suite for retrieval quality (precision@k, MRR) and generation quality (BERTScore, LLM judge). Established first baselines and ran comparative experiments across OpenAI, Cohere, and Voyage embedding models.</li>
+        <li>Collaborated with the (small) engineering team to deploy the inference service on AWS ECS; this was my first significant exposure to containerised deployment and production API design — learned FastAPI and Docker on the job.</li>
+        <li>Wrote the technical sections of two successful grant applications (Innovate UK) totalling £340,000.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <span class="job-role">PhD Researcher — NLP</span>
+        <span class="job-dates">Oct 2018 – Jul 2022</span>
+      </div>
+      <div class="job-company">University College London (UCL) &nbsp;<em>· Dept. of Computer Science</em></div>
+      <ul class="bullets">
+        <li>Thesis: <em>"Faithfulness and Factuality in Retrieval-Augmented Generation"</em> — examined how generation models handle retrieved context under distribution shift and with conflicting sources.</li>
+        <li>Published 4 papers (NeurIPS workshop, EACL, EMNLP) on faithfulness metrics and hallucination detection in open-domain QA.</li>
+        <li>Teaching assistant for undergraduate ML modules (2019–2021); supervised two MSc dissertation students.</li>
+        <li>Six-month research visit, Meta AI (FAIR), London — worked on dense passage retrieval with the DPR team.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <span class="job-role">Data Analyst (Intern)</span>
+        <span class="job-dates">Jun 2018 – Sep 2018</span>
+      </div>
+      <div class="job-company">Lloyds Banking Group &nbsp;<em>· London</em></div>
+      <ul class="bullets">
+        <li>Exploratory analysis on customer churn using Python (Pandas, Seaborn). Delivered findings to the retail banking analytics team.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Skills</div>
+    <div class="skills-grid">
+      <span class="skill-label">LLM / NLP</span>
+      <span class="skill-val">RAG, embedding models, faithfulness evaluation, BERTScore, LLM judges, Hugging Face Transformers, LangChain, Chroma, Pinecone</span>
+
+      <span class="skill-label">Python</span>
+      <span class="skill-val">PyTorch, Numpy, Pandas, FastAPI (developing), Scikit-learn</span>
+
+      <span class="skill-label">Infrastructure</span>
+      <span class="skill-val">AWS ECS (limited), Docker (developing), Linux, Git</span>
+
+      <span class="skill-label">Research tools</span>
+      <span class="skill-val">Weights &amp; Biases, Jupyter, LaTeX</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Education</div>
+    <div class="edu">
+      <div class="edu-header">
+        <div>
+          <div class="edu-degree">PhD, Computer Science (NLP)</div>
+          <div class="edu-school">University College London</div>
+        </div>
+        <span class="edu-dates">2018 – 2022</span>
+      </div>
+      <div class="edu-detail">Thesis: "Faithfulness and Factuality in Retrieval-Augmented Generation." Supervisors: Prof. S. Riedel, Dr A. Lazaridou.</div>
+    </div>
+    <div class="edu">
+      <div class="edu-header">
+        <div>
+          <div class="edu-degree">BSc Computer Science (First Class Honours)</div>
+          <div class="edu-school">University of Warwick</div>
+        </div>
+        <span class="edu-dates">2015 – 2018</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Selected publications</div>
+    <div class="pub">"Detecting Hallucination in RAG Systems via Source-Faithfulness Probes" — EMNLP 2021</div>
+    <div class="pub">"When Context Conflicts: Retrieval-Augmented Generation under Source Disagreement" — EACL 2022</div>
+    <div class="pub">"Evaluating Factual Consistency in Long-Form Open-Domain QA" — NeurIPS workshop 2020</div>
+  </div>
+
+</div>
+</body>
+</html>

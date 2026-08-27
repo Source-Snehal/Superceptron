@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CV — Marcus Webb</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: #fff; color: #111; font-size: 14px; line-height: 1.6; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .page { max-width: 780px; margin: 0 auto; padding: 3rem 3.5rem; }
+  .cv-header { border-bottom: 2px solid #111; padding-bottom: 1.375rem; margin-bottom: 1.75rem; }
+  .cv-name { font-size: 2rem; font-weight: 700; letter-spacing: -0.025em; line-height: 1.1; margin-bottom: 0.375rem; }
+  .cv-title { font-size: 1rem; color: #555; font-weight: 400; margin-bottom: 0.875rem; }
+  .cv-contact { display: flex; gap: 1.5rem; flex-wrap: wrap; font-size: 0.8125rem; color: #555; font-family: 'JetBrains Mono', monospace; }
+  .cv-contact a { color: #555; text-decoration: none; }
+  .section { margin-bottom: 1.875rem; }
+  .section-title { font-size: 0.68rem; font-family: 'JetBrains Mono', monospace; font-weight: 500; letter-spacing: 0.13em; text-transform: uppercase; color: #888; border-bottom: 1px solid #e5e5e5; padding-bottom: 0.375rem; margin-bottom: 1.125rem; }
+  .job { margin-bottom: 1.5rem; }
+  .job:last-child { margin-bottom: 0; }
+  .job-header { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 0.2rem; }
+  .job-role { font-size: 0.9375rem; font-weight: 600; color: #111; letter-spacing: -0.01em; }
+  .job-dates { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: #888; white-space: nowrap; }
+  .job-company { font-size: 0.8125rem; color: #555; margin-bottom: 0.625rem; }
+  .job-company em { font-style: normal; color: #888; }
+  ul.bullets { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.35rem; }
+  ul.bullets li { font-size: 0.875rem; color: #444; line-height: 1.65; padding-left: 1.125rem; position: relative; }
+  ul.bullets li::before { content: "·"; position: absolute; left: 0; color: #bbb; font-size: 1rem; line-height: 1.5; }
+  .skills-grid { display: grid; grid-template-columns: 140px 1fr; gap: 0.5rem 1.5rem; }
+  .skill-label { font-size: 0.8125rem; font-weight: 600; color: #111; }
+  .skill-val { font-size: 0.8125rem; color: #444; }
+  .edu { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 0.75rem; }
+  .edu-degree { font-size: 0.9rem; font-weight: 600; color: #111; }
+  .edu-school { font-size: 0.8125rem; color: #555; }
+  .edu-dates { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: #888; white-space: nowrap; }
+  @media print { .page { padding: 2rem 2.5rem; } }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="cv-header">
+    <div class="cv-name">Marcus Webb</div>
+    <div class="cv-title">AI / ML Engineer</div>
+    <div class="cv-contact">
+      <span>marcus.webb@email.com</span>
+      <span>+44 7890 112 453</span>
+      <span>London, UK (open to hybrid)</span>
+      <a href="#">linkedin.com/in/marcuswebb</a>
+    </div>
+  </header>
+
+  <div class="section">
+    <div class="section-title">Profile</div>
+    <p style="font-size:0.875rem;color:#444;line-height:1.75;">ML engineer with 9 years' total experience, the last two focused on production LLM systems. Background in quantitative ML for financial services — risk models, anomaly detection — which gave me rigorous habits around validation, monitoring, and handling adversarial inputs. Deliberately pivoting toward AI product engineering at SaaS companies where I can see the end-user impact more directly. Strong Python, AWS, and a growing depth in LLM orchestration frameworks.</p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Experience</div>
+
+    <div class="job">
+      <div class="job-header">
+        <span class="job-role">Senior ML Engineer — AI Platform</span>
+        <span class="job-dates">Jan 2023 – Present</span>
+      </div>
+      <div class="job-company">Veritas Financial Technology &nbsp;<em>· FinTech SaaS, 300 people, London</em></div>
+      <ul class="bullets">
+        <li>Owns Veritas's LLM inference infrastructure: model routing, prompt caching, cost tracking, and failover across OpenAI and Anthropic APIs. System handles ~180,000 completions/day at 99.7% uptime.</li>
+        <li>Built an AI-powered document analysis feature (regulatory filings, audit reports) using a multi-stage pipeline: OCR → chunking → embedding → retrieval → synthesis. Reduced analyst review time by ~4 hours per report.</li>
+        <li>Designed the evaluation framework: automated factual consistency checks using an LLM judge model, cross-referenced against ground-truth annotations. Enabled the team to ship two major prompt versions per month with confidence.</li>
+        <li>Led the migration from a monolithic GPT-4 call to a tiered model strategy (GPT-4o-mini for classification, GPT-4o for synthesis), cutting inference spend by 41%.</li>
+        <li>Introduced prompt versioning and A/B infrastructure, enabling controlled rollouts to subsets of the user base.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <span class="job-role">ML Engineer</span>
+        <span class="job-dates">Jun 2020 – Dec 2022</span>
+      </div>
+      <div class="job-company">Veritas Financial Technology &nbsp;<em>· same organisation, promoted</em></div>
+      <ul class="bullets">
+        <li>Built and maintained credit risk ML models (gradient boosting, survival analysis) deployed into the Veritas underwriting platform.</li>
+        <li>Developed the internal ML platform tooling: experiment tracking (MLflow), feature store (Feast), and model registry. Reduced model deployment cycle from ~3 weeks to 4 days.</li>
+        <li>Implemented real-time transaction anomaly detection (Isolation Forest + LSTM) reducing false positive rate by 28% versus the prior rule-based system.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <span class="job-role">Data Scientist</span>
+        <span class="job-dates">Sep 2017 – May 2020</span>
+      </div>
+      <div class="job-company">Huxley Associates &nbsp;<em>· Financial services consultancy, London</em></div>
+      <ul class="bullets">
+        <li>Delivered ML projects for tier-1 banking clients across credit, fraud, and customer analytics domains.</li>
+        <li>Frequently worked embedded in client data science teams; comfortable operating in regulated environments with formal model governance requirements.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <span class="job-role">Quantitative Analyst (Grad scheme)</span>
+        <span class="job-dates">Sep 2015 – Aug 2017</span>
+      </div>
+      <div class="job-company">Barclays Corporate Banking &nbsp;<em>· London</em></div>
+      <ul class="bullets">
+        <li>Rotational grad scheme across risk analytics and structured products. Developed portfolio stress-testing models in Python and SQL.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Skills</div>
+    <div class="skills-grid">
+      <span class="skill-label">LLM / GenAI</span>
+      <span class="skill-val">RAG, prompt engineering, LLM evaluation, model routing, LangChain, OpenAI API, Anthropic API, Chroma, pgvector</span>
+
+      <span class="skill-label">ML / Python</span>
+      <span class="skill-val">Scikit-learn, XGBoost, LightGBM, PyTorch (working knowledge), FastAPI, Pydantic, Pandas</span>
+
+      <span class="skill-label">Infrastructure</span>
+      <span class="skill-val">AWS (ECS, Lambda, SQS, S3, RDS), Docker, Terraform, GitHub Actions, MLflow</span>
+
+      <span class="skill-label">Data</span>
+      <span class="skill-val">PostgreSQL, Snowflake, dbt, Kafka</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Education</div>
+    <div class="edu">
+      <div>
+        <div class="edu-degree">BSc Mathematics and Computer Science (2:1)</div>
+        <div class="edu-school">University of Bristol</div>
+      </div>
+      <span class="edu-dates">2011 – 2015</span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

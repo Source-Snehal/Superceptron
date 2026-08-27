@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senior AI Engineer — Helio Analytics</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: #f7f8fa; color: #111; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  .page { max-width: 860px; margin: 0 auto; background: #fff; min-height: 100vh; }
+
+  /* Header bar */
+  .header { background: #0f1117; padding: 2.5rem 3.5rem 2rem; }
+  .header-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 2rem; margin-bottom: 1.5rem; }
+  .company-name { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 0.5rem; }
+  .role-title { font-size: 1.875rem; font-weight: 700; color: #fff; letter-spacing: -0.02em; line-height: 1.15; }
+  .header-badges { display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end; flex-shrink: 0; }
+  .badge { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.3rem 0.75rem; border-radius: 100px; white-space: nowrap; }
+  .badge-green { background: rgba(77,255,180,0.12); color: #4DFFB4; border: 1px solid rgba(77,255,180,0.25); }
+  .badge-grey  { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.1); }
+  .header-meta { display: flex; gap: 2rem; flex-wrap: wrap; }
+  .meta-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: rgba(255,255,255,0.5); }
+  .meta-item strong { color: rgba(255,255,255,0.85); font-weight: 500; }
+
+  /* Body */
+  .body { padding: 3rem 3.5rem 4rem; }
+
+  .intro-box { background: #f0faf5; border: 1px solid #b8e8d0; border-radius: 10px; padding: 1.5rem 1.75rem; margin-bottom: 2.5rem; font-size: 0.9375rem; color: #1a4535; line-height: 1.75; }
+
+  h2 { font-size: 0.72rem; font-family: 'JetBrains Mono', monospace; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #888; margin: 2.5rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #ebebeb; }
+  h2:first-of-type { margin-top: 0; }
+
+  p { font-size: 0.9375rem; color: #444; line-height: 1.78; margin-bottom: 1rem; }
+  p:last-child { margin-bottom: 0; }
+
+  ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 0.625rem; margin-bottom: 1rem; }
+  ul li { font-size: 0.9375rem; color: #444; line-height: 1.7; padding-left: 1.375rem; position: relative; }
+  ul li::before { content: "–"; position: absolute; left: 0; color: #4DFFB4; font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+
+  .stack-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+  .stack-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 500; padding: 0.25rem 0.625rem; border-radius: 6px; background: #f3f4f6; color: #374151; border: 1px solid #e5e7eb; }
+  .stack-tag.core { background: #f0faf5; color: #065f46; border-color: #a7f3d0; }
+
+  .apply-box { margin-top: 2.5rem; background: #0f1117; border-radius: 10px; padding: 2rem 2.25rem; display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+  .apply-box p { color: rgba(255,255,255,0.6); font-size: 0.875rem; margin: 0; }
+  .apply-box strong { color: #fff; display: block; font-size: 1rem; margin-bottom: 0.25rem; }
+  .apply-email { font-family: 'JetBrains Mono', monospace; font-size: 0.875rem; color: #4DFFB4; text-decoration: none; border-bottom: 1px solid rgba(77,255,180,0.3); padding-bottom: 0.1rem; }
+
+  @media print {
+    body { background: #fff; }
+    .page { box-shadow: none; }
+    .apply-box { background: #0f1117 !important; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <div class="company-name">Helio Analytics</div>
+        <h1 class="role-title">Senior AI Engineer</h1>
+      </div>
+      <div class="header-badges">
+        <span class="badge badge-green">Now hiring</span>
+        <span class="badge badge-grey">Ref: HEL-AI-04</span>
+      </div>
+    </div>
+    <div class="header-meta">
+      <div class="meta-item"><strong>Location:</strong> London (hybrid, 2 days/wk)</div>
+      <div class="meta-item"><strong>Salary:</strong> £85,000 – £110,000 + equity</div>
+      <div class="meta-item"><strong>Type:</strong> Full-time, permanent</div>
+      <div class="meta-item"><strong>Level:</strong> Senior IC</div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <div class="intro-box">
+      Helio Analytics is a Series B B2B SaaS company (~130 people) that helps mid-market retail and e-commerce businesses understand their data. We're embedding AI into the core product — starting with a natural-language query layer that lets non-technical users ask questions of their data in plain English. This role leads that build.
+    </div>
+
+    <h2>The role</h2>
+    <p>You'll own the design, build, and productionisation of Helio's LLM-powered features. The immediate focus is our natural-language analytics interface — an NL-to-SQL layer with semantic search, context-aware follow-up, and automated insight generation. You'll work closely with our product and data platform teams and report into the VP of Engineering.</p>
+    <p>This is not a research role. We need someone who has shipped LLM features to real users, knows what breaks in production, and can make sound architectural decisions under commercial constraints.</p>
+
+    <h2>What you'll own</h2>
+    <ul>
+      <li>Design and build the NL-to-SQL pipeline end-to-end — prompt architecture, retrieval, query validation, and the feedback loop</li>
+      <li>Build and maintain the RAG layer that grounds queries in each customer's schema and business context</li>
+      <li>Own the LLM evaluation framework — define metrics, build evals, track regressions</li>
+      <li>Work with the data platform team on the vector store and embedding pipeline (we're on AWS, moving toward pgvector)</li>
+      <li>Contribute to our model selection and fine-tuning strategy as the product matures</li>
+      <li>Participate in architecture decisions across the wider engineering team</li>
+    </ul>
+
+    <h2>What we're looking for</h2>
+    <div class="two-col">
+      <div>
+        <p style="font-size:0.8rem;font-weight:600;color:#111;margin-bottom:0.75rem;letter-spacing:-0.01em;">Essential</p>
+        <ul>
+          <li>3+ years working on production ML or AI systems (not just research or prototypes)</li>
+          <li>Hands-on experience building with LLMs — prompt engineering, RAG, function calling, evaluation</li>
+          <li>Strong Python and API engineering (FastAPI or equivalent)</li>
+          <li>Experience with vector databases (pgvector, Pinecone, Weaviate, or similar)</li>
+          <li>Comfortable working in AWS (Lambda, ECS, RDS, S3)</li>
+          <li>Can own a system end-to-end, from design through to on-call</li>
+        </ul>
+      </div>
+      <div>
+        <p style="font-size:0.8rem;font-weight:600;color:#111;margin-bottom:0.75rem;letter-spacing:-0.01em;">Nice to have</p>
+        <ul>
+          <li>Experience with NL-to-SQL or text-to-code systems specifically</li>
+          <li>Fine-tuning experience (LoRA, RLHF, DPO)</li>
+          <li>Background in analytics, BI, or data platform products</li>
+          <li>Experience working at Series A–C SaaS companies</li>
+          <li>Familiarity with LangChain, LlamaIndex, or DSPy</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>Tech stack</h2>
+    <div class="stack-grid">
+      <span class="stack-tag core">Python</span>
+      <span class="stack-tag core">FastAPI</span>
+      <span class="stack-tag core">LangChain / LlamaIndex</span>
+      <span class="stack-tag core">OpenAI API / Anthropic API</span>
+      <span class="stack-tag core">pgvector</span>
+      <span class="stack-tag core">PostgreSQL</span>
+      <span class="stack-tag">AWS (ECS, Lambda, RDS, S3)</span>
+      <span class="stack-tag">dbt</span>
+      <span class="stack-tag">Terraform</span>
+      <span class="stack-tag">GitHub Actions</span>
+      <span class="stack-tag">React (light exposure)</span>
+    </div>
+
+    <h2>What we offer</h2>
+    <ul>
+      <li>£85,000 – £110,000 base depending on experience</li>
+      <li>Meaningful equity (EMI options, Series B strike price)</li>
+      <li>Hybrid: 2 days/week in our Shoreditch office</li>
+      <li>£2,000/year learning and conference budget</li>
+      <li>25 days holiday + bank holidays</li>
+      <li>Private healthcare (Vitality)</li>
+      <li>Enhanced parental leave (26 weeks full pay, primary carer)</li>
+    </ul>
+
+    <h2>Process</h2>
+    <ul>
+      <li><strong>Stage 1</strong> — 30-minute introductory call with the hiring manager</li>
+      <li><strong>Stage 2</strong> — Technical screen: take-home task (~3 hours, paid at £200)</li>
+      <li><strong>Stage 3</strong> — System design interview (60 min, panel of 2)</li>
+      <li><strong>Stage 4</strong> — Values and culture fit with VP Engineering and a peer</li>
+    </ul>
+    <p>We aim to complete the full process within three weeks of the first call.</p>
+
+    <div class="apply-box">
+      <div>
+        <strong>Apply or ask a question</strong>
+        <p>Send your CV and a brief note on why this role interests you to:</p>
+      </div>
+      <a href="mailto:talent@helioanalytics.io" class="apply-email">talent@helioanalytics.io</a>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
