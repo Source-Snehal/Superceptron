@@ -24,14 +24,14 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 
     <style>
-        /* ── Candidate-side colour token (purple as primary) ── */
+        /* ── Candidate-side colour token (plum as primary) ── */
         :root {
-            --p: #7B68EE;
-            --p-dim: rgba(123, 104, 238, 0.08);
-            --p-mid: rgba(123, 104, 238, 0.22);
-            --p-glow: rgba(123, 104, 238, 0.35);
-            --p-border: rgba(123, 104, 238, 0.18);
-            --p-hover: rgba(123, 104, 238, 0.12);
+            --p: var(--plum);
+            --p-dim: rgba(76,58,99,0.08);
+            --p-mid: rgba(76,58,99,0.22);
+            --p-glow: rgba(76,58,99,0.35);
+            --p-border: rgba(76,58,99,0.18);
+            --p-hover: rgba(76,58,99,0.12);
         }
 
         /* ── Be Super pricing modal ── */
@@ -42,7 +42,7 @@
             padding: 0.5rem 1.125rem;
             border-radius: 100px;
             background: var(--accent);
-            color: #070707;
+            color: #FFFFFF;
             border: none;
             cursor: pointer;
             letter-spacing: -0.01em;
@@ -53,7 +53,7 @@
         .pricing-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(7,7,7,0.82);
+            background: rgba(20,23,26,0.72);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             z-index: 900;
@@ -139,7 +139,7 @@
         }
         .cand-eyebrow {
             display: inline-block;
-            font-family: var(--mono);
+            font-family: var(--font);
             font-size: 0.64rem;
             font-weight: 500;
             letter-spacing: 0.18em;
@@ -399,7 +399,7 @@
             font-weight: 500;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            background: rgba(123,104,238,0.14);
+            background: rgba(76,58,99,0.14);
             color: var(--p);
             border-radius: 4px;
             padding: 0.2rem 0.45rem;
@@ -1153,7 +1153,7 @@
             font-weight: 500;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            background: rgba(123,104,238,0.12);
+            background: rgba(76,58,99,0.12);
             color: var(--p);
             border-radius: 4px;
             padding: 0.2rem 0.5rem;
@@ -1444,7 +1444,7 @@
             <div class="nav-right">
                 <button class="be-super-btn" id="be-super-btn">Be Super</button>
                 <a href="profile.html" class="cand-nav-cta" id="nav-profile" style="display:none">My account</a>
-                <button class="cand-nav-cta" id="nav-signin" style="background:transparent;border:1.5px solid rgba(123,104,238,0.35);color:var(--p);cursor:pointer;">Sign in</button>
+                <button class="cand-nav-cta" id="nav-signin" style="background:transparent;border:1.5px solid rgba(76,58,99,0.35);color:var(--p);cursor:pointer;">Sign in</button>
             </div>
         </div>
     </nav>
@@ -1531,7 +1531,7 @@
             <p class="tool-error" id="tool-error"></p>
 
             <div class="action-row">
-                <button class="btn-analyse" id="btn-analyse"><b>SuperAnalyse</b> my CV for free</button>
+                <button class="btn-analyse" id="btn-analyse">Score my CV free</button>
             </div>
 
             <div class="analyse-progress-wrap" id="analyse-progress-wrap" style="display:none">
@@ -2154,14 +2154,14 @@
             })
             .then(function (data) {
                 btn.disabled    = false;
-                btn.innerHTML = '<b>SuperAnalyse</b> my CV for free';
+                btn.innerHTML = 'Score my CV free';
                 if (data.error) throw new Error(data.error);
                 finishProgress(true);
                 renderResults(data);
             })
             .catch(function (err) {
                 btn.disabled    = false;
-                btn.innerHTML = '<b>SuperAnalyse</b> my CV for free';
+                btn.innerHTML = 'Score my CV free';
                 finishProgress(false);
                 if (err && err.rateLimit) {
                     showError(err.message + ' <a href="pricing.html" style="color:inherit;text-decoration:underline;">See plans →</a>');

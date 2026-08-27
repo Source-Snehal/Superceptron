@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Superceptron — AI Resume Screening for Independent Recruiting Firms</title>
+    <title>Superceptron — AI Resume Shortlisting for Independent Recruiting Firms</title>
     <meta name="description" content="Superceptron screens every resume with AI, then has a person review every shortlist before it reaches you. You always see the reasoning, you always make the final call. Built for independent recruiting firms.">
     <meta name="keywords" content="AI resume screening for recruiters, AI shortlisting service, independent recruiting firm automation, resume screening service, staffing firm AI screening, explainable resume screening">
     <meta name="author" content="Superceptron">
@@ -837,6 +837,41 @@
             .problem-grid { grid-template-columns: 1fr; }
             .problem-card { padding: 1.75rem 1.5rem; }
         }
+        /* Hero eyebrow pill */
+        .eyebrow-pill {
+            display: inline-block;
+            font-family: var(--font);
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.01em;
+            color: var(--accent);
+            background: var(--accent-soft);
+            border: 1px solid rgba(31,169,127,0.25);
+            border-radius: 100px;
+            padding: 0.35rem 0.875rem;
+            margin-bottom: 1.25rem;
+        }
+        /* Proof line */
+        .rec-proof {
+            position: relative;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            padding-left: 1.125rem;
+            margin-top: 0.25rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+        }
+        .rec-proof::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.15em;
+            bottom: 0.15em;
+            width: 3px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
     </style>
 </head>
 <body>
@@ -874,23 +909,52 @@
             <div class="grid-overlay"></div>
             <div class="orb orb-1"></div>
             <div class="orb orb-2"></div>
+            <!-- Watermark texture -->
+            <div class="wm-bg" aria-hidden="true">
+                <!-- top strip -->
+                <span class="wm-word" style="font-size:11px;top:3%;left:5%">shortlist</span>
+                <span class="wm-word" style="font-size:9px;top:7%;left:18%">talent pipeline</span>
+                <span class="wm-word" style="font-size:10px;top:4%;left:35%">candidate fit</span>
+                <span class="wm-word" style="font-size:11px;top:8%;left:52%">role alignment</span>
+                <span class="wm-word" style="font-size:9px;top:3%;left:67%">hiring signal</span>
+                <span class="wm-word" style="font-size:10px;top:7%;left:80%">sourcing</span>
+                <!-- bottom strip -->
+                <span class="wm-word" style="font-size:10px;top:87%;left:6%">assessment</span>
+                <span class="wm-word" style="font-size:9px;top:92%;left:20%">screening criteria</span>
+                <span class="wm-word" style="font-size:11px;top:88%;left:38%">ranked</span>
+                <span class="wm-word" style="font-size:10px;top:93%;left:52%">applicant</span>
+                <span class="wm-word" style="font-size:9px;top:87%;left:65%">job description</span>
+                <span class="wm-word" style="font-size:10px;top:91%;left:79%">brief</span>
+                <!-- right zone -->
+                <span class="wm-word" style="font-size:10px;top:20%;left:63%">relevance</span>
+                <span class="wm-word" style="font-size:9px;top:28%;left:72%">recruiter</span>
+                <span class="wm-word" style="font-size:11px;top:35%;left:65%">CV</span>
+                <span class="wm-word" style="font-size:9px;top:44%;left:75%">reasoning</span>
+                <span class="wm-word" style="font-size:10px;top:53%;left:63%">skills match</span>
+                <span class="wm-word" style="font-size:9px;top:62%;left:71%">batch</span>
+                <span class="wm-word" style="font-size:10px;top:70%;left:64%">independent firm</span>
+                <span class="wm-word" style="font-size:11px;top:78%;left:74%">placement</span>
+                <!-- far-left edge -->
+                <span class="wm-word" style="font-size:9px;top:22%;left:1%">match</span>
+                <span class="wm-word" style="font-size:10px;top:40%;left:2%">gap</span>
+                <span class="wm-word" style="font-size:9px;top:58%;left:1%">fit</span>
+                <span class="wm-word" style="font-size:10px;top:74%;left:2%">profile</span>
+            </div>
         </div>
         <div class="container">
             <div class="hero-content">
-                <div class="hero-eyebrow" aria-label="Superceptron — AI Resume Screening">
-                    <div class="brand-cycler" aria-hidden="true">
-                        <span class="brand-cycler-word" id="brandWord">Screen faster.</span>
-                        <img src="logo.jpeg" id="brandLogo" class="brand-cycler-logo" alt="">
-                    </div>
+                <div class="hero-eyebrow" aria-label="Superceptron — AI Resume Shortlisting">
+                    <span class="eyebrow-pill">Every CV read. Nothing binned unread.</span>
                 </div>
                 <h1 class="hero-title">
                     Nothing gets rejected<br>by a machine.
                 </h1>
                 <p class="hero-sub">
-                    The best candidates don't always use the right keywords. We read every resume for what it actually means, so no one strong gets filtered out before you see them.
+                    Every CV gets read for what it actually means — what the person did, not whether they matched the ad's vocabulary. You get a ranked shortlist with the reasoning for each name.
                 </p>
+                <p class="rec-proof">No shortlist leaves here without a named person behind it.</p>
                 <div class="hero-actions">
-                    <a href="register.html" class="btn-primary">Start your 30-day free trial →</a>
+                    <a href="register.html" class="btn-primary">Upload your first role, free</a>
                     <a href="#dual-engine" class="btn-ghost">How it works <span aria-hidden="true">↓</span></a>
                 </div>
             </div>
@@ -918,7 +982,7 @@
         <div class="container">
             <div class="section-label reveal">The problem</div>
             <h2 class="section-title reveal">Two forces making recruiting<br>harder every year.</h2>
-            <p class="problem-intro reveal">Most screening tools don't fix this. They make both problems worse.</p>
+            <p class="problem-intro reveal">Most shortlisting tools don't fix this. They make both problems worse.</p>
             <div class="problem-grid">
 
                 <div class="problem-card reveal">
@@ -930,7 +994,7 @@
                         </svg>
                     </div>
                     <h3>AI keyword tools bury the candidates you're looking for</h3>
-                    <p>When automated tools screen by keyword match, strong candidates disappear simply because they described the same skill differently. You never see them. Your client never meets them. A placement falls through three months later, and it's your reputation on the line, not the algorithm's. The cost of a missed hire at independent firms isn't an abstraction: it's a client relationship.</p>
+                    <p>When automated tools filter by keyword match, strong candidates disappear simply because they described the same skill differently. You never see them. Your client never meets them. A placement falls through three months later, and it's your reputation on the line, not the algorithm's. The cost of a missed hire at independent firms isn't an abstraction: it's a client relationship.</p>
                 </div>
 
                 <div class="problem-card reveal">
@@ -948,7 +1012,7 @@
                         </svg>
                     </div>
                     <h3>AI-written CVs are flooding your inbox</h3>
-                    <p>A growing share of the applications in your pile were drafted by AI: keyword-dense, polished, and almost entirely hollow. They sail through automated screening and into your interview schedule. Only a trained eye spots them, the same trained eye that recognises genuine potential buried under a non-standard format or a career path that doesn't follow the obvious script.</p>
+                    <p>A growing share of the applications in your pile were drafted by AI: keyword-dense, polished, and almost entirely hollow. They sail past automated filters and into your interview schedule. Only a trained eye spots them, the same trained eye that recognises genuine potential buried under a non-standard format or a career path that doesn't follow the obvious script.</p>
                 </div>
 
             </div>
@@ -976,7 +1040,7 @@
                 <div class="engine-panel reveal">
                     <span class="engine-tag">Judgement stage</span>
                     <h3>Every shortlist reviewed by a leading industry expert</h3>
-                    <p>Before any shortlist leaves our desk, a leading industry expert goes through it. Not to re-screen from scratch, but to catch what AI tends to miss: strong candidates with unconventional career paths or non-standard resume formats. They calibrate to what your specific clients actually want, and that calibration compounds over time.</p>
+                    <p>Before any shortlist leaves our desk, a leading industry expert goes through it. Not to review from scratch, but to catch what AI tends to miss: strong candidates with unconventional career paths or non-standard resume formats. They calibrate to what your specific clients actually want, and that calibration compounds over time.</p>
                     <div class="engine-note">
                         <span class="engine-note-icon" aria-hidden="true">→</span>
                         Domain expertise you can't replicate with a prompt. Our experts know the tech hiring market. They spot the signal that raw AI misses.
@@ -1266,7 +1330,7 @@
                 </div>
 
             </div>
-            <p class="comp-tracking reveal">We track screening time saved and shortlist-to-interview conversion from day one, and share it back with you.</p>
+            <p class="comp-tracking reveal">We track time saved on shortlisting and shortlist-to-interview conversion from day one, and share it back with you.</p>
         </div>
     </section>
 
@@ -1278,7 +1342,7 @@
                     <span class="onboarding-badge">Now open</span>
                     <h2>Now onboarding our first recruiting firms.</h2>
                     <p>Try Superceptron free for 30 days. No commitment, no sales call. Send us your resumes and a job spec and you'll have a shortlist back within the hour.</p>
-                    <a href="register.html" class="btn-primary">Start your 30-day free trial →</a>
+                    <a href="register.html" class="btn-primary">Upload your first role, free</a>
                 </div>
             </div>
         </div>
@@ -1316,11 +1380,11 @@
                     </div>
                     <div class="signal-stat">
                         <span class="signal-stat-num">38%</span>
-                        <span class="signal-stat-label">lost to CV screening alone</span>
+                        <span class="signal-stat-label">lost to CV shortlisting alone</span>
                     </div>
                     <div class="signal-stat">
                         <span class="signal-stat-num">4 min</span>
-                        <span class="signal-stat-label">for AI to screen what takes a human 40 hours</span>
+                        <span class="signal-stat-label">for AI to read what takes a human 40 hours</span>
                     </div>
                 </div>
             </a>
@@ -1368,7 +1432,7 @@
         <div class="container footer-inner">
             <div class="footer-brand">
                 <span class="footer-logo"><img src="logo.jpeg" alt="" class="footer-logo-img" aria-hidden="true">Superceptron</span>
-                <p>AI resume screening for<br>independent recruiting firms.</p>
+                <p>AI resume shortlisting for<br>independent recruiting firms.</p>
                 <address style="font-size:0.8rem;color:rgba(255,255,255,0.28);line-height:1.65;font-style:normal;margin-top:0.875rem;">Superceptron Limited (No. 17407955)<br>Office 20638, 182–184 High Street North<br>East Ham, London E6 2JA</address>
             </div>
             <div class="footer-nav">
