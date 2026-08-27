@@ -345,15 +345,29 @@ async function handleScore(request, env) {
       return respond(JSON.stringify({ error: 'Analysis returned no content — please try again.' }), 200, { 'Content-Type': 'application/json' });
     }
 
-    // Strip any accidental markdown fencing before parsing
-    const cleaned = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
+    // Strip markdown fencing — handle both boundary-exact and mid-text wrapping
+    const cleaned = raw
+      .replace(/^```(?:json)?\r?\n?/im, '')
+      .replace(/\r?\n?```\s*$/m, '')
+      .trim();
 
     let result;
     try {
       result = JSON.parse(cleaned);
     } catch {
-      console.error('JSON parse error, raw:', raw.slice(0, 400));
-      return respond(JSON.stringify({ error: 'Could not parse analysis — please try again.' }), 200, { 'Content-Type': 'application/json' });
+      // Fallback: extract the outermost {...} block — handles model adding a preamble or suffix
+      const jsonMatch = cleaned.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        try {
+          result = JSON.parse(jsonMatch[0]);
+        } catch (innerErr) {
+          console.error('JSON parse error (both passes), raw:', raw.slice(0, 500));
+          return respond(JSON.stringify({ error: 'Could not parse analysis — please try again.' }), 200, { 'Content-Type': 'application/json' });
+        }
+      } else {
+        console.error('No JSON object in response, raw:', raw.slice(0, 500));
+        return respond(JSON.stringify({ error: 'Could not parse analysis — please try again.' }), 200, { 'Content-Type': 'application/json' });
+      }
     }
 
     // Guard against a structurally empty result (catches model returning {} or 0s)
