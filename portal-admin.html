@@ -213,10 +213,82 @@
             color: var(--admin-bar); border: 1px solid var(--admin-bar-border);
             border-radius: 6px; cursor: pointer;
         }
+
+        /* ── Login overlay ── */
+        .login-overlay {
+            position: fixed; inset: 0; z-index: 9999;
+            background: var(--bg);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .login-overlay.hidden { display: none; }
+        .login-card {
+            width: 100%; max-width: 360px;
+            border: 1px solid var(--admin-bar-border);
+            border-top: 3px solid var(--admin-bar);
+            border-radius: 10px;
+            background: var(--surface);
+            padding: 2rem 2rem 1.75rem;
+            display: flex; flex-direction: column; gap: 1.25rem;
+        }
+        .login-logo { display: flex; align-items: center; gap: 0.6rem; }
+        .login-logo img { width: 28px; height: 28px; border-radius: 4px; }
+        .login-logo-name { font-size: 0.9rem; font-weight: 700; letter-spacing: -0.02em; }
+        .login-badge {
+            font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em;
+            text-transform: uppercase; background: var(--admin-bar);
+            color: #FEF3C7; border-radius: 4px; padding: 0.15rem 0.45rem;
+        }
+        .login-card h2 {
+            font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; margin: 0;
+        }
+        .login-field { display: flex; flex-direction: column; gap: 0.35rem; }
+        .login-field label { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); }
+        .login-field input {
+            font-family: var(--font); font-size: 0.875rem; padding: 0.55rem 0.75rem;
+            border: 1px solid var(--border); border-radius: 6px;
+            background: var(--bg); color: var(--text); outline: none;
+        }
+        .login-field input:focus { border-color: var(--admin-bar-border); }
+        .login-submit {
+            font-family: var(--font); font-size: 0.875rem; font-weight: 600;
+            padding: 0.625rem 1rem; background: var(--admin-bar); color: #FEF3C7;
+            border: none; border-radius: 6px; cursor: pointer; transition: opacity 0.15s;
+        }
+        .login-submit:hover { opacity: 0.88; }
+        .login-submit:disabled { opacity: 0.55; cursor: default; }
+        .login-error {
+            font-size: 0.8rem; color: #B91C1C; background: #FEF2F2;
+            border: 1px solid #FECACA; border-radius: 5px;
+            padding: 0.5rem 0.75rem; display: none;
+        }
+        .login-error.visible { display: block; }
     </style>
 </head>
 <body>
-    <nav class="admin-nav">
+
+    <!-- ── Login overlay (shown when no session) ── -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-card">
+            <div class="login-logo">
+                <img src="Logo new.jpg" alt="">
+                <span class="login-logo-name">Superceptron</span>
+                <span class="login-badge">Admin</span>
+            </div>
+            <h2>Sign in to admin</h2>
+            <div class="login-field">
+                <label for="loginEmail">Email</label>
+                <input type="email" id="loginEmail" autocomplete="username" placeholder="you@example.com">
+            </div>
+            <div class="login-field">
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" autocomplete="current-password" placeholder="••••••••">
+            </div>
+            <div class="login-error" id="loginError"></div>
+            <button class="login-submit" id="loginSubmit">Sign in</button>
+        </div>
+    </div>
+
+    <nav class="admin-nav" id="adminNav" style="display:none">
         <div class="admin-nav-inner">
             <div class="admin-brand">
                 <img src="Logo new.jpg" alt="">
@@ -227,7 +299,7 @@
         </div>
     </nav>
 
-    <div class="admin-layout">
+    <div class="admin-layout" id="adminLayout" style="display:none">
         <!-- ── Left: role list ── -->
         <div class="admin-list-panel">
             <div class="admin-panel-header">
@@ -282,18 +354,62 @@
         const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
         // ── Auth guard — admin only ────────────────────────────
-        const { data: { session } } = await sb.auth.getSession();
-        if (!session) { window.location.href = '/portal.html'; return; }
-        const token = session.access_token;
-
-        const { data: profile } = await sb
-            .from('rec_profiles').select('role, status').eq('user_id', session.user.id).single();
-        if (!profile || profile.role !== 'admin' || profile.status !== 'active') {
-            window.location.href = '/portal.html'; return;
+        async function initAdmin(session) {
+            const { data: profile } = await sb
+                .from('rec_profiles').select('role, status').eq('user_id', session.user.id).single();
+            if (!profile || profile.role !== 'admin' || profile.status !== 'active') {
+                showLoginError('This account does not have admin access.');
+                await sb.auth.signOut();
+                return;
+            }
+            // Reveal UI
+            document.getElementById('loginOverlay').classList.add('hidden');
+            document.getElementById('adminNav').style.display = '';
+            document.getElementById('adminLayout').style.display = '';
+            token = session.access_token;
+            await loadRoles();
         }
 
+        let token = null;
+        const { data: { session: existingSession } } = await sb.auth.getSession();
+        if (existingSession) {
+            await initAdmin(existingSession);
+        }
+
+        // ── Login form ────────────────────────────────────────
+        function showLoginError(msg) {
+            const el = document.getElementById('loginError');
+            el.textContent = msg; el.classList.add('visible');
+        }
+
+        document.getElementById('loginSubmit').addEventListener('click', async () => {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const btn = document.getElementById('loginSubmit');
+            document.getElementById('loginError').classList.remove('visible');
+            if (!email || !password) { showLoginError('Enter your email and password.'); return; }
+            btn.disabled = true; btn.textContent = 'Signing in…';
+            const { data, error } = await sb.auth.signInWithPassword({ email, password });
+            if (error) {
+                btn.disabled = false; btn.textContent = 'Sign in';
+                showLoginError(error.message || 'Sign in failed.');
+                return;
+            }
+            await initAdmin(data.session);
+            btn.disabled = false; btn.textContent = 'Sign in';
+        });
+
+        document.getElementById('loginPassword').addEventListener('keydown', e => {
+            if (e.key === 'Enter') document.getElementById('loginSubmit').click();
+        });
+
         document.getElementById('signOutBtn').addEventListener('click', async () => {
-            await sb.auth.signOut(); window.location.href = '/portal.html';
+            await sb.auth.signOut();
+            document.getElementById('adminNav').style.display = 'none';
+            document.getElementById('adminLayout').style.display = 'none';
+            document.getElementById('loginOverlay').classList.remove('hidden');
+            document.getElementById('loginEmail').value = '';
+            document.getElementById('loginPassword').value = '';
         });
 
         // ── Load roles ────────────────────────────────────────
@@ -599,9 +715,6 @@
             if (b < 1024*1024) return (b/1024).toFixed(0) + ' KB';
             return (b/1024/1024).toFixed(1) + ' MB';
         }
-
-        // ── Init ──────────────────────────────────────────────
-        await loadRoles();
 
         // Open detail from URL hash
         const hashId = window.location.hash.slice(1);
