@@ -359,6 +359,26 @@ body {
 }
 .btn-ghost:hover { color: var(--white); }
 
+.btn-dark {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.9rem 1.75rem;
+    background: var(--text);
+    color: var(--bg);
+    font-weight: 700;
+    font-size: 0.9375rem;
+    text-decoration: none;
+    border-radius: 100px;
+    transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+    white-space: nowrap;
+}
+.btn-dark:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 32px rgba(20,23,26,0.28);
+}
+.btn-dark:active { transform: translateY(0); }
+
 /* Scroll hint */
 .scroll-hint {
     position: absolute;
