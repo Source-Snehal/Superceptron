@@ -279,7 +279,7 @@
         .btn-delete { font-family: var(--font); font-size: 0.875rem; font-weight: 600; color: #F87171; background: none; border: 1.5px solid rgba(248,113,113,0.3); border-radius: 100px; padding: 0.625rem 1.375rem; cursor: pointer; width: fit-content; transition: all 0.2s; }
         .btn-delete:hover { background: rgba(248,113,113,0.08); border-color: #F87171; }
 
-        /* ── My CVs ── */
+        /* ── My résumés ── */
         .cv-card { background: var(--black-2); border: 1px solid var(--w08); border-radius: 16px; overflow: hidden; margin-bottom: 1rem; }
         .cv-card-head { display: flex; align-items: center; justify-content: space-between; padding: 0.875rem 1.25rem; border-bottom: 1px solid var(--w08); }
         .cv-card-title { font-size: 0.875rem; font-weight: 600; color: var(--white); }
@@ -287,7 +287,7 @@
         .cv-textarea { display: block; width: 100%; min-height: 200px; background: transparent; border: none; outline: none; resize: vertical; font-family: var(--font); font-size: 0.875rem; color: var(--w60); line-height: 1.7; padding: 1rem 1.25rem; box-sizing: border-box; caret-color: var(--p); }
         .cv-textarea:focus { color: var(--white); }
         .cv-textarea::placeholder { color: var(--w30); }
-        /* CV file drop zone */
+        /* résumé file drop zone */
         .cv-drop-zone {
             margin: 1.25rem; border: 1.5px dashed var(--w12); border-radius: 12px;
             padding: 2.5rem 1.5rem; text-align: center; cursor: pointer;
@@ -298,7 +298,7 @@
         .cv-drop-icon { font-size: 1.5rem; margin-bottom: 0.25rem; }
         .cv-drop-label { font-size: 0.875rem; font-weight: 600; color: var(--w60); }
         .cv-drop-sub { font-family: var(--mono); font-size: 0.7rem; color: var(--w30); }
-        /* CV file chip (after upload) */
+        /* résumé file chip (after upload) */
         .cv-file-chip {
             display: none; margin: 1.25rem; padding: 0.875rem 1.125rem;
             background: rgba(77,255,180,0.04); border: 1px solid rgba(77,255,180,0.16);
@@ -364,7 +364,7 @@
             .billing-card-head { flex-direction: column; align-items: flex-start; }
         }
 
-        /* ── CV Score iframe ── */
+        /* ── résumé Score iframe ── */
         .cvscore-frame-wrap { margin: -0.5rem -2.5rem 0; }
         .cvscore-frame-wrap iframe { width:100%; min-height:calc(100vh - 160px); border:none; display:block; }
         @media (max-width: 768px) { .cvscore-frame-wrap { margin: 0 -1.25rem; } }
@@ -429,8 +429,8 @@
             </div>
             <nav class="sidebar-nav">
                 <button class="snav-item" data-view="home">Home</button>
-                <button class="snav-item" data-view="cv-score">CV Score</button>
-                <button class="snav-item" data-view="my-cvs">My CVs</button>
+                <button class="snav-item" data-view="cv-score">résumé Score</button>
+                <button class="snav-item" data-view="my-cvs">My résumés</button>
                 <button class="snav-item" data-view="billing">Billing</button>
                 <button class="snav-item" data-view="account">Account</button>
             </nav>
@@ -466,7 +466,7 @@
                         <div class="ai-rewrite-card" id="ai-rewrite-home-card">
                             <div class="ai-rewrite-left">
                                 <span class="ai-rewrite-name">SuperRewrite AI</span>
-                                <span class="ai-rewrite-desc">Upload your CV and job description — SuperAI rewrites your CV for the role in seconds. ATS-optimised and print-ready.</span>
+                                <span class="ai-rewrite-desc">Upload your résumé and job description — SuperAI rewrites your résumé for the role in seconds. ATS-optimised and print-ready.</span>
                             </div>
                             <button class="ai-rewrite-cta">Rewrite with SuperAI →</button>
                         </div>
@@ -482,18 +482,18 @@
                     <button class="back-btn" id="ai-back-btn">← Back to dashboard</button>
                     <div class="view-header">
                         <h1 class="view-title">SuperRewrite AI</h1>
-                        <p class="view-sub">Upload your CV and the job description — SuperAI tailors your CV to the role. You can run this as many times as you like with different files.</p>
+                        <p class="view-sub">Upload your résumé and the job description — SuperAI tailors your résumé to the role. You can run this as many times as you like with different files.</p>
                     </div>
 
-                    <!-- CV upload -->
+                    <!-- résumé upload -->
                     <div class="cv-card" style="margin-bottom:1rem">
                         <div class="cv-card-head">
-                            <span class="cv-card-title">Your CV</span>
+                            <span class="cv-card-title">Your résumé</span>
                             <span class="cv-badge" id="ai-cv-badge">No file</span>
                         </div>
                         <div class="cv-drop-zone" id="ai-cv-drop">
                             <div class="cv-drop-icon">📄</div>
-                            <div class="cv-drop-label">Upload your CV</div>
+                            <div class="cv-drop-label">Upload your résumé</div>
                             <div class="cv-drop-sub">PDF or .txt — text is extracted automatically</div>
                         </div>
                         <div class="cv-file-chip" id="ai-cv-chip">
@@ -543,30 +543,30 @@
                     <!-- Action -->
                     <div class="ai-action-bar">
                         <button class="ai-rewrite-btn" id="ai-do-rewrite" disabled>Rewrite with SuperAI →</button>
-                        <span class="ai-hint" id="ai-do-hint">Upload your CV and add the job description to continue.</span>
+                        <span class="ai-hint" id="ai-do-hint">Upload your résumé and add the job description to continue.</span>
                     </div>
 
                     <!-- Result -->
                     <div class="ai-result-card" id="ai-result-card" style="display:none">
                         <div class="ai-result-head">
-                            <span class="ai-result-title">Your rewritten CV is ready</span>
+                            <span class="ai-result-title">Your rewritten résumé is ready</span>
                             <div class="ai-result-actions">
                                 <button class="ai-dl-btn" id="ai-download-btn">Download HTML</button>
                                 <button class="ai-dl-btn" id="ai-newtab-btn">Open in new tab →</button>
                             </div>
                         </div>
-                        <iframe class="ai-preview-frame" id="ai-preview-frame" title="Rewritten CV preview"></iframe>
+                        <iframe class="ai-preview-frame" id="ai-preview-frame" title="Rewritten résumé preview"></iframe>
                     </div>
                 </div>
 
-                <!-- CV Score -->
+                <!-- résumé Score -->
                 <div id="view-cv-score" class="view" style="display:none">
                     <div class="view-header">
-                        <h1 class="view-title">CV Score</h1>
-                        <p class="view-sub">Upload your CV and a job description — SuperAI scores the match and pinpoints what's missing.</p>
+                        <h1 class="view-title">résumé Score</h1>
+                        <p class="view-sub">Upload your résumé and a job description — SuperAI scores the match and pinpoints what's missing.</p>
                     </div>
                     <div class="cvscore-frame-wrap">
-                        <iframe id="cv-score-frame" title="CV Score" allowtransparency="true"></iframe>
+                        <iframe id="cv-score-frame" title="résumé Score" allowtransparency="true"></iframe>
                     </div>
                 </div>
 
@@ -576,21 +576,21 @@
                     <div id="detail-content"></div>
                 </div>
 
-                <!-- My CVs -->
+                <!-- My résumés -->
                 <div id="view-my-cvs" class="view" style="display:none">
                     <div class="view-header">
-                        <h1 class="view-title">My CVs</h1>
-                        <p class="view-sub">Your saved CV and job description — used when you submit for a review or rewrite.</p>
+                        <h1 class="view-title">My résumés</h1>
+                        <p class="view-sub">Your saved résumé and job description — used when you submit for a review or rewrite.</p>
                     </div>
                     <div class="cv-card">
                         <div class="cv-card-head">
-                            <span class="cv-card-title">CV</span>
+                            <span class="cv-card-title">résumé</span>
                             <span class="cv-badge" id="cv-badge">Not saved</span>
                         </div>
                         <!-- Drop zone (shown when no file) -->
                         <div class="cv-drop-zone" id="cv-drop-zone">
                             <div class="cv-drop-icon">📄</div>
-                            <div class="cv-drop-label">Upload your CV</div>
+                            <div class="cv-drop-label">Upload your résumé</div>
                             <div class="cv-drop-sub">Drop a PDF or .txt here, or click to browse</div>
                         </div>
                         <!-- File chip (shown after upload) -->
@@ -846,7 +846,7 @@
             });
         }
 
-        /* ── Download completed CV ── */
+        /* ── Download completed résumé ── */
         function downloadCompletedCv(purchase, btn) {
             var prev = btn.textContent;
             btn.disabled = true; btn.textContent = 'Generating link…';
@@ -954,14 +954,14 @@
                     '<p class="detail-section-lbl">Your submission</p>' +
                     '<div class="state-in-review">' +
                     '<span class="state-review-pill">In review</span>' +
-                    '<span class="state-done-title">Your CV is with us now</span>' +
+                    '<span class="state-done-title">Your résumé is with us now</span>' +
                     '<span class="state-done-body">Most ' + noun + 's complete within 48 hours. We\'ll email you at ' + userEmail + '.</span>' +
                     noteSnip + '</div>';
             } else if (sub.status === 'complete') {
                 upSec.innerHTML =
-                    '<p class="detail-section-lbl">Your completed CV</p>' +
+                    '<p class="detail-section-lbl">Your completed résumé</p>' +
                     '<div class="state-complete">' +
-                    '<span class="state-complete-title">✓ Your ' + noun + 'd CV is ready</span>' +
+                    '<span class="state-complete-title">✓ Your ' + noun + 'd résumé is ready</span>' +
                     '<button class="dl-btn" id="dl-btn-' + pid + '">Download →</button>' +
                     '</div>';
                 var dlBtn = $('dl-btn-' + pid);
@@ -1043,7 +1043,7 @@
             var featsHTML = '<div class="tile-features">' +
                 feats.map(function (f) { return '<span class="tile-feat check">' + f + '</span>'; }).join('') +
                 '</div>';
-            var tagline = isReview ? '' : '<div class="tile-tagline">Transform Your CV. Secure the Role.</div>';
+            var tagline = isReview ? '' : '<div class="tile-tagline">Transform Your résumé. Secure the Role.</div>';
             return '<div class="tile tile-owned" tabindex="0" role="button" aria-label="Open ' + label + ' workspace">' +
                 '<div class="tile-head"><span class="tile-name">' + label + '</span><span class="tile-badge ' + badgeCls + '">' + badgeTxt + '</span></div>' +
                 tagline +
@@ -1059,11 +1059,11 @@
                 '<div class="tile-head"><span class="tile-name">SuperRewrite</span><span class="tile-badge">Included</span></div>' +
                 '<div class="tile-meta">Included in your SuperReview plan</div>' +
                 '<div class="tile-features">' +
-                '<span class="tile-feat check">Unlimited CV scores</span>' +
+                '<span class="tile-feat check">Unlimited résumé scores</span>' +
                 '<span class="tile-feat check">Unlimited AI rewrites</span>' +
                 '<span class="tile-feat check">ATS compatibility checks</span>' +
                 '</div>' +
-                '<div class="tile-foot"><a class="tile-link-btn" href="cv-score.html">Open CV scorer →</a></div>' +
+                '<div class="tile-foot"><a class="tile-link-btn" href="cv-score.html">Open résumé scorer →</a></div>' +
                 '</div>';
         }
 
@@ -1075,8 +1075,8 @@
             var feats    = isReview
                 ? ['2 expert human reviews/month', 'Delivered within 48 hours', 'Includes SuperRewrite']
                 : ['Hyper-Targeted to your exact job description', 'High-Impact Framing — structure and language overhauled', 'Polished PDF delivered straight to your inbox'];
-            var desc = isReview ? 'Add monthly human review passes' : 'Complete top-to-bottom CV rewrite';
-            var tagline = isReview ? '' : '<div class="tile-tagline">Transform Your CV. Secure the Role.</div>';
+            var desc = isReview ? 'Add monthly human review passes' : 'Complete top-to-bottom résumé rewrite';
+            var tagline = isReview ? '' : '<div class="tile-tagline">Transform Your résumé. Secure the Role.</div>';
             return '<div class="tile tile-upgrade">' +
                 '<div class="tile-head"><span class="tile-name">' + label + '</span><span class="tile-badge">Upgrade</span></div>' +
                 tagline +
@@ -1097,7 +1097,7 @@
                 '<div class="addon-card">' +
                 '<div class="addon-left">' +
                 '<span class="addon-name">SuperCoach · 1:1 Session</span>' +
-                '<span class="addon-desc">45 minutes with a senior recruiter — your CV, your target role, and what\'s actually working in the market right now.</span>' +
+                '<span class="addon-desc">45 minutes with a senior recruiter — your résumé, your target role, and what\'s actually working in the market right now.</span>' +
                 '<span class="addon-price">' + PRICES.super_coach + ' one-off · available to anyone</span>' +
                 '</div>' +
                 '<a class="addon-book-btn" href="' + link + '" target="_blank" rel="noopener">' + btnText + '</a>' +
@@ -1171,7 +1171,7 @@
                       '</div>' +
                       '<div class="ws-hero-right">' +
                         '<span class="ws-hero-title">' + remaining + ' of ' + total + ' review' + (total !== 1 ? 's' : '') + ' remaining this period</span>' +
-                        '<span class="ws-hero-sub">Submit your CV for a personalised human review — delivered within 48 hours.</span>' +
+                        '<span class="ws-hero-sub">Submit your résumé for a personalised human review — delivered within 48 hours.</span>' +
                         '<div class="ws-reset-row">' +
                           '<div class="ws-reset-dot"></div>' +
                           '<span class="ws-reset-txt">Allowance resets ' + (resetDate || 'on next billing date') + '</span>' +
@@ -1193,9 +1193,9 @@
                         ? overflowPromptHTML(usage)
                         : '<span class="ws-new-title">Submit a new review</span>' +
                           '<div id="upload-section-' + pid + '">' +
-                            '<div class="upload-zone" id="upload-zone-' + pid + '" role="button" tabindex="0" aria-label="Upload CV PDF">' +
+                            '<div class="upload-zone" id="upload-zone-' + pid + '" role="button" tabindex="0" aria-label="Upload résumé PDF">' +
                               '<span class="upload-icon">📄</span>' +
-                              '<span class="upload-label">Click or drag your CV here</span>' +
+                              '<span class="upload-label">Click or drag your résumé here</span>' +
                               '<span class="upload-sub">PDF only · max 10 MB</span>' +
                             '</div>' +
                             '<input type="file" id="cv-pdf-input-' + pid + '" accept="application/pdf" style="display:none">' +
@@ -1208,7 +1208,7 @@
                             '<button class="submit-btn t-review" id="tier-submit-' + pid + '" disabled>Submit for review →</button>' +
                             '<p class="submit-hint" id="tier-submit-status-' + pid + '"></p>' +
                           '</div>' +
-                          '<p class="privacy-note" style="margin-top:1rem">Your CV is stored privately and only accessible to you and the reviewer. <a href="privacy.html" target="_blank">Privacy policy</a>. Deleted after fulfilment.</p>'
+                          '<p class="privacy-note" style="margin-top:1rem">Your résumé is stored privately and only accessible to you and the reviewer. <a href="privacy.html" target="_blank">Privacy policy</a>. Deleted after fulfilment.</p>'
                     );
 
                 var ob = $('overflow-buy-btn');
@@ -1302,10 +1302,10 @@
                 '</div>' +
                 '<div class="detail-body">' +
                 '<div id="upload-section-' + pid + '">' +
-                '<p class="detail-section-lbl">Upload your CV</p>' +
+                '<p class="detail-section-lbl">Upload your résumé</p>' +
                 '<div class="upload-zone" id="upload-zone-' + pid + '" role="button" tabindex="0" aria-label="Upload PDF">' +
                 '<span class="upload-icon">📄</span>' +
-                '<span class="upload-label">Click or drag your CV here</span>' +
+                '<span class="upload-label">Click or drag your résumé here</span>' +
                 '<span class="upload-sub">PDF only · max 10 MB</span>' +
                 '</div>' +
                 '<input type="file" id="cv-pdf-input-' + pid + '" accept="application/pdf" style="display:none">' +
@@ -1318,7 +1318,7 @@
                 '<button class="submit-btn t-rewrite" id="tier-submit-' + pid + '" disabled>Submit for rewrite →</button>' +
                 '<p class="submit-hint" id="tier-submit-status-' + pid + '"></p>' +
                 '</div>' +
-                '<p class="privacy-note">Your CV is stored privately and only accessible to you and the reviewer. <a href="privacy.html" target="_blank">Privacy policy</a>. Deleted after fulfilment.</p>' +
+                '<p class="privacy-note">Your résumé is stored privately and only accessible to you and the reviewer. <a href="privacy.html" target="_blank">Privacy policy</a>. Deleted after fulfilment.</p>' +
                 '</div>' +
                 '</div>';
 
@@ -1361,7 +1361,7 @@
             submitBtn.addEventListener('click', function () {
                 var file = tierFiles[pid];
                 var note = ($('request-note-' + pid) || {}).value || '';
-                if (!file) { alert('Please upload your CV first.'); return; }
+                if (!file) { alert('Please upload your résumé first.'); return; }
                 submitBtn.disabled = true;
                 if (statusEl) statusEl.textContent = 'Uploading…';
                 var storagePath = userId + '/' + pid + '/cv.pdf';
@@ -1512,7 +1512,7 @@
                 });
         });
 
-        /* ── My CVs view ── */
+        /* ── My résumés view ── */
         var cvTextStore = '';  /* extracted text, used for submissions */
 
         function showCvFile(filename, meta) {
@@ -1606,7 +1606,7 @@
                 });
         });
 
-        /* ── JD tab toggle (My CVs) ── */
+        /* ── JD tab toggle (My résumés) ── */
         var jdFileTextStore = '';
         function switchJdTab(tab) {
             var isPaste = tab === 'paste';
@@ -1680,14 +1680,14 @@
         function updateAiRewriteBtn() {
             var ready = aiCvText.trim() && aiJdText.trim();
             $('ai-do-rewrite').disabled = !ready;
-            $('ai-do-hint').textContent = ready ? 'Ready — click to rewrite.' : 'Upload your CV and add the job description to continue.';
+            $('ai-do-hint').textContent = ready ? 'Ready — click to rewrite.' : 'Upload your résumé and add the job description to continue.';
         }
 
         /* Home card → open AI rewrite view */
         $('ai-rewrite-home-card').addEventListener('click', function () { showView('ai-rewrite'); });
         $('ai-back-btn').addEventListener('click', function () { showView('home'); });
 
-        /* CV upload in AI view */
+        /* résumé upload in AI view */
         function showAiCvChip(name, meta) {
             $('ai-cv-drop').style.display = 'none';
             $('ai-cv-chip').classList.add('visible');
@@ -1752,7 +1752,7 @@
         $('ai-do-rewrite').addEventListener('click', function () {
             var btn = this;
             btn.disabled = true; btn.textContent = 'Rewriting…';
-            $('ai-do-hint').textContent = 'SuperAI is tailoring your CV — this takes 20–40 seconds…';
+            $('ai-do-hint').textContent = 'SuperAI is tailoring your résumé — this takes 20–40 seconds…';
             $('ai-result-card').style.display = 'none';
 
             sb.auth.getSession().then(function (r) {
@@ -1772,7 +1772,7 @@
                     var frame = $('ai-preview-frame');
                     frame.srcdoc = aiResultHtml;
                     $('ai-result-card').style.display = '';
-                    $('ai-do-hint').textContent = 'Done — see your rewritten CV below.';
+                    $('ai-do-hint').textContent = 'Done — see your rewritten résumé below.';
                     $('ai-result-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
                 })
                 .catch(function () {
@@ -1869,10 +1869,10 @@
                 $('acc-name').value = profile.full_name   || '';
                 $('acc-role').value = profile.target_role || '';
 
-                /* My CVs */
+                /* My résumés */
                 if (profile.cv_text) {
                     cvTextStore = profile.cv_text;
-                    showCvFile('CV on file', 'Saved · upload a new file to replace');
+                    showCvFile('résumé on file', 'Saved · upload a new file to replace');
                     $('cv-badge').textContent = 'Saved';
                     $('cv-badge').style.color = 'var(--accent)';
                 }

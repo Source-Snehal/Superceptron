@@ -316,7 +316,7 @@
         </div>
 
         <main class="a-main">
-            <div class="a-page-title">CV Submissions</div>
+            <div class="a-page-title">résumé Submissions</div>
 
             <!-- Filters -->
             <div class="a-filters">
@@ -648,12 +648,12 @@
                 ? '<div class="a-card-note">' + esc(sub.request_note.slice(0, 320)) + (sub.request_note.length > 320 ? '…' : '') + '</div>'
                 : '';
 
-            var actions = '<button class="a-btn" id="dl-cv-' + sub.id + '">⬇ Download CV</button>';
+            var actions = '<button class="a-btn" id="dl-cv-' + sub.id + '">⬇ Download résumé</button>';
             if (sub.status === 'submitted') {
                 actions += ' <button class="a-btn primary" id="start-' + sub.id + '">▶ Start review</button>';
             }
             if (sub.status === 'in_review') {
-                actions += ' <button class="a-btn primary" id="show-upload-' + sub.id + '">📎 Upload completed CV</button>';
+                actions += ' <button class="a-btn primary" id="show-upload-' + sub.id + '">📎 Upload completed résumé</button>';
             }
             if (sub.status === 'complete' && sub.completed_file_path) {
                 actions += ' <button class="a-btn success" id="dl-done-' + sub.id + '">⬇ View completed</button>';
@@ -688,15 +688,15 @@
         function wireCard(sub) {
             var sid = sub.id;
 
-            /* Download original CV */
+            /* Download original résumé */
             on('dl-cv-' + sid, function (btn) {
-                setLoading(btn, '⬇ Download CV');
+                setLoading(btn, '⬇ Download résumé');
                 apiPost('/admin/cv-url', { token: token, storage_path: sub.storage_path, bucket: 'cv-uploads' })
                     .then(function (d) {
-                        clearLoading(btn, '⬇ Download CV');
+                        clearLoading(btn, '⬇ Download résumé');
                         if (d.url) window.open(d.url, '_blank');
                         else alert('Could not generate download link.');
-                    }).catch(function () { clearLoading(btn, '⬇ Download CV'); alert('Network error.'); });
+                    }).catch(function () { clearLoading(btn, '⬇ Download résumé'); alert('Network error.'); });
             });
 
             /* Start review */
@@ -752,7 +752,7 @@
                     });
             });
 
-            /* View completed CV (admin) */
+            /* View completed résumé (admin) */
             on('dl-done-' + sid, function (btn) {
                 setLoading(btn, '⬇ View completed');
                 apiPost('/admin/cv-url', { token: token, storage_path: sub.completed_file_path, bucket: 'completed-cvs' })

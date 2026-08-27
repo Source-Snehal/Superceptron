@@ -203,7 +203,7 @@
         </div>
 
         <div class="tier-banner" id="tierBanner" hidden>
-            <span><strong>Free plan</strong> · <span id="tierUsed">0</span> of 1 active role used · 60 CV limit per role</span>
+            <span><strong>Free plan</strong> · <span id="tierUsed">0</span> of 1 active role used · 60 résumé limit per role</span>
             <span class="tier-limit">Drafts don't count towards your limit</span>
         </div>
 
@@ -214,7 +214,7 @@
                     <tr>
                         <th>Role</th>
                         <th>Submitted</th>
-                        <th>CVs</th>
+                        <th>résumés</th>
                         <th>Status</th>
                         <th></th>
                     </tr>
@@ -229,12 +229,12 @@
         <!-- Empty state (initially shown) -->
         <div class="empty-state" id="emptyState">
             <h2>No roles yet</h2>
-            <p>Create your first role to start uploading CVs. You'll get a shortlist back within 2–3 working days.</p>
+            <p>Create your first role to start uploading résumés. You'll get a shortlist back within 2–3 working days.</p>
         </div>
 
         <div class="turnaround" id="turnaroundNote" hidden>
             <strong>What happens after you submit:</strong>
-            Submit CVs → We read every one (2–3 working days) → Ranked shortlist delivered to your dashboard.
+            Submit résumés → We read every one (2–3 working days) → Ranked shortlist delivered to your dashboard.
             You'll get an email the moment it's ready.
         </div>
     </div>
@@ -313,7 +313,7 @@
                         <div class="role-card-title">${esc(r.title)}</div>
                         ${statusChip(r.status)}
                     </div>
-                    <div class="role-card-meta">${r.cv_count} CV${r.cv_count !== 1 ? 's' : ''} · ${r.submitted_at ? 'Submitted ' + fmtDate(r.submitted_at) : 'Draft'}</div>
+                    <div class="role-card-meta">${r.cv_count} résumé${r.cv_count !== 1 ? 's' : ''} · ${r.submitted_at ? 'Submitted ' + fmtDate(r.submitted_at) : 'Draft'}</div>
                     <div class="role-card-footer">
                         <span style="font-size:0.775rem;color:var(--text-muted)">${[r.location, r.seniority].filter(Boolean).join(' · ')}</span>
                         ${r.has_shortlist && r.status === 'shortlist_ready' ? `<button class="dl-btn" onclick="event.stopPropagation();downloadShortlist('${r.id}')">↓ Shortlist</button>` : ''}

@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Score My CV — Superceptron</title>
-    <meta name="description" content="Paste your CV and the job description. Get honest, specific feedback on how your experience comes across — and exactly what to change.">
+    <title>Score My résumé — Superceptron</title>
+    <meta name="description" content="Paste your résumé and the job description. Get honest, specific feedback on how your experience comes across — and exactly what to change.">
     <meta name="author" content="Superceptron">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://www.superceptron.com/cv-score.html">
-    <meta property="og:title" content="Score My CV — Superceptron">
-    <meta property="og:description" content="Paste your CV and the job description. Get clear feedback on what comes across and what's getting missed.">
+    <meta property="og:title" content="Score My résumé — Superceptron">
+    <meta property="og:description" content="Paste your résumé and the job description. Get clear feedback on what comes across and what's getting missed.">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Score My CV — Superceptron">
+    <meta name="twitter:title" content="Score My résumé — Superceptron">
 
     <link rel="icon" href="Logo new.jpg" type="image/jpeg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -174,7 +174,7 @@
             margin: 0 auto;
         }
 
-        /* ── Input blocks (CV + JD) ── */
+        /* ── Input blocks (résumé + JD) ── */
         .input-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -1454,7 +1454,7 @@
         <div class="cand-hero-inner">
             <span class="cand-eyebrow">For Candidates</span>
             <h1 class="cand-headline">Make sure you're<br>read correctly.</h1>
-            <p class="cand-sub">Compare your CV against any job description instantly. Get a pinpoint analysis of your strengths and missing links, powered by <strong style="color:var(--p);font-weight:700;">SuperAI</strong>.</p>
+            <p class="cand-sub">Compare your résumé against any job description instantly. Get a pinpoint analysis of your strengths and missing links, powered by <strong style="color:var(--p);font-weight:700;">SuperAI</strong>.</p>
         </div>
     </section>
 
@@ -1464,10 +1464,10 @@
 
             <div class="input-grid">
 
-                <!-- CV input -->
+                <!-- résumé input -->
                 <div class="input-block">
                     <div class="input-header">
-                        <span class="input-label">Your CV</span>
+                        <span class="input-label">Your résumé</span>
                         <div class="tab-row">
                             <button class="tab-btn active" id="cv-tab-upload">Upload</button>
                             <button class="tab-btn" id="cv-tab-paste">Paste</button>
@@ -1491,7 +1491,7 @@
                         <p class="file-notice" id="cv-notice"></p>
                     </div>
                     <div class="input-pane" id="cv-paste-pane" style="display:none">
-                        <textarea id="cv-text" class="score-textarea" placeholder="Paste your CV here…" rows="10"></textarea>
+                        <textarea id="cv-text" class="score-textarea" placeholder="Paste your résumé here…" rows="10"></textarea>
                     </div>
                 </div>
 
@@ -1531,14 +1531,14 @@
             <p class="tool-error" id="tool-error"></p>
 
             <div class="action-row">
-                <button class="btn-analyse" id="btn-analyse">Score my CV free</button>
+                <button class="btn-analyse" id="btn-analyse">Score my résumé free</button>
             </div>
 
             <div class="analyse-progress-wrap" id="analyse-progress-wrap" style="display:none">
                 <div class="analyse-progress-track">
                     <div class="analyse-progress-bar" id="analyse-progress-bar"></div>
                 </div>
-                <span class="analyse-progress-label" id="analyse-progress-label">Reading your CV…</span>
+                <span class="analyse-progress-label" id="analyse-progress-label">Reading your résumé…</span>
             </div>
 
             <p class="tool-disclaimer">Free analysis — nothing stored.</p>
@@ -1564,7 +1564,7 @@
             <!-- AI flag (shown if flagged) -->
             <div class="ai-flag-card" id="ai-flag">
                 <span class="ai-flag-icon">⚠</span>
-                <p class="ai-flag-text"><strong>Language signals detected.</strong> Portions of this CV read as AI-generated — consistent structure, high buzzword density, limited specific evidence. If you wrote it yourself, adding concrete examples from your actual experience will make it feel distinctly yours — and more credible to the reader.</p>
+                <p class="ai-flag-text"><strong>Language signals detected.</strong> Portions of this résumé read as AI-generated — consistent structure, high buzzword density, limited specific evidence. If you wrote it yourself, adding concrete examples from your actual experience will make it feel distinctly yours — and more credible to the reader.</p>
             </div>
 
             <!-- Section cards (populated by JS) -->
@@ -1592,7 +1592,7 @@
                         <span class="service-name">SuperRewrite</span>
                     </div>
                     <span class="service-price">$11.99</span>
-                    <p class="service-desc">Your CV rewritten for this specific role. Structure, language, and framing that makes your real experience come through clearly.</p>
+                    <p class="service-desc">Your résumé rewritten for this specific role. Structure, language, and framing that makes your real experience come through clearly.</p>
                     <ul class="service-features">
                         <li>Full rewrite against this JD</li>
                         <li>Stronger structure and language</li>
@@ -1608,7 +1608,7 @@
                         <span class="service-tag">Most popular</span>
                     </div>
                     <span class="service-price">$29.99</span>
-                    <p class="service-desc">A senior recruiter reads your CV in context, rewrites the weak spots, and makes sure your real strengths aren't buried.</p>
+                    <p class="service-desc">A senior recruiter reads your résumé in context, rewrites the weak spots, and makes sure your real strengths aren't buried.</p>
                     <ul class="service-features">
                         <li>Human expert review</li>
                         <li>Weak sections rewritten</li>
@@ -1624,10 +1624,10 @@
                         <span class="service-tag service-tag-amber">Flagship</span>
                     </div>
                     <span class="service-price">$89.99</span>
-                    <p class="service-desc">45 minutes with a senior recruiter on your CV, your target role, and what's actually working in the market right now.</p>
+                    <p class="service-desc">45 minutes with a senior recruiter on your résumé, your target role, and what's actually working in the market right now.</p>
                     <ul class="service-features">
                         <li>45-min 1:1 video session</li>
-                        <li>Live CV and strategy review</li>
+                        <li>Live résumé and strategy review</li>
                         <li>Real talk on what's hiring right now</li>
                         <li>Book immediately after payment</li>
                     </ul>
@@ -1661,7 +1661,7 @@
                         <span class="service-name">SuperRewrite</span>
                     </div>
                     <span class="service-price">$11.99</span>
-                    <p class="service-desc">Your CV rewritten for this specific role. Structure, language, and framing that makes your real experience come through clearly.</p>
+                    <p class="service-desc">Your résumé rewritten for this specific role. Structure, language, and framing that makes your real experience come through clearly.</p>
                     <ul class="service-features">
                         <li>Full rewrite against this JD</li>
                         <li>Stronger structure and language</li>
@@ -1677,7 +1677,7 @@
                         <span class="service-tag">Most popular</span>
                     </div>
                     <span class="service-price">$29.99</span>
-                    <p class="service-desc">A senior recruiter reads your CV in context, rewrites the weak spots, and makes sure your real strengths aren't buried.</p>
+                    <p class="service-desc">A senior recruiter reads your résumé in context, rewrites the weak spots, and makes sure your real strengths aren't buried.</p>
                     <ul class="service-features">
                         <li>Human expert review</li>
                         <li>Weak sections rewritten</li>
@@ -1693,10 +1693,10 @@
                         <span class="service-tag service-tag-amber">Flagship</span>
                     </div>
                     <span class="service-price">$89.99</span>
-                    <p class="service-desc">45 minutes with a senior recruiter on your CV, your target role, and what's actually working in the market right now.</p>
+                    <p class="service-desc">45 minutes with a senior recruiter on your résumé, your target role, and what's actually working in the market right now.</p>
                     <ul class="service-features">
                         <li>45-min 1:1 video session</li>
-                        <li>Live CV and strategy review</li>
+                        <li>Live résumé and strategy review</li>
                         <li>Real talk on what's hiring right now</li>
                         <li>Book immediately after payment</li>
                     </ul>
@@ -1726,7 +1726,7 @@
             </div>
 
             <h2 class="auth-heading" id="auth-heading">Create your account</h2>
-            <p class="auth-sub" id="auth-sub">Save your CV and manage your orders in one place.</p>
+            <p class="auth-sub" id="auth-sub">Save your résumé and manage your orders in one place.</p>
 
             <form id="auth-form" novalidate>
                 <div class="auth-field">
@@ -2074,7 +2074,7 @@
         var progressVal   = 0;
 
         var PROGRESS_LABELS = [
-            'Reading your CV…',
+            'Reading your résumé…',
             'Checking role fit…',
             'Reviewing language…',
             'Assessing experience clarity…',
@@ -2130,7 +2130,7 @@
             var cv = readInput('cv');
             var jd = readInput('jd');
 
-            if (!cv) { showError('Please add your CV — upload a .txt file or paste the text in the CV box.'); return; }
+            if (!cv) { showError('Please add your résumé — upload a .txt file or paste the text in the résumé box.'); return; }
             if (!jd) { showError('Please add the job description — upload or paste it in the JD box.'); return; }
 
             var btn = this;
@@ -2154,14 +2154,14 @@
             })
             .then(function (data) {
                 btn.disabled    = false;
-                btn.innerHTML = 'Score my CV free';
+                btn.innerHTML = 'Score my résumé free';
                 if (data.error) throw new Error(data.error);
                 finishProgress(true);
                 renderResults(data);
             })
             .catch(function (err) {
                 btn.disabled    = false;
-                btn.innerHTML = 'Score my CV free';
+                btn.innerHTML = 'Score my résumé free';
                 finishProgress(false);
                 if (err && err.rateLimit) {
                     showError(err.message + ' <a href="pricing.html" style="color:inherit;text-decoration:underline;">See plans →</a>');
@@ -2259,7 +2259,7 @@
             if (t2)   t2.classList.toggle('auth-tab-active', !register);
             if (h)    h.textContent   = register ? 'Create your account' : 'Welcome back';
             if (sub)  sub.textContent = register
-                ? 'Save your CV and manage your orders in one place.'
+                ? 'Save your résumé and manage your orders in one place.'
                 : 'Sign in to continue to your profile.';
             if (sub2) sub2.textContent = register ? 'Create account →' : 'Sign in →';
             if (err)  { err.textContent = ''; err.classList.remove('ok'); }
