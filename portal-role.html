@@ -144,6 +144,14 @@
         .drop-zone p { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.25rem; }
         .drop-zone small { font-size: 0.75rem; color: var(--text-muted); opacity: 0.7; }
         .drop-zone-hint { font-size: 0.75rem; color: var(--accent); margin-top: 0.375rem; }
+        .drop-zone-btns { display: flex; gap: 0.5rem; justify-content: center; margin-top: 0.75rem; flex-wrap: wrap; }
+        .drop-zone-btn {
+            font-size: 0.775rem; font-weight: 600; letter-spacing: 0.02em;
+            padding: 0.4rem 0.875rem; border-radius: 100px;
+            border: 1px solid var(--border); background: none; cursor: pointer;
+            color: var(--text); transition: border-color 0.15s, color 0.15s, background 0.15s;
+        }
+        .drop-zone-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
 
         /* ── File list ── */
         .file-list { padding: 0 1.25rem 0.75rem; display: flex; flex-direction: column; gap: 0.375rem; }
@@ -361,11 +369,14 @@
 
                 <div id="uploadArea">
                     <div class="drop-zone" id="dropZone">
-                        <p>Drag &amp; drop résumés here, or click to browse</p>
+                        <p>Drag &amp; drop résumés or a folder here</p>
                         <small>PDF · DOC · DOCX · RTF · TXT · up to 10 MB per file</small>
-                        <div class="drop-zone-hint">Drag a folder or upload a .zip too</div>
-                        <input type="file" id="fileInput" multiple accept=".pdf,.doc,.docx,.rtf,.txt,.zip"
-                               webkitdirectory="false" style="display:none">
+                        <div class="drop-zone-btns">
+                            <button class="drop-zone-btn" id="browseFilesBtn" type="button">Browse files</button>
+                            <button class="drop-zone-btn" id="browseFolderBtn" type="button">Browse folder</button>
+                        </div>
+                        <input type="file" id="fileInput" multiple accept=".pdf,.doc,.docx,.rtf,.txt,.zip" style="display:none">
+                        <input type="file" id="folderInput" webkitdirectory multiple style="display:none">
                     </div>
                     <div class="file-list" id="fileList"></div>
                 </div>
@@ -521,17 +532,67 @@
         }
 
         // ── Drop zone ─────────────────────────────────────────
-        const dropZone = document.getElementById('dropZone');
-        const fileInput = document.getElementById('fileInput');
+        const dropZone     = document.getElementById('dropZone');
+        const fileInput    = document.getElementById('fileInput');
+        const folderInput  = document.getElementById('folderInput');
+        const ACCEPTED_EXTS = new Set(['.pdf', '.doc', '.docx', '.rtf', '.txt', '.zip']);
 
-        dropZone.addEventListener('click', () => fileInput.click());
+        function filterAccepted(files) {
+            return [...files].filter(f => {
+                const ext = f.name.slice(f.name.lastIndexOf('.')).toLowerCase();
+                return ACCEPTED_EXTS.has(ext);
+            });
+        }
+
+        // Recursively read entries from a DataTransfer drop (handles folders)
+        async function readDropItems(dataTransferItems) {
+            const files = [];
+            async function readEntry(entry) {
+                if (entry.isFile) {
+                    await new Promise(res => entry.file(f => { files.push(f); res(); }, res));
+                } else if (entry.isDirectory) {
+                    const reader = entry.createReader();
+                    // readEntries may batch; loop until empty
+                    await new Promise(res => {
+                        function read() {
+                            reader.readEntries(async entries => {
+                                if (!entries.length) { res(); return; }
+                                for (const e of entries) await readEntry(e);
+                                read();
+                            }, res);
+                        }
+                        read();
+                    });
+                }
+            }
+            for (const item of dataTransferItems) {
+                const entry = item.webkitGetAsEntry?.();
+                if (entry) await readEntry(entry);
+            }
+            return files;
+        }
+
+        document.getElementById('browseFilesBtn').addEventListener('click', e => {
+            e.stopPropagation(); fileInput.click();
+        });
+        document.getElementById('browseFolderBtn').addEventListener('click', e => {
+            e.stopPropagation(); folderInput.click();
+        });
+
         dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
         dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
-        dropZone.addEventListener('drop', e => {
+        dropZone.addEventListener('drop', async e => {
             e.preventDefault(); dropZone.classList.remove('drag-over');
-            handleFiles([...e.dataTransfer.files]);
+            const items = [...e.dataTransfer.items].filter(i => i.kind === 'file');
+            const files = items.length ? await readDropItems(items) : [...e.dataTransfer.files];
+            handleFiles(filterAccepted(files));
         });
-        fileInput.addEventListener('change', () => { handleFiles([...fileInput.files]); fileInput.value = ''; });
+        fileInput.addEventListener('change', () => {
+            handleFiles([...fileInput.files]); fileInput.value = '';
+        });
+        folderInput.addEventListener('change', () => {
+            handleFiles(filterAccepted([...folderInput.files])); folderInput.value = '';
+        });
 
         // ── File upload ───────────────────────────────────────
         async function handleFiles(files) {
