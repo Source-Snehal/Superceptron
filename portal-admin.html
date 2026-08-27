@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin — Superceptron</title>
+    <meta name="robots" content="noindex">
+    <link rel="icon" href="Logo new.jpg" type="image/jpeg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+    <style>
+        :root {
+            --admin-bar: #92400E;   /* Amber-900 — unmistakably not the recruiter portal */
+            --admin-bar-bg: #FEF3C7;
+            --admin-bar-border: #D97706;
+            --mono: 'JetBrains Mono', monospace;
+        }
+        body { background: #F5F4F1; }
+
+        /* ── Admin nav — amber ── */
+        .admin-nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: var(--admin-bar-bg);
+            border-bottom: 2px solid var(--admin-bar-border);
+            box-shadow: 0 2px 8px rgba(146,64,14,0.12);
+        }
+        .admin-nav-inner {
+            max-width: 1160px; margin: 0 auto; padding: 0 1.5rem;
+            height: 54px; display: flex; align-items: center; justify-content: space-between;
+        }
+        .admin-brand { display: flex; align-items: center; gap: 0.75rem; }
+        .admin-brand img { width: 24px; height: 24px; border-radius: 4px; }
+        .admin-brand-name { font-size: 0.9rem; font-weight: 700; letter-spacing: -0.02em; color: var(--admin-bar); }
+        .admin-badge {
+            font-family: var(--mono); font-size: 0.6rem; font-weight: 500;
+            letter-spacing: 0.12em; text-transform: uppercase;
+            background: var(--admin-bar); color: #FEF3C7;
+            padding: 0.2rem 0.55rem; border-radius: 4px;
+        }
+        .admin-signout {
+            font-size: 0.8125rem; color: var(--admin-bar); background: none;
+            border: none; cursor: pointer; font-family: var(--font); opacity: 0.7;
+        }
+        .admin-signout:hover { opacity: 1; }
+
+        /* ── Layout ── */
+        .admin-layout {
+            max-width: 1160px; margin: 0 auto; padding: 4.25rem 1.5rem 4rem;
+            display: grid; grid-template-columns: 1fr 420px; gap: 1.5rem;
+            align-items: start;
+        }
+        @media (max-width: 900px) { .admin-layout { grid-template-columns: 1fr; } }
+
+        /* ── Left: role list ── */
+        .admin-list-panel {}
+        .admin-panel-header {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;
+        }
+        .admin-panel-title { font-size: 0.875rem; font-weight: 700; color: var(--text); }
+        .admin-count { font-size: 0.8rem; color: var(--text-muted); margin-left: 0.5rem; }
+
+        .admin-controls { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .admin-select {
+            font-family: var(--font); font-size: 0.8rem; padding: 0.375rem 0.625rem;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 6px; color: var(--text); cursor: pointer; outline: none;
+        }
+        .admin-search {
+            font-family: var(--font); font-size: 0.8rem; padding: 0.375rem 0.625rem;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 6px; color: var(--text); outline: none; width: 180px;
+        }
+        .admin-search:focus, .admin-select:focus { border-color: var(--admin-bar-border); }
+
+        .admin-table { width: 100%; border-collapse: collapse; }
+        .admin-table th {
+            font-family: var(--mono); font-size: 0.62rem; font-weight: 500;
+            letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted);
+            padding: 0.5rem 0.75rem; text-align: left;
+            border-bottom: 1px solid var(--border); background: var(--surface);
+            white-space: nowrap;
+        }
+        .admin-table th:first-child { border-radius: 8px 0 0 0; }
+        .admin-table th:last-child  { border-radius: 0 8px 0 0; }
+        .admin-table td {
+            padding: 0.625rem 0.75rem; border-bottom: 1px solid var(--border);
+            vertical-align: top; font-size: 0.8125rem; color: var(--text);
+            background: var(--surface);
+        }
+        .admin-table tbody tr { cursor: pointer; transition: background 0.1s; }
+        .admin-table tbody tr:hover td { background: #FEF9ED; }
+        .admin-table tbody tr.selected td { background: #FEF3C7; }
+        .admin-table tbody tr:last-child td { border-bottom: none; }
+        .admin-table tbody tr:last-child td:first-child { border-radius: 0 0 0 8px; }
+        .admin-table tbody tr:last-child td:last-child  { border-radius: 0 0 8px 0; }
+
+        .at-org    { font-weight: 600; color: var(--text); max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .at-role   { color: var(--text); max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .at-email  { font-size: 0.72rem; color: var(--text-muted); }
+        .at-count  { font-family: var(--mono); font-size: 0.8rem; text-align: center; }
+        .at-age    { font-family: var(--mono); font-size: 0.72rem; white-space: nowrap; }
+        .at-age.stale { color: #D97706; font-weight: 600; }
+
+        .s-chip {
+            display: inline-block; font-size: 0.65rem; font-weight: 600;
+            padding: 0.15rem 0.5rem; border-radius: 100px; white-space: nowrap;
+        }
+        .s-draft        { background: rgba(90,90,90,0.08);  color: var(--text-muted); }
+        .s-submitted    { background: rgba(31,169,127,0.1);  color: #157A5A; }
+        .s-in_review    { background: rgba(217,119,6,0.12);  color: #92400E; }
+        .s-shortlist_ready { background: rgba(76,58,99,0.1); color: var(--plum); }
+
+        .empty-admin { padding: 3rem 1rem; text-align: center; color: var(--text-muted); font-size: 0.875rem; }
+
+        /* ── Right: detail panel ── */
+        .admin-detail-panel {
+            background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+            overflow: hidden; position: sticky; top: 4.75rem;
+        }
+        .admin-detail-header {
+            padding: 1rem 1.25rem; border-bottom: 1px solid var(--border);
+            background: #FEFCE8;
+        }
+        .admin-detail-org { font-size: 0.72rem; color: var(--admin-bar); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+        .admin-detail-title { font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin-top: 0.2rem; }
+        .admin-detail-meta { font-size: 0.775rem; color: var(--text-muted); margin-top: 0.2rem; }
+
+        .admin-detail-body { padding: 1rem 1.25rem; overflow-y: auto; max-height: calc(100vh - 220px); }
+
+        .detail-section { margin-bottom: 1.25rem; }
+        .detail-label { font-family: var(--mono); font-size: 0.62rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.375rem; }
+        .detail-value { font-size: 0.8375rem; color: var(--text); line-height: 1.55; white-space: pre-wrap; }
+        .detail-empty { color: var(--text-muted); font-style: italic; }
+
+        .admin-status-row {
+            display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1rem;
+        }
+        .admin-status-select {
+            flex: 1; font-family: var(--font); font-size: 0.8375rem;
+            padding: 0.5rem 0.75rem; border: 1px solid var(--border);
+            border-radius: 8px; color: var(--text); background: var(--bg); outline: none;
+        }
+        .admin-status-select:focus { border-color: var(--admin-bar-border); }
+        .save-status-btn {
+            padding: 0.5rem 0.875rem; background: var(--admin-bar);
+            color: #FEF3C7; border: none; border-radius: 8px;
+            font-family: var(--font); font-size: 0.8rem; font-weight: 600;
+            cursor: pointer; white-space: nowrap;
+        }
+        .save-status-btn:hover { opacity: 0.9; }
+
+        .detail-action-btn {
+            width: 100%; padding: 0.5625rem; font-family: var(--font); font-size: 0.8375rem; font-weight: 600;
+            border-radius: 8px; border: none; cursor: pointer; margin-bottom: 0.5rem;
+            transition: opacity 0.15s;
+        }
+        .detail-action-btn:hover { opacity: 0.88; }
+        .btn-amber { background: var(--admin-bar-bg); color: var(--admin-bar); border: 1px solid var(--admin-bar-border); }
+        .btn-plum  { background: rgba(76,58,99,0.1); color: var(--plum); border: 1px solid rgba(76,58,99,0.25); }
+
+        /* Deliver section */
+        .deliver-section { border: 1px solid var(--border); border-radius: 8px; padding: 0.875rem; margin-bottom: 1rem; }
+        .deliver-drop {
+            border: 2px dashed var(--border); border-radius: 6px;
+            padding: 0.875rem 0.75rem; text-align: center; cursor: pointer;
+            font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;
+            transition: border-color 0.15s;
+        }
+        .deliver-drop:hover { border-color: var(--admin-bar-border); color: var(--text); }
+        .deliver-selected { font-size: 0.8rem; color: var(--text); font-weight: 500; margin-bottom: 0.5rem; }
+        .deliver-notes {
+            width: 100%; font-family: var(--font); font-size: 0.8125rem;
+            padding: 0.5rem 0.625rem; border: 1px solid var(--border); border-radius: 6px;
+            color: var(--text); background: var(--bg); outline: none; resize: vertical;
+            margin-bottom: 0.5rem;
+        }
+        .deliver-btn {
+            width: 100%; padding: 0.5625rem; background: var(--admin-bar);
+            color: #FEF3C7; border: none; border-radius: 8px;
+            font-family: var(--font); font-size: 0.875rem; font-weight: 600;
+            cursor: pointer;
+        }
+        .deliver-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .deliver-warning { font-size: 0.75rem; color: #92400E; margin-top: 0.375rem; line-height: 1.5; }
+
+        /* Audit trail */
+        .audit-row {
+            display: flex; gap: 0.625rem; padding: 0.375rem 0;
+            border-bottom: 1px solid var(--border); font-size: 0.75rem;
+        }
+        .audit-row:last-child { border-bottom: none; }
+        .audit-time { color: var(--text-muted); white-space: nowrap; font-family: var(--mono); }
+        .audit-action { color: var(--text); }
+
+        .detail-empty-state { padding: 2rem 1rem; text-align: center; color: var(--text-muted); font-size: 0.875rem; }
+
+        /* Notes textarea */
+        .admin-notes {
+            width: 100%; font-family: var(--font); font-size: 0.8125rem;
+            padding: 0.5rem 0.625rem; border: 1px solid var(--border); border-radius: 6px;
+            color: var(--text); background: var(--bg); outline: none; resize: vertical;
+            min-height: 3.5rem; margin-bottom: 0.5rem;
+        }
+        .admin-notes:focus { border-color: var(--admin-bar-border); }
+        .save-notes-btn {
+            font-family: var(--font); font-size: 0.775rem; font-weight: 600;
+            padding: 0.35rem 0.7rem; background: var(--admin-bar-bg);
+            color: var(--admin-bar); border: 1px solid var(--admin-bar-border);
+            border-radius: 6px; cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <nav class="admin-nav">
+        <div class="admin-nav-inner">
+            <div class="admin-brand">
+                <img src="Logo new.jpg" alt="">
+                <span class="admin-brand-name">Superceptron</span>
+                <span class="admin-badge">Admin</span>
+            </div>
+            <button class="admin-signout" id="signOutBtn">Sign out</button>
+        </div>
+    </nav>
+
+    <div class="admin-layout">
+        <!-- ── Left: role list ── -->
+        <div class="admin-list-panel">
+            <div class="admin-panel-header">
+                <div>
+                    <span class="admin-panel-title">All roles</span>
+                    <span class="admin-count" id="roleCount"></span>
+                </div>
+                <div class="admin-controls">
+                    <input class="admin-search" type="text" placeholder="Search…" id="searchInput">
+                    <select class="admin-select" id="statusFilter">
+                        <option value="">All statuses</option>
+                        <option value="submitted">Submitted</option>
+                        <option value="in_review">In review</option>
+                        <option value="shortlist_ready">Shortlist ready</option>
+                        <option value="draft">Draft</option>
+                    </select>
+                    <select class="admin-select" id="sortSelect">
+                        <option value="">Sort: newest</option>
+                        <option value="age_desc">Sort: oldest first</option>
+                        <option value="cv_desc">Sort: most CVs</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="overflow-x:auto; border-radius:8px; border:1px solid var(--border)">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Org</th>
+                            <th>Role</th>
+                            <th>CVs</th>
+                            <th>Age</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminTbody"></tbody>
+                </table>
+            </div>
+            <div class="empty-admin" id="adminEmpty" hidden>No roles yet.</div>
+        </div>
+
+        <!-- ── Right: detail panel ── -->
+        <div class="admin-detail-panel" id="detailPanel">
+            <div class="detail-empty-state">Select a role to view details</div>
+        </div>
+    </div>
+
+    <script>
+    (async () => {
+        const SUPABASE_URL  = 'REPLACE_SUPABASE_URL';
+        const SUPABASE_ANON = 'REPLACE_SUPABASE_ANON_KEY';
+        const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+        // ── Auth guard — admin only ────────────────────────────
+        const { data: { session } } = await sb.auth.getSession();
+        if (!session) { window.location.href = '/portal.html'; return; }
+        const token = session.access_token;
+
+        const { data: profile } = await sb
+            .from('rec_profiles').select('role, status').eq('user_id', session.user.id).single();
+        if (!profile || profile.role !== 'admin' || profile.status !== 'active') {
+            window.location.href = '/portal.html'; return;
+        }
+
+        document.getElementById('signOutBtn').addEventListener('click', async () => {
+            await sb.auth.signOut(); window.location.href = '/portal.html';
+        });
+
+        // ── Load roles ────────────────────────────────────────
+        let allRoles = [], selectedRoleId = null;
+
+        async function loadRoles() {
+            const statusParam = document.getElementById('statusFilter').value;
+            const sortParam   = document.getElementById('sortSelect').value;
+            const params      = new URLSearchParams();
+            if (statusParam) params.set('status', statusParam);
+            if (sortParam)   params.set('sort', sortParam);
+
+            const resp = await fetch(`/api/portal/admin/roles?${params}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            if (!resp.ok) return;
+            const data = await resp.json();
+            allRoles = data.roles ?? [];
+            renderList(applySearch(allRoles));
+        }
+
+        function applySearch(roles) {
+            const q = document.getElementById('searchInput').value.toLowerCase().trim();
+            if (!q) return roles;
+            return roles.filter(r =>
+                r.title?.toLowerCase().includes(q) ||
+                r.org_name?.toLowerCase().includes(q) ||
+                r.recruiter_email?.toLowerCase().includes(q)
+            );
+        }
+
+        function renderList(roles) {
+            document.getElementById('roleCount').textContent = `${roles.length} total`;
+            document.getElementById('adminEmpty').hidden = roles.length > 0;
+            document.getElementById('adminTbody').innerHTML = roles.map(r => `
+                <tr data-id="${r.id}" onclick="openDetail('${r.id}')">
+                    <td>
+                        <div class="at-org" title="${esc(r.org_name)}">${esc(r.org_name)}</div>
+                        <div class="at-email">${esc(r.recruiter_email ?? '')}</div>
+                    </td>
+                    <td class="at-role" title="${esc(r.title)}">${esc(r.title)}</td>
+                    <td class="at-count">${r.cv_count}</td>
+                    <td class="at-age${r.stale ? ' stale' : ''}">${r.age_days != null ? r.age_days + 'd' : '—'}</td>
+                    <td><span class="s-chip s-${r.status}">${statusLabel(r.status)}</span></td>
+                </tr>
+            `).join('') || '';
+        }
+
+        // ── Filters ───────────────────────────────────────────
+        document.getElementById('statusFilter').addEventListener('change', loadRoles);
+        document.getElementById('sortSelect').addEventListener('change', loadRoles);
+        document.getElementById('searchInput').addEventListener('input', () => renderList(applySearch(allRoles)));
+
+        // ── Open detail ───────────────────────────────────────
+        window.openDetail = async (roleId) => {
+            selectedRoleId = roleId;
+            document.querySelectorAll('.admin-table tbody tr').forEach(r =>
+                r.classList.toggle('selected', r.dataset.id === roleId));
+
+            const resp = await fetch(`/api/portal/admin/roles/${roleId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            if (!resp.ok) return;
+            const { role, recruiter_email, recruiter_name, audit_log } = await resp.json();
+            renderDetail(role, recruiter_email, recruiter_name, audit_log);
+
+            // Link from URL hash
+            history.replaceState(null, '', `#${roleId}`);
+        };
+
+        function renderDetail(role, email, name, auditLog) {
+            const panel = document.getElementById('detailPanel');
+
+            const trackerFields = [
+                ['Must-haves',   role.must_haves],
+                ['Nice-to-haves', role.nice_to_haves],
+                ['Unlisted criteria', role.unlisted_criteria],
+                ['Salary range', role.salary_range],
+                ['Location',     role.location],
+                ['Seniority',    role.seniority],
+                ['Deadline',     role.deadline],
+            ];
+
+            const isActive = ['submitted','in_review'].includes(role.status);
+            const isReady  = role.status === 'shortlist_ready';
+
+            panel.innerHTML = `
+                <div class="admin-detail-header">
+                    <div class="admin-detail-org">${esc(role.organisations?.name ?? '—')}</div>
+                    <div class="admin-detail-title">${esc(role.title || 'Untitled')}</div>
+                    <div class="admin-detail-meta">
+                        ${email ? esc(email) + ' · ' : ''}
+                        ${role.submitted_at ? 'Submitted ' + fmtDate(role.submitted_at) : 'Draft'}
+                        <span class="s-chip s-${role.status}" style="margin-left:0.5rem">${statusLabel(role.status)}</span>
+                    </div>
+                </div>
+                <div class="admin-detail-body">
+
+                    <!-- Status + notes -->
+                    <div class="detail-section">
+                        <div class="detail-label">Status</div>
+                        <div class="admin-status-row">
+                            <select class="admin-status-select" id="statusSelect">
+                                ${['draft','submitted','in_review','shortlist_ready'].map(s =>
+                                    `<option value="${s}"${s === role.status ? ' selected' : ''}>${statusLabel(s)}</option>`
+                                ).join('')}
+                            </select>
+                            <button class="save-status-btn" onclick="saveStatus('${role.id}')">Save</button>
+                        </div>
+                        <div class="detail-label">Internal notes</div>
+                        <textarea class="admin-notes" id="adminNotes" placeholder="Private notes — not shown to recruiter">${esc(role.notes ?? '')}</textarea>
+                        <button class="save-notes-btn" onclick="saveNotes('${role.id}')">Save notes</button>
+                    </div>
+
+                    <!-- Tracker answers -->
+                    <div class="detail-section">
+                        <div class="detail-label">Brief</div>
+                        ${trackerFields.map(([label, val]) => val ? `
+                            <div style="margin-bottom:0.5rem">
+                                <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.125rem">${esc(label)}</div>
+                                <div class="detail-value">${esc(val)}</div>
+                            </div>` : '').join('')}
+                    </div>
+
+                    <!-- CVs -->
+                    <div class="detail-section">
+                        <div class="detail-label">CVs (${role.uploads?.length ?? 0})</div>
+                        ${isActive ? `
+                            <button class="detail-action-btn btn-amber" onclick="downloadAll('${role.id}')">
+                                ↓ Download all CVs
+                            </button>` : ''}
+                        ${isReady ? '<div style="font-size:0.8rem;color:var(--text-muted);font-style:italic">CV files deleted on delivery</div>' : ''}
+                        ${role.jd_file_path ? `<button class="detail-action-btn btn-amber" style="margin-top:0.375rem" onclick="downloadJd('${role.id}')">↓ Job description</button>` : ''}
+                    </div>
+
+                    <!-- Deliver shortlist -->
+                    ${isActive ? `
+                    <div class="detail-section">
+                        <div class="detail-label">Deliver shortlist</div>
+                        <div class="deliver-section">
+                            <div class="deliver-drop" id="deliverDrop" onclick="document.getElementById('deliverFileInput').click()">
+                                Drop shortlist file here or click to browse
+                                <input type="file" id="deliverFileInput" style="display:none" accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt">
+                            </div>
+                            <div class="deliver-selected" id="deliverSelected" hidden></div>
+                            <textarea class="deliver-notes" id="deliverNotes" rows="2" placeholder="Note to recruiter (optional)"></textarea>
+                            <button class="deliver-btn" id="deliverBtn" disabled onclick="deliver('${role.id}')">Deliver shortlist + notify recruiter</button>
+                            <div class="deliver-warning">This will delete the recruiter's CV files and send them an email.</div>
+                        </div>
+                    </div>` : ''}
+
+                    ${isReady ? `
+                    <div class="detail-section">
+                        <div class="detail-label">Shortlist delivered</div>
+                        <div style="font-size:0.8375rem;color:var(--text-muted)">Delivered ${fmtDate(role.deliverables?.[0]?.delivered_at)}</div>
+                        ${role.deliverables?.[0]?.notes ? `<div style="font-size:0.8125rem;color:var(--text);margin-top:0.25rem">${esc(role.deliverables[0].notes)}</div>` : ''}
+                    </div>` : ''}
+
+                    <!-- Audit trail -->
+                    <div class="detail-section">
+                        <div class="detail-label">Audit trail</div>
+                        <div>
+                            ${(auditLog ?? []).slice(0, 15).map(a => `
+                                <div class="audit-row">
+                                    <span class="audit-time">${fmtDateTime(a.created_at)}</span>
+                                    <span class="audit-action">${esc(a.action)}${a.file_path ? ' · ' + esc(a.file_path.split('/').pop()) : ''}</span>
+                                </div>`).join('') || '<div style="color:var(--text-muted);font-size:0.8rem">No activity yet</div>'}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Wire deliver file input
+            const deliverInput = panel.querySelector('#deliverFileInput');
+            if (deliverInput) {
+                deliverInput.addEventListener('change', () => {
+                    const f = deliverInput.files[0];
+                    if (!f) return;
+                    const sel = panel.querySelector('#deliverSelected');
+                    sel.textContent = f.name + ' · ' + formatSize(f.size);
+                    sel.hidden = false;
+                    panel.querySelector('#deliverBtn').disabled = false;
+                });
+            }
+        }
+
+        // ── Save status ───────────────────────────────────────
+        window.saveStatus = async (roleId) => {
+            const status = document.getElementById('statusSelect').value;
+            const resp = await fetch(`/api/portal/admin/roles/${roleId}`, {
+                method: 'PATCH',
+                headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status }),
+            });
+            const data = await resp.json();
+            if (!resp.ok) { alert(data.error); return; }
+            await loadRoles();
+            openDetail(roleId);
+        };
+
+        // ── Save notes ────────────────────────────────────────
+        window.saveNotes = async (roleId) => {
+            const notes = document.getElementById('adminNotes').value;
+            await fetch(`/api/portal/admin/roles/${roleId}`, {
+                method: 'PATCH',
+                headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ notes }),
+            });
+        };
+
+        // ── Download all CVs ──────────────────────────────────
+        window.downloadAll = async (roleId) => {
+            const resp = await fetch(`/api/portal/admin/roles/${roleId}/download-all`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            const data = await resp.json();
+            if (!resp.ok) { alert(data.error); return; }
+            if (!data.files?.length) { alert('No files to download'); return; }
+
+            // Download sequentially via window.open (signed URLs expire in 5 min)
+            for (const f of data.files) {
+                if (f.signed_url) {
+                    window.open(f.signed_url, '_blank');
+                    await new Promise(r => setTimeout(r, 400)); // brief gap to avoid popup blocker
+                }
+            }
+        };
+
+        // ── Download JD ───────────────────────────────────────
+        window.downloadJd = async (roleId) => {
+            // Fetch role detail to get jd_file_path, then get upload row
+            const resp = await fetch(`/api/portal/admin/roles/${roleId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            const { role } = await resp.json();
+            if (!role.jd_file_path) return;
+
+            // Use admin storage signed URL (service role)
+            const { data } = await fetch(`/api/portal/admin/roles/${roleId}/download-all`, {
+                headers: { Authorization: `Bearer ${token}` },
+            }).then(r => r.json());
+            // JD is separate from uploads — generate direct signed URL via admin client
+            // For now open download-all and let user pick the JD
+            alert('JD download: open the download-all list and look for the jd_ prefixed file.');
+        };
+
+        // ── Deliver ───────────────────────────────────────────
+        window.deliver = async (roleId) => {
+            const btn          = document.getElementById('deliverBtn');
+            const deliverInput = document.getElementById('deliverFileInput');
+            const notes        = document.getElementById('deliverNotes').value.trim();
+            const file         = deliverInput?.files?.[0];
+            if (!file) return;
+
+            btn.disabled = true; btn.textContent = 'Uploading shortlist…';
+
+            // Get signed upload URL
+            const initResp = await fetch(`/api/portal/admin/roles/${roleId}/upload-init`, {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ filename: file.name, size: file.size }),
+            });
+            const initData = await initResp.json();
+            if (!initResp.ok) { alert(initData.error); btn.disabled = false; btn.textContent = 'Deliver shortlist + notify recruiter'; return; }
+
+            // Upload file
+            const putResp = await fetch(initData.signedUrl, {
+                method: 'PUT', body: file,
+                headers: { 'Content-Type': file.type || 'application/octet-stream' },
+            });
+            if (!putResp.ok) { alert('Upload failed'); btn.disabled = false; btn.textContent = 'Deliver shortlist + notify recruiter'; return; }
+
+            // Deliver
+            btn.textContent = 'Delivering…';
+            const deliverResp = await fetch(`/api/portal/admin/roles/${roleId}/deliver`, {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ filePath: initData.path, originalFilename: file.name, notes }),
+            });
+            const deliverData = await deliverResp.json();
+            if (!deliverResp.ok) { alert(deliverData.error); btn.disabled = false; btn.textContent = 'Deliver shortlist + notify recruiter'; return; }
+
+            await loadRoles();
+            openDetail(roleId);
+        };
+
+        // ── Helpers ───────────────────────────────────────────
+        function esc(s) { return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+        function fmtDate(iso) {
+            if (!iso) return '—';
+            return new Date(iso).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+        }
+        function fmtDateTime(iso) {
+            if (!iso) return '—';
+            return new Date(iso).toLocaleDateString('en-GB', { day:'numeric', month:'short' }) + ' ' +
+                   new Date(iso).toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' });
+        }
+        function statusLabel(s) {
+            return { draft:'Draft', submitted:'Submitted', in_review:'In review', shortlist_ready:'Shortlist ready' }[s] ?? s;
+        }
+        function formatSize(b) {
+            if (!b) return '';
+            if (b < 1024*1024) return (b/1024).toFixed(0) + ' KB';
+            return (b/1024/1024).toFixed(1) + ' MB';
+        }
+
+        // ── Init ──────────────────────────────────────────────
+        await loadRoles();
+
+        // Open detail from URL hash
+        const hashId = window.location.hash.slice(1);
+        if (hashId) openDetail(hashId);
+    })();
+    </script>
+</body>
+</html>

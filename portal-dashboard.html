@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — Superceptron</title>
+    <meta name="robots" content="noindex">
+    <link rel="icon" href="Logo new.jpg" type="image/jpeg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+    <style>
+        body { background: var(--bg); }
+        .portal-layout {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 5rem 1.5rem 4rem;
+        }
+
+        /* ── Header ── */
+        .dash-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        .dash-greeting { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.25rem; }
+        .dash-org { font-size: 1.375rem; font-weight: 700; letter-spacing: -0.03em; color: var(--text); }
+        .dash-new-btn {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            background: var(--accent); color: #fff;
+            padding: 0.5625rem 1.125rem;
+            border-radius: 100px;
+            font-size: 0.875rem; font-weight: 600;
+            text-decoration: none;
+            border: none; cursor: pointer;
+            font-family: var(--font);
+            transition: background 0.15s, transform 0.15s;
+        }
+        .dash-new-btn:hover { background: var(--accent-hover); transform: translateY(-1px); }
+        .dash-new-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+        /* ── Free tier banner ── */
+        .tier-banner {
+            background: var(--accent-soft);
+            border: 1px solid rgba(31,169,127,0.2);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .tier-banner strong { color: var(--text); }
+        .tier-limit { font-size: 0.75rem; color: var(--text-muted); }
+
+        /* ── Role table ── */
+        .roles-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .roles-table th {
+            background: var(--surface);
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            padding: 0.75rem 1.125rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        .roles-table td {
+            padding: 1rem 1.125rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+        .roles-table tr:last-child td { border-bottom: none; }
+        .roles-table tbody tr { cursor: pointer; transition: background 0.12s; }
+        .roles-table tbody tr:hover td { background: var(--accent-soft); }
+
+        .role-title { font-weight: 600; font-size: 0.9375rem; color: var(--text); }
+        .role-meta { font-size: 0.775rem; color: var(--text-muted); margin-top: 0.2rem; }
+        .role-cv-count { font-size: 0.875rem; color: var(--text); font-weight: 500; }
+        .role-date { font-size: 0.8125rem; color: var(--text-muted); }
+
+        /* Status chips */
+        .status-chip {
+            display: inline-flex; align-items: center; gap: 0.3rem;
+            font-size: 0.72rem; font-weight: 600;
+            padding: 0.2rem 0.6rem;
+            border-radius: 100px;
+            white-space: nowrap;
+        }
+        .status-chip::before {
+            content: ''; display: inline-block;
+            width: 5px; height: 5px; border-radius: 50%;
+            background: currentColor;
+        }
+        .s-draft    { background: rgba(90,90,90,0.08); color: var(--text-muted); }
+        .s-submitted { background: rgba(31,169,127,0.1); color: var(--accent); }
+        .s-in_review { background: rgba(192,112,32,0.1); color: #A87020; }
+        .s-shortlist_ready { background: rgba(76,58,99,0.1); color: var(--plum); }
+        .s-shortlist_ready::before { display: none; }
+        .s-shortlist_ready::after { content: '✦'; font-size: 0.65rem; }
+
+        /* Download button */
+        .dl-btn {
+            display: inline-flex; align-items: center; gap: 0.3rem;
+            font-size: 0.775rem; font-weight: 600;
+            color: var(--plum);
+            background: rgba(76,58,99,0.08);
+            border: 1px solid rgba(76,58,99,0.2);
+            border-radius: 6px;
+            padding: 0.3rem 0.7rem;
+            text-decoration: none;
+            cursor: pointer;
+            font-family: var(--font);
+            transition: background 0.12s;
+            white-space: nowrap;
+        }
+        .dl-btn:hover { background: rgba(76,58,99,0.14); }
+
+        /* Empty state */
+        .empty-state {
+            padding: 4rem 1.5rem;
+            text-align: center;
+            color: var(--text-muted);
+        }
+        .empty-state h2 { font-size: 1.125rem; font-weight: 700; color: var(--text); margin-bottom: 0.5rem; }
+        .empty-state p { font-size: 0.9rem; max-width: 380px; margin: 0 auto; line-height: 1.65; }
+
+        /* Turnaround note */
+        .turnaround {
+            margin-top: 2rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.125rem 1.25rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        .turnaround strong { color: var(--text); }
+
+        /* ── Mobile card layout ── */
+        .roles-cards { display: none; gap: 0.75rem; flex-direction: column; }
+        .role-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem 1.125rem;
+            cursor: pointer;
+            transition: border-color 0.15s;
+        }
+        .role-card:hover { border-color: var(--accent); }
+        .role-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.5rem; }
+        .role-card-title { font-weight: 600; font-size: 0.9375rem; color: var(--text); }
+        .role-card-meta { font-size: 0.775rem; color: var(--text-muted); margin-bottom: 0.625rem; }
+        .role-card-footer { display: flex; align-items: center; justify-content: space-between; }
+
+        @media (max-width: 640px) {
+            .roles-table { display: none; }
+            .roles-cards { display: flex; }
+            .dash-header { flex-direction: column; align-items: flex-start; }
+            .portal-layout { padding-top: 4.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="/" class="logo">
+                <img src="Logo new.jpg" alt="Superceptron" class="logo-img">
+                Superceptron
+            </a>
+            <div style="display:flex;align-items:center;gap:1rem">
+                <span id="navName" style="font-size:0.8125rem;color:var(--text-muted)"></span>
+                <button id="signOutBtn" class="nav-contact" style="background:none;border:none;cursor:pointer;font-family:var(--font);font-size:0.875rem;color:var(--text-muted)">Sign out</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="portal-layout">
+        <div class="dash-header">
+            <div>
+                <div class="dash-greeting" id="dashGreeting">Loading…</div>
+                <div class="dash-org" id="dashOrg"></div>
+            </div>
+            <button class="dash-new-btn" id="newRoleBtn">+ New role</button>
+        </div>
+
+        <div class="tier-banner" id="tierBanner" hidden>
+            <span><strong>Free plan</strong> · <span id="tierUsed">0</span> of 1 active role used · 60 CV limit per role</span>
+            <span class="tier-limit">Drafts don't count towards your limit</span>
+        </div>
+
+        <!-- Desktop table -->
+        <div style="overflow-x:auto">
+            <table class="roles-table" id="rolesTable">
+                <thead>
+                    <tr>
+                        <th>Role</th>
+                        <th>Submitted</th>
+                        <th>CVs</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="rolesTbody"></tbody>
+            </table>
+        </div>
+
+        <!-- Mobile cards -->
+        <div class="roles-cards" id="rolesCards"></div>
+
+        <!-- Empty state (initially shown) -->
+        <div class="empty-state" id="emptyState">
+            <h2>No roles yet</h2>
+            <p>Create your first role to start uploading CVs. You'll get a shortlist back within 2–3 working days.</p>
+        </div>
+
+        <div class="turnaround" id="turnaroundNote" hidden>
+            <strong>What happens after you submit:</strong>
+            Submit CVs → We read every one (2–3 working days) → Ranked shortlist delivered to your dashboard.
+            You'll get an email the moment it's ready.
+        </div>
+    </div>
+
+    <script>
+    (async () => {
+        const SUPABASE_URL  = 'REPLACE_SUPABASE_URL';
+        const SUPABASE_ANON = 'REPLACE_SUPABASE_ANON_KEY';
+        const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+        // ── Auth guard ────────────────────────────────────────
+        const { data: { session } } = await sb.auth.getSession();
+        if (!session) { window.location.href = '/portal.html'; return; }
+
+        const { data: profile } = await sb
+            .from('rec_profiles').select('role, status, full_name, organisation_id').eq('user_id', session.user.id).single();
+        if (!profile || profile.status !== 'active') { window.location.href = '/portal.html'; return; }
+        if (profile.role === 'admin') { window.location.href = '/portal-admin.html'; return; }
+
+        // ── Header ────────────────────────────────────────────
+        const { data: org } = await sb.from('organisations').select('name').eq('id', profile.organisation_id).single();
+        const name = profile.full_name || session.user.email;
+        document.getElementById('dashGreeting').textContent = `Welcome back, ${name.split(' ')[0]}`;
+        document.getElementById('dashOrg').textContent = org?.name ?? '';
+        document.getElementById('navName').textContent = name;
+
+        // ── Sign out ──────────────────────────────────────────
+        document.getElementById('signOutBtn').addEventListener('click', async () => {
+            await sb.auth.signOut();
+            window.location.href = '/portal.html';
+        });
+
+        // ── Load roles ────────────────────────────────────────
+        async function loadRoles() {
+            const { data, error } = await fetch('/api/portal/roles', {
+                headers: { Authorization: `Bearer ${session.access_token}` },
+            }).then(r => r.json()).catch(() => ({ data: null, error: 'Failed to load' }));
+
+            if (error && !data) {
+                document.getElementById('emptyState').querySelector('p').textContent = 'Failed to load roles. Refresh to try again.';
+                return;
+            }
+
+            const roles = data?.roles ?? [];
+            const freeTier = data?.free_tier ?? { active_roles: 0, limit: 1 };
+
+            // Free tier banner
+            document.getElementById('tierBanner').hidden = false;
+            document.getElementById('tierUsed').textContent = freeTier.active_roles;
+            const atLimit = freeTier.active_roles >= freeTier.limit;
+            document.getElementById('newRoleBtn').disabled = atLimit;
+            if (atLimit) document.getElementById('newRoleBtn').title = 'Free plan limit reached';
+
+            document.getElementById('emptyState').hidden = roles.length > 0;
+            document.getElementById('rolesTable').hidden = roles.length === 0;
+            document.getElementById('turnaroundNote').hidden = roles.length === 0;
+
+            if (roles.length === 0) return;
+
+            document.getElementById('rolesTbody').innerHTML = roles.map(r => `
+                <tr onclick="window.location='/portal-role.html?id=${r.id}'">
+                    <td>
+                        <div class="role-title">${esc(r.title)}</div>
+                        <div class="role-meta">${[r.location, r.seniority].filter(Boolean).join(' · ')}</div>
+                    </td>
+                    <td class="role-date">${r.submitted_at ? fmtDate(r.submitted_at) : '<span style="color:var(--text-muted);font-style:italic">Not yet</span>'}</td>
+                    <td class="role-cv-count">${r.cv_count}</td>
+                    <td>${statusChip(r.status)}</td>
+                    <td>${r.has_shortlist && r.status === 'shortlist_ready' ? `<button class="dl-btn" onclick="event.stopPropagation();downloadShortlist('${r.id}')">↓ Download</button>` : ''}</td>
+                </tr>
+            `).join('');
+
+            document.getElementById('rolesCards').innerHTML = roles.map(r => `
+                <div class="role-card" onclick="window.location='/portal-role.html?id=${r.id}'">
+                    <div class="role-card-header">
+                        <div class="role-card-title">${esc(r.title)}</div>
+                        ${statusChip(r.status)}
+                    </div>
+                    <div class="role-card-meta">${r.cv_count} CV${r.cv_count !== 1 ? 's' : ''} · ${r.submitted_at ? 'Submitted ' + fmtDate(r.submitted_at) : 'Draft'}</div>
+                    <div class="role-card-footer">
+                        <span style="font-size:0.775rem;color:var(--text-muted)">${[r.location, r.seniority].filter(Boolean).join(' · ')}</span>
+                        ${r.has_shortlist && r.status === 'shortlist_ready' ? `<button class="dl-btn" onclick="event.stopPropagation();downloadShortlist('${r.id}')">↓ Shortlist</button>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ── New role ──────────────────────────────────────────
+        document.getElementById('newRoleBtn').addEventListener('click', async () => {
+            const btn = document.getElementById('newRoleBtn');
+            btn.textContent = 'Creating…'; btn.disabled = true;
+            const resp = await fetch('/api/portal/roles', {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${session.access_token}` },
+            });
+            const data = await resp.json();
+            if (!resp.ok) { alert(data.error); btn.textContent = '+ New role'; btn.disabled = false; return; }
+            window.location.href = `/portal-role.html?id=${data.role.id}`;
+        });
+
+        // ── Download shortlist ────────────────────────────────
+        window.downloadShortlist = async (roleId) => {
+            const resp = await fetch(`/api/portal/roles/${roleId}`, {
+                headers: { Authorization: `Bearer ${session.access_token}` },
+            });
+            const data = await resp.json();
+            const del = data.deliverable;
+            if (!del) { alert('Shortlist not found.'); return; }
+
+            const urlResp = await fetch(`/api/portal/roles/${roleId}/download?deliverableId=${del.id}`, {
+                headers: { Authorization: `Bearer ${session.access_token}` },
+            });
+            const urlData = await urlResp.json();
+            if (urlData.signedUrl) window.open(urlData.signedUrl, '_blank');
+        };
+
+        // ── Helpers ───────────────────────────────────────────
+        function esc(s) {
+            return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        }
+        function fmtDate(iso) {
+            return new Date(iso).toLocaleDateString('en-GB', { day:'numeric', month:'short' });
+        }
+        function statusChip(status) {
+            const labels = { draft:'Draft', submitted:'Submitted', in_review:'In review', shortlist_ready:'Shortlist ready' };
+            return `<span class="status-chip s-${status}">${labels[status] ?? status}</span>`;
+        }
+
+        await loadRoles();
+    })();
+    </script>
+</body>
+</html>

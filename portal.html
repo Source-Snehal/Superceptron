@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Portal — Superceptron</title>
+    <meta name="robots" content="noindex">
+    <link rel="icon" href="Logo new.jpg" type="image/jpeg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+    <style>
+        .portal-wrap {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5rem 1.5rem 3rem;
+            background: var(--bg);
+        }
+        .portal-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 420px;
+        }
+        .portal-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            margin-bottom: 2rem;
+        }
+        .portal-logo img { width: 28px; height: 28px; border-radius: 5px; }
+        .portal-logo span {
+            font-size: 0.9375rem; font-weight: 600;
+            letter-spacing: -0.025em; color: var(--text);
+        }
+        .portal-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 1.75rem;
+            gap: 0;
+        }
+        .portal-tab {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 0.625rem 0;
+            font-family: var(--font);
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+            transition: color 0.15s, border-color 0.15s;
+        }
+        .portal-tab.active {
+            color: var(--text);
+            border-bottom-color: var(--accent);
+        }
+        .portal-tab:hover:not(.active) { color: var(--text); }
+
+        .portal-form { display: flex; flex-direction: column; gap: 1rem; }
+        .portal-form[hidden] { display: none; }
+
+        .form-label {
+            display: block;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 0.375rem;
+        }
+        .form-input {
+            width: 100%;
+            padding: 0.6875rem 0.875rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: var(--font);
+            font-size: 0.9375rem;
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.15s;
+        }
+        .form-input:focus { border-color: var(--accent); }
+        .form-input::placeholder { color: var(--text-muted); opacity: 0.6; }
+
+        .portal-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-family: var(--font);
+            font-size: 0.9375rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s, opacity 0.15s;
+            margin-top: 0.25rem;
+        }
+        .portal-btn:hover:not(:disabled) { background: var(--accent-hover); }
+        .portal-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .portal-error {
+            font-size: 0.8125rem;
+            color: #D0504A;
+            background: rgba(208,80,74,0.07);
+            border: 1px solid rgba(208,80,74,0.2);
+            border-radius: 6px;
+            padding: 0.625rem 0.875rem;
+            display: none;
+        }
+        .portal-error.show { display: block; }
+
+        .portal-success {
+            text-align: center;
+            padding: 1rem 0;
+        }
+        .portal-success h2 {
+            font-size: 1.125rem; font-weight: 700;
+            letter-spacing: -0.025em; color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+        .portal-success p {
+            font-size: 0.875rem; color: var(--text-muted); line-height: 1.6;
+        }
+
+        .portal-note {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            text-align: center;
+            margin-top: 1.25rem;
+        }
+        .portal-note a { color: var(--accent); text-decoration: none; }
+        .portal-note a:hover { text-decoration: underline; }
+
+        .pending-box {
+            background: var(--accent-soft);
+            border: 1px solid rgba(31,169,127,0.25);
+            border-radius: 10px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+        .pending-box h2 {
+            font-size: 1rem; font-weight: 700;
+            color: var(--text); margin-bottom: 0.5rem;
+        }
+        .pending-box p { font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; }
+    </style>
+</head>
+<body>
+    <!-- Minimal nav -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="/" class="logo">
+                <img src="Logo new.jpg" alt="Superceptron" class="logo-img">
+                Superceptron
+            </a>
+        </div>
+    </nav>
+
+    <div class="portal-wrap">
+        <div class="portal-card">
+            <a href="/" class="portal-logo">
+                <img src="Logo new.jpg" alt="">
+                <span>Superceptron</span>
+            </a>
+
+            <!-- Pending state (hidden by default, shown if returning pending user) -->
+            <div id="pendingBox" hidden>
+                <div class="pending-box">
+                    <h2>Awaiting approval</h2>
+                    <p id="pendingMsg">Your account is waiting for approval. We've emailed the account owner. Once they approve, you'll have full access.</p>
+                </div>
+                <p class="portal-note" style="margin-top:1rem">
+                    Not hearing back? <a href="mailto:snehalsavio123@gmail.com">Get in touch</a>
+                </p>
+            </div>
+
+            <!-- Auth forms -->
+            <div id="authArea">
+                <div class="portal-tabs">
+                    <button class="portal-tab active" data-tab="login">Sign in</button>
+                    <button class="portal-tab" data-tab="signup">Create account</button>
+                </div>
+
+                <div id="loginErr" class="portal-error"></div>
+                <div id="signupErr" class="portal-error"></div>
+
+                <!-- Login form -->
+                <form id="loginForm" class="portal-form">
+                    <div>
+                        <label class="form-label" for="loginEmail">Email</label>
+                        <input id="loginEmail" class="form-input" type="email" autocomplete="email" required placeholder="you@company.com">
+                    </div>
+                    <div>
+                        <label class="form-label" for="loginPassword">Password</label>
+                        <input id="loginPassword" class="form-input" type="password" autocomplete="current-password" required placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="portal-btn" id="loginBtn">Sign in</button>
+                    <p class="portal-note">
+                        <a href="#" id="forgotLink">Forgot password?</a>
+                    </p>
+                </form>
+
+                <!-- Signup form -->
+                <form id="signupForm" class="portal-form" hidden>
+                    <div>
+                        <label class="form-label" for="signupName">Your name</label>
+                        <input id="signupName" class="form-input" type="text" autocomplete="name" required placeholder="Jane Smith">
+                    </div>
+                    <div>
+                        <label class="form-label" for="signupEmail">Work email</label>
+                        <input id="signupEmail" class="form-input" type="email" autocomplete="email" required placeholder="you@company.com">
+                    </div>
+                    <div>
+                        <label class="form-label" for="signupPassword">Password</label>
+                        <input id="signupPassword" class="form-input" type="password" autocomplete="new-password" required placeholder="8+ characters" minlength="8">
+                    </div>
+                    <button type="submit" class="portal-btn" id="signupBtn">Create account</button>
+                    <p class="portal-note">
+                        By signing up you agree to our <a href="/privacy.html">Privacy Policy</a>
+                        and <a href="/privacy.html#dpa">Data Processing Agreement</a>.
+                    </p>
+                </form>
+            </div>
+
+            <!-- Post-signup check-email state -->
+            <div id="checkEmailState" hidden>
+                <div class="portal-success">
+                    <h2>Check your email</h2>
+                    <p>We've sent a confirmation link to <strong id="confirmedEmail"></strong>.
+                    Click it to verify your address, then sign in.</p>
+                </div>
+            </div>
+
+            <!-- Password reset sent state -->
+            <div id="resetSentState" hidden>
+                <div class="portal-success">
+                    <h2>Reset email sent</h2>
+                    <p>Check your inbox for a password reset link.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    (async () => {
+        const SUPABASE_URL  = 'REPLACE_SUPABASE_URL';
+        const SUPABASE_ANON = 'REPLACE_SUPABASE_ANON_KEY';
+        const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+        // ── Redirect if already signed in ─────────────────────
+        const { data: { session } } = await sb.auth.getSession();
+        if (session) {
+            // Check profile state
+            const { data: profile } = await sb
+                .from('rec_profiles').select('role, status').eq('user_id', session.user.id).single();
+            if (profile?.status === 'active') {
+                window.location.href = profile.role === 'admin'
+                    ? '/portal-admin.html' : '/portal-dashboard.html';
+            } else if (profile?.status === 'pending') {
+                showPending(null);
+            }
+        }
+
+        // ── Tabs ──────────────────────────────────────────────
+        const tabs = document.querySelectorAll('.portal-tab');
+        tabs.forEach(tab => tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            const which = tab.dataset.tab;
+            document.getElementById('loginForm').hidden = which !== 'login';
+            document.getElementById('signupForm').hidden = which !== 'signup';
+            hideErrors();
+        }));
+
+        function hideErrors() {
+            document.getElementById('loginErr').classList.remove('show');
+            document.getElementById('signupErr').classList.remove('show');
+        }
+        function showError(id, msg) {
+            const el = document.getElementById(id);
+            el.textContent = msg;
+            el.classList.add('show');
+        }
+
+        // ── Login ─────────────────────────────────────────────
+        document.getElementById('loginForm').addEventListener('submit', async e => {
+            e.preventDefault();
+            const btn = document.getElementById('loginBtn');
+            btn.disabled = true;
+            btn.textContent = 'Signing in…';
+            hideErrors();
+
+            const email    = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            const { data, error } = await sb.auth.signInWithPassword({ email, password });
+            if (error) {
+                btn.disabled = false; btn.textContent = 'Sign in';
+                // Catch candidate-side email collision gracefully
+                if (error.message?.toLowerCase().includes('invalid login')) {
+                    showError('loginErr', 'Incorrect email or password. If you signed up on the candidate side, use a different email for your recruiter account, or get in touch.');
+                } else {
+                    showError('loginErr', error.message);
+                }
+                return;
+            }
+
+            // Check profile
+            const { data: profile } = await sb
+                .from('rec_profiles').select('role, status').eq('user_id', data.user.id).single();
+
+            if (!profile) {
+                // Edge: auth exists but no profile yet — retry profile creation
+                showError('loginErr', 'Account setup incomplete. Please contact support.');
+                btn.disabled = false; btn.textContent = 'Sign in';
+                return;
+            }
+            if (profile.status === 'pending') { showPending(null); return; }
+
+            window.location.href = profile.role === 'admin'
+                ? '/portal-admin.html' : '/portal-dashboard.html';
+        });
+
+        // ── Signup ────────────────────────────────────────────
+        document.getElementById('signupForm').addEventListener('submit', async e => {
+            e.preventDefault();
+            const btn = document.getElementById('signupBtn');
+            btn.disabled = true;
+            btn.textContent = 'Creating account…';
+            hideErrors();
+
+            const name     = document.getElementById('signupName').value.trim();
+            const email    = document.getElementById('signupEmail').value.trim().toLowerCase();
+            const password = document.getElementById('signupPassword').value;
+
+            const { data: authData, error: authErr } = await sb.auth.signUp({ email, password });
+            if (authErr) {
+                btn.disabled = false; btn.textContent = 'Create account';
+                if (authErr.message?.toLowerCase().includes('already registered')) {
+                    showError('signupErr', "That email's already registered. If you signed up on the candidate side, use a different address for your recruiter account, or get in touch and I'll sort it.");
+                } else {
+                    showError('signupErr', authErr.message);
+                }
+                return;
+            }
+
+            if (!authData.user) {
+                // Email confirmation required — show check-email state
+                document.getElementById('authArea').hidden = true;
+                document.getElementById('checkEmailState').hidden = false;
+                document.getElementById('confirmedEmail').textContent = email;
+                return;
+            }
+
+            // User confirmed immediately (e.g. no email confirmation required in dev)
+            await finishSignup(authData.user.id, email, name, btn);
+        });
+
+        // Called after email confirmation OR when user lands back on portal after confirming
+        async function finishSignup(userId, email, name, btn) {
+            const resp = await fetch('/api/portal/auth', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId, email, fullName: name }),
+            });
+            const data = await resp.json();
+
+            if (!resp.ok) {
+                if (btn) { btn.disabled = false; btn.textContent = 'Create account'; }
+                showError('signupErr', data.error || 'Signup failed');
+                return;
+            }
+
+            if (data.status === 'pending') {
+                showPending(data.ownerEmail);
+            } else {
+                window.location.href = '/portal-dashboard.html';
+            }
+        }
+
+        // ── Pending state ─────────────────────────────────────
+        function showPending(ownerEmail) {
+            document.getElementById('authArea').hidden = true;
+            document.getElementById('pendingBox').hidden = false;
+            if (ownerEmail) {
+                document.getElementById('pendingMsg').textContent =
+                    `Your account is waiting for approval from ${ownerEmail}. We've emailed them. Once they approve, you'll have full access.`;
+            }
+        }
+
+        // ── Forgot password ───────────────────────────────────
+        document.getElementById('forgotLink').addEventListener('click', async e => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim();
+            if (!email) {
+                showError('loginErr', 'Enter your email address first, then click Forgot password.');
+                return;
+            }
+            await sb.auth.resetPasswordForEmail(email, {
+                redirectTo: 'https://www.superceptron.com/portal.html',
+            });
+            document.getElementById('authArea').hidden = true;
+            document.getElementById('resetSentState').hidden = false;
+        });
+
+        // ── Handle email confirmation redirect ────────────────
+        // Supabase appends #access_token=... to the URL on email confirmation
+        const hash = window.location.hash;
+        if (hash.includes('access_token') || hash.includes('type=signup')) {
+            const { data: { session: sess }, error } = await sb.auth.getSession();
+            if (sess && !error) {
+                // Profile may not exist yet — create it now
+                const { data: existingProfile } = await sb
+                    .from('rec_profiles').select('status').eq('user_id', sess.user.id).single();
+                if (!existingProfile) {
+                    await finishSignup(sess.user.id, sess.user.email, '', null);
+                } else if (existingProfile.status === 'active') {
+                    window.location.href = '/portal-dashboard.html';
+                } else {
+                    showPending(null);
+                }
+            }
+        }
+    })();
+    </script>
+</body>
+</html>

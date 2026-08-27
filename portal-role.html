@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Role — Superceptron</title>
+    <meta name="robots" content="noindex">
+    <link rel="icon" href="Logo new.jpg" type="image/jpeg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+    <style>
+        body { background: var(--bg); }
+        .portal-layout {
+            max-width: 960px; margin: 0 auto; padding: 5rem 1.5rem 4rem;
+        }
+
+        .role-header {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 1rem; flex-wrap: wrap; margin-bottom: 1.75rem;
+        }
+        .back-link {
+            font-size: 0.8125rem; color: var(--text-muted); text-decoration: none;
+            display: flex; align-items: center; gap: 0.3rem;
+        }
+        .back-link:hover { color: var(--text); }
+        .role-header-right { display: flex; align-items: center; gap: 0.75rem; }
+
+        .submit-btn {
+            padding: 0.5625rem 1.25rem;
+            background: var(--accent); color: #fff;
+            border: none; border-radius: 100px;
+            font-family: var(--font); font-size: 0.875rem; font-weight: 600;
+            cursor: pointer; transition: background 0.15s, opacity 0.15s;
+        }
+        .submit-btn:hover:not(:disabled) { background: var(--accent-hover); }
+        .submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .submit-btn.submitted-state {
+            background: var(--accent-soft); color: var(--accent);
+            cursor: default; pointer-events: none;
+        }
+
+        .delete-btn {
+            font-size: 0.775rem; color: var(--text-muted);
+            background: none; border: none; cursor: pointer;
+            font-family: var(--font); padding: 0.4rem;
+        }
+        .delete-btn:hover { color: #D0504A; }
+
+        /* ── Two-column layout ── */
+        .role-cols {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+        }
+        @media (max-width: 720px) { .role-cols { grid-template-columns: 1fr; } }
+
+        /* ── Tracker ── */
+        .tracker-card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 12px; overflow: hidden;
+        }
+        .tracker-header {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .tracker-title { font-size: 0.775rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); }
+        .tracker-progress { font-size: 0.775rem; font-weight: 600; color: var(--accent); }
+
+        .tracker-row {
+            display: grid; grid-template-columns: auto 1fr auto;
+            align-items: start; gap: 0.75rem;
+            padding: 0.75rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .tracker-row:last-child { border-bottom: none; }
+        .tracker-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: var(--border); margin-top: 0.45em; flex-shrink: 0;
+            transition: background 0.2s;
+        }
+        .tracker-dot.filled { background: var(--accent); }
+        .tracker-label { font-size: 0.8125rem; font-weight: 500; color: var(--text); padding-top: 0.1em; }
+        .tracker-indicator { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--border); padding-top: 0.2em; white-space: nowrap; }
+        .tracker-indicator.filled { color: var(--accent); }
+
+        .tracker-field {
+            font-family: var(--font); font-size: 0.875rem;
+            color: var(--text); background: transparent;
+            border: none; outline: none; resize: vertical;
+            width: 100%; min-height: 1.5rem;
+            grid-column: 2;
+        }
+        .tracker-field::placeholder { color: var(--text-muted); opacity: 0.5; }
+        .tracker-field:focus { background: rgba(31,169,127,0.04); border-radius: 4px; padding: 0.125rem 0.25rem; margin: -0.125rem -0.25rem; }
+
+        select.tracker-field {
+            appearance: none; -webkit-appearance: none;
+            cursor: pointer; padding-right: 1rem;
+        }
+        select.tracker-field option { background: var(--surface); }
+
+        /* ── JD upload ── */
+        .jd-section { padding: 0.75rem 1.25rem; border-top: 1px solid var(--border); }
+        .jd-label { font-size: 0.775rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+        .jd-upload-area {
+            border: 1px dashed var(--border); border-radius: 8px;
+            padding: 0.75rem 1rem; text-align: center;
+            font-size: 0.8125rem; color: var(--text-muted);
+            cursor: pointer; transition: border-color 0.15s;
+        }
+        .jd-upload-area:hover { border-color: var(--accent); color: var(--text); }
+        .jd-file-row { display: flex; align-items: center; justify-content: space-between; font-size: 0.8125rem; }
+        .jd-filename { color: var(--text); font-weight: 500; }
+        .jd-remove { background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 0.75rem; }
+        .jd-remove:hover { color: #D0504A; }
+
+        /* ── Upload panel ── */
+        .upload-card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 12px; overflow: hidden;
+        }
+        .upload-card-header {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .upload-card-title { font-size: 0.775rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); }
+        .upload-count { font-size: 0.775rem; color: var(--text-muted); }
+        .upload-limit { color: var(--accent); font-weight: 600; }
+
+        .drop-zone {
+            margin: 1rem 1.25rem;
+            border: 2px dashed var(--border);
+            border-radius: 10px;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.15s, background 0.15s;
+        }
+        .drop-zone.drag-over { border-color: var(--accent); background: var(--accent-soft); }
+        .drop-zone p { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.25rem; }
+        .drop-zone small { font-size: 0.75rem; color: var(--text-muted); opacity: 0.7; }
+        .drop-zone-hint { font-size: 0.75rem; color: var(--accent); margin-top: 0.375rem; }
+
+        /* ── File list ── */
+        .file-list { padding: 0 1.25rem 0.75rem; display: flex; flex-direction: column; gap: 0.375rem; }
+        .file-row {
+            display: grid; grid-template-columns: 1fr auto auto;
+            align-items: center; gap: 0.75rem;
+            padding: 0.5rem 0.625rem;
+            border-radius: 8px;
+            background: var(--bg);
+            font-size: 0.8125rem;
+        }
+        .file-name { color: var(--text); font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .file-size { color: var(--text-muted); font-size: 0.75rem; white-space: nowrap; }
+        .file-status { display: flex; align-items: center; gap: 0.375rem; font-size: 0.75rem; white-space: nowrap; }
+        .file-progress-track { height: 3px; background: var(--border); border-radius: 2px; width: 60px; }
+        .file-progress-bar { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.2s; }
+        .file-done { color: var(--accent); }
+        .file-failed { color: #D0504A; }
+        .file-remove { background: none; border: none; cursor: pointer; color: var(--text-muted); padding: 0.1rem 0.2rem; font-size: 0.875rem; }
+        .file-remove:hover { color: #D0504A; }
+        .retry-btn { background: none; border: none; cursor: pointer; color: var(--accent); font-size: 0.75rem; font-family: var(--font); }
+        .retry-btn:hover { text-decoration: underline; }
+
+        /* ── Data handling note ── */
+        .data-note {
+            margin: 0.75rem 1.25rem 1rem;
+            padding: 0.875rem 1rem;
+            background: var(--accent-soft);
+            border: 1px solid rgba(31,169,127,0.2);
+            border-radius: 8px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.55;
+        }
+        .data-note strong { color: var(--text); }
+        .data-note a { color: var(--accent); }
+        .delete-all-btn {
+            background: none; border: none; cursor: pointer;
+            font-family: var(--font); font-size: 0.775rem;
+            color: #D0504A; text-decoration: underline; padding: 0;
+            margin-top: 0.375rem; display: block;
+        }
+        .delete-all-btn:hover { opacity: 0.8; }
+
+        /* ── Submitted / delivered state ── */
+        .submitted-banner {
+            background: var(--accent-soft);
+            border: 1px solid rgba(31,169,127,0.25);
+            border-radius: 10px;
+            padding: 1rem 1.25rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        .submitted-banner strong { color: var(--text); }
+
+        .shortlist-box {
+            background: rgba(76,58,99,0.06);
+            border: 1px solid rgba(76,58,99,0.2);
+            border-radius: 10px;
+            padding: 1.25rem;
+            text-align: center;
+            margin: 0 1.25rem 1rem;
+        }
+        .shortlist-box h3 { font-size: 0.9375rem; font-weight: 700; color: var(--text); margin-bottom: 0.375rem; }
+        .shortlist-box p { font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 0.875rem; }
+        .shortlist-dl-btn {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            background: var(--plum); color: #fff;
+            padding: 0.5625rem 1.25rem; border-radius: 100px;
+            font-size: 0.875rem; font-weight: 600;
+            border: none; cursor: pointer; font-family: var(--font);
+            text-decoration: none; transition: opacity 0.15s;
+        }
+        .shortlist-dl-btn:hover { opacity: 0.88; }
+
+        .status-badge {
+            display: inline-flex; align-items: center; gap: 0.3rem;
+            font-size: 0.75rem; font-weight: 600;
+            padding: 0.25rem 0.7rem; border-radius: 100px;
+        }
+        .s-submitted  { background: rgba(31,169,127,0.1);  color: var(--accent); }
+        .s-in_review  { background: rgba(192,112,32,0.1);  color: #A87020; }
+        .s-shortlist_ready { background: rgba(76,58,99,0.1); color: var(--plum); }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="/" class="logo">
+                <img src="Logo new.jpg" alt="Superceptron" class="logo-img">
+                Superceptron
+            </a>
+            <button id="signOutBtn" class="nav-contact" style="background:none;border:none;cursor:pointer;font-family:var(--font);font-size:0.875rem;color:var(--text-muted)">Sign out</button>
+        </div>
+    </nav>
+
+    <div class="portal-layout">
+        <div class="role-header">
+            <a href="/portal-dashboard.html" class="back-link">← Dashboard</a>
+            <div class="role-header-right">
+                <span id="roleStatusBadge"></span>
+                <button class="delete-btn" id="deleteRoleBtn" title="Delete draft">Delete draft</button>
+                <button class="submit-btn" id="submitBtn">Submit →</button>
+            </div>
+        </div>
+
+        <div id="submittedBanner" class="submitted-banner" hidden>
+            <strong>Submitted.</strong> We're reading through the CVs — expect a shortlist within <strong>2–3 working days</strong>.
+            You'll get an email the moment it's ready.
+        </div>
+
+        <div class="role-cols">
+            <!-- ── Tracker ── -->
+            <div class="tracker-card">
+                <div class="tracker-header">
+                    <span class="tracker-title">Role details</span>
+                    <span class="tracker-progress" id="trackerProgress">0 / 8</span>
+                </div>
+
+                <div class="tracker-row" data-field="title">
+                    <div class="tracker-dot"></div>
+                    <div>
+                        <div class="tracker-label">Role title</div>
+                        <input class="tracker-field" type="text" placeholder="e.g. Senior Data Analyst" data-key="title">
+                    </div>
+                    <div class="tracker-indicator">—</div>
+                </div>
+                <div class="tracker-row" data-field="location">
+                    <div class="tracker-dot"></div>
+                    <div>
+                        <div class="tracker-label">Location</div>
+                        <input class="tracker-field" type="text" placeholder="e.g. London / Hybrid" data-key="location">
+                    </div>
+                    <div class="tracker-indicator">—</div>
+                </div>
+                <div class="tracker-row" data-field="seniority">
+                    <div class="tracker-dot"></div>
+                    <div>
+                        <div class="tracker-label">Seniority</div>
+                        <select class="tracker-field" data-key="seniority">
+                            <option value="">Select…</option>
+                            <option>Junior</option><option>Mid</option><option>Senior</option><option>Lead</option><option>Principal</option>
+                        </select>
+                    </div>
+                    <div class="tracker-indicator">—</div>
+                </div>
+                <div class="tracker-row" data-field="salary_range">
+                    <div class="tracker-dot"></div>
+                    <div>
+                        <div class="tracker-label">Salary range</div>
+                        <input class="tracker-field" type="text" placeholder="e.g. £70k–£85k" data-key="salary_range">
+                    </div>
+                    <div class="tracker-indicator">—</div>
+                </div>
+                <div class="tracker-row" data-field="must_haves">
+                    <div class="tracker-dot"></div>
+                    <div>
+                        <div class="tracker-label">Must-haves</div>
+                        <textarea class="tracker-field" rows="2" placeholder="Skills, tools, experience…" data-key="must_haves"></textarea>
+                    </div>
+                    <div class="tracker-indicator">—</div>
+                </div>
+                <div class="tracker-row" data-field="nice_to_haves">
+                    <div class="tracker-dot"></div>
+                    <div>
+                        <div class="tracker-label">Nice-to-haves</div>
+                        <textarea class="tracker-field" rows="2" placeholder="Good but not essential…" data-key="nice_to_haves"></textarea>
+                    </div>
+                    <div class="tracker-indicator">—</div>
+                </div>
+                <div class="tracker-row" data-field="unlisted_criteria">
+                    <div class="tracker-dot"></div>
+                    <div>
+                        <div class="tracker-label">Anything a keyword search would miss</div>
+                        <textarea class="tracker-field" rows="2" placeholder="Communication style, team fit, deal-breakers…" data-key="unlisted_criteria"></textarea>
+                    </div>
+                    <div class="tracker-indicator">—</div>
+                </div>
+                <div class="tracker-row" data-field="deadline">
+                    <div class="tracker-dot"></div>
+                    <div>
+                        <div class="tracker-label">Deadline</div>
+                        <input class="tracker-field" type="date" data-key="deadline">
+                    </div>
+                    <div class="tracker-indicator">—</div>
+                </div>
+
+                <!-- JD upload -->
+                <div class="jd-section">
+                    <div class="jd-label">Job description (optional)</div>
+                    <div id="jdArea">
+                        <div class="jd-upload-area" id="jdDropTarget">
+                            Click or drag to upload JD (PDF, DOC, DOCX…)
+                            <input type="file" id="jdFileInput" accept=".pdf,.doc,.docx,.rtf,.txt" style="display:none">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Upload panel ── -->
+            <div class="upload-card">
+                <div class="upload-card-header">
+                    <span class="upload-card-title">Upload CVs</span>
+                    <span class="upload-count"><span id="cvCount">0</span> / 60 · <span class="upload-limit" id="remaining">60 remaining</span></span>
+                </div>
+
+                <!-- Shortlist ready state (hidden until delivered) -->
+                <div id="shortlistBox" class="shortlist-box" hidden>
+                    <h3>Shortlist ready</h3>
+                    <p id="shortlistNote"></p>
+                    <button class="shortlist-dl-btn" id="shortlistDlBtn">↓ Download shortlist</button>
+                </div>
+
+                <div id="uploadArea">
+                    <div class="drop-zone" id="dropZone">
+                        <p>Drag &amp; drop CVs here, or click to browse</p>
+                        <small>PDF · DOC · DOCX · RTF · TXT · up to 10 MB per file</small>
+                        <div class="drop-zone-hint">Drag a folder or upload a .zip too</div>
+                        <input type="file" id="fileInput" multiple accept=".pdf,.doc,.docx,.rtf,.txt,.zip"
+                               webkitdirectory="false" style="display:none">
+                    </div>
+                    <div class="file-list" id="fileList"></div>
+                </div>
+
+                <div class="data-note">
+                    <strong>Data handling:</strong> Your CV files are deleted from our servers the moment your shortlist is delivered.
+                    Files are never used to train any model.
+                    <a href="/privacy.html">Privacy policy</a> · <a href="/privacy.html#dpa">DPA</a>
+                    <button class="delete-all-btn" id="deleteAllBtn">Delete all uploaded files</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    (async () => {
+        const SUPABASE_URL  = 'REPLACE_SUPABASE_URL';
+        const SUPABASE_ANON = 'REPLACE_SUPABASE_ANON_KEY';
+        const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+        const params = new URLSearchParams(location.search);
+        const roleId = params.get('id');
+        if (!roleId) { window.location.href = '/portal-dashboard.html'; return; }
+
+        // ── Auth guard ────────────────────────────────────────
+        const { data: { session } } = await sb.auth.getSession();
+        if (!session) { window.location.href = '/portal.html'; return; }
+        const token = session.access_token;
+
+        const { data: profile } = await sb
+            .from('rec_profiles').select('role, status').eq('user_id', session.user.id).single();
+        if (!profile || profile.status !== 'active') { window.location.href = '/portal.html'; return; }
+
+        document.getElementById('signOutBtn').addEventListener('click', async () => {
+            await sb.auth.signOut(); window.location.href = '/portal.html';
+        });
+
+        // ── Load role ─────────────────────────────────────────
+        let role, uploads, deliverable;
+        async function loadRole() {
+            const resp = await fetch(`/api/portal/roles/${roleId}`, { headers: { Authorization: `Bearer ${token}` } });
+            if (!resp.ok) { window.location.href = '/portal-dashboard.html'; return; }
+            const data = await resp.json();
+            role = data.role; uploads = data.uploads; deliverable = data.deliverable;
+
+            document.title = `${role.title || 'New role'} — Superceptron`;
+
+            // Fill tracker fields
+            document.querySelectorAll('.tracker-field').forEach(el => {
+                const key = el.dataset.key;
+                if (role[key] != null) el.value = role[key];
+            });
+            updateTrackerState();
+
+            // Status badge + mode
+            const isDraft = role.status === 'draft';
+            document.getElementById('deleteRoleBtn').hidden = !isDraft;
+            document.getElementById('submitBtn').hidden = false;
+
+            const statusBadge = document.getElementById('roleStatusBadge');
+            if (role.status !== 'draft') {
+                const labels = { submitted:'Submitted', in_review:'In review', shortlist_ready:'Shortlist ready' };
+                statusBadge.innerHTML = `<span class="status-badge s-${role.status}">${labels[role.status] ?? role.status}</span>`;
+                document.getElementById('submitBtn').textContent = 'Submitted';
+                document.getElementById('submitBtn').classList.add('submitted-state');
+                document.getElementById('submittedBanner').hidden = role.status === 'shortlist_ready';
+
+                // Disable all tracker fields
+                document.querySelectorAll('.tracker-field').forEach(el => el.disabled = true);
+                document.getElementById('jdDropTarget').style.pointerEvents = 'none';
+                document.getElementById('dropZone').style.pointerEvents = 'none';
+                document.getElementById('uploadArea').style.opacity = '0.6';
+            }
+
+            // Render existing uploads
+            uploads.forEach(u => addFileRowExisting(u));
+            updateCvCount(uploads.length);
+
+            // Deliverable
+            if (deliverable) {
+                document.getElementById('shortlistBox').hidden = false;
+                document.getElementById('shortlistNote').textContent = deliverable.notes || '';
+                document.getElementById('shortlistDlBtn').addEventListener('click', () => downloadShortlist(deliverable.id));
+            }
+        }
+
+        // ── Tracker — live save ───────────────────────────────
+        let saveTimer = null;
+        document.querySelectorAll('.tracker-field').forEach(el => {
+            el.addEventListener('input', () => {
+                updateTrackerState();
+                clearTimeout(saveTimer);
+                saveTimer = setTimeout(saveTracker, 900);
+            });
+        });
+
+        function updateTrackerState() {
+            const fields = document.querySelectorAll('.tracker-field');
+            let filled = 0;
+            fields.forEach(el => {
+                const row = el.closest('.tracker-row');
+                const dot = row.querySelector('.tracker-dot');
+                const ind = row.querySelector('.tracker-indicator');
+                const v = el.value.trim();
+                if (v) { dot.classList.add('filled'); ind.textContent = '✓'; ind.classList.add('filled'); filled++; }
+                else   { dot.classList.remove('filled'); ind.textContent = '—'; ind.classList.remove('filled'); }
+            });
+            document.getElementById('trackerProgress').textContent = `${filled} / 8`;
+        }
+
+        async function saveTracker() {
+            if (role?.status !== 'draft') return;
+            const body = {};
+            document.querySelectorAll('.tracker-field').forEach(el => { body[el.dataset.key] = el.value.trim() || null; });
+            await fetch(`/api/portal/roles/${roleId}`, {
+                method: 'PATCH',
+                headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify(body),
+            });
+        }
+
+        // ── Submit ────────────────────────────────────────────
+        document.getElementById('submitBtn').addEventListener('click', async () => {
+            if (role?.status !== 'draft') return;
+            await saveTracker();
+            if (!confirm('Submit this role? You won\'t be able to edit the brief or add more CVs after submitting.')) return;
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true; btn.textContent = 'Submitting…';
+            const resp = await fetch(`/api/portal/roles/${roleId}/submit`, {
+                method: 'POST', headers: { Authorization: `Bearer ${token}` },
+            });
+            const data = await resp.json();
+            if (!resp.ok) { alert(data.error || 'Submit failed'); btn.disabled = false; btn.textContent = 'Submit →'; return; }
+            window.location.reload();
+        });
+
+        // ── Delete draft ──────────────────────────────────────
+        document.getElementById('deleteRoleBtn').addEventListener('click', async () => {
+            if (!confirm('Delete this draft and all uploaded files? This can\'t be undone.')) return;
+            const resp = await fetch(`/api/portal/roles/${roleId}`, {
+                method: 'DELETE', headers: { Authorization: `Bearer ${token}` },
+            });
+            if (resp.ok) window.location.href = '/portal-dashboard.html';
+            else { const d = await resp.json(); alert(d.error || 'Delete failed'); }
+        });
+
+        // ── CV count ──────────────────────────────────────────
+        let cvCount = 0;
+        function updateCvCount(n) {
+            cvCount = n;
+            document.getElementById('cvCount').textContent = n;
+            document.getElementById('remaining').textContent = `${Math.max(0, 60 - n)} remaining`;
+        }
+
+        // ── Drop zone ─────────────────────────────────────────
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+        dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+        dropZone.addEventListener('drop', e => {
+            e.preventDefault(); dropZone.classList.remove('drag-over');
+            handleFiles([...e.dataTransfer.files]);
+        });
+        fileInput.addEventListener('change', () => { handleFiles([...fileInput.files]); fileInput.value = ''; });
+
+        // ── File upload ───────────────────────────────────────
+        async function handleFiles(files) {
+            if (role?.status !== 'draft') return;
+            if (cvCount + files.length > 60) {
+                alert(`Adding ${files.length} file${files.length > 1 ? 's' : ''} would exceed the 60 CV limit. You have ${60 - cvCount} remaining.`);
+                return;
+            }
+            // Upload each file sequentially (per-file retry makes parallel messy)
+            for (const file of files) {
+                await uploadFile(file);
+            }
+        }
+
+        async function uploadFile(file, retryCount = 0) {
+            const rowId = `file-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+
+            // Init — validate server-side and get signed URL
+            const initResp = await fetch(`/api/portal/roles/${roleId}/upload-init`, {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ filename: file.name, size: file.size }),
+            });
+            const initData = await initResp.json();
+            if (!initResp.ok) {
+                addFileRowFailed(rowId, file.name, formatSize(file.size), initData.error, null, file);
+                return;
+            }
+
+            addFileRowUploading(rowId, file.name, formatSize(file.size));
+
+            // Upload directly to Supabase Storage signed URL
+            try {
+                const putResp = await xhrUpload(initData.signedUrl, file, pct => updateProgress(rowId, pct));
+                if (!putResp.ok) throw new Error(`Upload failed (${putResp.status})`);
+            } catch (err) {
+                markFailed(rowId, err.message, file, initData.path, initData.originalName);
+                return;
+            }
+
+            // Confirm server-side
+            const confirmResp = await fetch(`/api/portal/roles/${roleId}/upload-confirm`, {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ path: initData.path, originalName: file.name, size: file.size }),
+            });
+            if (!confirmResp.ok) {
+                const d = await confirmResp.json();
+                markFailed(rowId, d.error || 'Could not register upload', file);
+                return;
+            }
+
+            const { upload } = await confirmResp.json();
+            markDone(rowId, upload.id);
+            updateCvCount(cvCount + 1);
+        }
+
+        function xhrUpload(url, file, onProgress) {
+            return new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.open('PUT', url);
+                xhr.setRequestHeader('Content-Type', file.type || 'application/octet-stream');
+                xhr.upload.onprogress = e => { if (e.lengthComputable) onProgress(Math.round(e.loaded / e.total * 100)); };
+                xhr.onload = () => resolve({ ok: xhr.status < 400, status: xhr.status });
+                xhr.onerror = () => reject(new Error('Network error'));
+                xhr.send(file);
+            });
+        }
+
+        // ── File rows ─────────────────────────────────────────
+        function addFileRowExisting(upload) {
+            const list = document.getElementById('fileList');
+            const row = document.createElement('div');
+            row.className = 'file-row';
+            row.id = `existing-${upload.id}`;
+            row.innerHTML = `
+                <span class="file-name" title="${esc(upload.original_filename)}">${esc(upload.original_filename)}</span>
+                <span class="file-size">${formatSize(upload.file_size)}</span>
+                <div class="file-status">
+                    <span class="file-done">✓</span>
+                    ${role?.status === 'draft' ? `<button class="file-remove" data-upload-id="${upload.id}" title="Remove">✕</button>` : ''}
+                </div>
+            `;
+            list.appendChild(row);
+
+            if (role?.status === 'draft') {
+                row.querySelector('.file-remove').addEventListener('click', () => removeUpload(upload.id, row.id));
+            }
+        }
+
+        function addFileRowUploading(rowId, name, size) {
+            const list = document.getElementById('fileList');
+            const row = document.createElement('div');
+            row.className = 'file-row'; row.id = rowId;
+            row.innerHTML = `
+                <span class="file-name" title="${esc(name)}">${esc(name)}</span>
+                <span class="file-size">${size}</span>
+                <div class="file-status">
+                    <div class="file-progress-track"><div class="file-progress-bar" style="width:0%"></div></div>
+                </div>
+            `;
+            list.appendChild(row);
+        }
+
+        function addFileRowFailed(rowId, name, size, error, path, file) {
+            const list = document.getElementById('fileList');
+            const row = document.createElement('div');
+            row.className = 'file-row'; row.id = rowId;
+            row.innerHTML = `
+                <span class="file-name" title="${esc(name)}">${esc(name)}</span>
+                <span class="file-size">${size}</span>
+                <div class="file-status file-failed">${esc(error)} <button class="retry-btn">Retry</button></div>
+            `;
+            row.querySelector('.retry-btn').addEventListener('click', () => {
+                row.remove(); uploadFile(file);
+            });
+            list.appendChild(row);
+        }
+
+        function updateProgress(rowId, pct) {
+            const row = document.getElementById(rowId);
+            if (row) row.querySelector('.file-progress-bar').style.width = pct + '%';
+        }
+
+        function markDone(rowId, uploadId) {
+            const row = document.getElementById(rowId);
+            if (!row) return;
+            row.querySelector('.file-status').innerHTML = `
+                <span class="file-done">✓</span>
+                <button class="file-remove" title="Remove">✕</button>
+            `;
+            row.querySelector('.file-remove').addEventListener('click', () => removeUpload(uploadId, rowId));
+        }
+
+        function markFailed(rowId, error, file) {
+            const row = document.getElementById(rowId);
+            if (!row) return;
+            const name = file.name; const size = formatSize(file.size);
+            row.querySelector('.file-status').innerHTML = `<span class="file-failed">${esc(error)}</span> <button class="retry-btn">Retry</button>`;
+            row.querySelector('.retry-btn').addEventListener('click', () => {
+                row.remove(); uploadFile(file);
+            });
+        }
+
+        async function removeUpload(uploadId, rowId) {
+            const resp = await fetch(`/api/portal/roles/${roleId}/uploads/${uploadId}`, {
+                method: 'DELETE', headers: { Authorization: `Bearer ${token}` },
+            });
+            if (resp.ok) {
+                document.getElementById(rowId)?.remove();
+                updateCvCount(cvCount - 1);
+            } else {
+                const d = await resp.json(); alert(d.error || 'Remove failed');
+            }
+        }
+
+        // ── Delete all ────────────────────────────────────────
+        document.getElementById('deleteAllBtn').addEventListener('click', async () => {
+            if (!confirm('Delete all uploaded CV files for this role?')) return;
+            const rows = document.querySelectorAll('[id^="existing-"]');
+            for (const row of rows) {
+                const uploadId = row.id.replace('existing-', '');
+                await removeUpload(uploadId, row.id);
+            }
+        });
+
+        // ── Shortlist download ────────────────────────────────
+        async function downloadShortlist(deliverableId) {
+            const resp = await fetch(`/api/portal/roles/${roleId}/download?deliverableId=${deliverableId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            const data = await resp.json();
+            if (data.signedUrl) window.open(data.signedUrl, '_blank');
+        }
+
+        // ── JD upload ─────────────────────────────────────────
+        document.getElementById('jdDropTarget').addEventListener('click', () => {
+            if (role?.status !== 'draft') return;
+            document.getElementById('jdFileInput').click();
+        });
+        document.getElementById('jdFileInput').addEventListener('change', async e => {
+            const file = e.target.files[0]; if (!file) return;
+            const initResp = await fetch(`/api/portal/roles/${roleId}/upload-init`, {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ filename: `jd_${file.name}`, size: file.size }),
+            });
+            const initData = await initResp.json();
+            if (!initResp.ok) { alert(initData.error); return; }
+            await xhrUpload(initData.signedUrl, file, () => {});
+            await fetch(`/api/portal/roles/${roleId}`, {
+                method: 'PATCH',
+                headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ jd_file_path: initData.path }),
+            });
+            document.getElementById('jdArea').innerHTML = `
+                <div class="jd-file-row">
+                    <span class="jd-filename">${esc(file.name)}</span>
+                    <button class="jd-remove">Remove</button>
+                </div>`;
+            e.target.value = '';
+        });
+
+        // ── Helpers ───────────────────────────────────────────
+        function esc(s) { return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+        function formatSize(b) {
+            if (!b) return '';
+            if (b < 1024) return `${b} B`;
+            if (b < 1024 * 1024) return `${(b/1024).toFixed(0)} KB`;
+            return `${(b/1024/1024).toFixed(1)} MB`;
+        }
+
+        await loadRole();
+    })();
+    </script>
+</body>
+</html>

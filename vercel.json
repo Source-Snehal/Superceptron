@@ -1,0 +1,20 @@
+{
+  "functions": {
+    "api/**/*.js": {
+      "maxDuration": 30
+    }
+  },
+  "rewrites": [
+    { "source": "/api/portal/roles/:id/uploads/:uid", "destination": "/api/portal/roles/[id]/uploads/[uid]" },
+    { "source": "/api/portal/roles/:id/submit",        "destination": "/api/portal/roles/[id]/submit" },
+    { "source": "/api/portal/roles/:id/upload-init",   "destination": "/api/portal/roles/[id]/upload-init" },
+    { "source": "/api/portal/roles/:id/upload-confirm","destination": "/api/portal/roles/[id]/upload-confirm" },
+    { "source": "/api/portal/roles/:id/download",      "destination": "/api/portal/roles/[id]/download" },
+    { "source": "/api/portal/roles/:id",               "destination": "/api/portal/roles/[id]" },
+    { "source": "/api/portal/admin/roles/:id/deliver",       "destination": "/api/portal/admin/roles/[id]/deliver" },
+    { "source": "/api/portal/admin/roles/:id/upload-init",   "destination": "/api/portal/admin/roles/[id]/upload-init" },
+    { "source": "/api/portal/admin/roles/:id/download-all",  "destination": "/api/portal/admin/roles/[id]/download-all" },
+    { "source": "/api/portal/admin/roles/:id",               "destination": "/api/portal/admin/roles/[id]" },
+    { "source": "/api/portal/auth/approve",            "destination": "/api/portal/auth/approve" }
+  ]
+}

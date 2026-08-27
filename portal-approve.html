@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access Approved — Superceptron</title>
+    <meta name="robots" content="noindex">
+    <link rel="icon" href="Logo new.jpg" type="image/jpeg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        .approve-wrap {
+            min-height: 100vh; display: flex;
+            align-items: center; justify-content: center;
+            padding: 4rem 1.5rem; background: var(--bg);
+        }
+        .approve-card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 16px; padding: 2.5rem; max-width: 400px;
+            width: 100%; text-align: center;
+        }
+        .approve-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+        h1 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.03em; color: var(--text); margin-bottom: 0.5rem; }
+        p  { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1rem; }
+        .portal-link {
+            display: inline-block; background: var(--accent); color: #fff;
+            padding: 0.625rem 1.5rem; border-radius: 100px;
+            font-size: 0.875rem; font-weight: 600; text-decoration: none;
+            transition: background 0.15s;
+        }
+        .portal-link:hover { background: var(--accent-hover); }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="/" class="logo">
+                <img src="Logo new.jpg" alt="Superceptron" class="logo-img">
+                Superceptron
+            </a>
+        </div>
+    </nav>
+
+    <div class="approve-wrap">
+        <div class="approve-card" id="card">
+            <!-- Content injected by JS based on ?result= or ?error= -->
+        </div>
+    </div>
+
+    <script>
+    (function () {
+        const params  = new URLSearchParams(location.search);
+        const result  = params.get('result');
+        const error   = params.get('error');
+        const card    = document.getElementById('card');
+
+        const states = {
+            approved: {
+                icon: '✅',
+                title: 'Access approved',
+                body:  'They can now sign in to the Superceptron portal. We\'ve let them know.',
+                link:  null,
+            },
+            already_active: {
+                icon: 'ℹ️',
+                title: 'Already approved',
+                body:  'This account was already active. No action needed.',
+                link:  null,
+            },
+            missing_params: {
+                icon: '⚠️',
+                title: 'Invalid link',
+                body:  'This approval link is missing required information. If you clicked a link from an email, please try again. If the problem persists, get in touch.',
+                link:  null,
+            },
+            not_found: {
+                icon: '⚠️',
+                title: 'Link not found',
+                body:  'We couldn\'t find this approval request. It may have already been approved, or the link may be out of date.',
+                link:  null,
+            },
+            invalid_token: {
+                icon: '⚠️',
+                title: 'Invalid or expired link',
+                body:  'This approval link has already been used or is invalid. If you need to approve access, please contact us.',
+                link:  null,
+            },
+            invalid_state: {
+                icon: '⚠️',
+                title: 'Unexpected state',
+                body:  'Something went wrong with this approval. Please contact us.',
+                link:  null,
+            },
+        };
+
+        const key = result || error || 'invalid_state';
+        const state = states[key] ?? states.invalid_state;
+
+        card.innerHTML = `
+            <div class="approve-icon">${state.icon}</div>
+            <h1>${state.title}</h1>
+            <p>${state.body}</p>
+            ${key === 'approved' || key === 'already_active'
+                ? '<p style="font-size:0.8rem;color:var(--text-muted)">You can close this tab.</p>'
+                : '<p><a href="mailto:snehalsavio123@gmail.com" style="color:var(--accent)">Get in touch</a></p>'}
+        `;
+    }());
+    </script>
+</body>
+</html>
