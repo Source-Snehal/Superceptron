@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Sample shortlist: Senior AI Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAFAF8;
+  --surface:#FFFFFF;
+  --border:#E6E4DF;
+  --rule:#D8D5CE;
+  --text:#14171A;
+  --muted:#5C6570;
+  --faint:#8B929B;
+  --accent:#1FA97F;
+  --accent-soft:#E8F5F0;
+  --plum:#4C3A63;
+  --plum-soft:#EFEBF3;
+  --display:'Newsreader',Georgia,serif;
+  --body:'Inter',system-ui,-apple-system,sans-serif;
+  --max:860px;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--body);
+  font-size:16px;
+  line-height:1.6;
+  font-feature-settings:"tnum" 0;
+}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 28px}
+
+/* ─── masthead ─────────────────────────────── */
+.masthead{padding:72px 0 0}
+.mark{
+  font-family:var(--body);
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin:0 0 40px;
+}
+.docline{
+  font-size:12px;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--faint);
+  font-weight:500;
+  margin:0 0 14px;
+}
+h1{
+  font-family:var(--display);
+  font-size:clamp(38px,6vw,58px);
+  font-weight:500;
+  line-height:1.05;
+  letter-spacing:-0.02em;
+  margin:0 0 20px;
+}
+.subhead{
+  font-size:17px;
+  color:var(--muted);
+  max-width:52ch;
+  margin:0 0 44px;
+}
+
+/* ─── figures strip ────────────────────────── */
+.figures{
+  display:flex;
+  flex-wrap:wrap;
+  gap:0;
+  border-top:1px solid var(--rule);
+  border-bottom:1px solid var(--rule);
+  margin-bottom:64px;
+}
+.fig{
+  flex:1 1 130px;
+  padding:22px 24px 22px 0;
+  border-right:1px solid var(--border);
+}
+.fig:last-child{border-right:0;padding-right:0}
+.fig-n{
+  font-family:var(--display);
+  font-size:34px;
+  font-weight:500;
+  line-height:1;
+  display:block;
+  margin-bottom:6px;
+  font-variant-numeric:tabular-nums;
+}
+.fig-l{
+  font-size:12px;
+  color:var(--muted);
+  letter-spacing:0.03em;
+  line-height:1.4;
+  display:block;
+}
+.fig.hl .fig-n{color:var(--plum)}
+
+/* ─── section headings ─────────────────────── */
+.sec{margin:0 0 64px}
+.sec-label{
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  color:var(--faint);
+  padding-bottom:10px;
+  border-bottom:1px solid var(--text);
+  margin:0 0 28px;
+}
+h2{
+  font-family:var(--display);
+  font-size:30px;
+  font-weight:500;
+  letter-spacing:-0.01em;
+  line-height:1.15;
+  margin:0 0 16px;
+}
+.lede{font-size:16px;color:var(--muted);max-width:62ch;margin:0 0 8px}
+.lede + .lede{margin-top:14px}
+
+/* ─── how it reads ─────────────────────────── */
+.readers{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1px;
+  background:var(--border);
+  border:1px solid var(--border);
+  margin-top:28px;
+}
+.reader{background:var(--surface);padding:20px}
+.reader-n{
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin:0 0 8px;
+}
+.reader-d{font-size:14px;color:var(--muted);margin:0;line-height:1.5}
+
+/* ─── candidate ────────────────────────────── */
+.cand{
+  border-top:1px solid var(--rule);
+  padding:36px 0 40px;
+}
+.cand:first-of-type{border-top:2px solid var(--text)}
+
+.cand-top{
+  display:flex;
+  gap:22px;
+  align-items:baseline;
+  margin-bottom:4px;
+}
+.rank{
+  font-family:var(--display);
+  font-size:30px;
+  font-weight:500;
+  color:var(--faint);
+  line-height:1;
+  font-variant-numeric:tabular-nums;
+  flex:0 0 auto;
+  width:42px;
+}
+.cand-id{flex:1 1 auto;min-width:0}
+.cand-name{
+  font-family:var(--display);
+  font-size:27px;
+  font-weight:500;
+  line-height:1.2;
+  margin:0 0 3px;
+  letter-spacing:-0.01em;
+}
+.cand-role{font-size:14px;color:var(--muted);margin:0}
+
+.tag{
+  display:inline-block;
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  padding:4px 9px;
+  border-radius:3px;
+  vertical-align:2px;
+  margin-left:10px;
+  white-space:nowrap;
+}
+.tag-split{background:var(--plum-soft);color:var(--plum)}
+.tag-agree{background:var(--accent-soft);color:#137a5c}
+
+/* ─── the split bar (signature) ────────────── */
+.split{margin:24px 0 0 64px}
+@media(max-width:600px){.split{margin-left:0}}
+
+.split-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  font-size:11px;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--faint);
+  font-weight:600;
+  margin-bottom:12px;
+}
+.split-spread{color:var(--muted);letter-spacing:0.04em}
+.split-spread b{color:var(--plum);font-weight:600}
+
+.track{
+  position:relative;
+  height:44px;
+  border-left:1px solid var(--rule);
+  border-right:1px solid var(--rule);
+}
+.track:before{
+  content:"";
+  position:absolute;
+  left:0;right:0;top:21px;
+  height:1px;
+  background:var(--rule);
+}
+.band{
+  position:absolute;
+  top:0;bottom:0;
+  background:var(--plum-soft);
+}
+.band.tight{background:var(--accent-soft)}
+
+.pip{
+  position:absolute;
+  top:9px;
+  width:2px;
+  height:26px;
+  background:var(--text);
+  transform:translateX(-1px);
+}
+.pip span{
+  position:absolute;
+  top:-15px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:0.06em;
+  color:var(--muted);
+  white-space:nowrap;
+}
+.scale{
+  display:flex;
+  justify-content:space-between;
+  font-size:10px;
+  color:var(--faint);
+  letter-spacing:0.08em;
+  margin-top:7px;
+  font-variant-numeric:tabular-nums;
+}
+
+/* ─── verdicts ─────────────────────────────── */
+.verdicts{margin:30px 0 0 64px}
+@media(max-width:600px){.verdicts{margin-left:0}}
+
+.v{
+  display:grid;
+  grid-template-columns:132px 1fr;
+  gap:20px;
+  padding:15px 0;
+  border-top:1px solid var(--border);
+}
+.v:first-child{border-top:0;padding-top:0}
+.v-who{
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:0.09em;
+  text-transform:uppercase;
+  color:var(--muted);
+  padding-top:2px;
+}
+.v-who b{
+  display:block;
+  font-family:var(--display);
+  font-size:19px;
+  letter-spacing:0;
+  text-transform:none;
+  color:var(--text);
+  font-weight:500;
+  font-variant-numeric:tabular-nums;
+  margin-top:3px;
+}
+.v-text{font-size:15px;color:var(--text);margin:0;line-height:1.6}
+.v-text + .v-text{margin-top:9px}
+
+@media(max-width:600px){
+  .v{grid-template-columns:1fr;gap:6px}
+  .v-who b{display:inline;margin-left:8px;font-size:17px}
+}
+
+/* ─── the call ─────────────────────────────── */
+.call{
+  margin:26px 0 0 64px;
+  padding:20px 22px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-left:3px solid var(--accent);
+}
+.call.split-call{border-left-color:var(--plum)}
+@media(max-width:600px){.call{margin-left:0}}
+
+.call-l{
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:0.11em;
+  text-transform:uppercase;
+  color:var(--faint);
+  margin:0 0 7px;
+}
+.call p{font-size:15px;margin:0;line-height:1.6}
+.call p + p{margin-top:10px}
+
+/* ─── the human stage ──────────────────────── */
+.human{
+  display:grid;
+  grid-template-columns:170px 1fr;
+  gap:24px;
+  border:1px solid var(--border);
+  border-top:0;
+  border-left:3px solid var(--plum);
+  background:var(--surface);
+  padding:22px 24px;
+}
+.human-n{
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--plum);
+  margin:0;
+  padding-top:2px;
+}
+.human-d{font-size:15px;color:var(--text);margin:0;line-height:1.6}
+.human-d + .human-d{margin-top:10px}
+@media(max-width:600px){
+  .human{grid-template-columns:1fr;gap:10px}
+}
+
+/* ─── near misses ──────────────────────────── */
+.miss{
+  padding:20px 0;
+  border-top:1px solid var(--border);
+  display:grid;
+  grid-template-columns:200px 1fr;
+  gap:24px;
+}
+.miss:first-of-type{border-top:1px solid var(--text)}
+.miss-name{font-family:var(--display);font-size:19px;font-weight:500;margin:0}
+.miss-role{font-size:13px;color:var(--faint);margin:2px 0 0}
+.miss-why{font-size:15px;color:var(--text);margin:0;line-height:1.6}
+@media(max-width:600px){.miss{grid-template-columns:1fr;gap:8px}}
+
+/* ─── colophon ─────────────────────────────── */
+.colophon{
+  border-top:1px solid var(--text);
+  margin-top:24px;
+  padding:28px 0 90px;
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.65;
+}
+.colophon p{margin:0 0 12px;max-width:64ch}
+.colophon strong{color:var(--text);font-weight:600}
+.sig{
+  font-family:var(--display);
+  font-size:17px;
+  color:var(--text);
+  margin-top:22px;
+}
+.sig span{display:block;font-family:var(--body);font-size:13px;color:var(--faint);margin-top:3px}
+
+@media print{
+  body{background:#fff}
+  .cand{break-inside:avoid}
+  .colophon{padding-bottom:0}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="mark">Superceptron</p>
+    <p class="docline">Sample shortlist · illustrative</p>
+    <h1>Senior AI Engineer</h1>
+    <p class="subhead">Prepared for a five-person technical recruiting firm. Forty-seven applications, read in full, ranked, with the reasoning attached to every name.</p>
+
+    <div class="figures">
+      <div class="fig"><span class="fig-n">47</span><span class="fig-l">Applications received</span></div>
+      <div class="fig"><span class="fig-n">47</span><span class="fig-l">Read in full, three times each</span></div>
+      <div class="fig"><span class="fig-n">5</span><span class="fig-l">Shortlisted</span></div>
+      <div class="fig hl"><span class="fig-n">3</span><span class="fig-l">Where the readers split</span></div>
+    </div>
+  </header>
+
+  <section class="sec">
+    <p class="sec-label">How this was read</p>
+    <h2>Three reads, then a person decides.</h2>
+    <p class="lede">Every application is read three times, from three different angles. The readers work independently. None of them sees the others' verdicts, so agreement means something and disagreement means something else.</p>
+    <p class="lede">Then I go through all of it by hand and write the ranking myself. The reads are evidence. They don't decide anything, and nothing is ever cut before I've seen it.</p>
+
+    <div class="readers">
+      <div class="reader">
+        <p class="reader-n">The strict read</p>
+        <p class="reader-d">Scores against what the spec actually asks for. Absence of evidence counts as absence. Unforgiving on purpose.</p>
+      </div>
+      <div class="reader">
+        <p class="reader-n">The transferable read</p>
+        <p class="reader-d">Looks for evidence the person could do the work even when the vocabulary doesn't match. Adjacent stacks, analogous problems, demonstrated learning speed.</p>
+      </div>
+      <div class="reader">
+        <p class="reader-n">The hiring manager</p>
+        <p class="reader-d">One interview slot this week. Would you spend it here, and what would you be hoping to find out?</p>
+      </div>
+    </div>
+
+    <div class="human">
+      <p class="human-n">Then the review</p>
+      <div>
+        <p class="human-d">I read every application myself alongside the three verdicts, and I write the ranking. Where the readers agree I'm checking their work. Where they split I'm choosing between two arguments, and I tell you which one I went with and why.</p>
+        <p class="human-d">That decision is a recommendation, not a filter. Every applicant appears somewhere in this document, including the ones I ranked last.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <p class="sec-label">Ranked shortlist</p>
+
+    <!-- 1 -->
+    <article class="cand">
+      <div class="cand-top">
+        <div class="rank">01</div>
+        <div class="cand-id">
+          <h3 class="cand-name">A. Okonkwo<span class="tag tag-agree">Agreed</span></h3>
+          <p class="cand-role">Staff ML Engineer, mid-size fintech · 8 yrs · London</p>
+        </div>
+      </div>
+
+      <div class="split">
+        <div class="split-head"><span>Reader scores</span><span class="split-spread">Spread <b>1</b></span></div>
+        <div class="track">
+          <div class="band tight" style="left:78%;right:12%"></div>
+          <div class="pip" style="left:80%"><span>Strict 8</span></div>
+          <div class="pip" style="left:88%"><span>Transf. 9</span></div>
+          <div class="pip" style="left:88%"></div>
+        </div>
+        <div class="scale"><span>0</span><span>5</span><span>10</span></div>
+      </div>
+
+      <div class="verdicts">
+        <div class="v">
+          <div class="v-who">Strict<b>8</b></div>
+          <div>
+            <p class="v-text">Meets every hard requirement without needing interpretation. Six years of production Python, four of those owning model-serving infrastructure rather than notebooks.</p>
+            <p class="v-text">Deducted a point on scale. The largest system described serves roughly 40k requests/day, and the spec implies an order of magnitude above that.</p>
+          </div>
+        </div>
+        <div class="v">
+          <div class="v-who">Transferable<b>9</b></div>
+          <div>
+            <p class="v-text">The scale gap is smaller than it reads. Two roles back they handled payments throughput at far higher volume, and the architectural problems are the same shape.</p>
+            <p class="v-text">Has twice been the person who took someone else's research prototype into production. That's the actual job here, and it's rarer than the model-building skills the spec leads with.</p>
+          </div>
+        </div>
+        <div class="v">
+          <div class="v-who">Hiring manager<b>9</b></div>
+          <div>
+            <p class="v-text">Yes, and early in the week. The CV is unusually specific about failure. One section describes a model that degraded quietly for three months and what they changed afterwards.</p>
+            <p class="v-text">Would use the slot to probe the scale question directly and to find out why they've moved twice in four years.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="call">
+        <p class="call-l">My call</p>
+        <p>Top of the list, and it wasn't close. The only real question is scale, and it's an interview question rather than a screening one. The underlying experience is there, just in a different domain.</p>
+      </div>
+    </article>
+
+    <!-- 2 -->
+    <article class="cand">
+      <div class="cand-top">
+        <div class="rank">02</div>
+        <div class="cand-id">
+          <h3 class="cand-name">D. Kaur<span class="tag tag-split">Readers split</span></h3>
+          <p class="cand-role">Senior Engineer, logistics scale-up · 6 yrs · Manchester</p>
+        </div>
+      </div>
+
+      <div class="split">
+        <div class="split-head"><span>Reader scores</span><span class="split-spread">Spread <b>4</b></span></div>
+        <div class="track">
+          <div class="band" style="left:48%;right:12%"></div>
+          <div class="pip" style="left:50%"><span>Strict 5</span></div>
+          <div class="pip" style="left:78%"><span>Transf. 8</span></div>
+          <div class="pip" style="left:88%"><span>HM 9</span></div>
+        </div>
+        <div class="scale"><span>0</span><span>5</span><span>10</span></div>
+      </div>
+
+      <div class="verdicts">
+        <div class="v">
+          <div class="v-who">Strict<b>5</b></div>
+          <div>
+            <p class="v-text">No computer science degree, and the spec lists one under requirements. Career started in mechanical engineering, moved across via a part-time conversion course.</p>
+            <p class="v-text">The CV never uses the words "machine learning engineer" and doesn't name most of the frameworks in the spec. On stated criteria this is a borderline reject.</p>
+          </div>
+        </div>
+        <div class="v">
+          <div class="v-who">Transferable<b>8</b></div>
+          <div>
+            <p class="v-text">The work is unmistakably the work. Built and shipped a demand-forecasting system that runs the company's warehouse replenishment. That's a production ML system with real consequences, described in the language of logistics rather than the language of ML.</p>
+            <p class="v-text">Every framework in the spec has an obvious equivalent in what they've used. The gap is vocabulary, not capability.</p>
+          </div>
+        </div>
+        <div class="v">
+          <div class="v-who">Hiring manager<b>9</b></div>
+          <div>
+            <p class="v-text">This is the most interesting CV in the pile. Someone who taught themselves into this from a standing start and then shipped something the business depends on has already demonstrated the thing interviews try to test for.</p>
+            <p class="v-text">The degree requirement is almost certainly boilerplate. I'd want to know whether they can hold their own in a design review with people who came up through CS.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="call split-call">
+        <p class="call-l">My call · readers split</p>
+        <p>This is the candidate a keyword filter loses, and it's why the shortlist runs three readers. The strict read is correct on its own terms. The CV genuinely doesn't match the spec's vocabulary, and a keyword score would put this in the bottom third.</p>
+        <p>I've placed second. The forecasting system is production ML by any reasonable definition, and the degree line is the kind of requirement that gets copied forward between job ads without anyone re-examining it. Worth asking your client whether it's real. If it is, this ranking changes and you should know that before you make the call.</p>
+      </div>
+    </article>
+
+    <!-- 3 -->
+    <article class="cand">
+      <div class="cand-top">
+        <div class="rank">03</div>
+        <div class="cand-id">
+          <h3 class="cand-name">P. Nandakumar<span class="tag tag-agree">Agreed</span></h3>
+          <p class="cand-role">ML Engineer, health-tech · 5 yrs · Bristol / remote</p>
+        </div>
+      </div>
+
+      <div class="split">
+        <div class="split-head"><span>Reader scores</span><span class="split-spread">Spread <b>1</b></span></div>
+        <div class="track">
+          <div class="band tight" style="left:68%;right:22%"></div>
+          <div class="pip" style="left:70%"><span>Strict 7</span></div>
+          <div class="pip" style="left:78%"><span>Transf. 8</span></div>
+          <div class="pip" style="left:70%"></div>
+        </div>
+        <div class="scale"><span>0</span><span>5</span><span>10</span></div>
+      </div>
+
+      <div class="verdicts">
+        <div class="v">
+          <div class="v-who">Strict<b>7</b></div>
+          <div>
+            <p class="v-text">Hits the technical requirements cleanly. Five years is at the lower end of what the spec asks for but within range, and the depth is real rather than padded.</p>
+            <p class="v-text">Regulated-environment experience is a genuine plus that the spec doesn't ask for and probably should.</p>
+          </div>
+        </div>
+        <div class="v">
+          <div class="v-who">Transferable<b>8</b></div>
+          <div>
+            <p class="v-text">Health-tech means they've shipped models under audit conditions: versioned, explainable, defensible to a regulator. That discipline transfers well and is hard to teach.</p>
+            <p class="v-text">Slightly narrower stack than the top two, but everything they have done, they have done properly.</p>
+          </div>
+        </div>
+        <div class="v">
+          <div class="v-who">Hiring manager<b>7</b></div>
+          <div>
+            <p class="v-text">Solid yes, without excitement. The kind of hire who is still doing good work in three years and never becomes a problem.</p>
+            <p class="v-text">Would want to check appetite. The CV reads as someone who is comfortable, and this role would be a step up in pace.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="call">
+        <p class="call-l">My call</p>
+        <p>Reliable third. All three readers landed within a point, which usually means what you see is what you get. Interview if the top two fall through, or alongside them if your client wants a safe option in the mix.</p>
+      </div>
+    </article>
+
+    <!-- 4 -->
+    <article class="cand">
+      <div class="cand-top">
+        <div class="rank">04</div>
+        <div class="cand-id">
+          <h3 class="cand-name">T. Reyes<span class="tag tag-split">Readers split</span></h3>
+          <p class="cand-role">Research Scientist, university spin-out · 9 yrs · Edinburgh</p>
+        </div>
+      </div>
+
+      <div class="split">
+        <div class="split-head"><span>Reader scores</span><span class="split-spread">Spread <b>3</b></span></div>
+        <div class="track">
+          <div class="band" style="left:48%;right:22%"></div>
+          <div class="pip" style="left:78%"><span>Strict 8</span></div>
+          <div class="pip" style="left:60%"><span>Transf. 6</span></div>
+          <div class="pip" style="left:50%"><span>HM 5</span></div>
+        </div>
+        <div class="scale"><span>0</span><span>5</span><span>10</span></div>
+      </div>
+
+      <div class="verdicts">
+        <div class="v">
+          <div class="v-who">Strict<b>8</b></div>
+          <div>
+            <p class="v-text">On paper this is the strongest technical profile in the pile. PhD, published, and every named technology in the spec appears in their work with real depth behind it.</p>
+            <p class="v-text">Nine years of experience against a spec asking for six. Scores high on every stated requirement.</p>
+          </div>
+        </div>
+        <div class="v">
+          <div class="v-who">Transferable<b>6</b></div>
+          <div>
+            <p class="v-text">Almost all of the work described is research rather than production. Models are evaluated on benchmarks, not deployed against traffic, and there's no mention of monitoring, latency budgets, or on-call.</p>
+            <p class="v-text">The capability is obviously there. Whether the habits are is a different question, and the CV gives no evidence either way.</p>
+          </div>
+        </div>
+        <div class="v">
+          <div class="v-who">Hiring manager<b>5</b></div>
+          <div>
+            <p class="v-text">Hesitant. I've hired this profile before and it goes one of two ways depending entirely on whether the person wanted to leave research or merely wanted a higher salary.</p>
+            <p class="v-text">Would interview, but I'd spend the whole slot on motivation rather than technical depth, which is unusual for a CV this strong.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="call split-call">
+        <p class="call-l">My call · readers split</p>
+        <p>An inversion of the usual pattern. The strict read is the enthusiastic one here, and the human-judgement reads are the cautious ones. That happens when a CV matches a spec's words better than it matches the job's reality.</p>
+        <p>Placed fourth rather than first because the spec's underlying need is someone who can own a system in production, and this is the one thing the CV doesn't evidence. Genuinely worth an interview if your client has research ambitions, and a poor fit if the role is what the day-to-day description suggests.</p>
+      </div>
+    </article>
+
+    <!-- 5 -->
+    <article class="cand">
+      <div class="cand-top">
+        <div class="rank">05</div>
+        <div class="cand-id">
+          <h3 class="cand-name">J. Whitlock<span class="tag tag-split">Readers split</span></h3>
+          <p class="cand-role">Lead AI Engineer, consultancy · 7 yrs · London</p>
+        </div>
+      </div>
+
+      <div class="split">
+        <div class="split-head"><span>Reader scores</span><span class="split-spread">Spread <b>4</b></span></div>
+        <div class="track">
+          <div class="band" style="left:38%;right:22%"></div>
+          <div class="pip" style="left:78%"><span>Strict 8</span></div>
+          <div class="pip" style="left:48%"><span>Transf. 4</span></div>
+          <div class="pip" style="left:40%"><span>HM 4</span></div>
+        </div>
+        <div class="scale"><span>0</span><span>5</span><span>10</span></div>
+      </div>
+
+      <div class="verdicts">
+        <div class="v">
+          <div class="v-who">Strict<b>8</b></div>
+          <div>
+            <p class="v-text">Every keyword in the spec appears, most of them more than once. Job titles map cleanly onto the role. Highest surface match of any application received.</p>
+          </div>
+        </div>
+        <div class="v">
+          <div class="v-who">Transferable<b>4</b></div>
+          <div>
+            <p class="v-text">Very little survives contact with detail. Eleven technologies listed across four bullet points, none with a stated outcome, timeframe, or scale.</p>
+            <p class="v-text">"Led AI transformation initiatives" appears three times in three different roles without ever describing what was built or what changed as a result.</p>
+          </div>
+        </div>
+        <div class="v">
+          <div class="v-who">Hiring manager<b>4</b></div>
+          <div>
+            <p class="v-text">I've read this CV before, many times. Consultancy background, heavy on scope language, thin on anything you could verify in a technical conversation.</p>
+            <p class="v-text">Might be excellent. The document gives me nothing to test that against, and that's information too.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="call split-call">
+        <p class="call-l">My call · readers split</p>
+        <p>Included deliberately, at the bottom. This is the mirror image of second place. Highest keyword match in the pile, weakest evidence behind it. Any tool scoring on overlap would have put this candidate first.</p>
+        <p>Kept on the shortlist rather than cut because the consultancy format may be hiding real work behind client confidentiality. If your client has an open slot, ten minutes on the phone would settle it either way. If they don't, this is the one to drop.</p>
+      </div>
+    </article>
+  </section>
+
+  <section class="sec">
+    <p class="sec-label">Read closely, not shortlisted</p>
+    <h2>The near misses, and why</h2>
+    <p class="lede">Everyone else was read in full too. These four came closest, and the reason each missed is recorded so you can overrule it if you disagree.</p>
+    <div style="margin-top:28px">
+      <div class="miss">
+        <div><p class="miss-name">S. Fitzgerald</p><p class="miss-role">Senior Data Engineer · 7 yrs</p></div>
+        <p class="miss-why">Strong infrastructure work, but the ML is adjacent rather than owned. They built the platform other people's models ran on. Would be first on the list for a data platform role.</p>
+      </div>
+      <div class="miss">
+        <div><p class="miss-name">M. Adeyemi</p><p class="miss-role">ML Engineer · 3 yrs</p></div>
+        <p class="miss-why">Genuinely good, genuinely too early. Three years against a spec wanting six, and unlike second place there's no earlier career to draw on. Worth keeping for a mid-level brief.</p>
+      </div>
+      <div class="miss">
+        <div><p class="miss-name">R. Bergström</p><p class="miss-role">Principal Engineer · 12 yrs</p></div>
+        <p class="miss-why">Overqualified in a way that matters. The last four years have been architecture and mentoring rather than building, so they'd likely find the day-to-day of this role frustrating within six months.</p>
+      </div>
+      <div class="miss">
+        <div><p class="miss-name">L. Chen</p><p class="miss-role">AI Engineer · 5 yrs</p></div>
+        <p class="miss-why">Right profile, wrong constraint. The CV states a hard requirement for fully remote work and the spec asks for three days on site. Flagged rather than cut in case that's negotiable on your client's side.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="colophon">
+    <p><strong>About this document.</strong> This is a sample. The format, the reading method and the reasoning style are exactly what you would receive.</p>
+    <p>On a live role, every application you send is read in full, and I write the shortlist myself. Nothing is filtered out before a person sees it and nothing is rejected by a machine. The ranking is a recommendation rather than a decision. Where the readers disagree you get told, and you get both arguments, because those are the ones where your judgement is worth more than mine.</p>
+    <p class="sig">Superceptron<span>Every CV read. The reasoning attached. Your call.</span></p>
+  </div>
+
+</div>
+</body>
+</html>
