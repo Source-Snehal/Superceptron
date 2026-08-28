@@ -128,6 +128,13 @@
         }
         .cand-nav-cta:hover { opacity: 0.85; transform: translateY(-1px); }
 
+        /* Candidate nav has no hamburger/drawer — it's only ever 1-2 compact
+           action buttons, so keep it visible on mobile instead of hiding it. */
+        @media (max-width: 640px) {
+            .nav-right { display: flex; gap: 0.5rem; }
+            .be-super-btn, .cand-nav-cta { padding: 0.4rem 0.75rem; font-size: 0.78rem; }
+        }
+
         /* ── Hero ── */
         .cand-hero {
             padding: 120px 1.5rem 3rem;
