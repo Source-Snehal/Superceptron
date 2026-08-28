@@ -745,7 +745,7 @@
             super_coach:   'https://buy.stripe.com/7sY8wI3KFeIubh3e26gUM02',
         };
 
-        var sb = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+        var sb = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { storageKey: 'sb-candidate-auth' } }) : null;
         function $(id) { return document.getElementById(id); }
 
         var userId     = null;

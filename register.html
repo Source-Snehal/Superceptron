@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="refresh" content="0; url=/portal.html">
-    <title>Start Your Free Trial — Superceptron</title>
-    <meta name="description" content="Start your free trial with Superceptron. Resume shortlisting for independent recruiting firms. No contracts, no sales calls.">
+    <title>Get Your First Role Free — Superceptron</title>
+    <meta name="description" content="Get your first role screened free with Superceptron. Resume shortlisting for independent recruiting firms. No contracts, no sales calls.">
     <meta name="robots" content="noindex, nofollow">
     <link rel="icon" href="Logo new.jpg" type="image/jpeg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -179,7 +179,7 @@
                 <a href="blog.html" class="nav-contact">Blog</a>
                 <a href="pricing.html" class="nav-contact">Pricing</a>
                 <a href="index.html#contact" class="nav-contact">Contact</a>
-                <a href="portal.html" class="nav-cta" style="color:var(--black);">Try free for 30 days</a>
+                <a href="portal.html" class="nav-cta" style="color:var(--black);">Get your first role free</a>
             </div>
             <button class="nav-hamburger" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
                 <span></span><span></span><span></span>
@@ -190,7 +190,7 @@
             <a href="blog.html" class="nav-mobile-link">Blog</a>
             <a href="pricing.html" class="nav-mobile-link">Pricing</a>
             <a href="index.html#contact" class="nav-mobile-link">Contact</a>
-            <a href="portal.html" class="nav-mobile-link nav-mobile-cta">Try free for 30 days</a>
+            <a href="portal.html" class="nav-mobile-link nav-mobile-cta">Get your first role free</a>
         </div>
     </nav>
 
@@ -200,8 +200,8 @@
 
                 <!-- Form state -->
                 <div id="registerForm">
-                    <span class="section-label" style="display:inline-block;margin-bottom:1.5rem;">30 days free</span>
-                    <h1 class="register-heading">Start your<br><span class="accent-text">free trial.</span></h1>
+                    <span class="section-label" style="display:inline-block;margin-bottom:1.5rem;">First role free</span>
+                    <h1 class="register-heading">Get your<br><span class="accent-text">first role free.</span></h1>
                     <p class="register-sub">Tell us a little about your firm and the first role you'd like to screen. We'll be in touch very soon — usually within a few hours.</p>
 
                     <form class="register-form" id="trialForm" novalidate>
@@ -234,10 +234,10 @@
                             <textarea class="form-textarea" id="fnotes" name="notes" placeholder="e.g. Senior DevOps Engineer for a Series B SaaS client — usually 40–60 applicants…"></textarea>
                         </div>
                         <input type="hidden" name="access_key" value="8d60dc7b-2668-4945-9ae5-c522327c14da">
-                        <input type="hidden" name="subject" id="fsubject" value="Free Trial Request">
+                        <input type="hidden" name="subject" id="fsubject" value="First Role Free Request">
                         <input type="hidden" name="from_name" value="Superceptron Website">
                         <input type="checkbox" name="botcheck" style="display:none" tabindex="-1">
-                        <button type="submit" class="form-submit-btn" id="submitBtn">Request your free trial →</button>
+                        <button type="submit" class="form-submit-btn" id="submitBtn">Request your first role free →</button>
                         <p class="form-note">No commitment. No sales call. We respond within a few hours.</p>
                     </form>
                 </div>
@@ -303,7 +303,7 @@
             if (!valid) return;
 
             // Set email subject to include firm name
-            document.getElementById('fsubject').value = 'Free Trial Request – ' + firm;
+            document.getElementById('fsubject').value = 'First Role Free Request – ' + firm;
 
             // Loading state
             submitBtn.disabled = true;
@@ -325,7 +325,7 @@
                 }
             } catch (err) {
                 submitBtn.disabled = false;
-                submitBtn.textContent = 'Request your free trial →';
+                submitBtn.textContent = 'Request your first role free →';
                 alert('Something went wrong — please email us directly at info@superceptron.com');
             }
         });

@@ -257,7 +257,7 @@
     (async () => {
         const SUPABASE_URL  = 'https://nnvfflsenziqecjrdkks.supabase.co';
         const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5udmZmbHNlbnppcWVjanJka2tzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc2OTg4OTUsImV4cCI6MjEwMzI3NDg5NX0.6il0odidWgV-R7WdhIeH0AEbO2a6YNzeAqR90es-oBQ';
-        const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+        const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, { auth: { storageKey: 'sb-recruiter-auth' } });
 
         // ── Redirect if already signed in ─────────────────────
         const { data: { session } } = await sb.auth.getSession();
