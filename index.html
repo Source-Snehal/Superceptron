@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Superceptron — Resume Screening for Recruiters</title>
-    <meta name="description" content="Resume screening for recruiters. Resume clarity for candidates. Superceptron works on both ends of the hiring signal problem.">
+    <title>Superceptron — Resume Shortlisting for Independent Recruiting Firms</title>
+    <meta name="description" content="Every resume gets three independent reads, each from a different angle, then a person writes the shortlist. Ranked, with the reasoning on every name. Built for independent tech and engineering & construction recruiting firms.">
     <meta name="author" content="Superceptron">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://www.superceptron.com/">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.superceptron.com/">
-    <meta property="og:title" content="Superceptron — Resume Screening for Recruiters">
-    <meta property="og:description" content="Resume screening for recruiters. Resume clarity for candidates. Superceptron works on both ends of the hiring signal problem.">
+    <meta property="og:title" content="Superceptron — Resume Shortlisting for Independent Recruiting Firms">
+    <meta property="og:description" content="Every resume gets three independent reads, each from a different angle, then a person writes the shortlist. Ranked, with the reasoning on every name.">
     <meta property="og:site_name" content="Superceptron">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Superceptron — Resume Screening for Recruiters">
-    <meta name="twitter:description" content="Resume screening for recruiters. Resume clarity for candidates. Superceptron works on both ends of the hiring signal problem.">
+    <meta name="twitter:title" content="Superceptron — Resume Shortlisting for Independent Recruiting Firms">
+    <meta name="twitter:description" content="Every resume gets three independent reads, each from a different angle, then a person writes the shortlist. Ranked, with the reasoning on every name.">
 
     <link rel="icon" href="Logo new.jpg" type="image/jpeg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -52,7 +52,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 72px 1.5rem 2.5rem;
+            padding: 96px 1.5rem 2.5rem;
         }
 
         .hub-hero-inner {
@@ -68,81 +68,35 @@
             text-align: center;
         }
 
-        .hub-sub {
+        .hub-thesis .eyebrow-pill {
+            margin-bottom: 1.25rem;
+        }
+
+        .hub-thesis .hero-title {
+            margin-bottom: 1.25rem;
+        }
+
+        .hub-thesis .hero-sub {
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 0;
+        }
+
+        .hub-hero-cta {
+            margin-top: 1.75rem;
+        }
+
+        .eyebrow-pill {
+            display: inline-block;
             font-family: var(--font);
-            font-size: 0.8125rem;
-            color: var(--text-muted);
-            letter-spacing: 0.02em;
-            line-height: 1.9;
-        }
-
-        /* ── Rolling hero animation ── */
-        .roll-hero {
-            margin-bottom: 0.875rem;
-            text-align: center;
-        }
-
-        .roll-stage {
-            display: inline-flex;
-            align-items: flex-end;
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            font-weight: 800;
-            letter-spacing: -0.04em;
-            line-height: 1.1;
-            color: var(--white);
-            white-space: nowrap;
-        }
-
-        /* Fixed-width clipping slot — prefix moves inside, Super stays put */
-        .roll-slot {
-            display: inline-block;
-            position: relative;
-            overflow: hidden;
-            height: 1.25em;
-            vertical-align: bottom;
-            /* width set by JS once on load */
-        }
-
-        .roll-prefix {
-            display: block;
-            position: absolute;
-            right: 0;
-            bottom: 0;
-            white-space: nowrap;
-            will-change: transform;
-        }
-
-        /* Registered custom property so the browser can interpolate the gradient stop */
-        @property --paint {
-            syntax: '<percentage>';
-            inherits: false;
-            initial-value: 0%;
-        }
-
-        .roll-super {
-            display: inline-block;
-            /* gradient stop at 0% = entirely white; transitions to 100% = entirely green */
-            background: linear-gradient(to left, var(--accent) var(--paint), var(--text) var(--paint));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .roll-dot { display: inline-block; overflow: hidden; }
-
-        /* Starts clipped to zero-width; JS expands it and it's always painted green */
-        .roll-ceptron {
-            display: inline-block;
-            overflow: hidden;
-            max-width: 0;
-            opacity: 0;
-            white-space: nowrap;
-            vertical-align: bottom;
-            will-change: max-width, opacity;
-            background: var(--accent);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.01em;
+            color: var(--accent);
+            background: var(--accent-soft);
+            border: 1px solid rgba(31,169,127,0.25);
+            border-radius: 100px;
+            padding: 0.35rem 0.875rem;
         }
 
         /* ── Path cards ── */
@@ -150,6 +104,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1.25rem;
+            scroll-margin-top: 90px;
         }
 
         .path-card {
@@ -169,6 +124,10 @@
             background: var(--accent-soft);
             border: 1px solid rgba(31,169,127,0.2);
             animation: riseIn 0.7s var(--ease) 0.38s both;
+        }
+
+        .hub-paths .path-card-green:nth-child(2) {
+            animation-delay: 0.52s;
         }
 
         .path-card-green:hover {
@@ -249,70 +208,13 @@
             transform: translateY(-2px);
         }
 
-        /* ── Email capture ── */
-        .hub-capture {
+        /* ── Trust line ── */
+        .hub-trust {
             text-align: center;
+            font-size: 0.8125rem;
+            color: var(--text-muted);
             margin-top: 0.25rem;
         }
-
-        .capture-label {
-            display: block;
-            font-family: var(--font);
-            font-size: 0.72rem;
-            color: var(--text-muted);
-            letter-spacing: 0.03em;
-            margin-bottom: 0.75rem;
-        }
-
-        .capture-row {
-            display: inline-flex;
-            gap: 0.5rem;
-            align-items: center;
-        }
-
-        .capture-input {
-            font-family: var(--font);
-            font-size: 0.8125rem;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 100px;
-            color: var(--text);
-            padding: 0.45rem 1rem;
-            outline: none;
-            width: 220px;
-            transition: border-color 0.2s;
-        }
-
-        .capture-input::placeholder { color: var(--text-muted); }
-        .capture-input:focus { border-color: var(--accent); }
-
-        .capture-btn {
-            font-family: var(--font);
-            font-size: 0.8125rem;
-            font-weight: 600;
-            padding: 0.45rem 1rem;
-            border-radius: 100px;
-            background: var(--accent);
-            color: #FFFFFF;
-            border: 1px solid var(--accent);
-            cursor: pointer;
-            transition: background 0.2s, color 0.2s, border-color 0.2s;
-            white-space: nowrap;
-        }
-
-        .capture-btn:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
-        .capture-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-        .capture-msg {
-            font-family: var(--font);
-            font-size: 0.7rem;
-            margin-top: 0.5rem;
-            min-height: 1em;
-            color: var(--text-muted);
-        }
-
-        .capture-msg.ok    { color: var(--accent); }
-        .capture-msg.error { color: #F87171; }
 
         /* ── Shared animation ── */
         @keyframes riseIn {
@@ -355,13 +257,12 @@
             .noise-bg { display: none; }
 
             .hub-hero {
-                padding: 100px 1.25rem 2.5rem;
+                padding: 108px 1.25rem 2.5rem;
                 align-items: flex-start;
             }
 
             .hub-thesis { text-align: left; }
-            .hub-brand-label { display: none; }
-            .hub-sub br { display: none; }
+            .hub-thesis .hero-sub { margin-left: 0; margin-right: 0; }
 
             .hub-paths { grid-template-columns: 1fr; }
 
@@ -370,104 +271,45 @@
 
         /* ── Reduced motion ── */
         @media (prefers-reduced-motion: reduce) {
-            .noise-bg { display: none; }
-            .hub-thesis,
             .path-card-green,
             .path-card-purple { animation: none; opacity: 1; transform: none; }
-        }
-
-        /* ── Blog section ── */
-        .hub-blog {
-            border-top: 1px solid var(--w08);
-            padding: 3.5rem 1.5rem;
-            max-width: 860px;
-            margin: 0 auto;
-        }
-        .hub-blog-header {
-            display: flex;
-            align-items: baseline;
-            justify-content: space-between;
-            margin-bottom: 1.75rem;
-        }
-        .hub-blog-label {
-            font-family: var(--mono);
-            font-size: 0.7rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--w30);
-        }
-        .hub-blog-all {
-            font-size: 0.8125rem;
-            color: var(--w60);
-            text-decoration: none;
-            transition: color 0.15s;
-        }
-        .hub-blog-all:hover { color: var(--white); }
-        .hub-blog-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1px;
-            background: var(--w08);
-            border: 1px solid var(--w08);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .hub-blog-card {
-            background: var(--black-2);
-            padding: 1.5rem 1.75rem;
-            text-decoration: none;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            transition: background 0.15s;
-        }
-        .hub-blog-card:hover { background: var(--black-3); }
-        .hub-blog-tag {
-            font-family: var(--mono);
-            font-size: 0.65rem;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--w30);
-        }
-        .hub-blog-title {
-            font-size: 0.9375rem;
-            font-weight: 600;
-            color: var(--white);
-            line-height: 1.4;
-            letter-spacing: -0.01em;
-        }
-        .hub-blog-excerpt {
-            font-size: 0.825rem;
-            color: var(--w60);
-            line-height: 1.65;
-            flex: 1;
-        }
-        .hub-blog-read {
-            font-size: 0.775rem;
-            color: var(--w30);
-            margin-top: 0.25rem;
-        }
-        @media (max-width: 600px) {
-            .hub-blog-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <!-- NAV -->
-    <nav class="nav" id="nav">
+    <!-- Navigation -->
+    <nav class="nav">
         <div class="nav-inner">
-            <a href="index.html" class="logo">Superceptron</a>
+            <a href="index.html" class="logo" aria-label="Superceptron home">
+                <img src="Logo new.jpg" alt="" class="logo-img" aria-hidden="true">
+                <span class="logo-rest">Superceptron</span>
+            </a>
             <div class="nav-right">
-                <a href="blog.html" style="font-size:0.875rem;color:var(--w60);text-decoration:none;transition:color 0.2s ease;"
-                   onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--w60)'">Blog</a>
+                <a href="about.html" class="nav-contact">About</a>
+                <a href="blog.html" class="nav-contact">Blog</a>
+                <a href="pricing.html" class="nav-contact">Pricing</a>
+                <a href="#contact" class="nav-contact">Contact</a>
+                <a href="cv-score.html" class="nav-contact">For Candidates</a>
+                <a href="portal.html" class="nav-cta">Try it free</a>
             </div>
+            <button class="nav-hamburger" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <div class="nav-mobile" id="navMobile" aria-hidden="true">
+            <a href="about.html" class="nav-mobile-link">About</a>
+            <a href="blog.html" class="nav-mobile-link">Blog</a>
+            <a href="pricing.html" class="nav-mobile-link">Pricing</a>
+            <a href="#contact" class="nav-mobile-link">Contact</a>
+            <a href="cv-score.html" class="nav-mobile-link">For Candidates</a>
+            <a href="portal.html" class="nav-mobile-link nav-mobile-cta">Try it free</a>
         </div>
     </nav>
 
     <!-- NOISE BACKGROUND -->
     <div class="noise-bg" aria-hidden="true">
-        <!-- Left / recruiter side -->
+        <!-- Left / tech side -->
         <span class="noise-word" data-side="left"  style="top:11%;left:2%;   --nd:220ms">results-driven</span>
         <span class="noise-word" data-side="left"  style="top:27%;left:5%;   --nd:510ms">team player</span>
         <span class="noise-word" data-side="left"  style="top:44%;left:1%;   --nd:360ms">proven track record</span>
@@ -482,7 +324,7 @@
         <span class="noise-word" data-side="left"  style="top:48%;left:40%;  --nd:770ms">detail-oriented</span>
         <span class="noise-word" data-side="left"  style="top:93%;left:7%;   --nd:540ms">passionate about</span>
         <span class="noise-word" data-side="left"  style="top:31%;left:43%;  --nd:395ms">value-add</span>
-        <!-- Right / candidate side -->
+        <!-- Right / engineering & construction side -->
         <span class="noise-word" data-side="right" style="top:9%; left:54%;  --nd:320ms">leveraging synergies</span>
         <span class="noise-word" data-side="right" style="top:25%;left:62%;  --nd:700ms">innovative solutions</span>
         <span class="noise-word" data-side="right" style="top:42%;left:52%;  --nd:480ms">excellent communicator</span>
@@ -504,84 +346,37 @@
         <div class="hub-hero-inner">
 
             <div class="hub-thesis">
-
-                <!-- Rolling hero -->
-                <div class="roll-hero">
-
-                    <!-- Single stage: prefix exits, slot collapses, ceptron expands -->
-                    <div class="roll-stage" id="roll-stage" aria-live="polite">
-                        <div class="roll-slot" id="roll-slot"><span class="roll-prefix" id="roll-prefix">Hire</span></div><span class="roll-super" id="roll-super">Super</span><span class="roll-dot" id="roll-dot">.</span><span class="roll-ceptron" id="roll-ceptron">ceptron</span>
-                    </div>
-
-                </div>
-
-                <p class="hub-sub">
-                    Two separate tools. One for recruiters, one for candidates.<br>
-                    Both built around the same problem: hiring signal is broken.
-                </p>
-
+                <span class="eyebrow-pill">Every resume read. Nothing binned unread.</span>
+                <h1 class="hero-title">Nothing gets rejected<br>by a machine.</h1>
+                <p class="hero-sub">Every resume gets three independent reads, each from a different angle, none of them seeing the others. Then a person writes the shortlist. Ranked, with the reasoning on every name.</p>
+                <a href="#specializations" class="btn-primary hub-hero-cta">See how it works</a>
             </div>
 
-            <div class="hub-paths">
+            <div class="hub-paths" id="specializations">
 
                 <div class="path-card path-card-green" data-path="left">
-                    <span class="path-eyebrow path-eyebrow-green">For Recruiters</span>
-                    <h2 class="path-heading">Read every resume.<br>Miss no one.</h2>
-                    <p class="path-body">Every resume read in full, for what the person actually did, not whether they matched the ad's vocabulary. You get a ranked shortlist with the reasoning for each name.</p>
-                    <a href="recruiter.html" class="path-cta path-cta-green">See how it works</a>
+                    <span class="path-eyebrow path-eyebrow-green">Tech Recruitment</span>
+                    <h2 class="path-heading">Read for real stack depth.</h2>
+                    <p class="path-body">Built by a team with a data science background, we know what a real engineering resume looks like versus one padded with buzzwords.</p>
+                    <a href="recruiter-tech.html" class="path-cta path-cta-green">See how it works</a>
                 </div>
 
-                <div class="path-card path-card-purple" data-path="right">
-                    <span class="path-eyebrow path-eyebrow-purple">For Candidates</span>
-                    <h2 class="path-heading">Make sure you're<br>read correctly.</h2>
-                    <p class="path-body">A standalone resume tool. Paste your resume and a job description and get an honest read on how your experience comes across to the people screening it.</p>
-                    <a href="cv-score.html" class="path-cta path-cta-purple">Score my resume free</a>
+                <div class="path-card path-card-green" data-path="right">
+                    <span class="path-eyebrow path-eyebrow-green">Engineering &amp; Construction Recruitment</span>
+                    <h2 class="path-heading">Read for what the resume is hiding.</h2>
+                    <p class="path-body">We read every certification and project claim for what it actually means, not just whether the words match. A superintendent's or foreman's resume rarely tells the whole story on the first pass.</p>
+                    <a href="recruiter-engineering.html" class="path-cta path-cta-green">See how it works</a>
                 </div>
 
             </div>
 
-            <!-- Email capture — secondary, below both CTAs -->
-            <div class="hub-capture">
-                <form class="capture-form" id="capture-form" novalidate>
-                    <label class="capture-label" for="capture-email">
-                        Not ready yet? Leave your email and we'll keep you posted.
-                    </label>
-                    <div class="capture-row">
-                        <input class="capture-input" id="capture-email" type="email"
-                               placeholder="your@email.com" autocomplete="email" aria-required="true">
-                        <button class="capture-btn" type="submit">Notify me</button>
-                    </div>
-                </form>
-                <p class="capture-msg" id="capture-msg" aria-live="polite"></p>
-            </div>
+            <p class="hub-trust">Superceptron Limited (Companies House No. 17407955). Your data is never shared or sold.</p>
 
         </div>
     </main>
 
-    <!-- BLOG -->
-    <div class="hub-blog">
-        <div class="hub-blog-header">
-            <span class="hub-blog-label">From the blog</span>
-            <a href="blog.html" class="hub-blog-all">View all posts →</a>
-        </div>
-        <div class="hub-blog-grid">
-            <a href="blog-ats-rejection.html" class="hub-blog-card">
-                <span class="hub-blog-tag">For candidates</span>
-                <span class="hub-blog-title">Why Your resume Gets Rejected Before a Human Ever Reads It</span>
-                <p class="hub-blog-excerpt">Most rejections happen in milliseconds, before anyone has read a word. Here's what's actually happening inside the systems that decide your fate.</p>
-                <span class="hub-blog-read">8 min read →</span>
-            </a>
-            <a href="blog-resume-screening.html" class="hub-blog-card">
-                <span class="hub-blog-tag">For recruiters</span>
-                <span class="hub-blog-title">How AI Resume Screening Saves 40 Hours Per Search</span>
-                <p class="hub-blog-excerpt">Independent recruiting firms are quietly recovering two working days per search. This is the workflow shift that makes it possible.</p>
-                <span class="hub-blog-read">6 min read →</span>
-            </a>
-        </div>
-    </div>
-
     <!-- FOOTER -->
-    <footer class="hub-footer">
+    <footer class="hub-footer" id="contact">
         <div class="hub-footer-inner">
             <a href="index.html" class="logo" style="font-size:0.9375rem;">Superceptron</a>
             <p class="hub-footer-copy">
@@ -611,166 +406,8 @@
                 });
             });
         })();
-
-        /* ── Rolling hero animation ── */
-        (function () {
-            var WORDS   = ['Hire', 'Land', 'Match', 'Work'];
-            var HOLD_MS = 650;
-
-            var slotEl    = document.getElementById('roll-slot');
-            var prefixEl  = document.getElementById('roll-prefix');
-            var superEl   = document.getElementById('roll-super');
-            var dotEl     = document.getElementById('roll-dot');
-            var ceptronEl = document.getElementById('roll-ceptron');
-
-            if (!prefixEl || !slotEl) return;
-
-            /* Measure widest word to lock slot width so Super never shifts */
-            var probe = document.createElement('span');
-            probe.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;' +
-                'font-size:clamp(2.5rem,6vw,4rem);font-weight:800;letter-spacing:-0.04em;' +
-                'line-height:1.1;font-family:inherit;';
-            document.body.appendChild(probe);
-            var maxW = 0;
-            WORDS.forEach(function (w) { probe.textContent = w; maxW = Math.max(maxW, probe.offsetWidth); });
-            document.body.removeChild(probe);
-            slotEl.style.width = maxW + 'px';
-            slotEl.style.marginRight = '0.18em'; /* gap between rolling word and Super */
-
-            /* Animate first word in on load */
-            prefixEl.textContent = WORDS[0];
-            prefixEl.style.transform = 'translateY(115%)';
-            prefixEl.getBoundingClientRect();
-            prefixEl.style.transition = 'transform 0.2s cubic-bezier(0,0,0.2,1)';
-            prefixEl.style.transform  = 'translateY(0)';
-
-            var idx = 0;
-
-            function flipTo(text) {
-                return new Promise(function (resolve) {
-                    prefixEl.style.transition = 'transform 0.13s cubic-bezier(0.4,0,1,1)';
-                    prefixEl.style.transform  = 'translateY(-115%)';
-                    setTimeout(function () {
-                        prefixEl.style.transition = 'none';
-                        prefixEl.style.transform  = 'translateY(115%)';
-                        prefixEl.textContent = text;
-                        prefixEl.getBoundingClientRect();
-                        prefixEl.style.transition = 'transform 0.13s cubic-bezier(0,0,0.2,1)';
-                        prefixEl.style.transform  = 'translateY(0)';
-                        setTimeout(resolve, 130);
-                    }, 130);
-                });
-            }
-
-            function revealBrand() {
-                /* Step 1: exit the prefix word upward */
-                prefixEl.style.transition = 'transform 0.22s cubic-bezier(0.4,0,1,1)';
-                prefixEl.style.transform  = 'translateY(-115%)';
-
-                setTimeout(function () {
-                    /* Step 2: measure ceptron natural width (temporarily unlocked) */
-                    ceptronEl.style.maxWidth = 'none';
-                    var ceptronW = ceptronEl.scrollWidth + 2; /* +2px buffer */
-                    ceptronEl.style.maxWidth = '0';
-                    ceptronEl.getBoundingClientRect(); /* commit 0 before transition */
-
-                    /* Step 3: collapse slot + margin → Super slides left seamlessly */
-                    slotEl.style.transition = 'width 0.42s cubic-bezier(0.4,0,0.2,1), margin-right 0.42s cubic-bezier(0.4,0,0.2,1)';
-                    slotEl.style.width = '0';
-                    slotEl.style.marginRight = '0';
-
-                    /* Step 4: dot collapses — opacity AND max-width so it leaves no gap */
-                    dotEl.style.transition = 'opacity 0.22s ease, max-width 0.3s cubic-bezier(0.4,0,0.2,1)';
-                    dotEl.style.opacity    = '0';
-                    dotEl.style.maxWidth   = '0';
-
-                    /* Step 5: ceptron wipes in (already green via CSS) */
-                    ceptronEl.style.transition = 'max-width 0.44s cubic-bezier(0,0,0.2,1), opacity 0.28s ease 0.04s';
-                    ceptronEl.style.maxWidth   = ceptronW + 'px';
-                    ceptronEl.style.opacity    = '1';
-
-                    /* Step 6: paint spreads from the Super/ceptron junction outward —
-                       green sweeps right-to-left through "Super" while ceptron appears green */
-                    superEl.style.transition = '--paint 0.46s cubic-bezier(0,0,0.2,1)';
-                    superEl.style.setProperty('--paint', '100%');
-                }, 210);
-            }
-
-            function run() {
-                var isLast = (idx === WORDS.length - 1);
-                setTimeout(function () {
-                    if (isLast) {
-                        revealBrand();
-                    } else {
-                        idx++;
-                        flipTo(WORDS[idx]).then(run);
-                    }
-                }, HOLD_MS);
-            }
-
-            setTimeout(run, 200);
-        })();
-
-        /* ── Email capture ──────────────────────────────────────────────────────
-         * TODO: set CAPTURE_ENDPOINT to your form backend before going live.
-         * Options:
-         *   Formspree  — https://formspree.io  → 'https://formspree.io/f/YOUR_ID'
-         *   Formcarry  — https://formcarry.com → 'https://formcarry.com/s/YOUR_ID'
-         *   Own API    — any endpoint that accepts POST { email: '...' }
-         * Leave empty to get the friendly thanks state + a console warning.
-         * ─────────────────────────────────────────────────────────────────────── */
-        (function () {
-            var CAPTURE_ENDPOINT = 'https://superceptron-chat.superceptron.workers.dev/lead';
-
-            var form  = document.getElementById('capture-form');
-            var input = document.getElementById('capture-email');
-            var msg   = document.getElementById('capture-msg');
-
-            if (!form) return;
-
-            function setMsg(text, cls) {
-                msg.textContent = text;
-                msg.className   = 'capture-msg' + (cls ? ' ' + cls : '');
-            }
-
-            form.addEventListener('submit', function (e) {
-                e.preventDefault();
-                var email = (input.value || '').trim();
-
-                if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                    setMsg('Please enter a valid email address.', 'error');
-                    input.focus();
-                    return;
-                }
-
-                if (!CAPTURE_ENDPOINT) {
-                    /* TODO: CAPTURE_ENDPOINT is not set — plug in your endpoint above */
-                    console.warn('[Superceptron] Email capture: CAPTURE_ENDPOINT is empty. Set it in index.html to actually save emails.');
-                    form.style.display = 'none';
-                    setMsg('Thanks — we\'ll be in touch.', 'ok');
-                    return;
-                }
-
-                var btn = form.querySelector('.capture-btn');
-                btn.disabled = true;
-                setMsg('');
-
-                fetch(CAPTURE_ENDPOINT, {
-                    method:  'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body:    JSON.stringify({ email: email }),
-                })
-                .then(function (r) {
-                    if (!r.ok) throw new Error('http ' + r.status);
-                    form.style.display = 'none';
-                    setMsg('Thanks — we\'ll be in touch.', 'ok');
-                })
-                .catch(function () {
-                    btn.disabled = false;
-                    setMsg('Something went wrong — try again.', 'error');
-                });
-            });
-        })();
     </script>
+
+    <script src="chatbot.js"></script>
 </body>
 </html>

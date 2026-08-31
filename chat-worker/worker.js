@@ -43,9 +43,9 @@ HOW IT WORKS:
 5. Client sees the full reasoning, makes the final call
 
 PRICING:
-• £89 per role (pay-as-you-go)
-• £199/month (subscription — unlimited roles)
-• 30-day free trial for new firms — no commitment, no sales call
+• $89 per role (pay-as-you-go)
+• $199/month (subscription — up to 5 roles)
+• Your first role is free for new firms — no commitment, no sales call
 • No seat licences. No minimum contracts. No annual commitments. Pay for what you use.
 
 KEY SELLING POINTS vs ALTERNATIVES:

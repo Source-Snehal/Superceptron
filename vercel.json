@@ -1,5 +1,8 @@
 {
   "functions": { "api/**/*.js": { "maxDuration": 30 } },
+  "redirects": [
+    { "source": "/recruiter.html", "destination": "/", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/api/portal/roles/:id/uploads/:uid", "destination": "/api/portal/roles/[id]/uploads/[uid]" },
     { "source": "/api/portal/roles/:id/submit",       "destination": "/api/portal/roles/[id]/submit" },

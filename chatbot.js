@@ -14,6 +14,14 @@
   var W3F_KEY    = '8d60dc7b-2668-4945-9ae5-c522327c14da';
   var GREETING   = "Hi — I’m Percy, Superceptron’s AI assistant. Ask me anything about our resume screening service, pricing, or how to get started.";
 
+  /* ── Recruiter specialization routing (index.html, recruiter-tech.html,
+       recruiter-engineering.html only — cv-score.html and every other page
+       keep the default GREETING above, unchanged) ── */
+  var ROUTING_GREETING  = "Hey — are you hiring for tech roles, or engineering/construction?";
+  var ROUTING_PAGES     = ['/', '/index.html', '/recruiter-tech.html', '/recruiter-engineering.html'];
+  var TECH_KEYWORDS     = ['software', 'backend', 'data', 'ml'];
+  var ENGINEERING_KEYWORDS = ['superintendent', 'foreman', 'bim', 'civil', 'electrician'];
+
   if (WORKER_URL.indexOf('YOUR_SUBDOMAIN') !== -1) {
     console.warn('[Superceptron chat] Worker not configured yet. Set WORKER_URL in chatbot.js after deploying chat-worker/worker.js.');
     return;
@@ -66,6 +74,11 @@
     '.sc-cform-btn{background:#4DFFB4;color:#070707;border:none;border-radius:8px;padding:.6rem .875rem;font-family:Inter,sans-serif;font-size:.8rem;font-weight:700;cursor:pointer;transition:opacity .2s;text-align:left;}',
     '.sc-cform-btn:hover{opacity:.85;}',
     '.sc-cform-btn:disabled{opacity:.4;cursor:not-allowed;}',
+
+    '.sc-quickreplies{display:flex;flex-direction:column;gap:.5rem;max-width:92%;align-self:flex-start;}',
+    '.sc-qr-btn{background:#141414;border:1px solid rgba(77,255,180,.28);border-radius:10px;padding:.6rem .875rem;font-family:Inter,sans-serif;font-size:.8125rem;font-weight:600;color:#4DFFB4;cursor:pointer;text-align:left;transition:background .2s,border-color .2s;}',
+    '.sc-qr-btn:hover{background:rgba(77,255,180,.08);border-color:rgba(77,255,180,.5);}',
+    '.sc-qr-btn:disabled{opacity:.4;cursor:not-allowed;}',
 
     '#sc-foot{padding:.75rem .875rem;border-top:1px solid rgba(255,255,255,.06);background:#070707;display:flex;gap:.5rem;flex-shrink:0;align-items:flex-end;}',
     '#sc-input{flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:.6rem .875rem;font-family:Inter,sans-serif;font-size:.875rem;color:#fff;outline:none;resize:none;min-height:40px;max-height:110px;line-height:1.55;transition:border-color .2s;overflow-y:auto;}',
@@ -155,6 +168,12 @@
     var busy     = false;
     var welcomed = false;
 
+    var pathname       = (window.location.pathname || '/').toLowerCase();
+    var isRoutingPage  = ROUTING_PAGES.some(function (p) {
+      return pathname === p || pathname.slice(-p.length) === p;
+    });
+    var routingResolved = !isRoutingPage;
+
     /* Open / close */
     function open() {
       isOpen = true;
@@ -164,7 +183,12 @@
       btn.innerHTML = ICON_X;
       if (!welcomed) {
         welcomed = true;
-        addBot(GREETING);
+        if (isRoutingPage && !routingResolved) {
+          addBot(ROUTING_GREETING);
+          appendQuickReplies();
+        } else {
+          addBot(GREETING);
+        }
       }
       setTimeout(function() { inputEl.focus(); }, 60);
     }
@@ -308,10 +332,70 @@
         });
     }
 
+    /* Recruiter specialization quick replies */
+    function appendQuickReplies() {
+      var wrap = document.createElement('div');
+      wrap.className = 'sc-quickreplies';
+      wrap.innerHTML =
+        '<button class="sc-qr-btn" data-route="tech">Tech</button>' +
+        '<button class="sc-qr-btn" data-route="engineering">Engineering &amp; Construction</button>';
+      msgsEl.appendChild(wrap);
+      scrollBot();
+
+      var buttons = wrap.querySelectorAll('.sc-qr-btn');
+      for (var i = 0; i < buttons.length; i++) {
+        buttons[i].addEventListener('click', function (e) {
+          for (var j = 0; j < buttons.length; j++) buttons[j].disabled = true;
+          routeTo(e.currentTarget.getAttribute('data-route'));
+        });
+      }
+    }
+
+    function routeTo(kind) {
+      routingResolved = true;
+      var dest  = kind === 'tech' ? 'recruiter-tech.html' : 'recruiter-engineering.html';
+      var label = kind === 'tech' ? 'Tech' : 'Engineering & Construction';
+      addUser(label);
+      addBot('Got it — taking you there now.');
+      setTimeout(function () { window.location.href = dest; }, 500);
+    }
+
+    /* Matches free-text against the same keyword list as the quick replies.
+       Returns a destination page, or null if ambiguous/no match. */
+    function matchRoute(text) {
+      var lower = text.toLowerCase();
+      var isTech = false, isEng = false, i;
+      for (i = 0; i < TECH_KEYWORDS.length; i++) {
+        if (lower.indexOf(TECH_KEYWORDS[i]) !== -1) { isTech = true; break; }
+      }
+      for (i = 0; i < ENGINEERING_KEYWORDS.length; i++) {
+        if (lower.indexOf(ENGINEERING_KEYWORDS[i]) !== -1) { isEng = true; break; }
+      }
+      if (isTech && !isEng) return 'recruiter-tech.html';
+      if (isEng && !isTech) return 'recruiter-engineering.html';
+      return null;
+    }
+
     /* Call the Worker */
     function send() {
       var text = inputEl.value.trim();
       if (!text || busy) return;
+
+      if (isRoutingPage && !routingResolved) {
+        inputEl.value = '';
+        inputEl.style.height = 'auto';
+        var dest = matchRoute(text);
+        addUser(text);
+        if (dest) {
+          routingResolved = true;
+          addBot('Got it — taking you there now.');
+          setTimeout(function () { window.location.href = dest; }, 500);
+        } else {
+          addBot(ROUTING_GREETING);
+          appendQuickReplies();
+        }
+        return;
+      }
 
       busy = true;
       sendEl.disabled = true;
