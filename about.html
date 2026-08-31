@@ -51,6 +51,18 @@
           "url": "https://www.superceptron.com"
         },
         "description": "Founder of Superceptron, specialising in resume screening for independent recruiting firms."
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Parag Roymedhi",
+        "jobTitle": "Chief Operating Officer and Principal Reviewer",
+        "worksFor": {
+          "@type": "Organization",
+          "name": "Superceptron",
+          "url": "https://www.superceptron.com"
+        },
+        "description": "Chief Operating Officer and Principal Reviewer at Superceptron, with over 30 years in senior management at a Fortune 500 company. Personally reviews every engineering and construction shortlist."
       }
     ]
     </script>
@@ -228,6 +240,28 @@
             border: 2px solid rgba(77,255,180,0.25);
         }
 
+        .founder-avatar-initials {
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            border: 2px solid rgba(77,255,180,0.25);
+            background: var(--a-dim);
+            color: var(--accent);
+            font-family: var(--mono);
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .leadership-people {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
         .founder-meta-name {
             display: block;
             font-size: 1.125rem;
@@ -384,18 +418,33 @@
     <!-- Founder -->
     <section class="founder-section">
         <div class="container founder-layout">
-            <div class="founder-block">
-                <div class="section-label reveal">Leadership</div>
-                <div class="founder-identity reveal">
-                    <img src="Snehal.JPG" alt="Snehal Roymedhi" class="founder-avatar-lg">
-                    <div>
-                        <span class="founder-meta-name">Snehal Roymedhi</span>
-                        <span class="founder-meta-role">Founder &amp; CEO</span>
+            <div class="leadership-people">
+                <div class="founder-block">
+                    <div class="section-label reveal">Leadership</div>
+                    <div class="founder-identity reveal">
+                        <img src="Snehal.JPG" alt="Snehal Roymedhi" class="founder-avatar-lg">
+                        <div>
+                            <span class="founder-meta-name">Snehal Roymedhi</span>
+                            <span class="founder-meta-role">Founder &amp; CEO</span>
+                        </div>
+                    </div>
+                    <div class="founder-bio">
+                        <p class="reveal">Snehal is an AI engineer who chose to focus on independent recruiting firms specifically — because the admin overhead is concrete, the impact is measurable, and the people running those desks are sharp enough to know what's wrong but too busy fixing it manually.</p>
+                        <p class="reveal">His approach is direct: one focused service, no accounts team in between, and a genuine preference for small agencies over enterprise contracts. If you email Superceptron, you're emailing him.</p>
                     </div>
                 </div>
-                <div class="founder-bio">
-                    <p class="reveal">Snehal is an AI engineer who chose to focus on independent recruiting firms specifically — because the admin overhead is concrete, the impact is measurable, and the people running those desks are sharp enough to know what's wrong but too busy fixing it manually.</p>
-                    <p class="reveal">His approach is direct: one focused service, no accounts team in between, and a genuine preference for small agencies over enterprise contracts. If you email Superceptron, you're emailing him.</p>
+                <div class="founder-block">
+                    <div class="founder-identity reveal">
+                        <span class="founder-avatar-initials reveal" aria-hidden="true">PR</span>
+                        <div>
+                            <span class="founder-meta-name">Parag Roymedhi</span>
+                            <span class="founder-meta-role">Chief Operating Officer &amp; Principal Reviewer</span>
+                        </div>
+                    </div>
+                    <div class="founder-bio">
+                        <p class="reveal">Parag brings over 30 years in senior management at a Fortune 500 company to Superceptron's engineering and construction reviews. He's the person who personally checks every engineering and construction shortlist before it reaches you, not a rotating pool of contractors.</p>
+                        <p class="reveal">That background is what tells a genuine site manager's or engineer's resume apart from one that just reads well — the certifications, the project scale, the career paths a keyword filter would miss.</p>
+                    </div>
                 </div>
             </div>
             <div class="founder-quote reveal">
