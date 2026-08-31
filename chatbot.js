@@ -22,6 +22,14 @@
   var TECH_KEYWORDS     = ['software', 'backend', 'data', 'ml'];
   var ENGINEERING_KEYWORDS = ['superintendent', 'foreman', 'bim', 'civil', 'electrician'];
 
+  /* Shown once, on arrival, after Percy routes someone to a specialization
+     page — replaces the routing question there instead of repeating it. */
+  var ROUTED_KEY = 'sc_routed_from';
+  var ROUTED_WELCOME = {
+    tech: "Welcome to Tech Recruitment — I’m Percy. Ask me anything about how shortlisting works for software, data, or AI/ML roles, pricing, or how to get started.",
+    engineering: "Welcome to Engineering & Construction Recruitment — I’m Percy. Ask me anything about how shortlisting works for site managers, engineers, or trades, pricing, or how to get started."
+  };
+
   if (WORKER_URL.indexOf('YOUR_SUBDOMAIN') !== -1) {
     console.warn('[Superceptron chat] Worker not configured yet. Set WORKER_URL in chatbot.js after deploying chat-worker/worker.js.');
     return;
@@ -172,7 +180,14 @@
     var isRoutingPage  = ROUTING_PAGES.some(function (p) {
       return pathname === p || pathname.slice(-p.length) === p;
     });
-    var routingResolved = !isRoutingPage;
+
+    var routedFrom = null;
+    try {
+      routedFrom = sessionStorage.getItem(ROUTED_KEY);
+      if (routedFrom) sessionStorage.removeItem(ROUTED_KEY);
+    } catch (e) { /* storage unavailable — fall back to normal greeting */ }
+
+    var routingResolved = !isRoutingPage || !!routedFrom;
 
     /* Open / close */
     function open() {
@@ -183,7 +198,9 @@
       btn.innerHTML = ICON_X;
       if (!welcomed) {
         welcomed = true;
-        if (isRoutingPage && !routingResolved) {
+        if (routedFrom && ROUTED_WELCOME[routedFrom]) {
+          addBot(ROUTED_WELCOME[routedFrom]);
+        } else if (isRoutingPage && !routingResolved) {
           addBot(ROUTING_GREETING);
           appendQuickReplies();
         } else {
@@ -351,17 +368,25 @@
       }
     }
 
+    function destForKind(kind) {
+      return kind === 'tech' ? 'recruiter-tech.html' : 'recruiter-engineering.html';
+    }
+
+    function goToRoute(kind) {
+      try { sessionStorage.setItem(ROUTED_KEY, kind); } catch (e) { /* storage unavailable — page still navigates, just re-asks there */ }
+      setTimeout(function () { window.location.href = destForKind(kind); }, 500);
+    }
+
     function routeTo(kind) {
       routingResolved = true;
-      var dest  = kind === 'tech' ? 'recruiter-tech.html' : 'recruiter-engineering.html';
       var label = kind === 'tech' ? 'Tech' : 'Engineering & Construction';
       addUser(label);
       addBot('Got it — taking you there now.');
-      setTimeout(function () { window.location.href = dest; }, 500);
+      goToRoute(kind);
     }
 
     /* Matches free-text against the same keyword list as the quick replies.
-       Returns a destination page, or null if ambiguous/no match. */
+       Returns 'tech' / 'engineering', or null if ambiguous/no match. */
     function matchRoute(text) {
       var lower = text.toLowerCase();
       var isTech = false, isEng = false, i;
@@ -371,8 +396,8 @@
       for (i = 0; i < ENGINEERING_KEYWORDS.length; i++) {
         if (lower.indexOf(ENGINEERING_KEYWORDS[i]) !== -1) { isEng = true; break; }
       }
-      if (isTech && !isEng) return 'recruiter-tech.html';
-      if (isEng && !isTech) return 'recruiter-engineering.html';
+      if (isTech && !isEng) return 'tech';
+      if (isEng && !isTech) return 'engineering';
       return null;
     }
 
@@ -384,12 +409,12 @@
       if (isRoutingPage && !routingResolved) {
         inputEl.value = '';
         inputEl.style.height = 'auto';
-        var dest = matchRoute(text);
+        var kind = matchRoute(text);
         addUser(text);
-        if (dest) {
+        if (kind) {
           routingResolved = true;
           addBot('Got it — taking you there now.');
-          setTimeout(function () { window.location.href = dest; }, 500);
+          goToRoute(kind);
         } else {
           addBot(ROUTING_GREETING);
           appendQuickReplies();
