@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Sample shortlist: BIM Coordinator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAFAF8;--surface:#FFFFFF;--border:#E6E4DF;--rule:#D8D5CE;
+  --text:#14171A;--muted:#5C6570;--faint:#8B929B;
+  --accent:#1FA97F;--accent-soft:#E8F5F0;--accent-deep:#137A5C;
+  --plum:#4C3A63;--plum-soft:#EFEBF3;
+  --display:'Newsreader',Georgia,serif;
+  --body:'Inter',system-ui,-apple-system,sans-serif;
+  --max:880px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.6}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 28px}
+
+.masthead{padding:70px 0 0}
+.mark{font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin:0 0 40px}
+.docline{font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--faint);font-weight:500;margin:0 0 14px}
+h1{font-family:var(--display);font-size:clamp(34px,5.2vw,54px);font-weight:500;line-height:1.05;letter-spacing:-0.02em;margin:0 0 10px}
+.h1sub{font-family:var(--display);font-size:clamp(19px,2.6vw,24px);font-weight:400;font-style:italic;color:var(--muted);margin:0 0 22px;line-height:1.3}
+.subhead{font-size:17px;color:var(--muted);max-width:54ch;margin:0 0 44px}
+
+.figures{display:flex;flex-wrap:wrap;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);margin-bottom:62px}
+.fig{flex:1 1 120px;padding:22px 22px 22px 0;border-right:1px solid var(--border)}
+.fig:last-child{border-right:0;padding-right:0}
+.fig-n{font-family:var(--display);font-size:33px;font-weight:500;line-height:1;display:block;margin-bottom:6px;font-variant-numeric:tabular-nums}
+.fig-l{font-size:12px;color:var(--muted);letter-spacing:0.03em;line-height:1.4;display:block}
+.fig.hl .fig-n{color:var(--plum)}
+
+.sec{margin:0 0 62px}
+.sec-label{font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--faint);padding-bottom:10px;border-bottom:1px solid var(--text);margin:0 0 26px}
+h2{font-family:var(--display);font-size:29px;font-weight:500;letter-spacing:-0.01em;line-height:1.15;margin:0 0 16px}
+.lede{font-size:16px;color:var(--muted);max-width:64ch;margin:0}
+.lede + .lede{margin-top:13px}
+
+.spec{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-top:26px}
+.spec-col{background:var(--surface);padding:22px 24px}
+.spec-h{font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin:0 0 14px}
+.spec-h.real{color:var(--accent-deep)}
+.spec-h.soft{color:var(--plum)}
+.spec-col ul{margin:0;padding:0;list-style:none}
+.spec-col li{font-size:14.5px;line-height:1.55;padding:9px 0;border-top:1px solid var(--border)}
+.spec-col li:first-child{border-top:0;padding-top:0}
+.spec-col li b{font-weight:600;display:block;margin-bottom:2px}
+.spec-col li span{color:var(--muted)}
+@media(max-width:640px){.spec{grid-template-columns:1fr}}
+
+.readers{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-top:26px}
+.reader{background:var(--surface);padding:20px}
+.reader-n{font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin:0 0 8px}
+.reader-d{font-size:14px;color:var(--muted);margin:0;line-height:1.5}
+@media(max-width:640px){.readers{grid-template-columns:1fr}}
+
+.human{display:grid;grid-template-columns:170px 1fr;gap:24px;border:1px solid var(--border);border-top:0;border-left:3px solid var(--plum);background:var(--surface);padding:22px 24px}
+.human-n{font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--plum);margin:0;padding-top:2px}
+.human-d{font-size:15px;color:var(--text);margin:0;line-height:1.6}
+.human-d + .human-d{margin-top:10px}
+@media(max-width:640px){.human{grid-template-columns:1fr;gap:10px}}
+
+.dist{margin-top:26px}
+.dist-row{display:grid;grid-template-columns:215px 1fr 46px;gap:16px;align-items:center;padding:10px 0;border-top:1px solid var(--border)}
+.dist-row:first-child{border-top:0}
+.dist-l{font-size:14px;color:var(--text)}
+.dist-l span{display:block;font-size:12.5px;color:var(--faint);margin-top:1px}
+.dist-bar{height:9px;background:#EDEBE6;position:relative;overflow:hidden}
+.dist-fill{position:absolute;left:0;top:0;bottom:0;background:var(--text)}
+.dist-fill.a{background:var(--accent)}
+.dist-fill.p{background:var(--plum)}
+.dist-fill.f{background:#C9C5BD}
+.dist-n{font-size:14px;text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+@media(max-width:640px){.dist-row{grid-template-columns:140px 1fr 36px;gap:10px}}
+
+.cand{border-top:1px solid var(--rule);padding:36px 0 42px}
+.cand:first-of-type{border-top:2px solid var(--text)}
+.cand-top{display:flex;gap:22px;align-items:baseline;margin-bottom:4px}
+.rank{font-family:var(--display);font-size:30px;font-weight:500;color:var(--faint);line-height:1;font-variant-numeric:tabular-nums;flex:0 0 auto;width:44px}
+.cand-id{flex:1 1 auto;min-width:0}
+.cand-name{font-family:var(--display);font-size:27px;font-weight:500;line-height:1.2;margin:0 0 3px;letter-spacing:-0.01em}
+.cand-role{font-size:14px;color:var(--muted);margin:0}
+.tag{display:inline-block;font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;padding:4px 9px;border-radius:3px;vertical-align:3px;margin-left:10px;white-space:nowrap}
+.tag-split{background:var(--plum-soft);color:var(--plum)}
+.tag-agree{background:var(--accent-soft);color:var(--accent-deep)}
+
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 0 66px}
+.chip{font-size:11.5px;letter-spacing:0.02em;padding:4px 9px;border:1px solid var(--border);background:var(--surface);color:var(--muted);border-radius:3px;white-space:nowrap}
+.chip.on{border-color:#BFE4D6;background:var(--accent-soft);color:var(--accent-deep)}
+.chip.off{border-style:dashed;color:var(--faint)}
+@media(max-width:640px){.chips{margin-left:0}}
+
+.split{margin:24px 0 0 66px}
+@media(max-width:640px){.split{margin-left:0}}
+.split-head{display:flex;justify-content:space-between;align-items:baseline;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--faint);font-weight:600;margin-bottom:12px}
+.split-spread{color:var(--muted);letter-spacing:0.04em}
+.split-spread b{color:var(--plum);font-weight:600}
+.track{position:relative;height:44px;border-left:1px solid var(--rule);border-right:1px solid var(--rule)}
+.track:before{content:"";position:absolute;left:0;right:0;top:21px;height:1px;background:var(--rule)}
+.band{position:absolute;top:0;bottom:0;background:var(--plum-soft)}
+.band.tight{background:var(--accent-soft)}
+.pip{position:absolute;top:9px;width:2px;height:26px;background:var(--text);transform:translateX(-1px)}
+.pip span{position:absolute;top:-15px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:600;letter-spacing:0.06em;color:var(--muted);white-space:nowrap}
+.scale{display:flex;justify-content:space-between;font-size:10px;color:var(--faint);letter-spacing:0.08em;margin-top:7px;font-variant-numeric:tabular-nums}
+
+.verdicts{margin:30px 0 0 66px}
+@media(max-width:640px){.verdicts{margin-left:0}}
+.v{display:grid;grid-template-columns:134px 1fr;gap:20px;padding:15px 0;border-top:1px solid var(--border)}
+.v:first-child{border-top:0;padding-top:0}
+.v-who{font-size:11px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--muted);padding-top:2px}
+.v-who b{display:block;font-family:var(--display);font-size:19px;letter-spacing:0;text-transform:none;color:var(--text);font-weight:500;font-variant-numeric:tabular-nums;margin-top:3px}
+.v-text{font-size:15px;color:var(--text);margin:0;line-height:1.6}
+.v-text + .v-text{margin-top:9px}
+@media(max-width:640px){.v{grid-template-columns:1fr;gap:6px}.v-who b{display:inline;margin-left:8px;font-size:17px}}
+
+.call{margin:26px 0 0 66px;padding:20px 22px;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent)}
+.call.split-call{border-left-color:var(--plum)}
+@media(max-width:640px){.call{margin-left:0}}
+.call-l{font-size:11px;font-weight:600;letter-spacing:0.11em;text-transform:uppercase;color:var(--faint);margin:0 0 7px}
+.call p{font-size:15px;margin:0;line-height:1.6}
+.call p + p{margin-top:10px}
+
+.miss{padding:20px 0;border-top:1px solid var(--border);display:grid;grid-template-columns:215px 1fr;gap:24px}
+.miss:first-of-type{border-top:1px solid var(--text)}
+.miss-name{font-family:var(--display);font-size:19px;font-weight:500;margin:0}
+.miss-role{font-size:13px;color:var(--faint);margin:2px 0 0}
+.miss-why{font-size:15px;margin:0;line-height:1.6}
+@media(max-width:640px){.miss{grid-template-columns:1fr;gap:8px}}
+
+.colophon{border-top:1px solid var(--text);margin-top:24px;padding:28px 0 90px;font-size:13px;color:var(--muted);line-height:1.65}
+.colophon p{margin:0 0 12px;max-width:66ch}
+.colophon strong{color:var(--text);font-weight:600}
+.sig{font-family:var(--display);font-size:17px;color:var(--text);margin-top:22px}
+.sig span{display:block;font-family:var(--body);font-size:13px;color:var(--faint);margin-top:3px}
+
+@media print{body{background:#fff}.cand,.miss{break-inside:avoid}.colophon{padding-bottom:0}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <p class="mark">Superceptron</p>
+  <p class="docline">Sample shortlist &middot; illustrative</p>
+  <h1>BIM Coordinator</h1>
+  <p class="h1sub">$95M hospital expansion, mechanical trade partner, Denver CO</p>
+  <p class="subhead">Fifty-four applications, read in full, ranked, with the reasoning attached to every name.</p>
+
+  <div class="figures">
+    <div class="fig"><span class="fig-n">54</span><span class="fig-l">Applications received</span></div>
+    <div class="fig"><span class="fig-n">54</span><span class="fig-l">Read in full, three times each</span></div>
+    <div class="fig"><span class="fig-n">6</span><span class="fig-l">Shortlisted</span></div>
+    <div class="fig hl"><span class="fig-n">4</span><span class="fig-l">Where the readers split</span></div>
+  </div>
+</header>
+
+<section class="sec">
+  <p class="sec-label">Before anything was read</p>
+  <h2>What the posting asks for, and what the job needs</h2>
+  <p class="lede">The posting was read first, on its own, before a single resume was opened. BIM resumes are among the hardest in construction to screen, because everyone lists the same six software packages and almost nobody says what they did with them. Modeling to design intent and modeling to fabrication are different jobs, and the resume rarely tells you which one you are getting.</p>
+  <p class="lede">This is a judgment, not a fact. It is here so you can disagree with it, and so you know what the ranking was built on.</p>
+
+  <div class="spec">
+    <div class="spec-col">
+      <p class="spec-h real">Load-bearing</p>
+      <ul>
+        <li><b>LOD 400, fabrication-level</b><span>The posting says "Revit proficiency". What this job needs is someone who models spools that get built, not design intent someone else details later.</span></li>
+        <li><b>Has run coordination, not just clash detection</b><span>Anyone can run a Navisworks report. This job needs someone who sits in the room and negotiates with the electrical and sprinkler contractors.</span></li>
+        <li><b>Fabrication software, CADmep or SysQue</b><span>Named once, buried. It is the clearest single signal of whether someone has done trade-side BIM.</span></li>
+        <li><b>Understands what installs</b><span>Not a certification. Shows up in whether the resume mentions hanger layout, access clearance, or rework.</span></li>
+      </ul>
+    </div>
+    <div class="spec-col">
+      <p class="spec-h soft">Probably carried forward</p>
+      <ul>
+        <li><b>"BIM Manager title required"</b><span>Costs more of this pool than anything else. In trade contracting the same job is called coordinator, detailer, VDC engineer or drafter depending on who wrote the org chart.</span></li>
+        <li><b>"Healthcare experience essential"</b><span>Med gas and above-ceiling congestion are the real challenge. Lab, semiconductor and central plant work teach the same density.</span></li>
+        <li><b>Autodesk Certified Professional</b><span>Listed as required. Almost no strong trade-side coordinator holds it, and several weak candidates do.</span></li>
+        <li><b>Bachelor's degree</b><span>Four of the six shortlisted came through drafting programs or the trade instead.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <p class="sec-label">How this was read</p>
+  <h2>Three reads, then a person decides.</h2>
+  <p class="lede">Every resume is read three times, from three different angles. The readers work independently. None of them sees the others' verdicts, so agreement means something and disagreement means something else.</p>
+  <p class="lede">Where all three land in the same place, the ranking is easy and you can move fast. Where they split, you get told, and you get both arguments. Those are the ones a single score would have quietly hidden.</p>
+
+  <div class="readers">
+    <div class="reader">
+      <p class="reader-n">The strict read</p>
+      <p class="reader-d">Scores against what the posting actually asks for. Absence of evidence counts as absence. Unforgiving on purpose.</p>
+    </div>
+    <div class="reader">
+      <p class="reader-n">The transferable read</p>
+      <p class="reader-d">Looks for evidence the person could do the work even when the sector, the vocabulary or the job title does not match.</p>
+    </div>
+    <div class="reader">
+      <p class="reader-n">The hiring manager</p>
+      <p class="reader-d">One interview slot this week. Would you spend it here, and what would you be hoping to find out?</p>
+    </div>
+  </div>
+
+  <div class="human">
+    <p class="human-n">Then the review</p>
+    <div>
+      <p class="human-d">We read every resume ourselves alongside the three verdicts, and we write the ranking. Where the readers agree we are checking their work. Where they split we are choosing between two arguments, and we tell you which one we went with and why.</p>
+      <p class="human-d">That decision is a recommendation, not a filter. Every applicant appears somewhere in this document, including the ones we ranked last.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <p class="sec-label">The pile</p>
+  <h2>Where fifty-four applications landed</h2>
+  <p class="lede">Included so you can see the shape of the response, and so the ones we cut are accounted for rather than disappearing.</p>
+
+  <div class="dist">
+    <div class="dist-row">
+      <div class="dist-l">Shortlisted<span>Ranked below, reasoning on each</span></div>
+      <div class="dist-bar"><div class="dist-fill a" style="width:11%"></div></div>
+      <div class="dist-n">6</div>
+    </div>
+    <div class="dist-row">
+      <div class="dist-l">Read closely, not shortlisted<span>Reason recorded, overrule if you disagree</span></div>
+      <div class="dist-bar"><div class="dist-fill p" style="width:20%"></div></div>
+      <div class="dist-n">11</div>
+    </div>
+    <div class="dist-row">
+      <div class="dist-l">Design intent only, no fabrication<span>Architecture and consultancy modelers, strong but wrong side</span></div>
+      <div class="dist-bar"><div class="dist-fill" style="width:33%"></div></div>
+      <div class="dist-n">18</div>
+    </div>
+    <div class="dist-row">
+      <div class="dist-l">Drafting level, too early<span>Real skills, no coordination responsibility yet</span></div>
+      <div class="dist-bar"><div class="dist-fill f" style="width:24%"></div></div>
+      <div class="dist-n">13</div>
+    </div>
+    <div class="dist-row">
+      <div class="dist-l">Not close<span>Other disciplines, or no construction modeling at all</span></div>
+      <div class="dist-bar"><div class="dist-fill f" style="width:11%"></div></div>
+      <div class="dist-n">6</div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <p class="sec-label">Ranked shortlist</p>
+
+  <!-- 1 -->
+  <article class="cand">
+    <div class="cand-top">
+      <div class="rank">01</div>
+      <div class="cand-id">
+        <h3 class="cand-name">A. Prishtina<span class="tag tag-agree">Agreed</span></h3>
+        <p class="cand-role">BIM Coordinator, mechanical trade partner &middot; 10 yrs &middot; Denver CO</p>
+      </div>
+    </div>
+    <div class="chips">
+      <span class="chip on">LOD 400 spooling</span>
+      <span class="chip on">CADmep, Revit, Navisworks</span>
+      <span class="chip on">Runs coordination meetings</span>
+      <span class="chip on">Healthcare, two projects</span>
+      <span class="chip on">Four years in the field first</span>
+      <span class="chip off">No degree</span>
+    </div>
+
+    <div class="split">
+      <div class="split-head"><span>Reader scores</span><span class="split-spread">Spread <b>1</b></span></div>
+      <div class="track">
+        <div class="band tight" style="left:78%;right:12%"></div>
+        <div class="pip" style="left:80%"><span>Strict 8</span></div>
+        <div class="pip" style="left:88%"><span>Transf. 9</span></div>
+        <div class="pip" style="left:88%"></div>
+      </div>
+      <div class="scale"><span>0</span><span>5</span><span>10</span></div>
+    </div>
+
+    <div class="verdicts">
+      <div class="v">
+        <div class="v-who">Strict<b>8</b></div>
+        <div>
+          <p class="v-text">Meets every load-bearing requirement without interpretation. Fabrication-level modeling in CADmep, two healthcare projects, and explicitly names running weekly coordination with the electrical and fire protection trades.</p>
+          <p class="v-text">No degree and no Autodesk certification, both listed as required. Held the point back rather than deducting, because the work record answers the same question better.</p>
+        </div>
+      </div>
+      <div class="v">
+        <div class="v-who">Transferable<b>9</b></div>
+        <div>
+          <p class="v-text">Four years installing pipe before moving into the office, and it shows in the way the resume is written. Mentions hanger coordination and above-ceiling access clearance, which almost no BIM resume does.</p>
+          <p class="v-text">Describes a rework event on a mechanical room and the modeling change that stopped it recurring. That is someone who understands the consequence of a bad model rather than the software that produced it.</p>
+        </div>
+      </div>
+      <div class="v">
+        <div class="v-who">Hiring manager<b>9</b></div>
+        <div>
+          <p class="v-text">Yes, first slot. The field background is the differentiator. A coordinator who has hung pipe argues differently in a clash meeting, and wins more of those arguments.</p>
+          <p class="v-text">Would use the interview on how they handle a general contractor compressing the coordination schedule, and on whether they want to stay coordinating or are aiming at a manager title.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="call">
+      <p class="call-l">Our call</p>
+      <p>Top of the list and it was not close. The degree and certification lines are the only things standing between this resume and a clean sweep, and both are requirements worth confirming with your client before they cost them the best fit in the response.</p>
+    </div>
+  </article>
+
+  <!-- 2 -->
+  <article class="cand">
+    <div class="cand-top">
+      <div class="rank">02</div>
+      <div class="cand-id">
+        <h3 class="cand-name">V. Osei-Bonsu<span class="tag tag-split">Readers split</span></h3>
+        <p class="cand-role">Senior Detailer, mechanical trade partner &middot; 13 yrs &middot; Colorado Springs CO</p>
+      </div>
+    </div>
+    <div class="chips">
+      <span class="chip on">LOD 400 spooling</span>
+      <span class="chip on">CADmep, SysQue</span>
+      <span class="chip on">Central plant and lab work</span>
+      <span class="chip on">13 yrs trade side</span>
+      <span class="chip off">Never titled coordinator</span>
+      <span class="chip off">No healthcare</span>
+    </div>
+
+    <div class="split">
+      <div class="split-head"><span>Reader scores</span><span class="split-spread">Spread <b>4</b></span></div>
+      <div class="track">
+        <div class="band" style="left:38%;right:12%"></div>
+        <div class="pip" style="left:40%"><span>Strict 4</span></div>
+        <div class="pip" style="left:78%"><span>Transf. 8</span></div>
+        <div class="pip" style="left:88%"><span>HM 9</span></div>
+      </div>
+      <div class="scale"><span>0</span><span>5</span><span>10</span></div>
+    </div>
+
+    <div class="verdicts">
+      <div class="v">
+        <div class="v-who">Strict<b>4</b></div>
+        <div>
+          <p class="v-text">Job title is detailer or senior detailer throughout thirteen years. Never coordinator, never manager, and the posting asks for the manager title specifically.</p>
+          <p class="v-text">No healthcare projects, no degree, no certification. Against the posting as written this does not reach a shortlist.</p>
+        </div>
+      </div>
+      <div class="v">
+        <div class="v-who">Transferable<b>8</b></div>
+        <div>
+          <p class="v-text">The title is misleading and the detail proves it. Thirteen years of fabrication-level modeling in both CADmep and SysQue, and the resume describes leading clash resolution sessions with three other trades on a central plant.</p>
+          <p class="v-text">Central plant and laboratory work is the closest thing in this pile to hospital above-ceiling congestion. The density problem is identical even though the word "healthcare" never appears.</p>
+        </div>
+      </div>
+      <div class="v">
+        <div class="v-who">Hiring manager<b>9</b></div>
+        <div>
+          <p class="v-text">This is the most experienced trade-side modeler who applied and the title is hiding it. Detailer at one contractor is coordinator at the next, and everyone in this business knows it.</p>
+          <p class="v-text">Would interview immediately. The only real question is whether they want the coordination and meeting side of the role or prefer to stay on the board.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="call split-call">
+      <p class="call-l">Our call &middot; readers split</p>
+      <p>This is the candidate the posting loses, and the widest disagreement in the pile. The strict read is not wrong. Judged on titles, this resume fails, and anything scoring on title or keyword overlap drops it out of the top twenty of fifty-four.</p>
+      <p>Placed second because BIM job titles in trade contracting are set by whoever wrote the org chart, not by the scope of the work. Worth telling your client that their manager-title requirement is filtering on vocabulary rather than capability.</p>
+    </div>
+  </article>
+
+  <!-- 3 -->
+  <article class="cand">
+    <div class="cand-top">
+      <div class="rank">03</div>
+      <div class="cand-id">
+        <h3 class="cand-name">M. Chandrasekaran<span class="tag tag-agree">Agreed</span></h3>
+        <p class="cand-role">BIM Coordinator, mechanical and plumbing &middot; 8 yrs &middot; Aurora CO</p>
+      </div>
+    </div>
+    <div class="chips">
+      <span class="chip on">LOD 400</span>
+      <span class="chip on">Revit, Navisworks, CADmep</span>
+      <span class="chip on">Autodesk certified</span>
+      <span class="chip on">Runs coordination</span>
+      <span class="chip on">BSc, mechanical engineering</span>
+      <span class="chip off">Commercial only, no healthcare</span>
+    </div>
+
+    <div class="split">
+      <div class="split-head"><span>Reader scores</span><span class="split-spread">Spread <b>1</b></span></div>
+      <div class="track">
+        <div class="band tight" style="left:68%;right:22%"></div>
+        <div class="pip" style="left:70%"><span>Strict 7</span></div>
+        <div class="pip" style="left:78%"><span>Transf. 8</span></div>
+        <div class="pip" style="left:70%"></div>
+      </div>
+      <div class="scale"><span>0</span><span>5</span><span>10</span></div>
+    </div>
+
+    <div class="verdicts">
+      <div class="v">
+        <div class="v-who">Strict<b>7</b></div>
+        <div>
+          <p class="v-text">Hits nearly everything on the posting including the certification and the degree, which most of this shortlist does not. The gap is sector, all commercial office and hotel, no healthcare.</p>
+          <p class="v-text">Eight years is at the lower end of what this project needs but the progression is clean and the responsibility is real.</p>
+        </div>
+      </div>
+      <div class="v">
+        <div class="v-who">Transferable<b>8</b></div>
+        <div>
+          <p class="v-text">Hotel work is more relevant than it sounds. Repeated room types with tight ceiling voids and a heavy plumbing stack is a comparable coordination problem to patient rooms.</p>
+          <p class="v-text">The engineering degree shows in how they write about systems rather than about software. Understands why the duct is where it is, not just how to move it.</p>
+        </div>
+      </div>
+      <div class="v">
+        <div class="v-who">Hiring manager<b>7</b></div>
+        <div>
+          <p class="v-text">Solid yes without excitement. Would do the job well and would not be a problem.</p>
+          <p class="v-text">Would want to test how they handle med gas and infection control barriers, which is the part of hospital work nothing else prepares you for.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="call">
+      <p class="call-l">Our call</p>
+      <p>Reliable third and the most conventionally qualified person on the list. All three readers within a point, which usually means the resume is telling you the truth. The healthcare gap is a learning curve rather than a barrier.</p>
+    </div>
+  </article>
+
+  <!-- 4 -->
+  <article class="cand">
+    <div class="cand-top">
+      <div class="rank">04</div>
+      <div class="cand-id">
+        <h3 class="cand-name">L. Bergmann<span class="tag tag-split">Readers split</span></h3>
+        <p class="cand-role">Steel Detailer and BIM lead, structural fabricator &middot; 15 yrs &middot; Longmont CO</p>
+      </div>
+    </div>
+    <div class="chips">
+      <span class="chip on">Tekla, LOD 400</span>
+      <span class="chip on">Runs coordination</span>
+      <span class="chip on">Shop drawing release</span>
+      <span class="chip on">15 yrs fabrication side</span>
+      <span class="chip off">Structural, not MEP</span>
+      <span class="chip off">No CADmep or SysQue</span>
+    </div>
+
+    <div class="split">
+      <div class="split-head"><span>Reader scores</span><span class="split-spread">Spread <b>3</b></span></div>
+      <div class="track">
+        <div class="band" style="left:38%;right:32%"></div>
+        <div class="pip" style="left:40%"><span>Strict 4</span></div>
+        <div class="pip" style="left:58%"><span>Transf. 6</span></div>
+        <div class="pip" style="left:68%"><span>HM 7</span></div>
+      </div>
+      <div class="scale"><span>0</span><span>5</span><span>10</span></div>
+    </div>
+
+    <div class="verdicts">
+      <div class="v">
+        <div class="v-who">Strict<b>4</b></div>
+        <div>
+          <p class="v-text">Fifteen years of structural steel detailing in Tekla. No Revit at production level, no CADmep, no SysQue, no mechanical systems anywhere in the document.</p>
+          <p class="v-text">This is a different trade using different software. On stated criteria it is a clear reject.</p>
+        </div>
+      </div>
+      <div class="v">
+        <div class="v-who">Transferable<b>6</b></div>
+        <div>
+          <p class="v-text">The transferable part is the discipline, not the software. Steel detailing releases to a shop where an error costs a fabricated member, so this is someone trained to be right the first time, which is exactly the habit fabrication-level MEP modeling needs.</p>
+          <p class="v-text">Has coordinated steel against MEP from the other side of the table for fifteen years, so knows the argument well. The software gap is real but Revit and CADmep are learnable in months by someone who already thinks in fabrication.</p>
+        </div>
+      </div>
+      <div class="v">
+        <div class="v-who">Hiring manager<b>7</b></div>
+        <div>
+          <p class="v-text">More interesting than the score suggests. Fifteen years of getting shop drawings right is a rarer quality than knowing which button in CADmep does what.</p>
+          <p class="v-text">Would interview if the client can absorb a ramp-up. Would not, if they need someone producing spools in week two.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="call split-call">
+      <p class="call-l">Our call &middot; readers split</p>
+      <p>Kept on the list rather than cut, because the underlying skill here is fabrication discipline and this candidate has more of it than anyone else who applied. The gap is software and trade, both of which are learnable.</p>
+      <p>Fourth, not higher, because this project starts coordination immediately and there is no runway for a software transition. Include if your client is thinking about their next two years, drop if they need output next month.</p>
+    </div>
+  </article>
+
+  <!-- 5 -->
+  <article class="cand">
+    <div class="cand-top">
+      <div class="rank">05</div>
+      <div class="cand-id">
+        <h3 class="cand-name">R. Okonjo<span class="tag tag-split">Readers split</span></h3>
+        <p class="cand-role">VDC Manager, general contractor &middot; 9 yrs &middot; Denver CO</p>
+      </div>
+    </div>
+    <div class="chips">
+      <span class="chip on">VDC Manager title</span>
+      <span class="chip on">Navisworks, BIM 360</span>
+      <span class="chip on">Healthcare, three projects</span>
+      <span class="chip on">Autodesk certified</span>
+      <span class="chip off">GC side, not trade side</span>
+      <span class="chip off">No fabrication modeling</span>
+    </div>
+
+    <div class="split">
+      <div class="split-head"><span>Reader scores</span><span class="split-spread">Spread <b>4</b></span></div>
+      <div class="track">
+        <div class="band" style="left:38%;right:22%"></div>
+        <div class="pip" style="left:78%"><span>Strict 8</span></div>
+        <div class="pip" style="left:48%"><span>Transf. 5</span></div>
+        <div class="pip" style="left:40%"><span>HM 4</span></div>
+      </div>
+      <div class="scale"><span>0</span><span>5</span><span>10</span></div>
+    </div>
+
+    <div class="verdicts">
+      <div class="v">
+        <div class="v-who">Strict<b>8</b></div>
+        <div>
+          <p class="v-text">Manager title, healthcare projects, certification, degree, and every software package the posting names. On the words this is one of the strongest resumes received.</p>
+        </div>
+      </div>
+      <div class="v">
+        <div class="v-who">Transferable<b>5</b></div>
+        <div>
+          <p class="v-text">Nine years entirely on the general contractor side, which is a different job wearing the same words. Running the clash detection process and chairing the meeting is not the same as producing the model that has to be right.</p>
+          <p class="v-text">No evidence of ever modeling to fabrication level. The resume describes managing a coordination process rather than delivering content into it.</p>
+        </div>
+      </div>
+      <div class="v">
+        <div class="v-who">Hiring manager<b>4</b></div>
+        <div>
+          <p class="v-text">Hesitant. Excellent hire for a general contractor, wrong shape for a trade partner. The people this candidate has spent nine years chasing for models are the people they would now have to be.</p>
+          <p class="v-text">Would interview only to test whether they have ever produced spools themselves. If not, this is a hire that goes wrong quietly around month four.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="call split-call">
+      <p class="call-l">Our call &middot; readers split</p>
+      <p>An inversion of the usual pattern. The strict read is the enthusiastic one because the posting's language points straight here, and the judgment reads are cautious because the side of the table is wrong.</p>
+      <p>Fifth rather than first because trade-side BIM is a production job and this is a process job. Genuinely strong if your client ever wants a VDC lead, and a poor fit for what this posting actually describes.</p>
+    </div>
+  </article>
+
+  <!-- 6 -->
+  <article class="cand">
+    <div class="cand-top">
+      <div class="rank">06</div>
+      <div class="cand-id">
+        <h3 class="cand-name">T. Wycliffe<span class="tag tag-split">Readers split</span></h3>
+        <p class="cand-role">BIM Manager, multi-discipline consultancy &middot; 11 yrs &middot; Boulder CO</p>
+      </div>
+    </div>
+    <div class="chips">
+      <span class="chip on">Every package listed</span>
+      <span class="chip on">Autodesk certified</span>
+      <span class="chip on">BIM Manager title</span>
+      <span class="chip on">Healthcare listed</span>
+      <span class="chip off">No LOD stated anywhere</span>
+      <span class="chip off">No project detail</span>
+    </div>
+
+    <div class="split">
+      <div class="split-head"><span>Reader scores</span><span class="split-spread">Spread <b>5</b></span></div>
+      <div class="track">
+        <div class="band" style="left:28%;right:12%"></div>
+        <div class="pip" style="left:88%"><span>Strict 9</span></div>
+        <div class="pip" style="left:38%"><span>Transf. 4</span></div>
+        <div class="pip" style="left:30%"><span>HM 3</span></div>
+      </div>
+      <div class="scale"><span>0</span><span>5</span><span>10</span></div>
+    </div>
+
+    <div class="verdicts">
+      <div class="v">
+        <div class="v-who">Strict<b>9</b></div>
+        <div>
+          <p class="v-text">Fourteen software packages listed, every term in the posting present, manager title, certification, degree. Highest surface match of all fifty-four by a clear margin.</p>
+        </div>
+      </div>
+      <div class="v">
+        <div class="v-who">Transferable<b>4</b></div>
+        <div>
+          <p class="v-text">Eleven years described across four roles without a single LOD reference, project value, trade named, or clash count. For a BIM resume that is a striking set of omissions.</p>
+          <p class="v-text">"Managed BIM delivery across multi-disciplinary projects to client standards" appears in three of the four roles with different employers and no project named.</p>
+        </div>
+      </div>
+      <div class="v">
+        <div class="v-who">Hiring manager<b>3</b></div>
+        <div>
+          <p class="v-text">We have read this resume many times. Every package named, nothing owned. Fourteen software packages in eleven years usually means shallow exposure to all of them.</p>
+          <p class="v-text">Might be excellent. The document gives us nothing to test that against, and for a production role that is a real problem.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="call split-call">
+      <p class="call-l">Our call &middot; readers split</p>
+      <p>Included deliberately, at the bottom, and it is the widest split in the response. This is the mirror image of second place. Highest keyword match in fifty-four applications, weakest evidence behind it, and anything scoring on overlap ranks this first by a distance.</p>
+      <p>Kept on the shortlist rather than cut because consultancy work is often bound by client confidentiality. One question settles it: show us a spool drawing you produced and tell us what got built from it. If your client has no slot spare, this is the one to drop.</p>
+    </div>
+  </article>
+</section>
+
+<section class="sec">
+  <p class="sec-label">Read closely, not shortlisted</p>
+  <h2>The near misses, and why</h2>
+  <p class="lede">Eleven applications came close. These five came closest, and the reason each missed is recorded so you can overrule it.</p>
+  <div style="margin-top:26px">
+    <div class="miss">
+      <div><p class="miss-name">S. Eriksen</p><p class="miss-role">Revit Technician, architecture practice &middot; 12 yrs</p></div>
+      <p class="miss-why">Twelve years of genuinely excellent Revit work, all of it design intent for an architect. Never modeled anything that got fabricated, and never sat in a trade coordination meeting. Strong candidate for the wrong side of the project.</p>
+    </div>
+    <div class="miss">
+      <div><p class="miss-name">D. Ferreira Lima</p><p class="miss-role">BIM Team Lead, offshore delivery center &middot; 9 yrs</p></div>
+      <p class="miss-why">Managed twenty-two modelers producing content for US projects, which is real scale. Missed because the coordination itself was always run by someone in the US, so there is no evidence of holding a position against another trade in a live meeting.</p>
+    </div>
+    <div class="miss">
+      <div><p class="miss-name">N. Achterberg</p><p class="miss-role">Scan-to-BIM specialist &middot; 7 yrs</p></div>
+      <p class="miss-why">Deep and genuinely uncommon skill set in point cloud capture and existing conditions modeling. Too narrow for this role, which is new-build coordination. Worth keeping on file, because the renovation phase of this same hospital will need exactly this.</p>
+    </div>
+    <div class="miss">
+      <div><p class="miss-name">C. Villaseñor</p><p class="miss-role">BIM Coordinator, electrical trade partner &middot; 6 yrs</p></div>
+      <p class="miss-why">Right side of the table, right kind of work, wrong trade. Conduit racking and cable tray coordination is genuinely adjacent to mechanical, and six years is a little early. Closest of the near misses and worth a conversation if the top three do not convert.</p>
+    </div>
+    <div class="miss">
+      <div><p class="miss-name">P. Groenewald</p><p class="miss-role">Senior BIM Coordinator, mechanical &middot; 14 yrs</p></div>
+      <p class="miss-why">Right profile, wrong constraint. States a hard requirement for fully remote work. Coordination on a project this congested happens in a room with the other trades. Flagged rather than cut in case your client will consider a hybrid arrangement, because otherwise this belongs in the top three.</p>
+    </div>
+  </div>
+</section>
+
+<div class="colophon">
+  <p><strong>About this document.</strong> This is a sample. The format, the reading method and the reasoning style are exactly what you would receive.</p>
+  <p>On a live role, every resume you send is read in full, and we write the shortlist ourselves. Nothing is filtered out before a person sees it and nothing is rejected by a machine. The ranking is a recommendation rather than a decision. Where the readers disagree you get told, and you get both arguments, because those are the ones where your judgment is worth more than ours.</p>
+  <p class="sig">Superceptron<span>Every resume read. The reasoning attached. Your call.</span></p>
+</div>
+
+</div>
+</body>
+</html>
