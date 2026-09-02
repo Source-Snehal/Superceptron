@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech Recruitment Resume Shortlisting — Superceptron</title>
-    <meta name="description" content="Superceptron shortlists software, data, and AI/ML candidates for independent tech recruiting firms. Every resume read for meaning, every shortlist reviewed by a tech-hiring expert. You always see the reasoning.">
+    <title>Tech Recruitment Resume Shortlisting: Superceptron</title>
+    <meta name="description" content="Superceptron shortlists software, data, and AI/ML candidates for independent tech recruiting firms. Every resume read for meaning, every shortlist reviewed by a person. You always see the reasoning.">
     <meta name="keywords" content="tech recruitment agency, software recruiter resume screening, AI ML recruitment shortlisting, tech recruiting firm tools, developer resume screening service">
     <meta name="author" content="Superceptron">
     <meta name="robots" content="index, follow">
@@ -12,13 +12,13 @@
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.superceptron.com/recruiter-tech.html">
-    <meta property="og:title" content="Tech Recruitment Resume Shortlisting — Superceptron">
-    <meta property="og:description" content="Every software, data, and AI/ML resume read for meaning. A tech-hiring expert reviews every shortlist. You see the reasoning, you make the final call.">
+    <meta property="og:title" content="Tech Recruitment Resume Shortlisting: Superceptron">
+    <meta property="og:description" content="Every software, data, and AI/ML resume read for meaning. A person reviews every shortlist. You see the reasoning, you make the final call.">
     <meta property="og:site_name" content="Superceptron">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Tech Recruitment Resume Shortlisting — Superceptron">
-    <meta name="twitter:description" content="Every software, data, and AI/ML resume read for meaning. A tech-hiring expert reviews every shortlist before it reaches you.">
+    <meta name="twitter:title" content="Tech Recruitment Resume Shortlisting: Superceptron">
+    <meta name="twitter:description" content="Every software, data, and AI/ML resume read for meaning. A person reviews every shortlist before it reaches you.">
 
     <script type="application/ld+json">
     [
@@ -344,7 +344,7 @@
         /* Dual Engine section layout */
         .dual-engine-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 1px;
             background: var(--w08);
             border: 1px solid var(--w08);
@@ -416,6 +416,9 @@
             color: var(--w30);
             letter-spacing: 0.01em;
             text-align: center;
+        }
+        @media (max-width: 900px) {
+            .dual-engine-grid { grid-template-columns: 1fr 1fr; }
         }
         @media (max-width: 700px) {
             .dual-engine-grid { grid-template-columns: 1fr; }
@@ -796,6 +799,11 @@
             transition: border-color 0.25s var(--ease);
         }
         .problem-card:hover { border-color: rgba(255,80,80,0.22); }
+        .problem-grid.neutral .problem-card {
+            background: var(--black-2);
+            border-color: var(--w08);
+        }
+        .problem-grid.neutral .problem-card:hover { border-color: rgba(77,255,180,0.2); }
         .problem-card-icon {
             width: 52px;
             height: 52px;
@@ -872,6 +880,14 @@
             background: var(--accent);
             border-radius: 2px;
         }
+        /* Master-idea kicker above the hero H1 */
+        .hero-kicker {
+            font-size: clamp(1.0625rem, 2vw, 1.25rem);
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: -0.01em;
+            margin: 0 0 0.75rem;
+        }
     </style>
 </head>
 <body>
@@ -943,21 +959,22 @@
         </div>
         <div class="container">
             <div class="hero-content">
-                <div class="hero-eyebrow" aria-label="Superceptron — Tech Recruitment Resume Shortlisting">
+                <div class="hero-eyebrow" aria-label="Superceptron: Tech Recruitment Resume Shortlisting">
                     <span class="eyebrow-pill">Built for software, data &amp; AI/ML hiring.</span>
                 </div>
+                <p class="hero-kicker">Your recruiters should be recruiting.</p>
                 <h1 class="hero-title">
                     Tech recruitment, without<br>the keyword-matching guesswork.
                 </h1>
                 <p class="hero-sub">
-                    A candidate who says "built ML pipelines in PyTorch" should match a spec asking for "Python ML experience." Most screening tools miss that. We read every resume for what the person actually did, rank the batch, and a tech-hiring expert checks the shortlist before it reaches you.
+                    A candidate who says "built ML pipelines in PyTorch" should match a spec asking for "Python ML experience." Most screening tools miss that. We read every resume for what the person actually did, rank the batch, and a person checks the shortlist before it reaches you.
                 </p>
-                <p class="rec-proof">No tech shortlist leaves here without a named person behind it.</p>
+                <p class="rec-proof">Every resume read. Nothing binned unread.</p>
                 <div class="hero-actions">
                     <a href="register.html" class="btn-primary">Send us one live req</a>
                     <a href="#dual-engine" class="btn-ghost">How it works <span aria-hidden="true">↓</span></a>
                 </div>
-                <p class="trial-hint" style="margin-top:1rem;">We'll do the first pass. You decide if it's useful. No account, no workflow change.</p>
+                <p class="trial-hint" style="margin-top:1rem;">First live role free. We'll do the first pass, you decide if it's useful. No account required.</p>
             </div>
         </div>
         <div class="scroll-hint" aria-hidden="true">
@@ -979,25 +996,12 @@
         </div>
     </section>
 
-    <!-- What We Do -->
-    <section id="what-we-do" class="section intro-section">
-        <div class="container">
-            <div class="section-label">What we do</div>
-            <h2 class="section-title reveal">
-                Tech shortlisting.<br>Done properly.
-            </h2>
-            <p class="section-body reveal">
-                Independent tech recruiting firms lose hours every week screening resumes for software, data, and AI/ML roles: reading 80 applications to build a shortlist of six, most of them written in the same three stacks with wildly different depth behind them. We take that work off your desk. Send us a batch and a job spec, and we send back a ranked shortlist with a written assessment of every candidate, within the hour.
-            </p>
-        </div>
-    </section>
-
     <!-- The Problem -->
-    <section class="section problem-section">
+    <section class="section problem-section" id="what-we-do">
         <div class="container">
             <div class="section-label reveal">The problem</div>
-            <h2 class="section-title reveal">Two forces making recruiting<br>harder every year.</h2>
-            <p class="problem-intro reveal">Most shortlisting tools don't fix this. They make both problems worse.</p>
+            <h2 class="section-title reveal">The pile is getting<br>harder to trust.</h2>
+            <p class="problem-intro reveal">Independent tech recruiting firms read 80 applications for software, data and AI/ML roles to build a shortlist of six, most of them written in the same three stacks with wildly different depth behind them. Most shortlisting tools don't fix that. They make it worse in both directions.</p>
             <div class="problem-grid">
 
                 <div class="problem-card reveal">
@@ -1008,8 +1012,8 @@
                             <line x1="16.5" y1="7" x2="9.5" y2="10.5" stroke="rgba(255,100,100,0.65)" stroke-width="1.3" stroke-linecap="round"/>
                         </svg>
                     </div>
-                    <h3>AI keyword tools bury the candidates you're looking for</h3>
-                    <p>When automated tools filter by keyword match, strong candidates disappear simply because they described the same skill differently. You never see them. Your client never meets them. A placement falls through three months later, and it's your reputation on the line, not the algorithm's. The cost of a missed hire at independent firms isn't an abstraction: it's a client relationship.</p>
+                    <h3>Good candidates can look wrong</h3>
+                    <p>Keyword matching can miss transferable experience. When automated tools filter on overlap, strong candidates disappear simply because they described the same skill differently. You never see them, your client never meets them, and a placement falls through three months later on your reputation, not the algorithm's.</p>
                 </div>
 
                 <div class="problem-card reveal">
@@ -1026,43 +1030,377 @@
                             <line x1="21.6" y1="4.4" x2="18.4" y2="7.6" stroke="rgba(255,100,100,0.55)" stroke-width="1" stroke-linecap="round"/>
                         </svg>
                     </div>
-                    <h3>AI-written resumes are flooding your inbox</h3>
-                    <p>A growing share of the applications in your pile were drafted by AI: keyword-dense, polished, and almost entirely hollow. They sail past automated filters and into your interview schedule. Only a trained eye spots them, the same trained eye that recognises genuine potential buried under a non-standard format or a career path that doesn't follow the obvious script.</p>
+                    <h3>Weak candidates can look right</h3>
+                    <p>A polished, keyword-heavy resume can contain the expected vocabulary without demonstrating equivalent depth. A growing share of the applications in your pile are written this way. They sail past automated filters and into your interview schedule. Only a trained eye spots the gap between the words and the evidence behind them.</p>
                 </div>
 
             </div>
             <div class="problem-resolution reveal">
-                <strong>Both problems have the same fix:</strong> someone who reads for meaning, not keywords, and knows what a strong hire actually looks like.
+                <strong>The first pass needs more than a match score:</strong> someone who reads for meaning, not keywords, and knows what a strong hire actually looks like.
             </div>
         </div>
     </section>
 
-    <!-- How Dual Engine Works -->
+    <!-- Three reads, then a person decides -->
     <section class="section services-section" id="dual-engine">
         <div class="container">
             <div class="section-label reveal">How it works</div>
-            <h2 class="section-title reveal">Two stages.<br>Every shortlist.</h2>
+            <h2 class="section-title reveal">Three reads.<br>Then a person decides.</h2>
+            <p class="problem-intro reveal">Every resume gets read three times, from three different angles, before anyone writes a shortlist.</p>
             <div class="dual-engine-grid">
                 <div class="engine-panel reveal">
-                    <span class="engine-tag">Reading stage</span>
-                    <h3>Scores and ranks every resume against your job spec</h3>
-                    <p>The moment your batch lands, AI reads every resume for meaning, not keyword matches. Within minutes, every candidate is ranked with a written rationale: why they fit, what to probe on a call, any gaps worth noting. You see the reasoning behind every ranking, not just a score.</p>
-                    <div class="engine-note">
-                        <span class="engine-note-icon" aria-hidden="true">→</span>
-                        Reads for semantic fit, not keyword density. A resume that says "built ML pipelines in PyTorch" matches a spec asking for "Python ML experience." A keyword tool misses that entirely.
-                    </div>
+                    <span class="engine-tag">Strict read</span>
+                    <h3>Does the candidate meet what the req explicitly asks for?</h3>
+                    <p>Scored against the spec as written. Finds relevant experience even when the vocabulary doesn't match, but absence of evidence still counts as absence. Unforgiving on purpose.</p>
                 </div>
                 <div class="engine-panel reveal">
-                    <span class="engine-tag">Judgement stage</span>
-                    <h3>Every shortlist reviewed by a leading industry expert</h3>
-                    <p>Before any shortlist leaves our desk, a leading industry expert goes through it. Not to review from scratch, but to catch what AI tends to miss: strong candidates with unconventional career paths or non-standard resume formats. They calibrate to what your specific clients actually want, and that calibration compounds over time.</p>
-                    <div class="engine-note">
-                        <span class="engine-note-icon" aria-hidden="true">→</span>
-                        Domain expertise you can't replicate with a prompt. Our experts know the tech hiring market. They spot the signal that raw AI misses.
+                    <span class="engine-tag">Transferable read</span>
+                    <h3>Could they do the work, even if the vocabulary is different?</h3>
+                    <p>Looks for evidence the person could do the job even when their background, stack or job titles don't map cleanly onto the req. Adjacent problems, demonstrated learning speed, work that reads as equivalent once you look past the label.</p>
+                </div>
+                <div class="engine-panel reveal">
+                    <span class="engine-tag">Hiring-manager read</span>
+                    <h3>Worth a conversation, and what would need testing?</h3>
+                    <p>One interview slot this week. Would you spend it here, and what's the specific thing you'd want to find out on the call?</p>
+                </div>
+            </div>
+            <p class="engine-reassurance reveal">The three reads are evidence, not a decision. A person goes through all of it, writes the ranked shortlist, and tells you where the reads disagreed and why. <strong>The software reads. Your recruiter decides.</strong></p>
+        </div>
+    </section>
+
+    <!-- Sample output -->
+    <section class="section sample-section">
+        <div class="container">
+            <div class="section-label reveal">What you get back</div>
+            <h2 class="section-title reveal">See what your recruiter actually gets back.</h2>
+            <p class="sample-intro reveal">A real sample first pass on a Senior AI Engineer req. Not scores or flags, but the kind of notes a thorough researcher would write.</p>
+
+            <div class="calc-secondary sample-figures reveal">
+                <div class="calc-stat">
+                    <span class="calc-stat-num">47</span>
+                    <span class="calc-stat-label">Applications received</span>
+                </div>
+                <div class="calc-stat">
+                    <span class="calc-stat-num">47</span>
+                    <span class="calc-stat-label">Read in full, three times each</span>
+                </div>
+                <div class="calc-stat">
+                    <span class="calc-stat-num">5</span>
+                    <span class="calc-stat-label">Shortlisted</span>
+                </div>
+                <div class="calc-stat">
+                    <span class="calc-stat-num">All</span>
+                    <span class="calc-stat-label">Every candidate accounted for</span>
+                </div>
+            </div>
+
+            <!-- AI + Human flow visual -->
+            <div class="sample-flow reveal">
+
+                <!-- Node 1: AI Engine -->
+                <div class="sf-node">
+                    <div class="sf-icon sf-ai">
+                        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+                            <rect x="9" y="9" width="18" height="18" rx="3" stroke="#4DFFB4" stroke-width="1.5"/>
+                            <rect x="13" y="13" width="10" height="10" rx="1.5" stroke="#4DFFB4" stroke-width="1" opacity="0.5"/>
+                            <line x1="14" y1="9" x2="14" y2="5" stroke="#4DFFB4" stroke-width="1.5" stroke-linecap="round"/>
+                            <line x1="18" y1="9" x2="18" y2="5" stroke="#4DFFB4" stroke-width="1.5" stroke-linecap="round"/>
+                            <line x1="22" y1="9" x2="22" y2="5" stroke="#4DFFB4" stroke-width="1.5" stroke-linecap="round"/>
+                            <line x1="14" y1="27" x2="14" y2="31" stroke="#4DFFB4" stroke-width="1.5" stroke-linecap="round"/>
+                            <line x1="18" y1="27" x2="18" y2="31" stroke="#4DFFB4" stroke-width="1.5" stroke-linecap="round"/>
+                            <line x1="22" y1="27" x2="22" y2="31" stroke="#4DFFB4" stroke-width="1.5" stroke-linecap="round"/>
+                            <line x1="9" y1="14" x2="5" y2="14" stroke="#4DFFB4" stroke-width="1.5" stroke-linecap="round"/>
+                            <line x1="9" y1="22" x2="5" y2="22" stroke="#4DFFB4" stroke-width="1.5" stroke-linecap="round"/>
+                            <line x1="27" y1="14" x2="31" y2="14" stroke="#4DFFB4" stroke-width="1.5" stroke-linecap="round"/>
+                            <line x1="27" y1="22" x2="31" y2="22" stroke="#4DFFB4" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <span class="sf-label">Reading stage</span>
+                    <span class="sf-sub">Scores &amp; ranks every resume in minutes</span>
+                </div>
+
+                <!-- Squiggly arrow 1 -->
+                <svg class="sf-arrow" viewBox="0 0 100 44" fill="none" aria-hidden="true">
+                    <path d="M5,22 C14,8 22,8 31,22 C40,36 48,36 57,22 C66,8 74,8 83,22" stroke="#4DFFB4" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M78,16 L86,22 L78,28" stroke="#4DFFB4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+
+                <!-- Node 2: Expert Review -->
+                <div class="sf-node">
+                    <div class="sf-icon sf-human">
+                        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+                            <circle cx="18" cy="13" r="5.5" stroke="#a78bfa" stroke-width="1.5"/>
+                            <path d="M6,34 C6,25 10,21 18,21 C26,21 30,25 30,34" stroke="#a78bfa" stroke-width="1.5" stroke-linecap="round"/>
+                            <circle cx="27" cy="7" r="4.5" fill="rgba(167,139,250,0.15)" stroke="#a78bfa" stroke-width="1"/>
+                            <path d="M27,4.5 L27.8,6.6 L30,6.6 L28.4,7.9 L29,10 L27,8.7 L25,10 L25.6,7.9 L24,6.6 L26.2,6.6 Z" fill="#a78bfa"/>
+                        </svg>
+                    </div>
+                    <span class="sf-label">Judgement stage</span>
+                    <span class="sf-sub">A person checks every shortlist before it reaches you</span>
+                </div>
+
+                <!-- Squiggly arrow 2 -->
+                <svg class="sf-arrow" viewBox="0 0 100 44" fill="none" aria-hidden="true">
+                    <path d="M5,22 C14,8 22,8 31,22 C40,36 48,36 57,22 C66,8 74,8 83,22" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M78,16 L86,22 L78,28" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+
+                <!-- Node 3: You decide -->
+                <div class="sf-node">
+                    <div class="sf-icon sf-you">
+                        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+                            <rect x="7" y="4" width="22" height="28" rx="3" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+                            <line x1="12" y1="12" x2="24" y2="12" stroke="#4DFFB4" stroke-width="1.5" stroke-linecap="round"/>
+                            <line x1="12" y1="17" x2="24" y2="17" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-linecap="round"/>
+                            <line x1="12" y1="22" x2="19" y2="22" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-linecap="round"/>
+                            <path d="M20,25 L23,28 L30,20" stroke="#4DFFB4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <span class="sf-label">You decide</span>
+                    <span class="sf-sub">Ranked shortlist with full reasoning, ready to act on</span>
+                </div>
+
+            </div>
+
+            <div class="sample-grid">
+
+                <!-- Shortlist mock-up -->
+                <div class="sample-mock reveal">
+                    <div class="sample-mock-chrome">
+                        <div class="sample-chrome-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                        <span class="sample-chrome-title">Shortlist: Senior AI Engineer</span>
+                    </div>
+                    <div class="sample-email-header">
+                        <span class="sample-email-line">From: <strong>Superceptron &lt;info@superceptron.com&gt;</strong></span>
+                        <span class="sample-email-line">Subject: <strong>Shortlist: Senior AI Engineer</strong></span>
+                    </div>
+                    <div class="sample-shortlist-body">
+                        <div class="sample-sl-meta">
+                            <span>47 screened</span>
+                            <span class="sl-dot">·</span>
+                            <span>5 shortlisted</span>
+                            <span class="sl-dot">·</span>
+                            <span>Ready in 52 min</span>
+                        </div>
+                        <div class="sample-table-head" aria-hidden="true">
+                            <span>Rank</span><span>Candidate</span><span>Verdict</span>
+                        </div>
+                        <div class="sample-table-row strong-row">
+                            <span class="sr-rank">#1</span>
+                            <span class="sr-name">A. Okonkwo</span>
+                            <span class="sr-verdict v-strong">Agreed</span>
+                        </div>
+                        <div class="sample-table-row">
+                            <span class="sr-rank">#2</span>
+                            <span class="sr-name">D. Kaur</span>
+                            <span class="sr-verdict v-cond">Readers split</span>
+                        </div>
+                        <div class="sample-table-row strong-row">
+                            <span class="sr-rank">#3</span>
+                            <span class="sr-name">P. Nandakumar</span>
+                            <span class="sr-verdict v-strong">Agreed</span>
+                        </div>
+                        <div class="sample-table-row">
+                            <span class="sr-rank">#4</span>
+                            <span class="sr-name">T. Reyes</span>
+                            <span class="sr-verdict v-cond">Readers split</span>
+                        </div>
+                        <div class="sample-table-row">
+                            <span class="sr-rank">#5</span>
+                            <span class="sr-name">J. Whitlock</span>
+                            <span class="sr-verdict v-cond">Readers split</span>
+                        </div>
+                        <div class="sample-expert-badge">
+                            <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                                <circle cx="7" cy="5" r="2.8" stroke="#6d28d9" stroke-width="1.3"/>
+                                <path d="M1.5,13.5 C1.5,10 3.5,8 7,8 C10.5,8 12.5,10 12.5,13.5" stroke="#6d28d9" stroke-width="1.3" stroke-linecap="round"/>
+                            </svg>
+                            Reviewed · All 5 shortlist positions confirmed
+                        </div>
+                        <p class="sample-table-note">Full rationale for each candidate attached ↓</p>
+                    </div>
+                </div>
+
+                <!-- Rationale mock-up -->
+                <div class="sample-mock reveal">
+                    <div class="sample-mock-chrome">
+                        <div class="sample-chrome-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                        <span class="sample-chrome-title">Candidate Brief: A. Okonkwo</span>
+                    </div>
+                    <div class="sample-rationale-body-wrap">
+                        <div class="sample-rat-header">
+                            <span class="rat-rank">#1</span>
+                            <span class="rat-name">A. Okonkwo</span>
+                            <span class="rat-verdict">Agreed</span>
+                        </div>
+                        <p class="rat-para">"Meets every hard requirement without needing interpretation: six years of production Python, four of those owning model-serving infrastructure rather than notebooks. The scale gap reads smaller once you look closer. Two roles back they handled payments throughput at far higher volume, and the architectural problems are the same shape."</p>
+                        <p class="rat-probe">"One thing to probe: the largest system they've named serves roughly 40k requests/day, and the spec implies an order of magnitude above that. Worth asking how the architecture would change at higher scale."</p>
+                        <div class="rat-rec">
+                            <span class="rat-rec-arrow" aria-hidden="true">→</span>
+                            Recommended: move to first call, early in the week.
+                        </div>
+                        <div class="rat-expert-note">
+                            <div class="rat-expert-header">
+                                <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                                    <circle cx="7" cy="5" r="2.8" stroke="#6d28d9" stroke-width="1.3"/>
+                                    <path d="M1.5,13.5 C1.5,10 3.5,8 7,8 C10.5,8 12.5,10 12.5,13.5" stroke="#6d28d9" stroke-width="1.3" stroke-linecap="round"/>
+                                </svg>
+                                My call
+                            </div>
+                            <p>"Top of the list, and it wasn't close. The only real question is scale, and it's an interview question rather than a screening one. The underlying experience is there, just in a different domain."</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="proof-links" style="margin-top:2.5rem;">
+                <a href="sample-shortlist.html" target="_blank" rel="noopener" class="btn-dark reveal">View the sample shortlist <span aria-hidden="true">→</span></a>
+            </div>
+            <p class="proof-note reveal">Every applicant appears somewhere in that document, including the ones ranked last. Nothing is discarded unread, and the reasoning behind every ranking is written out, not hidden behind a score.</p>
+        </div>
+    </section>
+
+    <!-- What the reads actually catch -->
+    <section class="section problem-section">
+        <div class="container">
+            <div class="section-label reveal">From the sample above</div>
+            <h2 class="section-title reveal">That's why we don't stop<br>at the score.</h2>
+            <div class="problem-grid neutral">
+
+                <div class="problem-card reveal">
+                    <h3>When the keywords miss</h3>
+                    <p>The top-ranked candidate scored an 8 on the strict read: solid, not spectacular. The spec implied a scale of system he hadn't explicitly named. The transferable read caught what the strict read couldn't: two roles back, he'd handled payments throughput at far higher volume, on architecture that solved the same shape of problem. Read literally, he looked adequate. Read for what he'd actually done, he was the clear first choice.</p>
+                </div>
+
+                <div class="problem-card reveal">
+                    <h3>When the keywords mislead</h3>
+                    <p>One application matched more of the spec's language than any other in the batch: highest surface score in the pile. The transferable and hiring-manager reads found little underneath it: eleven technologies listed with no stated outcome, timeframe or scale, and the phrase "led AI transformation initiatives" repeated three times without ever saying what changed. Any tool scoring on keyword overlap would have ranked this candidate first. He was ranked last, and kept on the list rather than cut, in case the format was hiding real work behind client confidentiality.</p>
+                </div>
+
+            </div>
+            <div class="problem-resolution reveal">
+                <strong>Disagreement is useful:</strong> when the three reads point in different directions, we don't hide that inside a single score. The reasoning stays visible so your recruiter can make the call, and the ones where the reads split are exactly the ones worth a second look.
+            </div>
+        </div>
+    </section>
+
+    <!-- Who this is for -->
+    <section class="section">
+        <div class="container">
+            <div class="section-label reveal">Who this is for</div>
+            <h2 class="section-title reveal">Built for staffing firms<br>where recruiter judgment matters.</h2>
+            <p class="problem-intro reveal">Technical recruiting is full of candidates whose experience doesn't always line up neatly with the vocabulary in the req. That's true whether you're a boutique desk or a larger technical staffing operation.</p>
+            <ul class="for-list reveal">
+                <li>Firms placing software engineers, data scientists, ML/AI specialists, or infra/platform roles where stack depth matters more than keyword overlap</li>
+                <li>Firms that don't want to migrate off their existing ATS or CRM. You've got a system that works; we work alongside it</li>
+                <li>Teams that want a direct line to a real person who understands the tech hiring market, not a support ticket queue</li>
+                <li>Recruiters tired of AI-polished resumes sailing past keyword filters while strong, unconventional candidates get buried</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Why Us -->
+    <section class="section why-section">
+        <div class="container">
+            <div class="section-label reveal">Why Superceptron</div>
+            <div class="why-grid">
+                <div class="why-headline">
+                    <h2 class="reveal">Keep your ATS.<br>Keep your workflow.</h2>
+                    <p class="reveal">Large platforms are built for enterprise accounts with procurement teams and IT departments. We're not. Superceptron works alongside the systems you're already using, the way independent recruiting firms work: direct, fast, without the overhead.</p>
+                    <a href="about.html" class="btn-ghost reveal" style="padding-left:0">Meet the founder <span aria-hidden="true">→</span></a>
+                </div>
+                <div class="why-points">
+                    <div class="why-point reveal">
+                        <div class="why-num">01</div>
+                        <div>
+                            <h4>Works with your existing ATS and CRM</h4>
+                            <p>We work with whatever you already have: Bullhorn, Crelate, JobDiva, anything. No migration, no training, no change management project.</p>
+                        </div>
+                    </div>
+                    <div class="why-point reveal">
+                        <div class="why-num">02</div>
+                        <div>
+                            <h4>You're dealing with the person doing the work</h4>
+                            <p>No account-management maze. Send a req, talk to Snehal, the person who built the system and runs it, and get the work back. No handoffs, no ticket queue.</p>
+                        </div>
+                    </div>
+                    <div class="why-point reveal">
+                        <div class="why-num">03</div>
+                        <div>
+                            <h4>No enterprise pricing model</h4>
+                            <p>No seat licences. No minimum contracts. No annual commitments before you've tried it. Pay for what you actually use.</p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <p class="engine-reassurance reveal">AI speed. Expert judgement. You always see the reasoning behind every shortlist. <strong>You always make the final call.</strong> We just get you there faster.</p>
+        </div>
+    </section>
+
+    <!-- Competitive comparison -->
+    <section class="section comp-section">
+        <div class="container">
+            <div class="section-label reveal">vs. the alternatives</div>
+            <h2 class="section-title reveal">The honest comparison.</h2>
+            <p class="comp-intro reveal">Most recruiters at small firms land on the same three options before deciding. Here's where each one falls short.</p>
+            <div class="comp-grid">
+
+                <div class="comp-col reveal">
+                    <div class="comp-col-header">
+                        <span class="comp-versus">Alternative 01</span>
+                        <span class="comp-label">ChatGPT &amp; off-the-shelf AI tools</span>
+                    </div>
+                    <div class="comp-gap">
+                        <span class="comp-gap-marker" aria-hidden="true">✕</span>
+                        <p>You do all the work: writing prompts, handling file uploads, deciding what to evaluate. No integration into your actual workflow. No accountability if the shortlist misses someone good.</p>
+                    </div>
+                    <div class="comp-answer">
+                        <span class="comp-answer-marker" aria-hidden="true">✓</span>
+                        <p>A person reads every resume and sends back a ranked shortlist. The reasoning is visible. If the shortlist misses someone good, that's on us to explain.</p>
+                    </div>
+                </div>
+
+                <div class="comp-col reveal">
+                    <div class="comp-col-header">
+                        <span class="comp-versus">Alternative 02</span>
+                        <span class="comp-label">Self-serve screening software<span class="comp-label-sub">Automated resume-scoring tools</span></span>
+                    </div>
+                    <div class="comp-gap">
+                        <span class="comp-gap-marker" aria-hidden="true">✕</span>
+                        <p>You still do the work. Log in, upload resumes, configure the model, interpret the results, every search. No human reviews the output. Edge cases and formatting quirks are your problem.</p>
+                    </div>
+                    <div class="comp-answer">
+                        <span class="comp-answer-marker" aria-hidden="true">✓</span>
+                        <p>We do the reading. You review the shortlist. No model to configure, no results to second-guess, no edge cases that are mysteriously your problem.</p>
+                    </div>
+                </div>
+
+                <div class="comp-col reveal">
+                    <div class="comp-col-header">
+                        <span class="comp-versus">Alternative 03</span>
+                        <span class="comp-label">Hiring an internal ops or admin person</span>
+                    </div>
+                    <div class="comp-gap">
+                        <span class="comp-gap-marker" aria-hidden="true">✕</span>
+                        <p>Fixed salary cost whether you have 80 resumes to screen or eight. Months of ramp-up and training. Ongoing management overhead that compounds as your team grows.</p>
+                    </div>
+                    <div class="comp-answer">
+                        <span class="comp-answer-marker" aria-hidden="true">✓</span>
+                        <p>Pay only for the volume that exists right now. No recruiting, no onboarding, no performance reviews. Flex up when a big mandate lands; step back when it's quiet.</p>
+                    </div>
+                </div>
+
+            </div>
+            <p class="comp-tracking reveal">We track time saved on shortlisting and shortlist-to-interview conversion from day one, and share it back with you.</p>
+        </div>
+    </section>
+
+    <!-- Black-box objection handling -->
+    <section class="section quiet-section">
+        <div class="container quiet-inner">
+            <span class="quiet-badge">The safeguard</span>
+            <h2 class="reveal">No candidate disappears because a machine said no.</h2>
+            <p class="reveal">Every candidate remains available to your recruiter. Superceptron helps structure the first pass. Your recruiter makes the call.</p>
         </div>
     </section>
 
@@ -1152,307 +1490,6 @@
         </div>
     </section>
 
-    <!-- Sample output -->
-    <section class="section sample-section">
-        <div class="container">
-            <div class="section-label reveal">What you get back</div>
-            <h2 class="section-title reveal">A shortlist you can act on.</h2>
-            <p class="sample-intro reveal">Every batch comes back as a ranked list with a written brief for each candidate: not scores or flags, but the kind of notes a thorough researcher would write.</p>
-
-            <!-- AI + Human flow visual -->
-            <div class="sample-flow reveal">
-
-                <!-- Node 1: AI Engine -->
-                <div class="sf-node">
-                    <div class="sf-icon sf-ai">
-                        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-                            <rect x="9" y="9" width="18" height="18" rx="3" stroke="#4DFFB4" stroke-width="1.5"/>
-                            <rect x="13" y="13" width="10" height="10" rx="1.5" stroke="#4DFFB4" stroke-width="1" opacity="0.5"/>
-                            <line x1="14" y1="9" x2="14" y2="5" stroke="#4DFFB4" stroke-width="1.5" stroke-linecap="round"/>
-                            <line x1="18" y1="9" x2="18" y2="5" stroke="#4DFFB4" stroke-width="1.5" stroke-linecap="round"/>
-                            <line x1="22" y1="9" x2="22" y2="5" stroke="#4DFFB4" stroke-width="1.5" stroke-linecap="round"/>
-                            <line x1="14" y1="27" x2="14" y2="31" stroke="#4DFFB4" stroke-width="1.5" stroke-linecap="round"/>
-                            <line x1="18" y1="27" x2="18" y2="31" stroke="#4DFFB4" stroke-width="1.5" stroke-linecap="round"/>
-                            <line x1="22" y1="27" x2="22" y2="31" stroke="#4DFFB4" stroke-width="1.5" stroke-linecap="round"/>
-                            <line x1="9" y1="14" x2="5" y2="14" stroke="#4DFFB4" stroke-width="1.5" stroke-linecap="round"/>
-                            <line x1="9" y1="22" x2="5" y2="22" stroke="#4DFFB4" stroke-width="1.5" stroke-linecap="round"/>
-                            <line x1="27" y1="14" x2="31" y2="14" stroke="#4DFFB4" stroke-width="1.5" stroke-linecap="round"/>
-                            <line x1="27" y1="22" x2="31" y2="22" stroke="#4DFFB4" stroke-width="1.5" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-                    <span class="sf-label">Reading stage</span>
-                    <span class="sf-sub">Scores &amp; ranks every resume in minutes</span>
-                </div>
-
-                <!-- Squiggly arrow 1 -->
-                <svg class="sf-arrow" viewBox="0 0 100 44" fill="none" aria-hidden="true">
-                    <path d="M5,22 C14,8 22,8 31,22 C40,36 48,36 57,22 C66,8 74,8 83,22" stroke="#4DFFB4" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M78,16 L86,22 L78,28" stroke="#4DFFB4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-
-                <!-- Node 2: Expert Review -->
-                <div class="sf-node">
-                    <div class="sf-icon sf-human">
-                        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-                            <circle cx="18" cy="13" r="5.5" stroke="#a78bfa" stroke-width="1.5"/>
-                            <path d="M6,34 C6,25 10,21 18,21 C26,21 30,25 30,34" stroke="#a78bfa" stroke-width="1.5" stroke-linecap="round"/>
-                            <circle cx="27" cy="7" r="4.5" fill="rgba(167,139,250,0.15)" stroke="#a78bfa" stroke-width="1"/>
-                            <path d="M27,4.5 L27.8,6.6 L30,6.6 L28.4,7.9 L29,10 L27,8.7 L25,10 L25.6,7.9 L24,6.6 L26.2,6.6 Z" fill="#a78bfa"/>
-                        </svg>
-                    </div>
-                    <span class="sf-label">Judgement stage</span>
-                    <span class="sf-sub">Leading industry expert checks every shortlist</span>
-                </div>
-
-                <!-- Squiggly arrow 2 -->
-                <svg class="sf-arrow" viewBox="0 0 100 44" fill="none" aria-hidden="true">
-                    <path d="M5,22 C14,8 22,8 31,22 C40,36 48,36 57,22 C66,8 74,8 83,22" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M78,16 L86,22 L78,28" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-
-                <!-- Node 3: You decide -->
-                <div class="sf-node">
-                    <div class="sf-icon sf-you">
-                        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-                            <rect x="7" y="4" width="22" height="28" rx="3" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
-                            <line x1="12" y1="12" x2="24" y2="12" stroke="#4DFFB4" stroke-width="1.5" stroke-linecap="round"/>
-                            <line x1="12" y1="17" x2="24" y2="17" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-linecap="round"/>
-                            <line x1="12" y1="22" x2="19" y2="22" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-linecap="round"/>
-                            <path d="M20,25 L23,28 L30,20" stroke="#4DFFB4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                    <span class="sf-label">You decide</span>
-                    <span class="sf-sub">Ranked shortlist with full reasoning, ready to act on</span>
-                </div>
-
-            </div>
-
-            <div class="sample-grid">
-
-                <!-- Shortlist mock-up -->
-                <div class="sample-mock reveal">
-                    <div class="sample-mock-chrome">
-                        <div class="sample-chrome-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-                        <span class="sample-chrome-title">Shortlist — Senior AI Engineer</span>
-                    </div>
-                    <div class="sample-email-header">
-                        <span class="sample-email-line">From: <strong>Superceptron &lt;info@superceptron.com&gt;</strong></span>
-                        <span class="sample-email-line">Subject: <strong>Shortlist — Senior AI Engineer</strong></span>
-                    </div>
-                    <div class="sample-shortlist-body">
-                        <div class="sample-sl-meta">
-                            <span>47 screened</span>
-                            <span class="sl-dot">·</span>
-                            <span>5 shortlisted</span>
-                            <span class="sl-dot">·</span>
-                            <span>Ready in 52 min</span>
-                        </div>
-                        <div class="sample-table-head" aria-hidden="true">
-                            <span>Rank</span><span>Candidate</span><span>Verdict</span>
-                        </div>
-                        <div class="sample-table-row strong-row">
-                            <span class="sr-rank">#1</span>
-                            <span class="sr-name">A. Okonkwo</span>
-                            <span class="sr-verdict v-strong">Agreed</span>
-                        </div>
-                        <div class="sample-table-row">
-                            <span class="sr-rank">#2</span>
-                            <span class="sr-name">D. Kaur</span>
-                            <span class="sr-verdict v-cond">Readers split</span>
-                        </div>
-                        <div class="sample-table-row strong-row">
-                            <span class="sr-rank">#3</span>
-                            <span class="sr-name">P. Nandakumar</span>
-                            <span class="sr-verdict v-strong">Agreed</span>
-                        </div>
-                        <div class="sample-table-row">
-                            <span class="sr-rank">#4</span>
-                            <span class="sr-name">T. Reyes</span>
-                            <span class="sr-verdict v-cond">Readers split</span>
-                        </div>
-                        <div class="sample-table-row">
-                            <span class="sr-rank">#5</span>
-                            <span class="sr-name">J. Whitlock</span>
-                            <span class="sr-verdict v-cond">Readers split</span>
-                        </div>
-                        <div class="sample-expert-badge">
-                            <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                                <circle cx="7" cy="5" r="2.8" stroke="#6d28d9" stroke-width="1.3"/>
-                                <path d="M1.5,13.5 C1.5,10 3.5,8 7,8 C10.5,8 12.5,10 12.5,13.5" stroke="#6d28d9" stroke-width="1.3" stroke-linecap="round"/>
-                            </svg>
-                            Reviewed · All 5 shortlist positions confirmed
-                        </div>
-                        <p class="sample-table-note">Full rationale for each candidate attached ↓</p>
-                    </div>
-                </div>
-
-                <!-- Rationale mock-up -->
-                <div class="sample-mock reveal">
-                    <div class="sample-mock-chrome">
-                        <div class="sample-chrome-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-                        <span class="sample-chrome-title">Candidate Brief — A. Okonkwo</span>
-                    </div>
-                    <div class="sample-rationale-body-wrap">
-                        <div class="sample-rat-header">
-                            <span class="rat-rank">#1</span>
-                            <span class="rat-name">A. Okonkwo</span>
-                            <span class="rat-verdict">Agreed</span>
-                        </div>
-                        <p class="rat-para">"Meets every hard requirement without needing interpretation — six years of production Python, four of those owning model-serving infrastructure rather than notebooks. The scale gap reads smaller once you look closer: two roles back they handled payments throughput at far higher volume, and the architectural problems are the same shape."</p>
-                        <p class="rat-probe">"One thing to probe: the largest system they've named serves roughly 40k requests/day, and the spec implies an order of magnitude above that. Worth asking how the architecture would change at higher scale."</p>
-                        <div class="rat-rec">
-                            <span class="rat-rec-arrow" aria-hidden="true">→</span>
-                            Recommended: move to first call, early in the week.
-                        </div>
-                        <div class="rat-expert-note">
-                            <div class="rat-expert-header">
-                                <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                                    <circle cx="7" cy="5" r="2.8" stroke="#6d28d9" stroke-width="1.3"/>
-                                    <path d="M1.5,13.5 C1.5,10 3.5,8 7,8 C10.5,8 12.5,10 12.5,13.5" stroke="#6d28d9" stroke-width="1.3" stroke-linecap="round"/>
-                                </svg>
-                                My call
-                            </div>
-                            <p>"Top of the list, and it wasn't close. The only real question is scale, and it's an interview question rather than a screening one — the underlying experience is there, just in a different domain."</p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <p class="section-label reveal" style="margin-top:2.5rem;margin-bottom:0.875rem;">Here's what your recruiter gets back</p>
-            <div class="proof-links">
-                <a href="sample-shortlist.html" target="_blank" rel="noopener" class="btn-dark reveal">View a real sample shortlist <span aria-hidden="true">→</span></a>
-            </div>
-            <p class="proof-note reveal">Every applicant appears somewhere in that document, including the ones ranked last. Nothing is discarded unread, and the reasoning behind every ranking is written out, not hidden behind a score.</p>
-        </div>
-    </section>
-
-    <!-- The software reads, the recruiter decides -->
-    <section class="section quiet-section">
-        <div class="container quiet-inner">
-            <h2 class="reveal">The software reads. Your recruiter decides.</h2>
-            <p class="reveal">A match score isn't a judgment. It is a faster route to the part that requires one.</p>
-        </div>
-    </section>
-
-    <!-- Who this is for -->
-    <section class="section">
-        <div class="container">
-            <div class="section-label reveal">Who this is for</div>
-            <h2 class="section-title reveal">Built for focused,<br>independent tech recruiting firms.</h2>
-            <ul class="for-list reveal">
-                <li>Firms placing software engineers, data scientists, ML/AI specialists, or infra/platform roles where stack depth matters more than keyword overlap</li>
-                <li>Firms that don't want to migrate off their existing ATS or CRM. You've got a system that works; we work alongside it</li>
-                <li>Teams that want a direct line to a real person who understands the tech hiring market, not a support ticket queue</li>
-                <li>Recruiters tired of AI-polished resumes sailing past keyword filters while strong, unconventional candidates get buried</li>
-            </ul>
-        </div>
-    </section>
-
-    <!-- Why Us -->
-    <section class="section why-section">
-        <div class="container">
-            <div class="section-label reveal">Why Superceptron</div>
-            <div class="why-grid">
-                <div class="why-headline">
-                    <h2 class="reveal">Independent enough to actually<br>pick up the phone.</h2>
-                    <p class="reveal">Large platforms are built for enterprise accounts with procurement teams and IT departments. We're not. We work the way independent recruiting firms work: direct, fast, without the overhead.</p>
-                    <a href="about.html" class="btn-ghost reveal" style="padding-left:0">Meet the founder <span aria-hidden="true">→</span></a>
-                </div>
-                <div class="why-points">
-                    <div class="why-point reveal">
-                        <div class="why-num">01</div>
-                        <div>
-                            <h4>Founder does the work directly</h4>
-                            <p>You talk to Snehal, the person who built the system and runs it. No account manager, no handoffs, no ticket queue to log requests into.</p>
-                        </div>
-                    </div>
-                    <div class="why-point reveal">
-                        <div class="why-num">02</div>
-                        <div>
-                            <h4>No enterprise pricing model</h4>
-                            <p>No seat licences. No minimum contracts. No annual commitments before you've tried it. Pay for what you actually use.</p>
-                        </div>
-                    </div>
-                    <div class="why-point reveal">
-                        <div class="why-num">03</div>
-                        <div>
-                            <h4>Works with your existing ATS and CRM</h4>
-                            <p>We work with whatever you already have: Bullhorn, Crelate, JobDiva, anything. No migration, no training, no change management project.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Competitive comparison -->
-    <section class="section comp-section">
-        <div class="container">
-            <div class="section-label reveal">vs. the alternatives</div>
-            <h2 class="section-title reveal">The honest comparison.</h2>
-            <p class="comp-intro reveal">Most recruiters at small firms land on the same three options before deciding. Here's where each one falls short.</p>
-            <div class="comp-grid">
-
-                <div class="comp-col reveal">
-                    <div class="comp-col-header">
-                        <span class="comp-versus">Alternative 01</span>
-                        <span class="comp-label">ChatGPT &amp; off-the-shelf AI tools</span>
-                    </div>
-                    <div class="comp-gap">
-                        <span class="comp-gap-marker" aria-hidden="true">✕</span>
-                        <p>You do all the work: writing prompts, handling file uploads, deciding what to evaluate. No integration into your actual workflow. No accountability if the shortlist misses someone good.</p>
-                    </div>
-                    <div class="comp-answer">
-                        <span class="comp-answer-marker" aria-hidden="true">✓</span>
-                        <p>A real person reads every resume and returns a ranked shortlist through the portal. The reasoning is visible. If the shortlist misses someone good, that's on us to explain.</p>
-                    </div>
-                </div>
-
-                <div class="comp-col reveal">
-                    <div class="comp-col-header">
-                        <span class="comp-versus">Alternative 02</span>
-                        <span class="comp-label">Self-serve screening software<span class="comp-label-sub">ShortlistHQ and similar tools</span></span>
-                    </div>
-                    <div class="comp-gap">
-                        <span class="comp-gap-marker" aria-hidden="true">✕</span>
-                        <p>You still do the work. Log in, upload resumes, configure the model, interpret the results, every search. No human reviews the output. Edge cases and formatting quirks are your problem.</p>
-                    </div>
-                    <div class="comp-answer">
-                        <span class="comp-answer-marker" aria-hidden="true">✓</span>
-                        <p>We do the reading. You review the shortlist. No model to configure, no results to second-guess, no edge cases that are mysteriously your problem.</p>
-                    </div>
-                </div>
-
-                <div class="comp-col reveal">
-                    <div class="comp-col-header">
-                        <span class="comp-versus">Alternative 03</span>
-                        <span class="comp-label">Hiring an internal ops or admin person</span>
-                    </div>
-                    <div class="comp-gap">
-                        <span class="comp-gap-marker" aria-hidden="true">✕</span>
-                        <p>Fixed salary cost whether you have 80 resumes to screen or eight. Months of ramp-up and training. Ongoing management overhead that compounds as your team grows.</p>
-                    </div>
-                    <div class="comp-answer">
-                        <span class="comp-answer-marker" aria-hidden="true">✓</span>
-                        <p>Pay only for the volume that exists right now. No recruiting, no onboarding, no performance reviews. Flex up when a big mandate lands; step back when it's quiet.</p>
-                    </div>
-                </div>
-
-            </div>
-            <p class="comp-tracking reveal">We track time saved on shortlisting and shortlist-to-interview conversion from day one, and share it back with you.</p>
-        </div>
-    </section>
-
-    <!-- Black-box objection handling -->
-    <section class="section quiet-section">
-        <div class="container quiet-inner">
-            <span class="quiet-badge">The safeguard</span>
-            <h2 class="reveal">No candidate disappears because a machine said no.</h2>
-            <p class="reveal">Every candidate remains available to your recruiter. Superceptron helps structure the first pass. Your recruiter makes the call.</p>
-        </div>
-    </section>
-
     <!-- Onboarding notice -->
     <section class="section">
         <div class="container">
@@ -1470,7 +1507,7 @@
                         <div class="process-step">
                             <span class="process-step-num">2</span>
                             <h4>We do the first pass</h4>
-                            <p>Every resume is considered.</p>
+                            <p>Every resume is considered, usually within the hour.</p>
                         </div>
                         <div class="process-step">
                             <span class="process-step-num">3</span>
@@ -1483,55 +1520,9 @@
                             <p>See whether it is useful before changing anything about your workflow.</p>
                         </div>
                     </div>
-                    <a href="register.html" class="btn-primary" style="margin-top:0.5rem;">Send us one live req</a>
-                    <p class="trial-hint">We'll do the first pass. You decide if it's useful.</p>
+                    <a href="register.html" class="btn-primary" style="margin-top:0.5rem;">See what we'd do with yours</a>
+                    <p class="trial-hint">First live role free. We'll do the first pass, you decide if it's useful.</p>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Signal -->
-    <section class="section signal-section">
-        <div class="container">
-            <div class="section-label reveal">Signal</div>
-            <h2 class="section-title reveal">Thinking that shapes<br>the work.</h2>
-            <a href="insights.html" class="signal-card reveal" aria-label="Read: The 6% Problem">
-                <div class="signal-card-left">
-                    <div class="signal-card-meta">
-                        <span class="signal-card-tag">Recruiting Operations</span>
-                        <span class="signal-card-dot">&middot;</span>
-                        <span class="signal-card-date">May 2025</span>
-                        <span class="signal-card-dot">&middot;</span>
-                        <span class="signal-card-readtime">12 min read</span>
-                    </div>
-                    <h3 class="signal-card-title">The 6% Problem</h3>
-                    <p class="signal-card-excerpt">The average recruiter spends 6% of their day on work that actually drives placements. Here's what's eating the other 94%, and what happens when you take it back.</p>
-                    <div class="signal-card-author">
-                        <div class="signal-avatar" aria-hidden="true">SR</div>
-                        <div>
-                            <span class="signal-author-name">Snehal Roymedhi</span>
-                            <span class="signal-author-role">Founder, Superceptron</span>
-                        </div>
-                    </div>
-                    <span class="signal-card-cta">Read the piece <span aria-hidden="true">→</span></span>
-                </div>
-                <div class="signal-card-right">
-                    <div class="signal-stat">
-                        <span class="signal-stat-num">94%</span>
-                        <span class="signal-stat-label">of recruiter time spent on non-placement work</span>
-                    </div>
-                    <div class="signal-stat">
-                        <span class="signal-stat-num">38%</span>
-                        <span class="signal-stat-label">lost to resume shortlisting alone</span>
-                    </div>
-                    <div class="signal-stat">
-                        <span class="signal-stat-num">4 min</span>
-                        <span class="signal-stat-label">for AI to read what takes a human 40 hours</span>
-                    </div>
-                </div>
-            </a>
-            <div style="margin-top:1.5rem;">
-                <a href="blog.html" class="btn-ghost reveal" style="padding-left:0">View all posts <span aria-hidden="true">→</span></a>
             </div>
         </div>
     </section>
@@ -1540,9 +1531,9 @@
     <section id="register" class="section register-section">
         <div class="container">
             <div class="register-header">
-                <div class="section-label reveal">First role free</div>
-                <h2 class="reveal">Send us one live req.</h2>
-                <p class="reveal">We'll do the first pass. You decide if it's useful. Send us your resumes and a job spec and you'll have a shortlist back within the hour. No account, no commitment, no sales pitch.</p>
+                <div class="section-label reveal">First live role free</div>
+                <h2 class="reveal">Your recruiters should be recruiting.<br>Put us on one live req.</h2>
+                <p class="reveal">Send us the role and applicant pool. We'll do the first pass. You decide if it's useful. No account, no commitment, no sales pitch.</p>
             </div>
             <div class="trial-cta reveal">
                 <a href="register.html" class="btn-primary">Send us one live req</a>

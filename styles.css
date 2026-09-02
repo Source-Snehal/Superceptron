@@ -1936,6 +1936,21 @@ body {
     line-height: 1.4;
 }
 .calc-stat-cost { grid-column: 1 / -1; border-top: 1px solid var(--w08); padding-top: 1.25rem; }
+.sample-figures {
+    grid-template-columns: repeat(4, 1fr);
+    border: none;
+    padding-top: 0;
+    margin-top: 2rem;
+    margin-bottom: 2.5rem;
+    background: var(--black-2);
+    border: 1px solid var(--w08);
+    border-radius: var(--r-lg);
+    padding: 1.75rem 2rem;
+}
+.sample-figures .calc-stat-num { color: var(--accent); font-size: 1.75rem; }
+@media (max-width: 700px) {
+    .sample-figures { grid-template-columns: 1fr 1fr; }
+}
 .calc-methodology {
     font-size: 0.75rem;
     color: var(--w30);
