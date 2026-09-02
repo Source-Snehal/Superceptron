@@ -32,7 +32,7 @@ module.exports = async function handler(req, res) {
 
     const { data, error } = await resend.emails.send({
         from: 'Superceptron <onboarding@resend.dev>',
-        to: ['ceo@superceptron.com', 'snehalsavio123@gmail.com'],
+        to: 'snehalsavio123@gmail.com',
         replyTo: email.trim(),
         subject: `New interest registration - ${name.trim()}`,
         html: `
@@ -47,7 +47,7 @@ ${company?.trim() ? `<p style="font-family:sans-serif"><strong>Company:</strong>
 
     if (error) {
         console.error('Resend error:', error);
-        return res.status(500).json({ error: 'Failed to send' });
+        return res.status(500).json({ error: 'Failed to send', detail: error.message || String(error) });
     }
 
     return res.status(200).json({ ok: true });
