@@ -179,7 +179,7 @@
                 <a href="blog.html" class="nav-contact">Blog</a>
                 <a href="pricing.html" class="nav-contact">Pricing</a>
                 <a href="index.html#contact" class="nav-contact">Contact</a>
-                <a href="portal.html" class="nav-cta" style="color:var(--black);">Get your first role free</a>
+                <a href="#registerForm" class="nav-cta" style="color:var(--black);">Get your first role free</a>
             </div>
             <button class="nav-hamburger" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
                 <span></span><span></span><span></span>
@@ -190,7 +190,7 @@
             <a href="blog.html" class="nav-mobile-link">Blog</a>
             <a href="pricing.html" class="nav-mobile-link">Pricing</a>
             <a href="index.html#contact" class="nav-mobile-link">Contact</a>
-            <a href="portal.html" class="nav-mobile-link nav-mobile-cta">Get your first role free</a>
+            <a href="#registerForm" class="nav-mobile-link nav-mobile-cta">Get your first role free</a>
         </div>
     </nav>
 
@@ -233,10 +233,7 @@
                             <label class="form-label" for="fnotes">What's the first role you'd like to screen? <span style="color:var(--w30);font-weight:400">(optional)</span></label>
                             <textarea class="form-textarea" id="fnotes" name="notes" placeholder="e.g. Senior DevOps Engineer for a Series B SaaS client — usually 40–60 applicants…"></textarea>
                         </div>
-                        <input type="hidden" name="access_key" value="8d60dc7b-2668-4945-9ae5-c522327c14da">
-                        <input type="hidden" name="subject" id="fsubject" value="First Role Free Request">
-                        <input type="hidden" name="from_name" value="Superceptron Website">
-                        <input type="checkbox" name="botcheck" style="display:none" tabindex="-1">
+                        <input type="checkbox" id="fbotcheck" name="botcheck" style="display:none" tabindex="-1">
                         <button type="submit" class="form-submit-btn" id="submitBtn">Request your first role free →</button>
                         <p class="form-note">No commitment. No sales call. We respond within a few hours.</p>
                     </form>
@@ -286,9 +283,12 @@
         trialForm.addEventListener('submit', async function(e) {
             e.preventDefault();
 
-            const name  = document.getElementById('fname').value.trim();
-            const email = document.getElementById('femail').value.trim();
-            const firm  = document.getElementById('ffirm').value.trim();
+            const name    = document.getElementById('fname').value.trim();
+            const email   = document.getElementById('femail').value.trim();
+            const firm    = document.getElementById('ffirm').value.trim();
+            const volume  = document.getElementById('fvolume').value;
+            const notes   = document.getElementById('fnotes').value.trim();
+            const botcheck = document.getElementById('fbotcheck').checked;
 
             // Validate required fields
             let valid = true;
@@ -302,26 +302,24 @@
             });
             if (!valid) return;
 
-            // Set email subject to include firm name
-            document.getElementById('fsubject').value = 'First Role Free Request – ' + firm;
-
             // Loading state
             submitBtn.disabled = true;
             submitBtn.textContent = 'Sending…';
 
             try {
-                const response = await fetch('https://api.web3forms.com/submit', {
+                const response = await fetch('/api/register', {
                     method: 'POST',
-                    body: new FormData(trialForm)
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, firm, volume, notes, botcheck })
                 });
                 const result = await response.json();
 
-                if (result.success) {
+                if (response.ok && result.ok) {
                     formWrap.style.display = 'none';
                     successPanel.classList.add('visible');
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 } else {
-                    throw new Error(result.message || 'Submission failed');
+                    throw new Error(result.error || 'Submission failed');
                 }
             } catch (err) {
                 submitBtn.disabled = false;
