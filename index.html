@@ -134,6 +134,22 @@
 
         .hub-tension-body:last-child { margin-bottom: 0; transition-delay: 0.2s; }
 
+        .hub-tension-lead {
+            font-size: clamp(1.1875rem, 2.25vw, 1.375rem);
+            color: var(--text);
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+
+        .hub-tension-close {
+            font-size: clamp(1.1875rem, 2.25vw, 1.375rem);
+            color: var(--text);
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            margin-top: 2rem;
+            transition-delay: 0.3s;
+        }
+
         /* ── Sector cards section ── */
         .hub-paths-section {
             padding: 0 1.5rem 6rem;
@@ -424,8 +440,9 @@
     <section class="hub-tension">
         <div class="hub-tension-inner">
             <h2 class="hub-tension-title reveal">The pile comes before the placement.</h2>
-            <p class="hub-tension-body reveal">Before a recruiter can make a call, qualify a candidate or submit someone to a client, they have to get through the applicants.</p>
-            <p class="hub-tension-body reveal">Move slowly and capacity disappears. Move quickly and you risk missing someone. You shouldn't have to choose.</p>
+            <p class="hub-tension-body hub-tension-lead reveal">Every role starts the same way. A stack of people to understand before the real recruiting can begin.</p>
+            <p class="hub-tension-body reveal">Move slowly and capacity disappears. Move quickly and you risk missing someone.</p>
+            <p class="hub-tension-body hub-tension-close reveal">You shouldn't have to choose.</p>
         </div>
     </section>
 
