@@ -888,7 +888,7 @@
                 <a href="blog.html" class="nav-contact">Blog</a>
                 <a href="pricing.html" class="nav-contact">Pricing</a>
                 <a href="#contact" class="nav-contact">Contact</a>
-                <a href="portal.html" class="nav-cta">Try it free</a>
+                <a href="register.html" class="nav-cta">Try it free</a>
             </div>
             <button class="nav-hamburger" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
                 <span></span><span></span><span></span>
@@ -899,7 +899,7 @@
             <a href="blog.html" class="nav-mobile-link">Blog</a>
             <a href="pricing.html" class="nav-mobile-link">Pricing</a>
             <a href="#contact" class="nav-mobile-link">Contact</a>
-            <a href="portal.html" class="nav-mobile-link nav-mobile-cta">Try it free</a>
+            <a href="register.html" class="nav-mobile-link nav-mobile-cta">Try it free</a>
         </div>
     </nav>
 
@@ -954,13 +954,28 @@
                 </p>
                 <p class="rec-proof">No tech shortlist leaves here without a named person behind it.</p>
                 <div class="hero-actions">
-                    <a href="portal.html" class="btn-primary">Upload your first role, free →</a>
+                    <a href="register.html" class="btn-primary">Send us one live req</a>
                     <a href="#dual-engine" class="btn-ghost">How it works <span aria-hidden="true">↓</span></a>
                 </div>
+                <p class="trial-hint" style="margin-top:1rem;">We'll do the first pass. You decide if it's useful. No account, no workflow change.</p>
             </div>
         </div>
         <div class="scroll-hint" aria-hidden="true">
             <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- Tension -->
+    <section class="section tension-section">
+        <div class="container">
+            <div class="tension-lines reveal">
+                <h2>The pile comes before the placement.</h2>
+            </div>
+            <div class="tension-body reveal">
+                <p>Before a recruiter can make a call, qualify a candidate or put someone in front of a client, they have to get through the applicants.</p>
+                <p>That work is necessary. But every hour spent on the first pass is an hour not spent talking to candidates, working the desk or making placements.</p>
+                <p>Move slowly and capacity disappears. Move quickly and you risk missing someone. You should not have to choose.</p>
+            </div>
         </div>
     </section>
 
@@ -1048,6 +1063,92 @@
                 </div>
             </div>
             <p class="engine-reassurance reveal">AI speed. Expert judgement. You always see the reasoning behind every shortlist. <strong>You always make the final call.</strong> We just get you there faster.</p>
+        </div>
+    </section>
+
+    <!-- First-pass capacity calculator -->
+    <section class="section calc-section" id="capacity-calculator">
+        <div class="container">
+            <div class="calc-safeguard reveal">
+                <span class="calc-safeguard-badge">Nothing is automatically rejected</span>
+                <p>The software helps with the reading. Your recruiter makes the judgment.</p>
+            </div>
+            <div class="section-label reveal">The math</div>
+            <h2 class="section-title reveal">Where does recruiter capacity go?</h2>
+            <p class="section-body reveal">Put in your numbers and see what the first pass adds up to.</p>
+
+            <div class="calc-grid">
+                <div class="calc-inputs reveal">
+                    <div class="calc-field">
+                        <label for="calcRoles">Roles worked per month</label>
+                        <input type="range" id="calcRoles" min="1" max="40" value="8" step="1">
+                        <output for="calcRoles" id="calcRolesOut">8</output>
+                    </div>
+                    <div class="calc-field">
+                        <label for="calcApps">Applications per role</label>
+                        <input type="range" id="calcApps" min="10" max="200" value="55" step="1">
+                        <output for="calcApps" id="calcAppsOut">55</output>
+                    </div>
+                    <div class="calc-field">
+                        <label for="calcMinutes">Minutes per resume on the first pass</label>
+                        <input type="range" id="calcMinutes" min="1" max="10" value="3" step="1">
+                        <output for="calcMinutes" id="calcMinutesOut">3</output>
+                    </div>
+                    <div class="calc-field">
+                        <label for="calcTeam">Recruiters on your team</label>
+                        <input type="range" id="calcTeam" min="1" max="500" value="10" step="1">
+                        <output for="calcTeam" id="calcTeamOut">10</output>
+                        <span class="calc-field-note">Team multiplier</span>
+                    </div>
+
+                    <div class="calc-toggle-row">
+                        <button type="button" class="calc-toggle" id="calcCostToggle" aria-expanded="false" aria-controls="calcCostPanel">+ Add recruiter cost</button>
+                    </div>
+                    <div class="calc-cost-panel" id="calcCostPanel" hidden>
+                        <div class="calc-field">
+                            <label for="calcSalary">Average recruiter salary (USD)</label>
+                            <input type="number" id="calcSalary" min="0" step="1000" value="70000">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="calc-outputs reveal" aria-live="polite">
+                    <div class="calc-primary">
+                        <span class="calc-primary-num" id="calcPrimaryNum">0</span>
+                        <span class="calc-primary-label">recruiter-weeks</span>
+                        <span class="calc-primary-sub">Across your team, every year. Before anyone picks up a phone.</span>
+                    </div>
+                    <div class="calc-secondary">
+                        <div class="calc-stat">
+                            <span class="calc-stat-num" id="calcHoursMonth">0</span>
+                            <span class="calc-stat-label">Hours per month, per recruiter</span>
+                        </div>
+                        <div class="calc-stat">
+                            <span class="calc-stat-num" id="calcWeeksYear">0</span>
+                            <span class="calc-stat-label">Working weeks per year, per recruiter</span>
+                        </div>
+                        <div class="calc-stat">
+                            <span class="calc-stat-num" id="calcTeamWeeks">0</span>
+                            <span class="calc-stat-label">Recruiter-weeks per year, across the team</span>
+                        </div>
+                        <div class="calc-stat calc-stat-cost" id="calcCostStat" hidden>
+                            <span class="calc-stat-num" id="calcCostNum">$0</span>
+                            <span class="calc-stat-label">Estimated annual employment cost of that time</span>
+                        </div>
+                    </div>
+                    <p class="calc-methodology" id="calcMethodology"></p>
+                </div>
+            </div>
+
+            <div class="calc-interpretation reveal">
+                <p>That's recruiter capacity tied up before a candidate conversation begins.</p>
+                <p>What would your team do with that capacity?</p>
+                <ul class="calc-possibilities">
+                    <li>More candidate conversations</li>
+                    <li>More submittals</li>
+                    <li>More reqs worked</li>
+                </ul>
+            </div>
         </div>
     </section>
 
@@ -1218,9 +1319,19 @@
 
             </div>
 
-            <div style="margin-top:2rem;">
+            <p class="section-label reveal" style="margin-top:2.5rem;margin-bottom:0.875rem;">Here's what your recruiter gets back</p>
+            <div class="proof-links">
                 <a href="sample-shortlist.html" target="_blank" rel="noopener" class="btn-dark reveal">View a real sample shortlist <span aria-hidden="true">→</span></a>
             </div>
+            <p class="proof-note reveal">Every applicant appears somewhere in that document, including the ones ranked last. Nothing is discarded unread, and the reasoning behind every ranking is written out, not hidden behind a score.</p>
+        </div>
+    </section>
+
+    <!-- The software reads, the recruiter decides -->
+    <section class="section quiet-section">
+        <div class="container quiet-inner">
+            <h2 class="reveal">The software reads. Your recruiter decides.</h2>
+            <p class="reveal">A match score isn't a judgment. It is a faster route to the part that requires one.</p>
         </div>
     </section>
 
@@ -1333,15 +1444,47 @@
         </div>
     </section>
 
+    <!-- Black-box objection handling -->
+    <section class="section quiet-section">
+        <div class="container quiet-inner">
+            <span class="quiet-badge">The safeguard</span>
+            <h2 class="reveal">No candidate disappears because a machine said no.</h2>
+            <p class="reveal">Every candidate remains available to your recruiter. Superceptron helps structure the first pass. Your recruiter makes the call.</p>
+        </div>
+    </section>
+
     <!-- Onboarding notice -->
     <section class="section">
         <div class="container">
             <div class="onboarding-notice reveal">
-                <div class="onboarding-notice-inner">
+                <div class="onboarding-notice-inner onboarding-notice-wide">
                     <span class="onboarding-badge">Now open</span>
-                    <h2>Now onboarding recruiting firms.</h2>
-                    <p>Try Superceptron on your first role, free. No commitment, no sales call. Send us your resumes and a job spec and you'll have a shortlist back within the hour.</p>
-                    <a href="portal.html" class="btn-primary">Upload your first role, free →</a>
+                    <h2>Try it on a real req.</h2>
+                    <p>No account. No workflow change. Send us a live role and its applicant pool, and see what comes back.</p>
+                    <div class="process-steps">
+                        <div class="process-step">
+                            <span class="process-step-num">1</span>
+                            <h4>Send the req</h4>
+                            <p>The role and applicant pool.</p>
+                        </div>
+                        <div class="process-step">
+                            <span class="process-step-num">2</span>
+                            <h4>We do the first pass</h4>
+                            <p>Every resume is considered.</p>
+                        </div>
+                        <div class="process-step">
+                            <span class="process-step-num">3</span>
+                            <h4>Your recruiter reviews the result</h4>
+                            <p>With the relevant reasoning and context.</p>
+                        </div>
+                        <div class="process-step">
+                            <span class="process-step-num">4</span>
+                            <h4>You decide</h4>
+                            <p>See whether it is useful before changing anything about your workflow.</p>
+                        </div>
+                    </div>
+                    <a href="register.html" class="btn-primary" style="margin-top:0.5rem;">Send us one live req</a>
+                    <p class="trial-hint">We'll do the first pass. You decide if it's useful.</p>
                 </div>
             </div>
         </div>
@@ -1398,12 +1541,12 @@
         <div class="container">
             <div class="register-header">
                 <div class="section-label reveal">First role free</div>
-                <h2 class="reveal">Send us your next batch of resumes.</h2>
-                <p class="reveal">Try Superceptron on your first role, free. Send us your resumes and a job spec. You'll have a shortlist back within the hour. No commitment, no sales pitch, no strings attached.</p>
+                <h2 class="reveal">Send us one live req.</h2>
+                <p class="reveal">We'll do the first pass. You decide if it's useful. Send us your resumes and a job spec and you'll have a shortlist back within the hour. No account, no commitment, no sales pitch.</p>
             </div>
             <div class="trial-cta reveal">
-                <a href="portal.html" class="btn-primary">Upload your first role, free →</a>
-                <p class="trial-hint">No commitment &nbsp;·&nbsp; No sales call &nbsp;·&nbsp; Cancel any time</p>
+                <a href="register.html" class="btn-primary">Send us one live req</a>
+                <p class="trial-hint">No account &nbsp;·&nbsp; No workflow change &nbsp;·&nbsp; No sales call</p>
             </div>
         </div>
     </section>
@@ -1430,6 +1573,7 @@
                 <span class="footer-logo"><img src="Logo new.jpg" alt="" class="footer-logo-img" aria-hidden="true">Superceptron</span>
                 <p>Resume shortlisting for<br>independent recruiting firms.</p>
                 <address style="font-size:0.8rem;color:var(--w60);line-height:1.65;font-style:normal;margin-top:0.875rem;">Superceptron Limited (No. 17407955)<br>Office 20638, 182–184 High Street North<br>East Ham, London E6 2JA</address>
+                <p style="font-size:0.8rem;color:var(--w60);margin-top:0.625rem;">Your data is never shared or sold.</p>
             </div>
             <div class="footer-nav">
                 <a href="index.html" class="footer-link">All specializations</a>
@@ -1445,7 +1589,7 @@
     </footer>
 
     <script src="script.js"></script>
-
+    <script src="calculator.js"></script>
     <script src="chatbot.js"></script>
 </body>
 </html>

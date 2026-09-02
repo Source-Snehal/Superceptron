@@ -218,11 +218,38 @@
       btn.innerHTML = ICON_CHAT;
     }
 
-    btn.addEventListener('click', function() { isOpen ? close() : open(); });
-    closeEl.addEventListener('click', close);
+    var DISMISSED_KEY = 'sc_dismissed';
+    var dismissed = false;
+    try { dismissed = sessionStorage.getItem(DISMISSED_KEY) === '1'; } catch (e) { /* storage unavailable */ }
 
-    // Auto-open with greeting on page load
-    setTimeout(function () { if (!isOpen) open(); }, 2500);
+    function userClose() {
+      close();
+      dismissed = true;
+      try { sessionStorage.setItem(DISMISSED_KEY, '1'); } catch (e) { /* storage unavailable */ }
+    }
+
+    btn.addEventListener('click', function() { isOpen ? userClose() : open(); });
+    closeEl.addEventListener('click', userClose);
+
+    // Auto-open once the hero has been scrolled past, or on click, whichever first.
+    // Never opens over the hero, and never reopens after the visitor closes it this session.
+    if (!dismissed) {
+      var heroEl = document.querySelector('.hero, .hub-hero, .pricing-hero, .about-page-hero, .blog-hero');
+      if (heroEl && 'IntersectionObserver' in window) {
+        var heroObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting && !isOpen && !dismissed) {
+              open();
+              heroObserver.disconnect();
+            }
+          });
+        }, { threshold: 0 });
+        heroObserver.observe(heroEl);
+      } else if (!heroEl) {
+        // No hero on this page (e.g. portal, register) — nothing to cover, use the old fixed delay.
+        setTimeout(function () { if (!isOpen && !dismissed) open(); }, 2500);
+      }
+    }
 
     /* Auto-resize textarea */
     inputEl.addEventListener('input', function() {

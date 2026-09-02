@@ -82,8 +82,64 @@
             margin-bottom: 0;
         }
 
-        .hub-hero-cta {
+        .hub-safeguard {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-top: 1.25rem;
+        }
+
+        .hub-hero-ctas {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
             margin-top: 1.75rem;
+        }
+
+        .hub-hero-cta {
+            margin-top: 0;
+        }
+
+        .hub-hero-secondary {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: var(--text);
+            text-decoration: none;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.15rem;
+            transition: border-color 0.2s;
+        }
+
+        .hub-hero-secondary:hover { border-color: var(--accent); }
+
+        .hub-cta-note {
+            font-size: 0.75rem;
+            color: var(--w30);
+            margin-top: 0.875rem;
+        }
+
+        /* ── First-pass micro-block ── */
+        .first-pass-lines {
+            text-align: center;
+            max-width: 480px;
+            margin: 0.5rem auto 0;
+            padding-top: 2.5rem;
+            border-top: 1px solid var(--w08);
+        }
+
+        .first-pass-lines p {
+            font-size: 1.0625rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin: 0 0 0.25rem;
+        }
+
+        .first-pass-punch {
+            margin-top: 0.75rem !important;
+            font-weight: 700 !important;
+            color: var(--text) !important;
         }
 
         .eyebrow-pill {
@@ -263,6 +319,8 @@
 
             .hub-thesis { text-align: left; }
             .hub-thesis .hero-sub { margin-left: 0; margin-right: 0; }
+            .hub-hero-ctas { justify-content: flex-start; }
+            .first-pass-lines { text-align: left; margin-left: 0; }
 
             .hub-paths { grid-template-columns: 1fr; }
 
@@ -291,7 +349,7 @@
                 <a href="pricing.html" class="nav-contact">Pricing</a>
                 <a href="#contact" class="nav-contact">Contact</a>
                 <a href="cv-score.html" class="nav-contact">For Candidates</a>
-                <a href="portal.html" class="nav-cta">Try it free</a>
+                <a href="register.html" class="nav-cta">Try it free</a>
             </div>
             <button class="nav-hamburger" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
                 <span></span><span></span><span></span>
@@ -303,7 +361,7 @@
             <a href="pricing.html" class="nav-mobile-link">Pricing</a>
             <a href="#contact" class="nav-mobile-link">Contact</a>
             <a href="cv-score.html" class="nav-mobile-link">For Candidates</a>
-            <a href="portal.html" class="nav-mobile-link nav-mobile-cta">Try it free</a>
+            <a href="register.html" class="nav-mobile-link nav-mobile-cta">Try it free</a>
         </div>
     </nav>
 
@@ -346,23 +404,35 @@
         <div class="hub-hero-inner">
 
             <div class="hub-thesis">
-                <span class="eyebrow-pill">Every resume read. Nothing binned unread.</span>
-                <h1 class="hero-title">Nothing gets rejected<br>by a machine.</h1>
-                <p class="hero-sub">Every resume gets three independent reads, each from a different angle, none of them seeing the others. Then a person writes the shortlist. Ranked, with the reasoning on every name.</p>
-                <a href="#specializations" class="btn-primary hub-hero-cta">See how it works</a>
+                <span class="eyebrow-pill">For staffing firms</span>
+                <h1 class="hero-title">Your recruiters should<br>be recruiting.</h1>
+                <p class="hero-sub">Before anyone can call, qualify or submit a candidate, someone has to work through the applicants. Superceptron handles the first pass, so your recruiters can get to the part that requires them.</p>
+                <p class="hub-safeguard">Nothing gets rejected by a machine. Every resume read. Nothing binned unread.</p>
+                <div class="hub-hero-ctas">
+                    <a href="register.html" class="btn-primary hub-hero-cta">Send us one live req</a>
+                    <a href="#specializations" class="hub-hero-secondary">See how it works</a>
+                </div>
+                <p class="hub-cta-note">No account. No workflow change.</p>
+            </div>
+
+            <div class="first-pass-lines">
+                <p>The req comes in.</p>
+                <p>The pile follows.</p>
+                <p>Your recruiter hasn't started recruiting yet.</p>
+                <p class="first-pass-punch">That's the first-pass problem.</p>
             </div>
 
             <div class="hub-paths" id="specializations">
 
                 <div class="path-card path-card-green" data-path="left">
-                    <span class="path-eyebrow path-eyebrow-green">Tech Recruitment</span>
+                    <span class="path-eyebrow path-eyebrow-green">Tech Staffing</span>
                     <h2 class="path-heading">Read for real stack depth.</h2>
-                    <p class="path-body">Built by a team with a data science background, we know what a real engineering resume looks like versus one padded with buzzwords.</p>
+                    <p class="path-body">Built by a team with a data science background. We know what a real engineering resume looks like versus one padded with buzzwords.</p>
                     <a href="recruiter-tech.html" class="path-cta path-cta-green">See how it works</a>
                 </div>
 
                 <div class="path-card path-card-green" data-path="right">
-                    <span class="path-eyebrow path-eyebrow-green">Engineering &amp; Construction Recruitment</span>
+                    <span class="path-eyebrow path-eyebrow-green">Engineering &amp; Construction Staffing</span>
                     <h2 class="path-heading">Read for what the resume is hiding.</h2>
                     <p class="path-body">We read every certification and project claim for what it actually means, not just whether the words match. A superintendent's or foreman's resume rarely tells the whole story on the first pass.</p>
                     <a href="recruiter-engineering.html" class="path-cta path-cta-green">See how it works</a>
@@ -380,8 +450,8 @@
         <div class="hub-footer-inner">
             <a href="index.html" class="logo" style="font-size:0.9375rem;">Superceptron</a>
             <p class="hub-footer-copy">
-                © 2025 Superceptron Limited &nbsp;·&nbsp;
-                <a href="mailto:info@superceptron.com">info@superceptron.com</a>
+                © 2025 Superceptron Limited (No. 17407955), Office 20638, 182-184 High Street North, East Ham, London E6 2JA &nbsp;·&nbsp;
+                <a href="mailto:info@superceptron.com">info@superceptron.com</a> &nbsp;·&nbsp; Your data is never shared or sold.
             </p>
         </div>
     </footer>
