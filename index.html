@@ -48,7 +48,7 @@
         .hub-hero {
             position: relative;
             z-index: 1;
-            min-height: min(100vh, 780px);
+            min-height: min(100vh, 700px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -99,9 +99,15 @@
             margin-top: 0;
         }
 
+        .hub-cta-note {
+            font-size: 0.8125rem;
+            color: var(--w30);
+            margin-top: 0.875rem;
+        }
+
         /* ── Tension section: huge whitespace, one idea ── */
         .hub-tension {
-            padding: 6rem 1.5rem;
+            padding: 4.5rem 1.5rem;
             text-align: center;
         }
 
@@ -123,9 +129,10 @@
             color: var(--text-muted);
             line-height: 1.75;
             margin: 0 0 1.25rem;
+            transition-delay: 0.1s;
         }
 
-        .hub-tension-body:last-child { margin-bottom: 0; }
+        .hub-tension-body:last-child { margin-bottom: 0; transition-delay: 0.2s; }
 
         /* ── Sector cards section ── */
         .hub-paths-section {
@@ -315,7 +322,7 @@
             .hub-thesis .hero-sub { margin-left: 0; margin-right: 0; }
             .hub-hero-ctas { justify-content: flex-start; }
 
-            .hub-tension { padding: 5rem 1.25rem; text-align: left; }
+            .hub-tension { padding: 4rem 1.25rem; text-align: left; }
             .hub-tension-inner { margin: 0; }
 
             .hub-paths { grid-template-columns: 1fr; }
@@ -407,6 +414,7 @@
                 <div class="hub-hero-ctas">
                     <a href="register.html" class="btn-primary hub-hero-cta">Send us one live req</a>
                 </div>
+                <p class="hub-cta-note">First live role free.</p>
             </div>
 
         </div>
@@ -415,9 +423,9 @@
     <!-- TENSION -->
     <section class="hub-tension">
         <div class="hub-tension-inner">
-            <h2 class="hub-tension-title">The pile comes before the placement.</h2>
-            <p class="hub-tension-body">Before a recruiter can make a call, qualify a candidate or submit someone to a client, they have to get through the applicants.</p>
-            <p class="hub-tension-body">Move slowly and capacity disappears. Move quickly and you risk missing someone. You shouldn't have to choose.</p>
+            <h2 class="hub-tension-title reveal">The pile comes before the placement.</h2>
+            <p class="hub-tension-body reveal">Before a recruiter can make a call, qualify a candidate or submit someone to a client, they have to get through the applicants.</p>
+            <p class="hub-tension-body reveal">Move slowly and capacity disappears. Move quickly and you risk missing someone. You shouldn't have to choose.</p>
         </div>
     </section>
 
