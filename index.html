@@ -150,6 +150,57 @@
             transition-delay: 0.3s;
         }
 
+        /* ── Capacity section ── */
+        .hub-capacity {
+            padding: 6rem 1.5rem;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        .hub-capacity-inner {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .hub-capacity-lead {
+            font-size: clamp(1.375rem, 2.75vw, 1.75rem);
+            font-weight: 700;
+            letter-spacing: -0.015em;
+            line-height: 1.4;
+            color: var(--text);
+            margin: 0 0 1.5rem;
+        }
+
+        .hub-capacity-question {
+            font-size: 1.0625rem;
+            color: var(--text-muted);
+            margin: 0 0 2rem;
+        }
+
+        .hub-capacity-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .hub-capacity-list li {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--accent);
+            background: var(--accent-soft);
+            border: 1px solid rgba(31,169,127,0.2);
+            border-radius: 100px;
+            padding: 0.5rem 1.25rem;
+            transition-delay: 0.1s;
+        }
+
+        .hub-capacity-list li:nth-child(2) { transition-delay: 0.18s; }
+        .hub-capacity-list li:nth-child(3) { transition-delay: 0.26s; }
+
         /* ── Sector cards section ── */
         .hub-paths-section {
             padding: 0 1.5rem 6rem;
@@ -443,6 +494,19 @@
             <p class="hub-tension-body hub-tension-lead reveal">Every role starts the same way. A stack of people to understand before the real recruiting can begin.</p>
             <p class="hub-tension-body reveal">Move slowly and capacity disappears. Move quickly and you risk missing someone.</p>
             <p class="hub-tension-body hub-tension-close reveal">You shouldn't have to choose.</p>
+        </div>
+    </section>
+
+    <!-- CAPACITY -->
+    <section class="hub-capacity">
+        <div class="hub-capacity-inner">
+            <p class="hub-capacity-lead reveal">That's recruiter capacity tied up before a candidate conversation begins.</p>
+            <p class="hub-capacity-question reveal">What would your team do with that capacity?</p>
+            <ul class="hub-capacity-list">
+                <li class="reveal">More candidate conversations</li>
+                <li class="reveal">More submittals</li>
+                <li class="reveal">More reqs worked</li>
+            </ul>
         </div>
     </section>
 
