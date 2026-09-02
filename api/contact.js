@@ -15,7 +15,12 @@ module.exports = async function handler(req, res) {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    const { name, email, company, message } = req.body ?? {};
+    const { name, email, company, message, botcheck } = req.body ?? {};
+
+    // Honeypot: bots fill hidden fields. Pretend success, send nothing.
+    if (botcheck) {
+        return res.status(200).json({ ok: true });
+    }
 
     if (!name?.trim() || !email?.trim() || !message?.trim()) {
         return res.status(400).json({ error: 'Missing required fields' });
@@ -27,9 +32,9 @@ module.exports = async function handler(req, res) {
 
     const { data, error } = await resend.emails.send({
         from: 'Superceptron <onboarding@resend.dev>',
-        to: 'snehalsavio123@gmail.com',
+        to: ['ceo@superceptron.com', 'snehalsavio123@gmail.com'],
         replyTo: email.trim(),
-        subject: `New interest registration — ${name.trim()}`,
+        subject: `New interest registration - ${name.trim()}`,
         html: `
 <h2 style="margin:0 0 1rem;font-family:sans-serif">New Registration of Interest</h2>
 <p style="font-family:sans-serif"><strong>Name:</strong> ${esc(name)}</p>
