@@ -92,54 +92,49 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            margin-top: 1.75rem;
+            margin-top: 2rem;
         }
 
         .hub-hero-cta {
             margin-top: 0;
         }
 
-        .hub-hero-secondary {
-            font-size: 0.9375rem;
-            font-weight: 600;
-            color: var(--text);
-            text-decoration: none;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 0.15rem;
-            transition: border-color 0.2s;
-        }
-
-        .hub-hero-secondary:hover { border-color: var(--accent); }
-
-        .hub-cta-note {
-            font-size: 0.75rem;
-            color: var(--w30);
-            margin-top: 0.875rem;
-        }
-
-        /* ── First-pass micro-block ── */
-        .first-pass-lines {
+        /* ── Tension section: huge whitespace, one idea ── */
+        .hub-tension {
+            padding: 9rem 1.5rem;
             text-align: center;
-            max-width: 480px;
-            margin: 0.5rem auto 0;
-            padding-top: 2.5rem;
-            border-top: 1px solid var(--w08);
         }
 
-        .first-pass-lines p {
-            font-size: 1.0625rem;
-            font-weight: 500;
+        .hub-tension-inner {
+            max-width: 620px;
+            margin: 0 auto;
+        }
+
+        .hub-tension-title {
+            font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.25;
+            margin: 0 0 1.75rem;
+        }
+
+        .hub-tension-body {
+            font-size: 1.125rem;
             color: var(--text-muted);
-            line-height: 1.6;
-            margin: 0 0 0.25rem;
+            line-height: 1.75;
+            margin: 0 0 1.25rem;
         }
 
-        .first-pass-punch {
-            margin-top: 0.75rem !important;
-            font-weight: 700 !important;
-            color: var(--text) !important;
+        .hub-tension-body:last-child { margin-bottom: 0; }
+
+        /* ── Sector cards section ── */
+        .hub-paths-section {
+            padding: 0 1.5rem 6rem;
+        }
+
+        .hub-paths-inner {
+            max-width: var(--max);
+            margin: 0 auto;
         }
 
         .eyebrow-pill {
@@ -314,13 +309,14 @@
 
             .hub-hero {
                 padding: 108px 1.25rem 2.5rem;
-                align-items: flex-start;
             }
 
             .hub-thesis { text-align: left; }
             .hub-thesis .hero-sub { margin-left: 0; margin-right: 0; }
             .hub-hero-ctas { justify-content: flex-start; }
-            .first-pass-lines { text-align: left; margin-left: 0; }
+
+            .hub-tension { padding: 5rem 1.25rem; text-align: left; }
+            .hub-tension-inner { margin: 0; }
 
             .hub-paths { grid-template-columns: 1fr; }
 
@@ -407,20 +403,27 @@
                 <span class="eyebrow-pill">For staffing firms</span>
                 <h1 class="hero-title">Your recruiters should<br>be recruiting.</h1>
                 <p class="hero-sub">Before anyone can call, qualify or submit a candidate, someone has to work through the applicants. Superceptron handles the first pass, so your recruiters can get to the part that requires them.</p>
-                <p class="hub-safeguard">Nothing gets rejected by a machine. Every resume read. Nothing binned unread.</p>
+                <p class="hub-safeguard">Every resume read. Nothing automatically rejected.</p>
                 <div class="hub-hero-ctas">
                     <a href="register.html" class="btn-primary hub-hero-cta">Send us one live req</a>
-                    <a href="#specializations" class="hub-hero-secondary">See how it works</a>
                 </div>
-                <p class="hub-cta-note">No account. No workflow change.</p>
             </div>
 
-            <div class="first-pass-lines">
-                <p>The req comes in.</p>
-                <p>The pile follows.</p>
-                <p>Your recruiter hasn't started recruiting yet.</p>
-                <p class="first-pass-punch">That's the first-pass problem.</p>
-            </div>
+        </div>
+    </main>
+
+    <!-- TENSION -->
+    <section class="hub-tension">
+        <div class="hub-tension-inner">
+            <h2 class="hub-tension-title">The pile comes before the placement.</h2>
+            <p class="hub-tension-body">Before a recruiter can make a call, qualify a candidate or submit someone to a client, they have to get through the applicants.</p>
+            <p class="hub-tension-body">Move slowly and capacity disappears. Move quickly and you risk missing someone. You shouldn't have to choose.</p>
+        </div>
+    </section>
+
+    <!-- SPECIALIZATIONS -->
+    <section class="hub-paths-section">
+        <div class="hub-paths-inner">
 
             <div class="hub-paths" id="specializations">
 
@@ -443,7 +446,7 @@
             <p class="hub-trust">Superceptron Limited (Companies House No. 17407955). Your data is never shared or sold.</p>
 
         </div>
-    </main>
+    </section>
 
     <!-- FOOTER -->
     <footer class="hub-footer" id="contact">
