@@ -47,7 +47,7 @@ ${company?.trim() ? `<p style="font-family:sans-serif"><strong>Company:</strong>
 
     if (error) {
         console.error('Resend error:', error);
-        return res.status(500).json({ error: 'Failed to send', detail: error.message || String(error) });
+        return res.status(500).json({ error: 'Failed to send' });
     }
 
     return res.status(200).json({ ok: true });
