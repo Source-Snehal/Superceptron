@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sample shortlist: Senior Data Scientist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAFAF8;--surface:#FFFFFF;--border:#E6E4DF;--rule:#D8D5CE;
+  --text:#14171A;--muted:#5C6570;--faint:#8B929B;
+  --accent:#1FA97F;--accent-soft:#E8F5F0;--accent-deep:#137A5C;
+  --plum:#4C3A63;--plum-soft:#EFEBF3;
+  --display:'Newsreader',Georgia,serif;--body:'Inter',system-ui,-apple-system,sans-serif;
+  --max:880px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.65}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 28px}
+
+.masthead{padding:70px 0 0}
+.mark{font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin:0 0 40px}
+.docline{font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--faint);font-weight:500;margin:0 0 14px}
+h1{font-family:var(--display);font-size:clamp(34px,5.2vw,54px);font-weight:500;line-height:1.05;letter-spacing:-0.02em;margin:0 0 10px}
+.h1sub{font-family:var(--display);font-size:clamp(19px,2.6vw,24px);font-weight:400;font-style:italic;color:var(--muted);margin:0 0 22px;line-height:1.3}
+.subhead{font-size:17px;color:var(--muted);max-width:56ch;margin:0 0 44px}
+
+.figures{display:flex;flex-wrap:wrap;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);margin-bottom:62px}
+.fig{flex:1 1 105px;padding:22px 18px 22px 0;border-right:1px solid var(--border)}
+.fig:last-child{border-right:0;padding-right:0}
+.fig-n{font-family:var(--display);font-size:31px;font-weight:500;line-height:1;display:block;margin-bottom:6px;font-variant-numeric:tabular-nums}
+.fig-l{font-size:11.5px;color:var(--muted);letter-spacing:0.02em;line-height:1.35;display:block}
+.fig.hl .fig-n{color:var(--plum)}
+.fig.good .fig-n{color:var(--accent-deep)}
+
+.sec{margin:0 0 62px}
+.sec-label{font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--faint);padding-bottom:10px;border-bottom:1px solid var(--text);margin:0 0 26px}
+h2{font-family:var(--display);font-size:29px;font-weight:500;letter-spacing:-0.01em;line-height:1.15;margin:0 0 16px}
+.lede{font-size:16px;color:var(--muted);max-width:64ch;margin:0}
+.lede + .lede{margin-top:13px}
+
+.spec{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-top:26px}
+.spec-col{background:var(--surface);padding:22px 24px}
+.spec-h{font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin:0 0 14px}
+.spec-h.real{color:var(--accent-deep)}
+.spec-h.soft{color:var(--plum)}
+.spec-col ul{margin:0;padding:0;list-style:none}
+.spec-col li{font-size:14.5px;line-height:1.55;padding:9px 0;border-top:1px solid var(--border)}
+.spec-col li:first-child{border-top:0;padding-top:0}
+.spec-col li b{font-weight:600;display:block;margin-bottom:2px}
+.spec-col li span{color:var(--muted)}
+@media(max-width:640px){.spec{grid-template-columns:1fr}}
+
+.readers{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-top:26px}
+.reader{background:var(--surface);padding:20px}
+.reader-n{font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin:0 0 8px}
+.reader-d{font-size:14px;color:var(--muted);margin:0;line-height:1.5}
+@media(max-width:640px){.readers{grid-template-columns:1fr}}
+
+.human{display:grid;grid-template-columns:170px 1fr;gap:24px;border:1px solid var(--border);border-top:0;border-left:3px solid var(--plum);background:var(--surface);padding:22px 24px}
+.human-n{font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--plum);margin:0;padding-top:2px}
+.human-d{font-size:15px;color:var(--text);margin:0;line-height:1.6}
+.human-d + .human-d{margin-top:10px}
+@media(max-width:640px){.human{grid-template-columns:1fr;gap:10px}}
+
+.trace-banner{margin-top:18px;padding:16px 20px;background:var(--accent-soft);border-radius:8px;font-size:14px;color:var(--accent-deep);display:flex;align-items:center;gap:10px}
+.trace-banner b{font-family:var(--display);font-size:16px}
+
+.dist{margin-top:26px}
+.dist-row{display:grid;grid-template-columns:210px 1fr 46px;gap:16px;align-items:center;padding:10px 0;border-top:1px solid var(--border)}
+.dist-row:first-child{border-top:0}
+.dist-l{font-size:14px;color:var(--text)}
+.dist-l span{display:block;font-size:12.5px;color:var(--faint);margin-top:1px}
+.dist-bar{height:9px;background:#EDEBE6;position:relative;overflow:hidden}
+.dist-fill{position:absolute;left:0;top:0;bottom:0;background:var(--text)}
+.dist-fill.a{background:var(--accent)}
+.dist-fill.p{background:var(--plum)}
+.dist-fill.f{background:#C9C5BD}
+.dist-n{font-size:14px;text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+@media(max-width:640px){.dist-row{grid-template-columns:130px 1fr 36px;gap:10px}}
+
+.cand{border-top:1px solid var(--rule);padding:38px 0 44px}
+.cand:first-of-type{border-top:2px solid var(--text)}
+.cand-top{display:flex;gap:22px;align-items:baseline;margin-bottom:4px}
+.rank{font-family:var(--display);font-size:30px;font-weight:500;color:var(--faint);line-height:1;font-variant-numeric:tabular-nums;flex:0 0 auto;width:44px}
+.cand-id{flex:1 1 auto;min-width:0}
+.cand-name{font-family:var(--display);font-size:27px;font-weight:500;line-height:1.2;margin:0 0 3px;letter-spacing:-0.01em}
+.cand-role{font-size:14px;color:var(--muted);margin:0}
+.tag{display:inline-block;font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;padding:4px 9px;border-radius:3px;vertical-align:3px;margin-left:10px;white-space:nowrap}
+.tag-split{background:var(--plum-soft);color:var(--plum)}
+.tag-agree{background:var(--accent-soft);color:var(--accent-deep)}
+
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 0 66px}
+.chip{font-size:11.5px;letter-spacing:0.02em;padding:4px 9px;border:1px solid var(--border);background:var(--surface);color:var(--muted);border-radius:3px;white-space:nowrap}
+.chip.on{border-color:#BFE4D6;background:var(--accent-soft);color:var(--accent-deep)}
+.chip.off{border-style:dashed;color:var(--faint)}
+@media(max-width:640px){.chips{margin-left:0}}
+
+.excerpt-toggle{margin:16px 0 0 66px;font-size:12.5px;color:var(--accent-deep);background:none;border:1px solid var(--border);border-radius:6px;padding:7px 13px;cursor:pointer;font-family:var(--body)}
+.excerpt-toggle:hover{background:var(--accent-soft)}
+.excerpt-toggle:focus-visible{outline:2px solid var(--plum);outline-offset:2px}
+.excerpt{margin:12px 0 0 66px;padding:16px 20px;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--faint);font-size:13.5px;color:var(--muted);display:none}
+.excerpt.open{display:block}
+.excerpt p{margin:0 0 7px;line-height:1.55}
+.excerpt p:last-child{margin-bottom:0}
+.excerpt .src-id{font-size:10px;color:var(--faint);margin-right:7px;font-variant-numeric:tabular-nums}
+@media(max-width:640px){.excerpt-toggle,.excerpt{margin-left:0}}
+
+.split{margin:24px 0 0 66px}
+@media(max-width:640px){.split{margin-left:0}}
+.split-head{display:flex;justify-content:space-between;align-items:baseline;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--faint);font-weight:600;margin-bottom:12px}
+.split-spread{color:var(--muted);letter-spacing:0.04em}
+.split-spread b{color:var(--plum);font-weight:600}
+.track{position:relative;height:44px;border-left:1px solid var(--rule);border-right:1px solid var(--rule)}
+.track:before{content:"";position:absolute;left:0;right:0;top:21px;height:1px;background:var(--rule)}
+.band{position:absolute;top:0;bottom:0;background:var(--plum-soft)}
+.band.tight{background:var(--accent-soft)}
+.pip{position:absolute;top:9px;width:2px;height:26px;background:var(--text);transform:translateX(-1px)}
+.pip span{position:absolute;top:-15px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:600;letter-spacing:0.06em;color:var(--muted);white-space:nowrap}
+.scale{display:flex;justify-content:space-between;font-size:10px;color:var(--faint);letter-spacing:0.08em;margin-top:7px;font-variant-numeric:tabular-nums}
+
+.verdicts{margin:30px 0 0 66px}
+@media(max-width:640px){.verdicts{margin-left:0}}
+.v{display:grid;grid-template-columns:134px 1fr;gap:20px;padding:15px 0;border-top:1px solid var(--border)}
+.v:first-child{border-top:0;padding-top:0}
+.v-who{font-size:11px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--muted);padding-top:2px}
+.v-who b{display:block;font-family:var(--display);font-size:19px;letter-spacing:0;text-transform:none;color:var(--text);font-weight:500;font-variant-numeric:tabular-nums;margin-top:3px}
+.v-text{font-size:15px;color:var(--text);margin:0;line-height:1.6}
+.v-text + .v-text{margin-top:9px}
+@media(max-width:640px){.v{grid-template-columns:1fr;gap:6px}.v-who b{display:inline;margin-left:8px;font-size:17px}}
+
+.cite{background:none;border:0;padding:0;margin:0;font:inherit;color:var(--text);cursor:pointer;border-bottom:1.5px dotted var(--accent-deep)}
+.cite:hover,.cite:focus-visible{background:var(--accent-soft)}
+.cite:focus-visible{outline:2px solid var(--plum);outline-offset:2px}
+.cite-reveal{display:none;margin:7px 0 2px;padding:10px 13px;background:var(--accent-soft);border-left:3px solid var(--accent);font-size:13px;color:var(--text);border-radius:0 5px 5px 0}
+.cite-reveal.open{display:block}
+.cite-reveal .lbl{font-size:9.5px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent-deep);display:block;margin-bottom:4px}
+
+.call{margin:26px 0 0 66px;padding:20px 22px;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent)}
+.call.split-call{border-left-color:var(--plum)}
+@media(max-width:640px){.call{margin-left:0}}
+.call-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:10px}
+.call-l{font-size:11px;font-weight:600;letter-spacing:0.11em;text-transform:uppercase;color:var(--faint);margin:0}
+.override{font-size:12px;font-weight:500;color:var(--plum);background:var(--plum-soft);padding:5px 11px;border-radius:5px;font-variant-numeric:tabular-nums}
+.override b{font-family:var(--display);font-weight:600}
+.call p{font-size:15px;margin:0;line-height:1.6}
+.call p + p{margin-top:10px}
+.trace-stat{font-size:12px;color:var(--faint);margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.trace-stat b{color:var(--accent-deep);font-weight:600}
+
+.miss{padding:20px 0;border-top:1px solid var(--border);display:grid;grid-template-columns:210px 1fr;gap:24px}
+.miss:first-of-type{border-top:1px solid var(--text)}
+.miss-name{font-family:var(--display);font-size:19px;font-weight:500;margin:0}
+.miss-role{font-size:13px;color:var(--faint);margin:2px 0 0}
+.miss-why{font-size:15px;margin:0;line-height:1.6}
+@media(max-width:640px){.miss{grid-template-columns:1fr;gap:8px}}
+
+.colophon{border-top:1px solid var(--text);margin-top:24px;padding:28px 0 90px;font-size:13px;color:var(--muted);line-height:1.65}
+.colophon p{margin:0 0 12px;max-width:66ch}
+.colophon strong{color:var(--text);font-weight:600}
+.sig{font-family:var(--display);font-size:17px;color:var(--text);margin-top:22px}
+.sig span{display:block;font-family:var(--body);font-size:13px;color:var(--faint);margin-top:3px}
+
+@media print{body{background:#fff}.cand,.miss{break-inside:avoid}.colophon{padding-bottom:0}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <p class="mark">Superceptron</p>
+  <p class="docline">Sample shortlist &middot; illustrative &middot; traceable reasoning</p>
+  <h1>Senior Data Scientist</h1>
+  <p class="h1sub">Series C fintech, fraud &amp; risk modeling, $155k&ndash;$190k, hybrid, Austin TX</p>
+  <p class="subhead">Seventy-two applications, read in full, ranked. Every factual claim below links back to the exact line in the resume it came from.</p>
+
+  <div class="figures">
+    <div class="fig"><span class="fig-n">72</span><span class="fig-l">Applications received</span></div>
+    <div class="fig"><span class="fig-n">72</span><span class="fig-l">Read in full, three times each</span></div>
+    <div class="fig"><span class="fig-n">4</span><span class="fig-l">Shortlisted</span></div>
+    <div class="fig hl"><span class="fig-n">2</span><span class="fig-l">Where the readers split</span></div>
+    <div class="fig good"><span class="fig-n">0</span><span class="fig-l">Claims made without a source</span></div>
+  </div>
+</header>
+
+<section class="sec">
+  <p class="sec-label">Before anything was read</p>
+  <h2>What the posting asks for, and what it's actually testing for</h2>
+  <p class="lede">The posting was read first, on its own, before a single resume was opened. Data science postings are unusually vulnerable to vocabulary mismatch, because the same underlying skill gets described completely differently depending on where someone learned it: a PhD program, a bootcamp, or a startup with no formal training budget at all.</p>
+  <p class="lede">This is a judgment, not a fact. It is here so you can disagree with it, and so you know what the ranking was built on.</p>
+
+  <div class="spec">
+    <div class="spec-col">
+      <p class="spec-h real">Load-bearing</p>
+      <ul>
+        <li><b>Has shipped a model to production</b><span>The posting says "deployment experience." What matters is whether a model actually served real traffic, not whether it lived in a notebook.</span></li>
+        <li><b>Genuine causal reasoning, however described</b><span>Named as "causal inference" in the posting. The skill shows up under many names: A/B testing, natural experiments, staggered rollouts, diff-in-diff, none of which use the phrase "causal inference."</span></li>
+        <li><b>Can translate technical tradeoffs for non-technical stakeholders</b><span>The posting buries this as one line. On a risk team, the ability to explain a false-positive-rate tradeoff to a VP is closer to the job than any single modeling technique.</span></li>
+      </ul>
+    </div>
+    <div class="spec-col">
+      <p class="spec-h soft">Probably carried forward</p>
+      <ul>
+        <li><b>"PhD required"</b><span>Costs more of this pool than anything else in the posting. Several of the strongest applicants have a master's or no graduate degree and equivalent or better shipped work.</span></li>
+        <li><b>"Must know Databricks specifically"</b><span>A reasonable preference, not a hard requirement. Anyone fluent in Spark and a comparable platform (Snowflake, BigQuery) picks this up in days.</span></li>
+        <li><b>"Data Scientist" as the exact job title held</b><span>Some of the best causal-reasoning work in this pile was done by people titled Analyst, because the company they worked at labels roles idiosyncratically.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <p class="sec-label">How this was read</p>
+  <h2>Three reads, then a person decides.</h2>
+  <p class="lede">Every resume is read three times, from three different angles. The readers work independently. None of them sees the others' verdicts, so agreement means something and disagreement means something else.</p>
+  <p class="lede">Where all three land in the same place, the ranking is easy. Where they split, you get told, and you get both arguments.</p>
+
+  <div class="readers">
+    <div class="reader">
+      <p class="reader-n">The strict read</p>
+      <p class="reader-d">Scores against what the posting actually asks for, by name. Absence of the stated term counts as absence. Unforgiving on purpose.</p>
+    </div>
+    <div class="reader">
+      <p class="reader-n">The transferable read</p>
+      <p class="reader-d">Looks for evidence the person could do the work even when the vocabulary, the title, or the credential doesn't match.</p>
+    </div>
+    <div class="reader">
+      <p class="reader-n">The hiring manager</p>
+      <p class="reader-d">One interview slot this week. Would you spend it here, and what would you be hoping to find out?</p>
+    </div>
+  </div>
+
+  <div class="human">
+    <p class="human-n">Then the review</p>
+    <div>
+      <p class="human-d">I read every resume myself alongside the three verdicts, and I write the ranking. Where the readers agree I'm checking their work. Where they split I'm choosing between two arguments, and I tell you which one I went with and why.</p>
+      <p class="human-d">Every claim in every verdict below traces back to a specific line in the candidate's resume. Where a claim is inferred rather than stated outright, that's said plainly rather than dressed up as fact.</p>
+    </div>
+  </div>
+
+  <div class="trace-banner">
+    <b>Click any underlined phrase</b>&nbsp;in a verdict below to see the exact resume line it's based on.
+  </div>
+</section>
+
+<section class="sec">
+  <p class="sec-label">The pile</p>
+  <h2>Where seventy-two applications landed</h2>
+  <div class="dist">
+    <div class="dist-row"><div class="dist-l">Shortlisted<span>Ranked below, reasoning on each</span></div><div class="dist-bar"><div class="dist-fill a" style="width:5.5%"></div></div><div class="dist-n">4</div></div>
+    <div class="dist-row"><div class="dist-l">Read closely, not shortlisted<span>Reason recorded, overrule if you disagree</span></div><div class="dist-bar"><div class="dist-fill p" style="width:14%"></div></div><div class="dist-n">10</div></div>
+    <div class="dist-row"><div class="dist-l">Right skill, wrong seniority<span>Junior or mid-level, mostly too early</span></div><div class="dist-bar"><div class="dist-fill" style="width:36%"></div></div><div class="dist-n">26</div></div>
+    <div class="dist-row"><div class="dist-l">Adjacent discipline<span>Data engineers, BI analysts, ML engineers with no modeling ownership</span></div><div class="dist-bar"><div class="dist-fill f" style="width:29%"></div></div><div class="dist-n">21</div></div>
+    <div class="dist-row"><div class="dist-l">Not close<span>Unrelated background or no quantitative work evidenced</span></div><div class="dist-bar"><div class="dist-fill f" style="width:15%"></div></div><div class="dist-n">11</div></div>
+  </div>
+</section>
+
+<section class="sec">
+  <p class="sec-label">Ranked shortlist</p>
+
+  <article class="cand">
+    <div class="cand-top">
+      <div class="rank">01</div>
+      <div class="cand-id">
+        <h3 class="cand-name">D. Okafor<span class="tag tag-agree">Agreed</span></h3>
+        <p class="cand-role">Senior Data Scientist, Payments Risk &middot; FinTech Co &middot; Austin TX</p>
+      </div>
+    </div>
+    <div class="chips">
+      <span class="chip on">Shipped model to production</span>
+      <span class="chip on">Causal inference, named</span>
+      <span class="chip on">Databricks</span>
+      <span class="chip on">Stakeholder translation</span>
+      <span class="chip off">MS, not PhD</span>
+    </div>
+
+    <button class="excerpt-toggle" onclick="toggleExcerpt('c1x')" aria-expanded="false" aria-controls="c1x">View resume excerpt</button>
+    <div class="excerpt" id="c1x">
+      <p><span class="src-id">c1-r1</span>Senior Data Scientist, Payments Risk team, FinTech Co, 2021 to present.</p>
+      <p><span class="src-id">c1-r2</span>Designed and shipped a real-time fraud-scoring model serving 40M transactions a day in production, reducing the false-positive rate by 31%.</p>
+      <p><span class="src-id">c1-r3</span>Ran 14 randomized experiments on risk thresholds, using causal inference methods to isolate treatment effects from seasonal transaction volume shifts.</p>
+      <p><span class="src-id">c1-r4</span>Built the internal experimentation platform now used by three other teams to design and analyze A/B tests.</p>
+      <p><span class="src-id">c1-r5</span>Presents quarterly model performance and tradeoffs to the VP of Risk and the Head of Product, translating precision and recall tradeoffs into dollar-loss terms.</p>
+      <p><span class="src-id">c1-r6</span>MS, Statistics. Prior: Data Analyst, retail analytics, 2 years.</p>
+      <p><span class="src-id">c1-r7</span>Python, SQL, Spark, Databricks. Owns the team's feature store.</p>
+    </div>
+
+    <div class="split">
+      <div class="split-head"><span>Reader scores</span><span class="split-spread">Spread <b>0</b></span></div>
+      <div class="track"><div class="band tight" style="left:82%;right:8%"></div><div class="pip" style="left:88%"><span>All 9</span></div></div>
+      <div class="scale"><span>0</span><span>5</span><span>10</span></div>
+    </div>
+
+    <div class="verdicts">
+      <div class="v">
+        <div class="v-who">Strict<b>9</b></div>
+        <div>
+          <p class="v-text"><button class="cite" onclick="toggleCite('c1v1')">Shipped a fraud-scoring model to production serving 40M transactions a day</button>, meets the deployment requirement outright.</p>
+          <div class="cite-reveal" id="c1v1"><span class="lbl">Source, c1-r2</span>"Designed and shipped a real-time fraud-scoring model serving 40M transactions a day in production, reducing the false-positive rate by 31%."</div>
+          <p class="v-text"><button class="cite" onclick="toggleCite('c1v2')">Uses the phrase "causal inference" directly</button>, applied to fourteen actual experiments rather than claimed in the abstract.</p>
+          <div class="cite-reveal" id="c1v2"><span class="lbl">Source, c1-r3</span>"Ran 14 randomized experiments on risk thresholds, using causal inference methods to isolate treatment effects from seasonal transaction volume shifts."</div>
+          <p class="v-text">Only gap against the posting as written: MS rather than PhD.</p>
+        </div>
+      </div>
+      <div class="v">
+        <div class="v-who">Transferable<b>9</b></div>
+        <div>
+          <p class="v-text">Nothing to transfer, since the vocabulary already matches. Worth noting <button class="cite" onclick="toggleCite('c1v3')">the platform she built is now used by three other teams</button>, which is a leverage signal beyond her own output.</p>
+          <div class="cite-reveal" id="c1v3"><span class="lbl">Source, c1-r4</span>"Built the internal experimentation platform now used by three other teams to design and analyze A/B tests."</div>
+        </div>
+      </div>
+      <div class="v">
+        <div class="v-who">Hiring manager<b>9</b></div>
+        <div>
+          <p class="v-text">Yes, first slot. <button class="cite" onclick="toggleCite('c1v4')">Translating a precision and recall tradeoff into dollar-loss terms for a VP</button> is exactly the muscle this role needs and almost nobody's resume shows it this plainly.</p>
+          <div class="cite-reveal" id="c1v4"><span class="lbl">Source, c1-r5</span>"Presents quarterly model performance and tradeoffs to the VP of Risk and the Head of Product, translating precision and recall tradeoffs into dollar-loss terms."</div>
+          <p class="v-text">Would ask why she's considering a move after building something with this much internal adoption.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="call">
+      <div class="call-top"><p class="call-l">Our call</p></div>
+      <p>Top of the list, unanimous. The PhD line is the only thing separating this resume from a perfect match, and it's the item most worth checking with your client before it costs them the strongest applicant in the pile.</p>
+      <p class="trace-stat"><b>4 of 4</b> factual claims in this verdict trace to a specific resume line. 0 claims made without a source.</p>
+    </div>
+  </article>
+
+  <article class="cand">
+    <div class="cand-top">
+      <div class="rank">02</div>
+      <div class="cand-id">
+        <h3 class="cand-name">R. Vasquez<span class="tag tag-split">Readers split</span></h3>
+        <p class="cand-role">Senior Data Analyst, Marketplace Pricing &middot; RideCo &middot; Austin TX</p>
+      </div>
+    </div>
+    <div class="chips">
+      <span class="chip off">Title is Analyst, not Scientist</span>
+      <span class="chip off">No PhD</span>
+      <span class="chip off">"Causal inference" never appears</span>
+      <span class="chip on">Staggered-rollout design, unnamed</span>
+      <span class="chip on">Adapts explanation by audience</span>
+    </div>
+
+    <button class="excerpt-toggle" onclick="toggleExcerpt('c2x')" aria-expanded="false" aria-controls="c2x">View resume excerpt</button>
+    <div class="excerpt" id="c2x">
+      <p><span class="src-id">c2-r1</span>Senior Data Analyst, Marketplace Pricing team, RideCo, 2020 to present.</p>
+      <p><span class="src-id">c2-r2</span>Investigated pricing anomalies following a regional policy change that rolled out on a staggered schedule across markets, using the staggered launch dates as a comparison group to separate the effect of the new pricing algorithm from broader seasonal market trends.</p>
+      <p><span class="src-id">c2-r3</span>Built a pricing-elasticity dashboard adopted by regional General Managers, updated weekly from a Python and SQL pipeline maintained solo.</p>
+      <p><span class="src-id">c2-r4</span>Presents pricing recommendations directly to regional General Managers monthly, adjusting the technical depth of the explanation to the audience in the room.</p>
+      <p><span class="src-id">c2-r5</span>BS, Economics. No graduate degree. Self-taught Python and applied statistics on the job.</p>
+      <p><span class="src-id">c2-r6</span>Nominated for the company's internal Data Impact award for a pricing model since adopted company-wide.</p>
+    </div>
+
+    <div class="split">
+      <div class="split-head"><span>Reader scores</span><span class="split-spread">Spread <b>5</b></span></div>
+      <div class="track"><div class="band" style="left:38%;right:12%"></div><div class="pip" style="left:40%"><span>Strict 4</span></div><div class="pip" style="left:78%"><span>Transf. 9</span></div><div class="pip" style="left:70%"><span>HM 8</span></div></div>
+      <div class="scale"><span>0</span><span>5</span><span>10</span></div>
+    </div>
+
+    <div class="verdicts">
+      <div class="v">
+        <div class="v-who">Strict<b>4</b></div>
+        <div>
+          <p class="v-text">No PhD, title is Analyst not Scientist, and <button class="cite" onclick="toggleCite('c2v1')">the phrase "causal inference" appears nowhere in the document</button>. No stated production ML deployment either. Against the posting as written, a straightforward reject.</p>
+          <div class="cite-reveal" id="c2v1"><span class="lbl">Absence noted, not inferred</span>Checked against the full text of c2-r1 through c2-r6. The terms "causal," "inference," "experiment," and "randomized" do not appear anywhere in this resume.</div>
+        </div>
+      </div>
+      <div class="v">
+        <div class="v-who">Transferable<b>9</b></div>
+        <div>
+          <p class="v-text">What's described here <button class="cite" onclick="toggleCite('c2v2')">is a staggered-rollout comparison design</button>, which is a real causal-inference method, difference-in-differences using launch date as the treatment assignment. It's just never named as such.</p>
+          <div class="cite-reveal" id="c2v2"><span class="lbl">Source, c2-r2</span>"Investigated pricing anomalies following a regional policy change that rolled out on a staggered schedule across markets, using the staggered launch dates as a comparison group to separate the effect of the new pricing algorithm from broader seasonal market trends."</div>
+          <p class="v-text">And <button class="cite" onclick="toggleCite('c2v3')">adjusting technical depth to the audience in the room, monthly, to regional GMs</button> is precisely the stakeholder-translation skill the posting asks for, also undescribed in the posting's own vocabulary.</p>
+          <div class="cite-reveal" id="c2v3"><span class="lbl">Source, c2-r4</span>"Presents pricing recommendations directly to regional General Managers monthly, adjusting the technical depth of the explanation to the audience in the room."</div>
+        </div>
+      </div>
+      <div class="v">
+        <div class="v-who">Hiring manager<b>8</b></div>
+        <div>
+          <p class="v-text">I'd want this person. Doing rigorous causal design work under commercial pressure, self-taught, with <button class="cite" onclick="toggleCite('c2v4')">a model since adopted company-wide</button>, is rarer than the same skill learned in a program.</p>
+          <div class="cite-reveal" id="c2v4"><span class="lbl">Source, c2-r6</span>"Nominated for the company's internal Data Impact award for a pricing model since adopted company-wide."</div>
+          <p class="v-text">Would spend the interview finding out whether she can name the method explicitly if asked, or whether it's intuition without the formal vocabulary. Either answer is fine. Worth knowing which.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="call split-call">
+      <div class="call-top">
+        <p class="call-l">Our call &middot; readers split</p>
+        <span class="override">Override: panel average <b>7.0</b> &rarr; ranked <b>#2</b>. Strict alone would drop this outside the shortlist entirely.</span>
+      </div>
+      <p>This is the candidate the posting loses. The strict read is correct on its own terms: nothing here matches the posting's vocabulary. But the work described is, on inspection, a genuine natural-experiment design, and the posting's own underlying need is exactly this kind of reasoning.</p>
+      <p>Worth telling your client this resume would fail their own ATS keyword filter, and that it's the strongest hidden fit in the pile.</p>
+      <p class="trace-stat"><b>3 of 3</b> substantive claims in the transferable and HM verdicts trace to a specific resume line. The strict read's central claim ("term never appears") is a checked absence, not an assumption.</p>
+    </div>
+  </article>
+
+  <article class="cand">
+    <div class="cand-top">
+      <div class="rank">03</div>
+      <div class="cand-id">
+        <h3 class="cand-name">M. Lindqvist<span class="tag tag-agree">Agreed</span></h3>
+        <p class="cand-role">Data Scientist, Population Health &middot; HealthSystem Analytics Inc &middot; remote</p>
+      </div>
+    </div>
+    <div class="chips">
+      <span class="chip on">PhD, Biostatistics</span>
+      <span class="chip on">Stepped-wedge trial, causal design</span>
+      <span class="chip on">Deployed to clinical workflow</span>
+      <span class="chip off">Not primary Databricks user</span>
+    </div>
+
+    <button class="excerpt-toggle" onclick="toggleExcerpt('c3x')" aria-expanded="false" aria-controls="c3x">View resume excerpt</button>
+    <div class="excerpt" id="c3x">
+      <p><span class="src-id">c3-r1</span>Data Scientist, Population Health team, HealthSystem Analytics Inc, 2019 to present.</p>
+      <p><span class="src-id">c3-r2</span>Deployed a readmission-risk model into production, integrated into the clinical EHR workflow, reviewed monthly by a clinical oversight committee.</p>
+      <p><span class="src-id">c3-r3</span>Designed and analyzed a stepped-wedge trial evaluating a care-coordination intervention across 12 clinics, controlling for clinic-level confounders.</p>
+      <p><span class="src-id">c3-r4</span>PhD, Biostatistics.</p>
+      <p><span class="src-id">c3-r5</span>Presents findings at internal clinical rounds and to hospital administrators. Co-authored two peer-reviewed papers with clinical collaborators.</p>
+      <p><span class="src-id">c3-r6</span>Python, R, SQL. Some exposure to Spark, not primary tool.</p>
+    </div>
+
+    <div class="split">
+      <div class="split-head"><span>Reader scores</span><span class="split-spread">Spread <b>0</b></span></div>
+      <div class="track"><div class="band tight" style="left:62%;right:28%"></div><div class="pip" style="left:70%"><span>All 7</span></div></div>
+      <div class="scale"><span>0</span><span>5</span><span>10</span></div>
+    </div>
+
+    <div class="verdicts">
+      <div class="v">
+        <div class="v-who">Strict<b>7</b></div>
+        <div>
+          <p class="v-text">PhD met. <button class="cite" onclick="toggleCite('c3v1')">Stepped-wedge trial design</button> is causal inference by another name, explicitly described with method. <button class="cite" onclick="toggleCite('c3v2')">Model deployed into a live clinical workflow</button> meets the production requirement.</p>
+          <div class="cite-reveal" id="c3v1"><span class="lbl">Source, c3-r3</span>"Designed and analyzed a stepped-wedge trial evaluating a care-coordination intervention across 12 clinics, controlling for clinic-level confounders."</div>
+          <div class="cite-reveal" id="c3v2"><span class="lbl">Source, c3-r2</span>"Deployed a readmission-risk model into production, integrated into the clinical EHR workflow, reviewed monthly by a clinical oversight committee."</div>
+          <p class="v-text">Deducted slightly for Databricks being secondary rather than primary tool.</p>
+        </div>
+      </div>
+      <div class="v">
+        <div class="v-who">Transferable<b>7</b></div>
+        <div>
+          <p class="v-text">Sector is healthcare rather than fintech, but the methodology, causal design under real-world constraints, model deployed with a human oversight layer, transfers directly.</p>
+        </div>
+      </div>
+      <div class="v">
+        <div class="v-who">Hiring manager<b>7</b></div>
+        <div>
+          <p class="v-text">Solid yes. Would check appetite for startup pace versus the slower, committee-reviewed cadence of a hospital system, since that's a genuine culture difference worth surfacing before an offer.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="call">
+      <div class="call-top"><p class="call-l">Our call</p></div>
+      <p>Reliable third. All three readers landed on the same number, which usually means the resume is telling you the truth without needing to be read between the lines.</p>
+      <p class="trace-stat"><b>2 of 2</b> factual claims cited above trace to a specific resume line.</p>
+    </div>
+  </article>
+
+  <article class="cand">
+    <div class="cand-top">
+      <div class="rank">04</div>
+      <div class="cand-id">
+        <h3 class="cand-name">J. Whitfield<span class="tag tag-split">Readers split</span></h3>
+        <p class="cand-role">Senior Data Scientist &amp; ML Lead &middot; DataConsult Partners &middot; remote</p>
+      </div>
+    </div>
+    <div class="chips">
+      <span class="chip on">PhD, Machine Learning</span>
+      <span class="chip on">Every keyword present</span>
+      <span class="chip off">No named model, client, or metric</span>
+      <span class="chip off">No verifiable deployment</span>
+    </div>
+
+    <button class="excerpt-toggle" onclick="toggleExcerpt('c4x')" aria-expanded="false" aria-controls="c4x">View resume excerpt</button>
+    <div class="excerpt" id="c4x">
+      <p><span class="src-id">c4-r1</span>Senior Data Scientist and ML Lead, multiple client engagements, DataConsult Partners, 2018 to present.</p>
+      <p><span class="src-id">c4-r2</span>PhD, Machine Learning.</p>
+      <p><span class="src-id">c4-r3</span>Extensive experience in causal inference, production ML deployment, stakeholder communication, and cross-functional leadership across Fortune 500 engagements.</p>
+      <p><span class="src-id">c4-r4</span>Proficient in Python, SQL, Spark, Databricks, and major cloud ML platforms.</p>
+      <p><span class="src-id">c4-r5</span>Delivered data science solutions driving measurable business impact for clients across finance, retail, and healthcare verticals.</p>
+      <p><span class="src-id">c4-r6</span>Led teams of up to 8 data scientists on strategic client initiatives.</p>
+    </div>
+
+    <div class="split">
+      <div class="split-head"><span>Reader scores</span><span class="split-spread">Spread <b>6</b></span></div>
+      <div class="track"><div class="band" style="left:20%;right:12%"></div><div class="pip" style="left:88%"><span>Strict 9</span></div><div class="pip" style="left:38%"><span>Transf. 4</span></div><div class="pip" style="left:28%"><span>HM 3</span></div></div>
+      <div class="scale"><span>0</span><span>5</span><span>10</span></div>
+    </div>
+
+    <div class="verdicts">
+      <div class="v">
+        <div class="v-who">Strict<b>9</b></div>
+        <div>
+          <p class="v-text">Every term the posting names appears in this document. <button class="cite" onclick="toggleCite('c4v1')">"Extensive experience in causal inference, production ML deployment, stakeholder communication"</button> is a near word-for-word match to the posting's requirements list. Highest keyword match of all 72 applications.</p>
+          <div class="cite-reveal" id="c4v1"><span class="lbl">Source, c4-r3</span>"Extensive experience in causal inference, production ML deployment, stakeholder communication, and cross-functional leadership across Fortune 500 engagements."</div>
+        </div>
+      </div>
+      <div class="v">
+        <div class="v-who">Transferable<b>4</b></div>
+        <div>
+          <p class="v-text">Every claim is asserted, not evidenced. <button class="cite" onclick="toggleCite('c4v2')">No model is named, no client is named, no metric appears anywhere in the document</button>. "Extensive experience" and "measurable business impact" are the resume equivalent of a skills list rather than a record of work.</p>
+          <div class="cite-reveal" id="c4v2"><span class="lbl">Absence noted, not inferred</span>Checked across the full text c4-r1 through c4-r6. No specific model name, client name, dataset, dollar figure, or percentage appears anywhere in this document.</div>
+          <p class="v-text">Six years and one job title, "multiple client engagements," never disaggregated into what was actually built or shipped.</p>
+        </div>
+      </div>
+      <div class="v">
+        <div class="v-who">Hiring manager<b>3</b></div>
+        <div>
+          <p class="v-text">I've interviewed several resumes shaped like this one from consultancies. Broad claimed exposure across many client logos often means contributing to slices of engagements someone else owned end to end.</p>
+          <p class="v-text">Would interview only to ask for one specific example, without notes, and see what survives.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="call split-call">
+      <div class="call-top">
+        <p class="call-l">Our call &middot; readers split</p>
+        <span class="override">Override: strict-only ranking would place this <b>#1 of 72</b>. Moved to <b>#4</b> on the panel average.</span>
+      </div>
+      <p>Included deliberately, and it's the widest split in the response. Highest keyword match in the pile, weakest evidence behind any of it. Anything scoring on overlap alone ranks this candidate first, by a distance.</p>
+      <p>Kept on the shortlist rather than cut, since consultancy work is sometimes bound by client confidentiality and the missing detail may not be the candidate's fault. One direct question at interview settles it either way.</p>
+      <p class="trace-stat"><b>1 of 6</b> claims in this verdict trace to specific evidence. The other five are checked absences of the detail the claim implies exists.</p>
+    </div>
+  </article>
+</section>
+
+<section class="sec">
+  <p class="sec-label">Read closely, not shortlisted</p>
+  <h2>The near misses, and why</h2>
+  <p class="lede">Ten applications came close. These three came closest.</p>
+  <div style="margin-top:26px">
+    <div class="miss">
+      <div><p class="miss-name">A. Reznik</p><p class="miss-role">Postdoctoral Researcher, Causal ML &middot; 4 yrs</p></div>
+      <p class="miss-why">Published, technically the deepest causal-inference background in the pile, and has never shipped anything that served production traffic. A genuine research-to-industry transition risk. Worth keeping on file for a role with more runway to ramp.</p>
+    </div>
+    <div class="miss">
+      <div><p class="miss-name">K. Odusanya</p><p class="miss-role">Data Scientist, e-commerce &middot; 2 yrs</p></div>
+      <p class="miss-why">Strong fundamentals and a shipped recommendation model, but two years against a senior posting. Would be first on the list for a mid-level opening.</p>
+    </div>
+    <div class="miss">
+      <div><p class="miss-name">P. Nwosu</p><p class="miss-role">Senior Data Scientist, adtech &middot; 7 yrs</p></div>
+      <p class="miss-why">Excellent match on everything technical. Resume states current visa status requires employer sponsorship, and the posting does not indicate sponsorship is available for this role. Flagged rather than cut in case that constraint can be revisited.</p>
+    </div>
+  </div>
+</section>
+
+<div class="colophon">
+  <p><strong>About this document.</strong> This is a sample. The citation mechanism shown here, click a phrase, see its source line, works identically on a live role: every claim in a real shortlist traces back to the applicant's actual submitted resume.</p>
+  <p>On a live role, every resume you send is read in full, and I write the shortlist myself. Nothing is filtered out before a person sees it and nothing is rejected by a machine. Where a claim can't be traced to something the candidate actually wrote, it's marked as an absence rather than assumed. Where the readers disagree, you get told, and you get both arguments.</p>
+  <p class="sig">Superceptron<span>Every claim sourced. Every decision shown. Your call.</span></p>
+</div>
+
+</div>
+
+<script>
+function toggleExcerpt(id){
+  var el = document.getElementById(id);
+  var open = el.classList.toggle('open');
+  var btn = document.querySelector('[aria-controls="'+id+'"]');
+  if(btn){
+    btn.setAttribute('aria-expanded', open);
+    btn.textContent = open ? 'Hide resume excerpt' : 'View resume excerpt';
+  }
+}
+function toggleCite(id){
+  var el = document.getElementById(id);
+  if(!el) return;
+  el.classList.toggle('open');
+}
+</script>
+</body>
+</html>
