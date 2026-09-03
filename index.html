@@ -20,7 +20,7 @@
     <link rel="icon" href="Logo new.jpg" type="image/jpeg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 
     <style>
@@ -69,30 +69,30 @@
         }
 
         .hub-thesis .eyebrow-pill {
-            margin-bottom: 1.25rem;
+            margin-bottom: 2rem;
         }
 
         .hub-thesis .hero-title {
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.5rem;
         }
 
         .hub-thesis .hero-sub {
             margin-left: auto;
             margin-right: auto;
-            margin-bottom: 0;
         }
 
         .hub-safeguard {
             font-size: 0.875rem;
             color: var(--text-muted);
-            margin-top: 1.25rem;
+            margin-top: 0.25rem;
+            margin-bottom: 0.5rem;
         }
 
         .hub-hero-ctas {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-top: 2rem;
+            margin-top: 0;
         }
 
         .hub-hero-cta {
@@ -122,9 +122,10 @@
         }
 
         .hub-tension-title {
+            font-family: var(--display);
             font-size: clamp(1.75rem, 3.5vw, 2.5rem);
-            font-weight: 800;
-            letter-spacing: -0.03em;
+            font-weight: 500;
+            letter-spacing: -0.02em;
             line-height: 1.25;
             margin: 0 0 1.75rem;
         }
@@ -205,9 +206,8 @@
         .hub-capacity-list li {
             font-size: 0.875rem;
             font-weight: 600;
-            color: var(--accent);
+            color: var(--accent-hover);
             background: var(--accent-soft);
-            border: 1px solid rgba(31,169,127,0.2);
             border-radius: 100px;
             padding: 0.5rem 1.25rem;
             transition-delay: 0.1s;
@@ -263,11 +263,10 @@
         .path-card-green {
             background: var(--accent-soft);
             border: 1px solid rgba(31,169,127,0.2);
-            animation: riseIn 0.7s var(--ease) 0.38s both;
         }
 
-        .hub-paths .path-card-green:nth-child(2) {
-            animation-delay: 0.52s;
+        .hub-paths .path-card:nth-child(2) {
+            transition-delay: 0.12s;
         }
 
         .path-card-green:hover {
@@ -278,7 +277,6 @@
         .path-card-purple {
             background: rgba(76,58,99,0.04);
             border: 1px solid rgba(76,58,99,0.15);
-            animation: riseIn 0.7s var(--ease) 0.52s both;
         }
 
         .path-card-purple:hover {
@@ -288,9 +286,9 @@
 
         .path-eyebrow {
             font-family: var(--font);
-            font-size: 0.64rem;
+            font-size: 0.72rem;
             font-weight: 500;
-            letter-spacing: 0.16em;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
         }
 
@@ -298,9 +296,10 @@
         .path-eyebrow-purple { color: var(--purple); }
 
         .path-heading {
+            font-family: var(--display);
             font-size: clamp(1.375rem, 2vw, 1.75rem);
-            font-weight: 800;
-            letter-spacing: -0.025em;
+            font-weight: 500;
+            letter-spacing: -0.015em;
             line-height: 1.18;
             color: var(--white);
         }
@@ -354,12 +353,6 @@
             font-size: 0.8125rem;
             color: var(--text-muted);
             margin-top: 0.25rem;
-        }
-
-        /* ── Shared animation ── */
-        @keyframes riseIn {
-            from { opacity: 0; transform: translateY(18px); }
-            to   { opacity: 1; transform: translateY(0);    }
         }
 
         /* ── Minimal hub footer ── */
@@ -420,11 +413,6 @@
             .hub-footer-inner { padding: 1.25rem 1.5rem; }
         }
 
-        /* ── Reduced motion ── */
-        @media (prefers-reduced-motion: reduce) {
-            .path-card-green,
-            .path-card-purple { animation: none; opacity: 1; transform: none; }
-        }
     </style>
 </head>
 <body>
@@ -523,7 +511,7 @@
     <!-- CAPACITY -->
     <section class="hub-capacity">
         <div class="hub-capacity-inner">
-            <p class="hub-capacity-lead reveal">That's recruiter capacity tied up before a candidate conversation begins.</p>
+            <p class="hub-capacity-lead reveal">Superceptron gives that capacity back.</p>
             <div class="hub-capacity-right">
                 <p class="hub-capacity-question reveal">What would your team do with that capacity?</p>
                 <ul class="hub-capacity-list">
@@ -541,14 +529,14 @@
 
             <div class="hub-paths" id="specializations">
 
-                <div class="path-card path-card-green" data-path="left">
+                <div class="path-card path-card-green reveal" data-path="left">
                     <span class="path-eyebrow path-eyebrow-green">Tech Staffing</span>
                     <h2 class="path-heading">Read for real stack depth.</h2>
                     <p class="path-body">Built by a team with a data science background. We know what a real engineering resume looks like versus one padded with buzzwords.</p>
                     <a href="recruiter-tech.html" class="path-cta path-cta-green">See how it works</a>
                 </div>
 
-                <div class="path-card path-card-green" data-path="right">
+                <div class="path-card path-card-green reveal" data-path="right">
                     <span class="path-eyebrow path-eyebrow-green">Engineering &amp; Construction Staffing</span>
                     <h2 class="path-heading">Read for what the resume is hiding.</h2>
                     <p class="path-body">We read every certification and project claim for what it actually means, not just whether the words match. A superintendent's or foreman's resume rarely tells the whole story on the first pass.</p>

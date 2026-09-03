@@ -15,6 +15,7 @@ html { scroll-behavior: smooth; }
     --accent-soft:  #E8F5F0;
     --plum:         #4C3A63;
     --font:    'Inter', system-ui, -apple-system, sans-serif;
+    --display: 'Newsreader', Georgia, serif;
     --r:        10px;
     --r-lg:     16px;
     --max:      1100px;
@@ -302,10 +303,11 @@ body {
 }
 
 .hero-title {
+    font-family: var(--display);
     font-size: clamp(2.75rem, 6.5vw, 5.25rem);
-    font-weight: 800;
-    line-height: 1.08;
-    letter-spacing: -0.035em;
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
     margin-bottom: 1.5rem;
 }
 
@@ -411,9 +413,10 @@ body {
 }
 
 .section-title {
+    font-family: var(--display);
     font-size: clamp(2rem, 4vw, 3.25rem);
-    font-weight: 800;
-    letter-spacing: -0.03em;
+    font-weight: 500;
+    letter-spacing: -0.02em;
     line-height: 1.12;
     margin-bottom: 1.5rem;
 }

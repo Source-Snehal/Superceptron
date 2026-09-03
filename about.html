@@ -50,7 +50,20 @@
           "name": "Superceptron",
           "url": "https://www.superceptron.com"
         },
-        "description": "Founder of Superceptron, specialising in resume screening for independent recruiting firms."
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "Loughborough University"
+        },
+        "hasCredential": {
+          "@type": "EducationalOccupationalCredential",
+          "credentialCategory": "MSc, Data Science",
+          "educationalLevel": "Master's degree",
+          "recognizedBy": {
+            "@type": "CollegeOrUniversity",
+            "name": "Loughborough University"
+          }
+        },
+        "description": "Founder of Superceptron, specialising in resume screening for independent recruiting firms. Holds an MSc in Data Science from Loughborough University and previously worked as a Senior Data Scientist across several Fortune 500 companies before founding Superceptron."
       }
     ]
     </script>
@@ -58,7 +71,7 @@
     <link rel="icon" href="Logo new.jpg" type="image/jpeg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <style>
         /* About-page-specific styles */
@@ -70,10 +83,11 @@
         .about-page-hero .hero-eyebrow { margin-bottom: 1.75rem; }
 
         .about-page-hero h1 {
+            font-family: var(--display);
             font-size: clamp(2.5rem, 6vw, 4.75rem);
-            font-weight: 800;
-            letter-spacing: -0.035em;
-            line-height: 1.08;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            line-height: 1.05;
             max-width: 720px;
             margin-bottom: 1.5rem;
         }
@@ -396,6 +410,7 @@
                 <div class="founder-bio">
                     <p class="reveal">Snehal is an AI engineer who chose to focus on independent recruiting firms specifically — because the admin overhead is concrete, the impact is measurable, and the people running those desks are sharp enough to know what's wrong but too busy fixing it manually.</p>
                     <p class="reveal">His approach is direct: one focused service, no accounts team in between, and a genuine preference for small agencies over enterprise contracts. If you email Superceptron, you're emailing him.</p>
+                    <p class="reveal">He holds an MSc in Data Science from Loughborough University, and before founding Superceptron spent several years as a Senior Data Scientist across a number of Fortune 500 companies.</p>
                 </div>
             </div>
             <div class="founder-quote reveal">

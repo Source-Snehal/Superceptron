@@ -97,7 +97,7 @@
     '#sc-send:disabled{opacity:.35;cursor:not-allowed;transform:none;}',
 
 
-    '@media(max-width:480px){#sc-panel{right:10px;left:10px;width:auto;bottom:80px;}#sc-btn{right:14px;bottom:14px;}}'
+    '@media(max-width:480px){#sc-panel{right:10px;left:10px;width:auto;bottom:80px;max-height:calc(100vh - 96px);}#sc-btn{right:14px;bottom:14px;}}'
   ].join('');
 
   /* ── ICONS ──────────────────────────────────────────────────── */

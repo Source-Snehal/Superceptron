@@ -74,7 +74,7 @@
     <link rel="icon" href="Logo new.jpg" type="image/jpeg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <style>
         /* Who this is for checklist */
@@ -501,7 +501,8 @@
             position: absolute;
             left: 0; right: 0;
             text-align: center;
-            font-size: 0.78rem;
+            font-family: var(--display);
+            font-size: 0.85rem;
             font-weight: 500;
             color: #3a3a3a;
             letter-spacing: -0.01em;
@@ -527,7 +528,7 @@
             color: #999;
             letter-spacing: 0.01em;
         }
-        .sample-email-line strong { color: #2a2a2a; font-weight: 500; }
+        .sample-email-line strong { font-family: var(--display); color: #2a2a2a; font-weight: 500; }
 
         /* Shortlist table */
         .sample-shortlist-body { padding: 1rem 1.25rem 1.375rem; }
@@ -571,7 +572,7 @@
             padding: 0.55rem 1.25rem;
         }
         .sr-rank { font-family: var(--mono); font-size: 0.72rem; color: #c0c0c0; }
-        .sr-name { color: #111; font-weight: 500; }
+        .sr-name { font-family: var(--display); font-size: 1.0625rem; color: #111; font-weight: 500; letter-spacing: -0.01em; }
         .sr-verdict {
             font-family: var(--mono);
             font-size: 0.6rem;
