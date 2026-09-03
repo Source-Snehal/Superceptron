@@ -245,6 +245,49 @@
             color: var(--text);
         }
 
+        /* ── Security strip ── */
+        .hub-security {
+            text-align: left;
+            margin-top: 3rem;
+            padding-top: 2.25rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .hub-security-title {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: var(--text);
+            margin: 0 0 1rem;
+        }
+
+        .hub-security-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.625rem;
+        }
+
+        .hub-security-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--mono);
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+            background: var(--surface);
+            padding: 0.4375rem 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+        }
+
+        .hub-security-badge svg { flex-shrink: 0; opacity: 0.7; }
+
+        .hub-security-fine {
+            font-size: 0.8rem;
+            color: var(--w30);
+            line-height: 1.5;
+            margin: 1rem 0 0;
+        }
+
         /* ── Sector cards section ── */
         .hub-paths-section {
             padding: 0 1.5rem 6rem;
@@ -561,6 +604,35 @@
                     <p class="hub-process-text"><span class="hub-process-label">Feedback.</span> Candidates receive legible, requirement-aligned updates.</p>
                 </li>
             </ul>
+
+            <div class="hub-security reveal">
+                <h3 class="hub-security-title">Candidate data is protected</h3>
+                <div class="hub-security-badges">
+                    <span class="hub-security-badge">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            <path d="M9 12l2 2 4-4"></path>
+                        </svg>
+                        <span>GDPR Compliant</span>
+                    </span>
+                    <span class="hub-security-badge">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <span>AES-256 Encrypted</span>
+                    </span>
+                    <span class="hub-security-badge">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                            <path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5"></path>
+                            <path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3"></path>
+                        </svg>
+                        <span>Zero-Retention Architecture</span>
+                    </span>
+                </div>
+                <p class="hub-security-fine">Superceptron runs on infrastructure providers (Vercel, Supabase) that maintain SOC 2 Type II compliance.</p>
+            </div>
         </div>
     </section>
 
