@@ -107,7 +107,7 @@
 
         /* ── Tension section: huge whitespace, one idea ── */
         .hub-tension {
-            padding: 5rem 0;
+            padding: 5rem 0 3rem;
         }
 
         .hub-tension-inner {
@@ -158,63 +158,64 @@
 
         /* ── Capacity section ── */
         .hub-capacity {
-            padding: 6rem 0;
+            padding: 3rem 0 6rem;
             border-top: 1px solid var(--border);
         }
 
         .hub-capacity-inner {
-            max-width: var(--max);
+            max-width: 640px;
             margin: 0 auto;
             padding: 0 1.5rem;
-            display: grid;
-            grid-template-columns: 1.1fr 1fr;
-            gap: 3rem;
-            align-items: center;
+            text-align: center;
         }
 
         .hub-capacity-lead {
-            font-size: clamp(1.375rem, 2.75vw, 1.75rem);
-            font-weight: 700;
-            letter-spacing: -0.015em;
-            line-height: 1.4;
+            font-family: var(--display);
+            font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            line-height: 1.25;
             color: var(--text);
-            margin: 0;
-        }
-
-        .hub-capacity-right {
-            display: flex;
-            flex-direction: column;
-            gap: 1.25rem;
+            margin: 0 0 0.75rem;
         }
 
         .hub-capacity-question {
             font-size: 1.0625rem;
             color: var(--text-muted);
-            margin: 0;
+            margin: 0 0 2.25rem;
         }
 
         .hub-capacity-list {
             list-style: none;
             padding: 0;
             margin: 0;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: flex-start;
-            gap: 0.75rem;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.875rem;
         }
 
         .hub-capacity-list li {
-            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.0625rem;
             font-weight: 600;
-            color: var(--accent-hover);
-            background: var(--accent-soft);
-            border-radius: 100px;
-            padding: 0.5rem 1.25rem;
+            color: var(--text);
             transition-delay: 0.1s;
         }
 
         .hub-capacity-list li:nth-child(2) { transition-delay: 0.18s; }
         .hub-capacity-list li:nth-child(3) { transition-delay: 0.26s; }
+
+        .hub-capacity-check {
+            flex-shrink: 0;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--accent-soft);
+            color: var(--accent-hover);
+        }
 
         /* ── Sector cards section ── */
         .hub-paths-section {
@@ -385,11 +386,6 @@
 
         .hub-footer-copy a:hover { color: var(--white); }
 
-        /* ── Tablet ── */
-        @media (max-width: 900px) {
-            .hub-capacity-inner { grid-template-columns: 1fr; gap: 1.75rem; }
-        }
-
         /* ── Mobile ── */
         @media (max-width: 680px) {
             .noise-bg { display: none; }
@@ -402,11 +398,11 @@
             .hub-thesis .hero-sub { margin-left: 0; margin-right: 0; }
             .hub-hero-ctas { justify-content: flex-start; }
 
-            .hub-tension { padding: 4rem 0; }
+            .hub-tension { padding: 4rem 0 2.5rem; }
             .hub-tension-inner { padding: 0 1.25rem; }
 
-            .hub-capacity { padding: 4rem 0; }
-            .hub-capacity-inner { grid-template-columns: 1fr; gap: 1.75rem; padding: 0 1.25rem; }
+            .hub-capacity { padding: 2.5rem 0 4rem; }
+            .hub-capacity-inner { padding: 0 1.25rem; }
 
             .hub-paths { grid-template-columns: 1fr; }
 
@@ -511,15 +507,13 @@
     <!-- CAPACITY -->
     <section class="hub-capacity">
         <div class="hub-capacity-inner">
-            <p class="hub-capacity-lead reveal">Superceptron gives that capacity back.</p>
-            <div class="hub-capacity-right">
-                <p class="hub-capacity-question reveal">What would your team do with that capacity?</p>
-                <ul class="hub-capacity-list">
-                    <li class="reveal">More candidate conversations</li>
-                    <li class="reveal">More submittals</li>
-                    <li class="reveal">More reqs worked</li>
-                </ul>
-            </div>
+            <h2 class="hub-capacity-lead reveal">Superceptron gives that capacity back.</h2>
+            <p class="hub-capacity-question reveal">What would your team do with that capacity?</p>
+            <ul class="hub-capacity-list">
+                <li class="reveal"><svg class="hub-capacity-check" viewBox="0 0 22 22" fill="none" aria-hidden="true"><path d="M6.5 11.25l3 3 6-6.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>More candidate conversations</li>
+                <li class="reveal"><svg class="hub-capacity-check" viewBox="0 0 22 22" fill="none" aria-hidden="true"><path d="M6.5 11.25l3 3 6-6.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>More submittals</li>
+                <li class="reveal"><svg class="hub-capacity-check" viewBox="0 0 22 22" fill="none" aria-hidden="true"><path d="M6.5 11.25l3 3 6-6.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>More reqs worked</li>
+            </ul>
         </div>
     </section>
 
