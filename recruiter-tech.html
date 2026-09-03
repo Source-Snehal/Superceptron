@@ -77,6 +77,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <style>
+        /* Longer headline than the shared clamp was tuned for — scale down so it wraps to 2-3 balanced lines instead of 4 */
+        .hero-content .hero-title {
+            font-size: clamp(2.25rem, 5vw, 3.75rem);
+        }
+
         /* Who this is for checklist */
         .for-list {
             list-style: none;
@@ -959,22 +964,21 @@
         </div>
         <div class="container">
             <div class="hero-content">
-                <div class="hero-eyebrow" aria-label="Superceptron: Tech Recruitment Resume Shortlisting">
+                <div class="hero-eyebrow" aria-label="Superceptron: Transparent Hiring Infrastructure for Tech Recruiters">
                     <span class="eyebrow-pill">Built for software, data &amp; AI/ML hiring.</span>
                 </div>
-                <p class="hero-kicker">Your recruiters should be recruiting.</p>
                 <h1 class="hero-title">
-                    Tech recruitment, without<br>the keyword-matching guesswork.
+                    Transparent hiring infrastructure for technical recruitment.
                 </h1>
                 <p class="hero-sub">
-                    A candidate who says "built ML pipelines in PyTorch" should match a spec asking for "Python ML experience." Most screening tools miss that. We read every resume for what the person actually did, rank the batch, and a person checks the shortlist before it reaches you.
+                    We replace blind ATS keyword filters with traceable, context-driven matching for software, data, and AI/ML engineering roles.
                 </p>
                 <p class="rec-proof">Every resume read. Nothing binned unread.</p>
                 <div class="hero-actions">
-                    <a href="register.html" class="btn-primary">Send us one live req</a>
+                    <a href="register.html" class="btn-primary">See a traceable match profile</a>
                     <a href="#dual-engine" class="btn-ghost">How it works <span aria-hidden="true">↓</span></a>
                 </div>
-                <p class="trial-hint" style="margin-top:1rem;">First live role free. We'll do the first pass, you decide if it's useful. No account required.</p>
+                <p class="trial-hint" style="margin-top:1rem;">First live role free. Every match comes with a traceable profile — zero-retention architecture, explainable scoring, no account required.</p>
             </div>
         </div>
         <div class="scroll-hint" aria-hidden="true">
@@ -1016,22 +1020,22 @@
         <div class="container">
             <div class="section-label reveal">How it works</div>
             <h2 class="section-title reveal">Three reads.<br>Then a person decides.</h2>
-            <p class="problem-intro reveal">Every resume gets read three times, from three different angles, before anyone writes a shortlist.</p>
+            <p class="problem-intro reveal">Every resume passes through three independent evaluation passes before a person writes the shortlist.</p>
             <div class="dual-engine-grid">
                 <div class="engine-panel reveal">
-                    <span class="engine-tag">Strict read</span>
-                    <h3>Does the candidate meet what the req explicitly asks for?</h3>
-                    <p>Scored against the spec as written. Finds relevant experience even when the vocabulary doesn't match, but absence of evidence still counts as absence. Unforgiving on purpose.</p>
+                    <span class="engine-tag">Strict Read</span>
+                    <h3>Scored against the explicit syntax of the spec.</h3>
+                    <p>Matched against the requirements as written, term for term. Finds direct overlap and flags what's missing without interpretation. Unforgiving on purpose.</p>
                 </div>
                 <div class="engine-panel reveal">
-                    <span class="engine-tag">Transferable read</span>
-                    <h3>Could they do the work, even if the vocabulary is different?</h3>
-                    <p>Looks for evidence the person could do the job even when their background, stack or job titles don't map cleanly onto the req. Adjacent problems, demonstrated learning speed, work that reads as equivalent once you look past the label.</p>
+                    <span class="engine-tag">Transferable Read</span>
+                    <h3>Context-driven parsing that catches equivalent stack depth.</h3>
+                    <p>Looks past mismatched vocabulary and job titles for hidden architectural experience — adjacent problems solved, stacks that map cleanly once you look past the label on the resume.</p>
                 </div>
                 <div class="engine-panel reveal">
-                    <span class="engine-tag">Hiring-manager read</span>
-                    <h3>Worth a conversation, and what would need testing?</h3>
-                    <p>One interview slot this week. Would you spend it here, and what's the specific thing you'd want to find out on the call?</p>
+                    <span class="engine-tag">Evidence Extraction</span>
+                    <h3>Pinpointing exact sentences so the human recruiter retains full visibility.</h3>
+                    <p>Every claim is traced back to the exact line it came from. Nothing is scored on inference alone — if it isn't in the text, it isn't in the evaluation.</p>
                 </div>
             </div>
             <p class="engine-reassurance reveal">The three reads are evidence, not a decision. A person goes through all of it, writes the ranked shortlist, and tells you where the reads disagreed and why. <strong>The software reads. Your recruiter decides.</strong></p>
@@ -1459,7 +1463,7 @@
                 <div class="onboarding-notice-inner onboarding-notice-wide">
                     <span class="onboarding-badge">Now open</span>
                     <h2>Try it on a real req.</h2>
-                    <p>No account. No workflow change. Send us a live role and its applicant pool, and see what comes back.</p>
+                    <p>No account. No workflow change. Send us a live role and its applicant pool, and get back a traceable match profile.</p>
                     <div class="process-steps">
                         <div class="process-step">
                             <span class="process-step-num">1</span>
@@ -1468,13 +1472,13 @@
                         </div>
                         <div class="process-step">
                             <span class="process-step-num">2</span>
-                            <h4>We do the first pass</h4>
-                            <p>Every resume is considered, usually within the hour.</p>
+                            <h4>The engine evaluates</h4>
+                            <p>Every resume scored against explicit and transferable criteria, usually within the hour.</p>
                         </div>
                         <div class="process-step">
                             <span class="process-step-num">3</span>
                             <h4>Your recruiter reviews the result</h4>
-                            <p>With the relevant reasoning and context.</p>
+                            <p>With the relevant reasoning and evidence attached.</p>
                         </div>
                         <div class="process-step">
                             <span class="process-step-num">4</span>
@@ -1482,8 +1486,8 @@
                             <p>See whether it is useful before changing anything about your workflow.</p>
                         </div>
                     </div>
-                    <a href="register.html" class="btn-primary" style="margin-top:0.5rem;">See what we'd do with yours</a>
-                    <p class="trial-hint">First live role free. We'll do the first pass, you decide if it's useful.</p>
+                    <a href="register.html" class="btn-primary" style="margin-top:0.5rem;">See a traceable match profile</a>
+                    <p class="trial-hint">First live role free. Every match comes with a traceable profile — zero-retention architecture, explainable scoring.</p>
                 </div>
             </div>
         </div>
@@ -1494,11 +1498,11 @@
         <div class="container">
             <div class="register-header">
                 <div class="section-label reveal">First live role free</div>
-                <h2 class="reveal">Your recruiters should be recruiting.<br>Put us on one live req.</h2>
-                <p class="reveal">Send us the role and applicant pool. We'll do the first pass. You decide if it's useful. No account, no commitment, no sales pitch.</p>
+                <h2 class="reveal">See a traceable match profile.<br>Put us on one live req.</h2>
+                <p class="reveal">Send us the role and applicant pool. You'll get back a traceable match profile — zero-retention architecture, explainable scoring, every match backed by evidence. No account, no commitment, no sales pitch.</p>
             </div>
             <div class="trial-cta reveal">
-                <a href="register.html" class="btn-primary">Send us one live req</a>
+                <a href="register.html" class="btn-primary">See a traceable match profile</a>
                 <p class="trial-hint">No account &nbsp;·&nbsp; No workflow change &nbsp;·&nbsp; No sales call</p>
             </div>
         </div>
