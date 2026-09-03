@@ -226,65 +226,74 @@
             transition-delay: 0.3s;
         }
 
-        /* ── Capacity section ── */
-        .hub-capacity {
+        /* ── Process section ── */
+        .hub-process {
             padding: 3rem 0 6rem;
             border-top: 1px solid var(--border);
         }
 
-        .hub-capacity-inner {
-            max-width: 640px;
+        .hub-process-inner {
+            max-width: 680px;
             margin: 0 auto;
             padding: 0 1.5rem;
             text-align: center;
         }
 
-        .hub-capacity-lead {
+        .hub-process-title {
             font-family: var(--display);
             font-size: clamp(1.75rem, 3.5vw, 2.5rem);
             font-weight: 500;
             letter-spacing: -0.02em;
             line-height: 1.25;
             color: var(--text);
-            margin: 0 0 0.75rem;
+            margin: 0 0 3rem;
         }
 
-        .hub-capacity-question {
-            font-size: 1.0625rem;
-            color: var(--text-muted);
-            margin: 0 0 2.25rem;
-        }
-
-        .hub-capacity-list {
+        .hub-process-list {
             list-style: none;
             padding: 0;
             margin: 0;
-            display: inline-flex;
+            display: flex;
             flex-direction: column;
-            align-items: flex-start;
-            gap: 0.875rem;
+            text-align: left;
         }
 
-        .hub-capacity-list li {
+        .hub-process-step {
             display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-size: 1.0625rem;
-            font-weight: 600;
-            color: var(--text);
+            align-items: baseline;
+            gap: 1.5rem;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--border);
             transition-delay: 0.1s;
         }
 
-        .hub-capacity-list li:nth-child(2) { transition-delay: 0.18s; }
-        .hub-capacity-list li:nth-child(3) { transition-delay: 0.26s; }
+        .hub-process-step:first-child { padding-top: 0; }
+        .hub-process-step:last-child { border-bottom: none; padding-bottom: 0; }
 
-        .hub-capacity-check {
+        .hub-process-step:nth-child(2) { transition-delay: 0.16s; }
+        .hub-process-step:nth-child(3) { transition-delay: 0.22s; }
+        .hub-process-step:nth-child(4) { transition-delay: 0.28s; }
+        .hub-process-step:nth-child(5) { transition-delay: 0.34s; }
+
+        .hub-process-num {
             flex-shrink: 0;
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            background: var(--accent-soft);
-            color: var(--accent-hover);
+            font-family: var(--display);
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--w30);
+            width: 2.25rem;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .hub-process-text {
+            font-size: 1.0625rem;
+            line-height: 1.65;
+            color: var(--text-muted);
+        }
+
+        .hub-process-label {
+            font-weight: 700;
+            color: var(--text);
         }
 
         /* ── Sector cards section ── */
@@ -476,8 +485,10 @@
             .hub-tension { padding: 4rem 0 2.5rem; }
             .hub-tension-inner { padding: 0 1.25rem; }
 
-            .hub-capacity { padding: 2.5rem 0 4rem; }
-            .hub-capacity-inner { padding: 0 1.25rem; }
+            .hub-process { padding: 2.5rem 0 4rem; }
+            .hub-process-inner { padding: 0 1.25rem; }
+            .hub-process-step { gap: 1rem; }
+            .hub-process-num { font-size: 1.25rem; width: 1.75rem; }
 
             .hub-paths { grid-template-columns: 1fr; }
 
@@ -588,15 +599,31 @@
         </div>
     </section>
 
-    <!-- CAPACITY -->
-    <section class="hub-capacity">
-        <div class="hub-capacity-inner">
-            <h2 class="hub-capacity-lead reveal">Superceptron gives that capacity back.</h2>
-            <p class="hub-capacity-question reveal">What would your team do with that capacity?</p>
-            <ul class="hub-capacity-list">
-                <li class="reveal"><svg class="hub-capacity-check" viewBox="0 0 22 22" fill="none" aria-hidden="true"><path d="M6.5 11.25l3 3 6-6.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>More candidate conversations</li>
-                <li class="reveal"><svg class="hub-capacity-check" viewBox="0 0 22 22" fill="none" aria-hidden="true"><path d="M6.5 11.25l3 3 6-6.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>More submittals</li>
-                <li class="reveal"><svg class="hub-capacity-check" viewBox="0 0 22 22" fill="none" aria-hidden="true"><path d="M6.5 11.25l3 3 6-6.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>More reqs worked</li>
+    <!-- PROCESS -->
+    <section class="hub-process">
+        <div class="hub-process-inner">
+            <h2 class="hub-process-title reveal">How the infrastructure works.</h2>
+            <ul class="hub-process-list">
+                <li class="hub-process-step reveal">
+                    <span class="hub-process-num">01</span>
+                    <p class="hub-process-text"><span class="hub-process-label">Define.</span> Your explicit job criteria set the baseline standard.</p>
+                </li>
+                <li class="hub-process-step reveal">
+                    <span class="hub-process-num">02</span>
+                    <p class="hub-process-text"><span class="hub-process-label">Extract.</span> The system gathers direct, indirect, and implied text evidence.</p>
+                </li>
+                <li class="hub-process-step reveal">
+                    <span class="hub-process-num">03</span>
+                    <p class="hub-process-text"><span class="hub-process-label">Evaluate.</span> Clear match profiles highlight text alignment or missing data.</p>
+                </li>
+                <li class="hub-process-step reveal">
+                    <span class="hub-process-num">04</span>
+                    <p class="hub-process-text"><span class="hub-process-label">Triage.</span> Human operators retain final say with manual overrides.</p>
+                </li>
+                <li class="hub-process-step reveal">
+                    <span class="hub-process-num">05</span>
+                    <p class="hub-process-text"><span class="hub-process-label">Feedback.</span> Candidates receive legible, requirement-aligned updates.</p>
+                </li>
             </ul>
         </div>
     </section>
