@@ -107,7 +107,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+            transition: transform 0.35s cubic-bezier(0.65, 0, 0.35, 1);
         }
 
         .hero-cycle-word {
@@ -766,7 +766,7 @@
 
             markAccessible(0);
 
-            var HOLD = 1800, SPIN = 500, t = HOLD;
+            var HOLD = 1200, SPIN = 350, t = HOLD;
             for (var i = 1; i < words.length; i++) {
                 (function (index, time) {
                     setTimeout(function () {
