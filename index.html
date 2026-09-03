@@ -86,12 +86,12 @@
             margin-bottom: 1rem;
         }
 
-        /* ── Cycling hero word ── */
+        /* ── Cycling hero word (vertical slot-reel) ── */
         .hero-cycle {
             position: relative;
             display: inline-block;
-            text-align: right;
-            vertical-align: baseline;
+            overflow: hidden;
+            vertical-align: top;
         }
 
         .hero-cycle-ghost {
@@ -99,22 +99,24 @@
             white-space: nowrap;
         }
 
-        .hero-cycle-word {
+        .hero-cycle-track {
             position: absolute;
             top: 0;
-            right: 0;
-            white-space: nowrap;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            left: 0;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
         }
 
-        .hero-cycle-word.is-active {
-            opacity: 1;
+        .hero-cycle-word {
+            white-space: nowrap;
         }
 
         .hero-cycle-suffix {
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.4s ease;
         }
 
         .hero-cycle-suffix.is-visible {
@@ -122,7 +124,7 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
-            .hero-cycle-word,
+            .hero-cycle-track,
             .hero-cycle-suffix {
                 transition: none;
             }
@@ -602,10 +604,12 @@
                 <h1 class="hero-title">
                     <span class="hero-cycle">
                         <span class="hero-cycle-ghost" aria-hidden="true">Evidence-backed</span>
-                        <span class="hero-cycle-word is-active">Accountable</span>
-                        <span class="hero-cycle-word" aria-hidden="true">Traceable</span>
-                        <span class="hero-cycle-word" aria-hidden="true">Evidence-backed</span>
-                    </span> hiring<span class="hero-cycle-suffix" aria-hidden="true"> —&nbsp;Superceptron</span>
+                        <span class="hero-cycle-track">
+                            <span class="hero-cycle-word">Accountable</span>
+                            <span class="hero-cycle-word" aria-hidden="true">Traceable</span>
+                            <span class="hero-cycle-word" aria-hidden="true">Evidence-backed</span>
+                        </span>
+                    </span><span class="hero-cycle-suffix" aria-hidden="true"> —&nbsp;Superceptron</span>
                 </h1>
                 <p class="hero-sub">Software shouldn't make career decisions; it should gather the clear text evidence required to keep your team's hiring consistent, visible, and accountable. We replace blind keyword filters with traceable, context-driven matching.</p>
                 <div class="hub-hero-ctas">
@@ -744,47 +748,53 @@
             });
         })();
 
-        /* ── Hero word cycle ── */
+        /* ── Hero word cycle (vertical slot-reel) ── */
         (function () {
             var wrap = document.querySelector('.hero-cycle');
             if (!wrap) return;
+            var track = wrap.querySelector('.hero-cycle-track');
             var words = wrap.querySelectorAll('.hero-cycle-word');
             var suffix = document.querySelector('.hero-cycle-suffix');
             var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            var rowHeight = words[0].getBoundingClientRect().height;
 
-            function settle() {
+            function markAccessible(activeIndex) {
                 words.forEach(function (w, i) {
-                    var isLast = i === words.length - 1;
-                    w.classList.toggle('is-active', isLast);
-                    if (isLast) { w.removeAttribute('aria-hidden'); }
+                    if (i === activeIndex) { w.removeAttribute('aria-hidden'); }
                     else { w.setAttribute('aria-hidden', 'true'); }
                 });
+            }
+
+            function revealSuffix() {
                 if (suffix) {
                     suffix.classList.add('is-visible');
                     suffix.removeAttribute('aria-hidden');
                 }
+            }
+
+            function settle() {
+                var lastIndex = words.length - 1;
+                track.style.transition = 'none';
+                track.style.transform = 'translateY(-' + (lastIndex * rowHeight) + 'px)';
+                markAccessible(lastIndex);
+                revealSuffix();
             }
 
             if (reduced) { settle(); return; }
 
-            var HOLD = 1800, FADE = 300, t = HOLD;
+            markAccessible(0);
+
+            var HOLD = 1800, SPIN = 500, t = HOLD;
             for (var i = 1; i < words.length; i++) {
-                (function (prev, next, time) {
+                (function (index, time) {
                     setTimeout(function () {
-                        words[prev].classList.remove('is-active');
-                        words[prev].setAttribute('aria-hidden', 'true');
-                        words[next].classList.add('is-active');
-                        words[next].removeAttribute('aria-hidden');
+                        track.style.transform = 'translateY(-' + (index * rowHeight) + 'px)';
+                        markAccessible(index);
                     }, time);
-                })(i - 1, i, t);
-                t += FADE + HOLD;
+                })(i, t);
+                t += SPIN + HOLD;
             }
-            setTimeout(function () {
-                if (suffix) {
-                    suffix.classList.add('is-visible');
-                    suffix.removeAttribute('aria-hidden');
-                }
-            }, t);
+            setTimeout(revealSuffix, t);
         })();
     </script>
 
