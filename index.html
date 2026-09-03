@@ -114,18 +114,8 @@
             white-space: nowrap;
         }
 
-        .hero-cycle-suffix {
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .hero-cycle-suffix.is-visible {
-            opacity: 1;
-        }
-
         @media (prefers-reduced-motion: reduce) {
-            .hero-cycle-track,
-            .hero-cycle-suffix {
+            .hero-cycle-track {
                 transition: none;
             }
         }
@@ -608,8 +598,9 @@
                             <span class="hero-cycle-word">Accountable</span>
                             <span class="hero-cycle-word" aria-hidden="true">Traceable</span>
                             <span class="hero-cycle-word" aria-hidden="true">Evidence-backed</span>
+                            <span class="hero-cycle-word" aria-hidden="true">Superceptron</span>
                         </span>
-                    </span><span class="hero-cycle-suffix" aria-hidden="true"> —&nbsp;Superceptron</span>
+                    </span>
                 </h1>
                 <p class="hero-sub">Software shouldn't make career decisions; it should gather the clear text evidence required to keep your team's hiring consistent, visible, and accountable. We replace blind keyword filters with traceable, context-driven matching.</p>
                 <div class="hub-hero-ctas">
@@ -754,7 +745,6 @@
             if (!wrap) return;
             var track = wrap.querySelector('.hero-cycle-track');
             var words = wrap.querySelectorAll('.hero-cycle-word');
-            var suffix = document.querySelector('.hero-cycle-suffix');
             var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             var rowHeight = words[0].getBoundingClientRect().height;
 
@@ -765,19 +755,11 @@
                 });
             }
 
-            function revealSuffix() {
-                if (suffix) {
-                    suffix.classList.add('is-visible');
-                    suffix.removeAttribute('aria-hidden');
-                }
-            }
-
             function settle() {
                 var lastIndex = words.length - 1;
                 track.style.transition = 'none';
                 track.style.transform = 'translateY(-' + (lastIndex * rowHeight) + 'px)';
                 markAccessible(lastIndex);
-                revealSuffix();
             }
 
             if (reduced) { settle(); return; }
@@ -794,7 +776,6 @@
                 })(i, t);
                 t += SPIN + HOLD;
             }
-            setTimeout(revealSuffix, t);
         })();
     </script>
 
