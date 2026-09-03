@@ -77,6 +77,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <style>
+        /* Longer headline than the shared clamp was tuned for — scale down so it wraps to 2-3 balanced lines instead of 4 */
+        .hero-content .hero-title {
+            font-size: clamp(2.25rem, 5vw, 3.75rem);
+        }
+
         /* Who this is for checklist */
         .for-list {
             list-style: none;
@@ -962,19 +967,18 @@
                 <div class="hero-eyebrow" aria-label="Superceptron: Engineering &amp; Construction Recruitment Resume Shortlisting">
                     <span class="eyebrow-pill">Built for site, engineering &amp; trades hiring.</span>
                 </div>
-                <p class="hero-kicker">Your recruiters should be recruiting.</p>
                 <h1 class="hero-title">
-                    Certifications, licenses, and site<br>experience, read properly.
+                    Transparent hiring infrastructure for engineering &amp; construction recruitment.
                 </h1>
                 <p class="hero-sub">
-                    An OSHA 30 certification, a journeyman license, a PE stamp, a decade of live-site experience spelled three different ways on three different resumes. Keyword filters miss all of it. We read every resume for what the person actually built and ran, rank the batch against your spec, and a person checks the shortlist before it reaches you.
+                    We replace blind ATS keyword filters with traceable, context-driven matching for site, engineering, and skilled-trades roles — the OSHA 30s, journeyman licenses, and PE stamps a keyword scan misses entirely.
                 </p>
                 <p class="rec-proof">Every resume read. Nothing binned unread.</p>
                 <div class="hero-actions">
-                    <a href="register.html" class="btn-primary">Send us one live req</a>
+                    <a href="register.html" class="btn-primary">See a traceable match profile</a>
                     <a href="#dual-engine" class="btn-ghost">How it works <span aria-hidden="true">↓</span></a>
                 </div>
-                <p class="trial-hint" style="margin-top:1rem;">First live role free. We'll do the first pass, you decide if it's useful. No account required.</p>
+                <p class="trial-hint" style="margin-top:1rem;">First live role free. Every match comes with a traceable profile — zero-retention architecture, explainable scoring, no account required.</p>
             </div>
         </div>
         <div class="scroll-hint" aria-hidden="true">
@@ -1462,7 +1466,7 @@
                 <div class="onboarding-notice-inner onboarding-notice-wide">
                     <span class="onboarding-badge">Now open</span>
                     <h2>Try it on a real req.</h2>
-                    <p>No account. No workflow change. Send us a live role and its applicant pool, and see what comes back.</p>
+                    <p>No account. No workflow change. Send us a live role and its applicant pool, and get back a traceable match profile.</p>
                     <div class="process-steps">
                         <div class="process-step">
                             <span class="process-step-num">1</span>
@@ -1471,13 +1475,13 @@
                         </div>
                         <div class="process-step">
                             <span class="process-step-num">2</span>
-                            <h4>We do the first pass</h4>
-                            <p>Every resume is considered, usually within the hour.</p>
+                            <h4>The engine evaluates</h4>
+                            <p>Every resume scored against explicit and transferable criteria, usually within the hour.</p>
                         </div>
                         <div class="process-step">
                             <span class="process-step-num">3</span>
                             <h4>Your recruiter reviews the result</h4>
-                            <p>With the relevant reasoning and context.</p>
+                            <p>With the relevant reasoning and evidence attached.</p>
                         </div>
                         <div class="process-step">
                             <span class="process-step-num">4</span>
@@ -1485,8 +1489,8 @@
                             <p>See whether it is useful before changing anything about your workflow.</p>
                         </div>
                     </div>
-                    <a href="register.html" class="btn-primary" style="margin-top:0.5rem;">See what we'd do with yours</a>
-                    <p class="trial-hint">First live role free. We'll do the first pass, you decide if it's useful.</p>
+                    <a href="register.html" class="btn-primary" style="margin-top:0.5rem;">See a traceable match profile</a>
+                    <p class="trial-hint">First live role free. Every match comes with a traceable profile — zero-retention architecture, explainable scoring.</p>
                 </div>
             </div>
         </div>
@@ -1497,11 +1501,11 @@
         <div class="container">
             <div class="register-header">
                 <div class="section-label reveal">First live role free</div>
-                <h2 class="reveal">Your recruiters should be recruiting.<br>Put us on one live req.</h2>
-                <p class="reveal">Send us the role and applicant pool. We'll do the first pass. You decide if it's useful. No account, no commitment, no sales pitch.</p>
+                <h2 class="reveal">See a traceable match profile.<br>Put us on one live req.</h2>
+                <p class="reveal">Send us the role and applicant pool. You'll get back a traceable match profile — zero-retention architecture, explainable scoring, every match backed by evidence. No account, no commitment, no sales pitch.</p>
             </div>
             <div class="trial-cta reveal">
-                <a href="register.html" class="btn-primary">Send us one live req</a>
+                <a href="register.html" class="btn-primary">See a traceable match profile</a>
                 <p class="trial-hint">No account &nbsp;·&nbsp; No workflow change &nbsp;·&nbsp; No sales call</p>
             </div>
         </div>
