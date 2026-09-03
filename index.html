@@ -111,6 +111,70 @@
             margin-top: 0.875rem;
         }
 
+        /* ── Quote section ── */
+        .hub-quote {
+            position: relative;
+            padding: 6rem 0;
+            background: rgba(76,58,99,0.055);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .hub-quote-inner {
+            position: relative;
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            text-align: center;
+        }
+
+        .hub-quote-mark {
+            display: block;
+            font-family: var(--display);
+            font-size: 8rem;
+            line-height: 1;
+            color: var(--plum);
+            opacity: 0.16;
+            margin-bottom: -2.5rem;
+            user-select: none;
+        }
+
+        .hub-quote-text {
+            font-family: var(--display);
+            font-style: italic;
+            font-size: clamp(1.5rem, 3.25vw, 2.125rem);
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            line-height: 1.45;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .hub-quote-cite {
+            display: block;
+            font-style: normal;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--plum);
+            margin-top: 1.5rem;
+        }
+
+        .hub-quote-body {
+            font-size: 1.0625rem;
+            color: var(--text-muted);
+            line-height: 1.75;
+            max-width: 620px;
+            margin: 2.5rem auto 0;
+            padding-top: 2.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .hub-quote-cite,
+        .hub-quote-body { transition-delay: 0.1s; }
+
         /* ── Tension section: huge whitespace, one idea ── */
         .hub-tension {
             padding: 5rem 0 3rem;
@@ -404,6 +468,11 @@
             .hub-thesis .hero-sub { margin-left: 0; margin-right: 0; }
             .hub-hero-ctas { justify-content: flex-start; }
 
+            .hub-quote { padding: 4rem 0; }
+            .hub-quote-inner { padding: 0 1.25rem; }
+            .hub-quote-mark { font-size: 5rem; margin-bottom: -1.5rem; }
+            .hub-quote-body { padding-top: 2rem; margin-top: 2rem; }
+
             .hub-tension { padding: 4rem 0 2.5rem; }
             .hub-tension-inner { padding: 0 1.25rem; }
 
@@ -498,6 +567,16 @@
 
         </div>
     </main>
+
+    <!-- QUOTE -->
+    <section class="hub-quote">
+        <div class="hub-quote-inner">
+            <span class="hub-quote-mark" aria-hidden="true">&#8220;</span>
+            <blockquote class="hub-quote-text reveal">Automated screening doesn't fail by surfacing bad candidates. It fails because it never surfaces certain good ones.</blockquote>
+            <cite class="hub-quote-cite reveal">— HR Executive</cite>
+            <p class="hub-quote-body reveal">Most AI screening creates a visibility gap. We built a system that explains its work. Every candidate gets three independent reads, and you get a ranked shortlist with the exact reasoning attached to every name.</p>
+        </div>
+    </section>
 
     <!-- TENSION -->
     <section class="hub-tension">
