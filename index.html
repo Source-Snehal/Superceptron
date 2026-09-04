@@ -265,7 +265,16 @@
             letter-spacing: -0.02em;
             line-height: 1.25;
             color: var(--text);
-            margin: 0 0 2rem;
+            margin: 0 0 1rem;
+        }
+
+        .hub-process-subtitle {
+            font-size: 1.125rem;
+            font-weight: 500;
+            color: var(--text);
+            line-height: 1.5;
+            max-width: 640px;
+            margin: 0 auto 2.5rem;
         }
 
         .hub-how-lede {
@@ -600,14 +609,6 @@
             color: var(--accent);
         }
 
-        /* ── Trust line ── */
-        .hub-trust {
-            text-align: center;
-            font-size: 0.8125rem;
-            color: var(--text-muted);
-            margin-top: 0.25rem;
-        }
-
         /* ── Minimal hub footer ── */
         .hub-footer {
             position: relative;
@@ -760,21 +761,10 @@
         </div>
     </main>
 
-    <!-- PROBLEM -->
-    <section class="hub-problem">
-        <div class="hub-problem-inner">
-            <h2 class="hub-problem-title reveal">One gets through. One doesn't.</h2>
-            <p class="hub-problem-text reveal">A resume that's been generated to match your posting will beat one that wasn't, every time, on every system that scores surface similarity. That's not a bug in the matching, it's what matching does.</p>
-            <p class="hub-problem-text reveal">So you get two failure modes running simultaneously. Candidates who look like the posting and can't do the job. Candidates who can do the job and don't look like the posting.</p>
-            <p class="hub-problem-text reveal">The first wastes an interview slot. The second never gets one, and you never find out it happened, because nothing in the process is designed to tell you what it discarded.</p>
-            <p class="hub-problem-text hub-problem-close reveal">Either way your firm's name goes on a submission because of a good sentence.</p>
-        </div>
-    </section>
-
     <!-- PROOF -->
     <section class="hub-proof">
         <div class="hub-proof-inner">
-            <h2 class="hub-proof-title reveal">What a traceable match profile actually looks like.</h2>
+            <h2 class="hub-proof-title reveal">Here's what came back on a real req.</h2>
             <p class="hub-proof-sub reveal">A real sample shortlist, built the same way every live req is: read in full, scored three ways, and cited back to the exact resume line.</p>
             <div class="hub-proof-scroller reveal">
                 <button type="button" class="hub-proof-nav-btn" id="hubProofPrev" aria-label="Show previous">
@@ -818,6 +808,17 @@
         </div>
     </section>
 
+    <!-- PROBLEM -->
+    <section class="hub-problem">
+        <div class="hub-problem-inner">
+            <h2 class="hub-problem-title reveal">One gets through. One doesn't.</h2>
+            <p class="hub-problem-text reveal">A resume that's been generated to match your posting will beat one that wasn't, every time, on every system that scores surface similarity. That's not a bug in the matching, it's what matching does.</p>
+            <p class="hub-problem-text reveal">So you get two failure modes running simultaneously. Candidates who look like the posting and can't do the job. Candidates who can do the job and don't look like the posting.</p>
+            <p class="hub-problem-text reveal">The first wastes an interview slot. The second never gets one, and you never find out it happened, because nothing in the process is designed to tell you what it discarded.</p>
+            <p class="hub-problem-text hub-problem-close reveal">Either way your firm's name goes on a submission because of a good sentence.</p>
+        </div>
+    </section>
+
     <!-- QUOTE -->
     <section class="hub-quote">
         <div class="hub-quote-inner">
@@ -831,7 +832,8 @@
     <!-- PROCESS -->
     <section class="hub-process">
         <div class="hub-process-inner">
-            <h2 class="hub-process-title reveal">Three independent reads across three models, grounded citation, and a person who signs the shortlist.</h2>
+            <h2 class="hub-process-title reveal">Three Models. Real Variance. One Signature.</h2>
+            <p class="hub-process-subtitle reveal">Three independent reads across three models, grounded citation, and a person who signs the shortlist.</p>
 
             <p class="hub-how-lede reveal">Single-model screening collapses a candidate into one posterior. You get a number, no distribution, and no way to interrogate it. Disagreement that existed inside the model gets averaged into confidence that was never there.</p>
             <p class="hub-how-lede reveal">We run three reads in parallel over the same document, each on a different model. No read sees another's output. Nothing anchors, so disagreement survives to the end of the pipeline instead of being resolved before anyone can see it.</p>
@@ -903,8 +905,6 @@
                 </div>
 
             </div>
-
-            <p class="hub-trust">Superceptron Limited (Companies House No. 17407955). Your data is never shared or sold.</p>
 
         </div>
     </section>
