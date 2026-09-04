@@ -209,6 +209,42 @@
         .hub-quote-cite,
         .hub-quote-body { transition-delay: 0.1s; }
 
+        /* ── Problem section ── */
+        .hub-problem {
+            padding: 6rem 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .hub-problem-inner {
+            max-width: 640px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hub-problem-title {
+            font-family: var(--display);
+            font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            line-height: 1.25;
+            color: var(--text);
+            margin: 0 0 1.75rem;
+        }
+
+        .hub-problem-text {
+            font-size: 1.0625rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+            margin: 0 0 1.25rem;
+        }
+
+        .hub-problem-text:last-child { margin-bottom: 0; }
+
+        .hub-problem-close {
+            color: var(--text);
+            font-weight: 600;
+        }
+
         /* ── Process section ── */
         .hub-process {
             padding: 3rem 0 6rem;
@@ -216,7 +252,7 @@
         }
 
         .hub-process-inner {
-            max-width: 680px;
+            max-width: 820px;
             margin: 0 auto;
             padding: 0 1.5rem;
             text-align: center;
@@ -229,54 +265,52 @@
             letter-spacing: -0.02em;
             line-height: 1.25;
             color: var(--text);
-            margin: 0 0 3rem;
+            margin: 0 0 2rem;
         }
 
-        .hub-process-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
+        .hub-how-lede {
+            max-width: 640px;
+            margin: 0 auto 1.25rem;
+            font-size: 1.0625rem;
+            line-height: 1.7;
+            color: var(--text-muted);
             text-align: left;
         }
 
-        .hub-process-step {
-            display: flex;
-            align-items: baseline;
-            gap: 1.5rem;
-            padding: 1.5rem 0;
-            border-bottom: 1px solid var(--border);
-            transition-delay: 0.1s;
-        }
-
-        .hub-process-step:first-child { padding-top: 0; }
-        .hub-process-step:last-child { border-bottom: none; padding-bottom: 0; }
-
-        .hub-process-step:nth-child(2) { transition-delay: 0.16s; }
-        .hub-process-step:nth-child(3) { transition-delay: 0.22s; }
-        .hub-process-step:nth-child(4) { transition-delay: 0.28s; }
-        .hub-process-step:nth-child(5) { transition-delay: 0.34s; }
-
-        .hub-process-num {
-            flex-shrink: 0;
-            font-family: var(--display);
-            font-size: 1.5rem;
-            font-weight: 500;
-            color: var(--w30);
-            width: 2.25rem;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .hub-process-text {
-            font-size: 1.0625rem;
-            line-height: 1.65;
-            color: var(--text-muted);
-        }
-
-        .hub-process-label {
-            font-weight: 700;
+        .hub-how-close {
             color: var(--text);
+        }
+
+        .hub-how-reads {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            overflow: hidden;
+            margin: 2.5rem 0;
+            text-align: left;
+        }
+
+        .hub-how-read {
+            background: var(--surface);
+            padding: 1.5rem;
+        }
+
+        .hub-how-read-title {
+            font-family: var(--display);
+            font-size: 1.0625rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin: 0 0 0.625rem;
+        }
+
+        .hub-how-read-text {
+            font-size: 0.9375rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin: 0;
         }
 
         /* ── Security strip ── */
@@ -523,112 +557,47 @@
             padding: 0.35rem 0.875rem;
         }
 
-        /* ── Path cards ── */
-        .hub-paths {
+        /* ── Verticals note ── */
+        .hub-verticals {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1.25rem;
+            gap: 2rem;
             scroll-margin-top: 90px;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
         }
 
-        .path-card {
-            border-radius: var(--r-lg);
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            transition: background 0.3s ease, border-color 0.3s ease, transform 0.35s var(--ease);
+        .hub-verticals-item {
+            transition: opacity 0.2s ease;
         }
 
-        .path-card:hover {
-            transform: translateY(-3px);
-        }
-
-        .path-card-green {
-            background: var(--accent-soft);
-            border: 1px solid rgba(31,169,127,0.2);
-        }
-
-        .hub-paths .path-card:nth-child(2) {
-            transition-delay: 0.12s;
-        }
-
-        .path-card-green:hover {
-            background: #DCEFE9;
-            border-color: rgba(31,169,127,0.35);
-        }
-
-        .path-card-purple {
-            background: rgba(76,58,99,0.04);
-            border: 1px solid rgba(76,58,99,0.15);
-        }
-
-        .path-card-purple:hover {
-            background: rgba(76,58,99,0.07);
-            border-color: rgba(76,58,99,0.3);
-        }
-
-        .path-eyebrow {
+        .hub-verticals-label {
+            display: block;
             font-family: var(--font);
             font-size: 0.72rem;
-            font-weight: 500;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-        }
-
-        .path-eyebrow-green  { color: var(--accent); }
-        .path-eyebrow-purple { color: var(--purple); }
-
-        .path-heading {
-            font-family: var(--display);
-            font-size: clamp(1.375rem, 2vw, 1.75rem);
-            font-weight: 500;
-            letter-spacing: -0.015em;
-            line-height: 1.18;
-            color: var(--white);
-        }
-
-        .path-body {
-            font-size: 0.9375rem;
-            color: var(--w60);
-            line-height: 1.75;
-            flex: 1;
-        }
-
-        .path-cta {
-            display: inline-flex;
-            align-items: center;
-            align-self: flex-start;
-            font-size: 0.875rem;
             font-weight: 600;
-            letter-spacing: -0.01em;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .hub-verticals-text {
+            font-size: 0.9375rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+            margin: 0;
+        }
+
+        .hub-verticals-link {
+            color: var(--accent-hover);
+            font-weight: 600;
             text-decoration: none;
-            padding: 0.6875rem 1.375rem;
-            border-radius: 100px;
-            transition: all 0.25s var(--ease);
-            margin-top: 0.25rem;
+            white-space: nowrap;
         }
 
-        .path-cta-green {
-            background: var(--accent);
-            color: #FFFFFF;
-        }
-
-        .path-cta-green:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 32px var(--a-glow);
-        }
-
-        .path-cta-purple {
-            background: transparent;
-            color: var(--plum);
-            border: 1.5px solid rgba(76,58,99,0.4);
-        }
-
-        .path-cta-purple:hover {
-            background: rgba(76,58,99,0.08);
-            border-color: rgba(76,58,99,0.65);
-            transform: translateY(-2px);
+        .hub-verticals-link:hover {
+            color: var(--accent);
         }
 
         /* ── Trust line ── */
@@ -686,14 +655,15 @@
             .hub-quote-mark { font-size: 5rem; margin-bottom: -1.5rem; }
             .hub-quote-body { padding-top: 2rem; margin-top: 2rem; }
 
+            .hub-problem { padding: 3.5rem 1.25rem; }
+
             .hub-process { padding: 2.5rem 0 4rem; }
             .hub-process-inner { padding: 0 1.25rem; }
-            .hub-process-step { gap: 1rem; }
-            .hub-process-num { font-size: 1.25rem; width: 1.75rem; }
+            .hub-how-reads { grid-template-columns: 1fr; }
 
             .hub-proof { padding: 4rem 1.25rem; }
 
-            .hub-paths { grid-template-columns: 1fr; }
+            .hub-verticals { grid-template-columns: 1fr; gap: 1.75rem; }
 
             .hub-footer-inner { padding: 1.25rem 1.5rem; }
         }
@@ -714,7 +684,6 @@
                 <a href="blog.html" class="nav-contact">Blog</a>
                 <a href="pricing.html" class="nav-contact">Pricing</a>
                 <a href="#contact" class="nav-contact">Contact</a>
-                <a href="cv-score.html" class="nav-contact">For Candidates</a>
                 <a href="register.html" class="nav-cta">Try it free</a>
             </div>
             <button class="nav-hamburger" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
@@ -726,7 +695,6 @@
             <a href="blog.html" class="nav-mobile-link">Blog</a>
             <a href="pricing.html" class="nav-mobile-link">Pricing</a>
             <a href="#contact" class="nav-mobile-link">Contact</a>
-            <a href="cv-score.html" class="nav-mobile-link">For Candidates</a>
             <a href="register.html" class="nav-mobile-link nav-mobile-cta">Try it free</a>
         </div>
     </nav>
@@ -782,7 +750,7 @@
                         </span>
                     </span>
                 </h1>
-                <p class="hero-sub">Software shouldn't make career decisions; it should gather the clear text evidence required to keep your team's hiring consistent, visible, and accountable. We replace blind keyword filters with traceable, context-driven matching.</p>
+                <p class="hero-sub">Half the resumes in your pipeline were written by AI. You can tell. What you can't tell is what any of them actually did. So we read every line of every application and ask one thing: is there a name, a number, anything specific behind this, or does it just sound right?</p>
                 <div class="hub-hero-ctas">
                     <a href="register.html" class="btn-primary hub-hero-cta">Send us a live role</a>
                 </div>
@@ -791,6 +759,17 @@
 
         </div>
     </main>
+
+    <!-- PROBLEM -->
+    <section class="hub-problem">
+        <div class="hub-problem-inner">
+            <h2 class="hub-problem-title reveal">One gets through. One doesn't.</h2>
+            <p class="hub-problem-text reveal">A resume that's been generated to match your posting will beat one that wasn't, every time, on every system that scores surface similarity. That's not a bug in the matching, it's what matching does.</p>
+            <p class="hub-problem-text reveal">So you get two failure modes running simultaneously. Candidates who look like the posting and can't do the job. Candidates who can do the job and don't look like the posting.</p>
+            <p class="hub-problem-text reveal">The first wastes an interview slot. The second never gets one, and you never find out it happened, because nothing in the process is designed to tell you what it discarded.</p>
+            <p class="hub-problem-text hub-problem-close reveal">Either way your firm's name goes on a submission because of a good sentence.</p>
+        </div>
+    </section>
 
     <!-- PROOF -->
     <section class="hub-proof">
@@ -845,36 +824,36 @@
             <span class="hub-quote-mark" aria-hidden="true">&#8220;</span>
             <blockquote class="hub-quote-text reveal">Automated screening doesn't fail by surfacing bad candidates. It fails because it never surfaces certain good ones.</blockquote>
             <cite class="hub-quote-cite reveal">— HR Executive</cite>
-            <p class="hub-quote-body reveal">Most AI screening creates a visibility gap. We built a system that explains its work. Every candidate gets three independent reads, and you get a ranked shortlist with the exact reasoning attached to every name.</p>
+            <p class="hub-quote-body reveal">That's the part nobody shows you. We show you.</p>
         </div>
     </section>
 
     <!-- PROCESS -->
     <section class="hub-process">
         <div class="hub-process-inner">
-            <h2 class="hub-process-title reveal">How the infrastructure works.</h2>
-            <ul class="hub-process-list">
-                <li class="hub-process-step reveal">
-                    <span class="hub-process-num">01</span>
-                    <p class="hub-process-text"><span class="hub-process-label">Define.</span> Your explicit job criteria set the baseline standard.</p>
-                </li>
-                <li class="hub-process-step reveal">
-                    <span class="hub-process-num">02</span>
-                    <p class="hub-process-text"><span class="hub-process-label">Extract.</span> The system gathers direct, indirect, and implied text evidence.</p>
-                </li>
-                <li class="hub-process-step reveal">
-                    <span class="hub-process-num">03</span>
-                    <p class="hub-process-text"><span class="hub-process-label">Evaluate.</span> Clear match profiles highlight text alignment or missing data.</p>
-                </li>
-                <li class="hub-process-step reveal">
-                    <span class="hub-process-num">04</span>
-                    <p class="hub-process-text"><span class="hub-process-label">Triage.</span> Human operators retain final say with manual overrides.</p>
-                </li>
-                <li class="hub-process-step reveal">
-                    <span class="hub-process-num">05</span>
-                    <p class="hub-process-text"><span class="hub-process-label">Feedback.</span> Candidates receive legible, requirement-aligned updates.</p>
-                </li>
-            </ul>
+            <h2 class="hub-process-title reveal">Three independent reads across three models, grounded citation, and a person who signs the shortlist.</h2>
+
+            <p class="hub-how-lede reveal">Single-model screening collapses a candidate into one posterior. You get a number, no distribution, and no way to interrogate it. Disagreement that existed inside the model gets averaged into confidence that was never there.</p>
+            <p class="hub-how-lede reveal">We run three reads in parallel over the same document, each on a different model. No read sees another's output. Nothing anchors, so disagreement survives to the end of the pipeline instead of being resolved before anyone can see it.</p>
+
+            <div class="hub-how-reads">
+                <div class="hub-how-read reveal">
+                    <h3 class="hub-how-read-title">Strict</h3>
+                    <p class="hub-how-read-text">Scores against the posting's literal requirements. Absence of a stated term is treated as absence, not inferred presence. Deliberately calibrated to over-reject, because it is one vote of three and the distance between it and the transferable read is itself the signal.</p>
+                </div>
+                <div class="hub-how-read reveal">
+                    <h3 class="hub-how-read-title">Transferable</h3>
+                    <p class="hub-how-read-text">Scores capability independent of surface form. Targets the false negative: the candidate whose evidence is real and whose vocabulary doesn't match the posting's.</p>
+                </div>
+                <div class="hub-how-read reveal">
+                    <h3 class="hub-how-read-title">Adjudicative</h3>
+                    <p class="hub-how-read-text">Scores expected information gain from an interview slot. Not "is this a match" but "what would an hour tell us that the document can't." The scarce resource in hiring was never candidates. It's your hiring manager's calendar, and this is the read that allocates it.</p>
+                </div>
+            </div>
+
+            <p class="hub-how-lede reveal">Variance across the panel is retained as a first-class signal rather than collapsed into a mean. Tight agreement ranks directly. Real disagreement routes automatically to a person, who works the contested set and resolves it before the shortlist reaches you.</p>
+            <p class="hub-how-lede reveal">Every assertion is grounded to a span in the source document. Claims that cannot be grounded are surfaced as unsupported rather than silently discounted, because absence of evidence in a resume is not evidence of absence in a candidate.</p>
+            <p class="hub-how-lede hub-how-close reveal">A person adjudicates the contested set and signs the shortlist. Not because the pipeline can't emit a ranking. Because a ranking nobody will put their name to is what the rest of the market is already shipping.</p>
 
             <div class="hub-security reveal">
                 <h3 class="hub-security-title">Candidate data is protected</h3>
@@ -911,20 +890,16 @@
     <section class="hub-paths-section">
         <div class="hub-paths-inner">
 
-            <div class="hub-paths" id="specializations">
+            <div class="hub-verticals" id="specializations">
 
-                <div class="path-card path-card-green reveal" data-path="left">
-                    <span class="path-eyebrow path-eyebrow-green">Tech Staffing</span>
-                    <h2 class="path-heading">Read for real stack depth.</h2>
-                    <p class="path-body">Built by a team with a data science background. We know what a real engineering resume looks like versus one padded with buzzwords.</p>
-                    <a href="recruiter-tech.html" class="path-cta path-cta-green">See how it works</a>
+                <div class="hub-verticals-item reveal" data-path="left">
+                    <span class="hub-verticals-label">Tech staffing</span>
+                    <p class="hub-verticals-text">We know what a real engineering resume looks like versus one padded to match the ad. <a href="recruiter-tech.html" class="hub-verticals-link">See how it works →</a></p>
                 </div>
 
-                <div class="path-card path-card-green reveal" data-path="right">
-                    <span class="path-eyebrow path-eyebrow-green">Engineering &amp; Construction Staffing</span>
-                    <h2 class="path-heading">Read for what the resume is hiding.</h2>
-                    <p class="path-body">We read every certification and project claim for what it actually means, not just whether the words match. A superintendent's or foreman's resume rarely tells the whole story on the first pass.</p>
-                    <a href="recruiter-engineering.html" class="path-cta path-cta-green">See how it works</a>
+                <div class="hub-verticals-item reveal" data-path="right">
+                    <span class="hub-verticals-label">Engineering &amp; construction staffing</span>
+                    <p class="hub-verticals-text">A superintendent's resume rarely tells the whole story on the first pass. We read the certifications and project claims for what they actually mean. <a href="recruiter-engineering.html" class="hub-verticals-link">See how it works →</a></p>
                 </div>
 
             </div>
@@ -939,8 +914,8 @@
         <div class="hub-footer-inner">
             <a href="index.html" class="logo" style="font-size:0.9375rem;">Superceptron</a>
             <p class="hub-footer-copy">
-                © 2025 Superceptron Limited (No. 17407955), Office 20638, 182-184 High Street North, East Ham, London E6 2JA &nbsp;·&nbsp;
-                <a href="mailto:info@superceptron.com">info@superceptron.com</a> &nbsp;·&nbsp; Your data is never shared or sold.
+                © 2026 Superceptron Limited (No. 17407955), Office 20638, 182-184 High Street North, East Ham, London E6 2JA &nbsp;·&nbsp;
+                <a href="mailto:info@superceptron.com">info@superceptron.com</a> &nbsp;·&nbsp; <a href="cv-score.html">For Candidates</a> &nbsp;·&nbsp; Your data is never shared or sold.
             </p>
         </div>
     </footer>
@@ -949,7 +924,7 @@
     <script>
         /* ── Noise word hover brightening ── */
         (function () {
-            var cards = document.querySelectorAll('.path-card');
+            var cards = document.querySelectorAll('.hub-verticals-item');
             var words = document.querySelectorAll('.noise-word');
             cards.forEach(function (card) {
                 var side = card.dataset.path;
